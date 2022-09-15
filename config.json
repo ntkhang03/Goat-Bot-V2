@@ -1,84 +1,83 @@
 {
-  "facebookAccount": {
-    "email": "",
-    "password": "",
-    "2FASecret": "",
-    "proxy": null,
-    "userAgent": ""
-  },
-  "language": "vi",
-  "adminOnly": false,
-  "adminBot": [
-  ],
-  "nickNameBot": "GoatBot",
-  "prefix": "-",
-  "database": {
-    "type": "json",
-    "uriMongodb": "",
-    "notes": "type chọn 'json' hoặc 'sqlite' hoặc 'mongodb'. Nếu chọn mongodb thì nhập uri connect mongodb vào phần uriMongodb, hướng dẫn get uri connect mongodb tại..."
-  },
-  "timeZone": "Asia/Ho_Chi_Minh",
-  "credentials": {
-    "gmailAccount": {
-      "email": "",
-      "clientId": "",
-      "clientSecret": "",
-      "refreshToken": "",
-      "apiKey": ""
-    },
-    "gRecaptcha": {
-      "siteKey": "",
-      "secretKey": ""
-    }
-  },
-  "dashBoard": {
-    "enable": true,
-    "expireVerifyCode": 300000,
+	"facebookAccount": {
+		"email": "",
+		"password": "",
+		"2FASecret": "",
+		"proxy": null,
+		"userAgent": ""
+	},
+	"language": "vi",
+	"adminOnly": false,
+	"adminBot": [],
+	"nickNameBot": "GoatBot",
+	"prefix": "-",
+	"database": {
+		"type": "json",
+		"uriMongodb": "",
+		"notes": "type chọn 'json' hoặc 'sqlite' hoặc 'mongodb'. Nếu chọn mongodb thì nhập uri connect mongodb vào phần uriMongodb, hướng dẫn get uri connect mongodb tại..."
+	},
+	"timeZone": "Asia/Ho_Chi_Minh",
+	"credentials": {
+		"gmailAccount": {
+			"email": "",
+			"clientId": "",
+			"clientSecret": "",
+			"refreshToken": "",
+			"apiKey": ""
+		},
+		"gRecaptcha": {
+			"siteKey": "",
+			"secretKey": ""
+		}
+	},
+	"dashBoard": {
+		"enable": true,
+		"expireVerifyCode": 300000,
 		"port": 3001
-  },
-  "serverUptime": {
-    "enable": false,
-    "port": 3001,
-    "socket": {
-      "enable": true,
-      "channelName": "uptime",
-      "verifyToken": ""
-    }
-  },
-  "autoUptime": {
-    "enable": false,
-    "timeInterval": 180,
-    "url": "",
-    "notes": "giá trị của timeInterval là giây, url là địa chỉ url bạn muốn gửi request đến (tự động phát hiện đối với hosting glitch or replit)"
-  },
-  "autoRefreshFbstate": true,
-  "restartListenMqtt": {
-    "enable": true,
-    "timeRestart": 3600000,
-    "delayAfterStopListening": 1000,
-    "logNoti": true,
-    "notes": "bạn không nên chỉnh sửa chỗ này nếu như bạn không biết nó là gì"
-  },
-  "logEvents": {
-    "disableAll": false,
-    "message": true,
-    "message_reaction": true,
-    "message_unsend": true,
-    "message_reply": true,
-    "event": true,
-    "read_receipt": false,
-    "typ": false,
-    "presence": false
-  },
-  "optionsFca": {
-    "forceLogin": true,
-    "listenEvents": true,
-    "updatePresence": true,
-    "listenTyping": true,
-    "logLevel": "error",
-    "selfListen": false,
-    "selfListenEvent": true,
-    "autoMarkDelivery": false,
-    "notes": "Document here: https://github.com/ntkhang03/fb-chat-api/blob/master/DOCS.md#apisetoptionsoptions "
-  }
+	},
+	"serverUptime": {
+		"enable": false,
+		"port": 3001,
+		"socket": {
+			"enable": true,
+			"channelName": "uptime",
+			"verifyToken": ""
+		}
+	},
+	"autoUptime": {
+		"enable": false,
+		"timeInterval": 180,
+		"url": "",
+		"notes": "giá trị của timeInterval là giây, url là địa chỉ url bạn muốn gửi request đến (tự động phát hiện đối với hosting glitch or replit)"
+	},
+	"autoRefreshFbstate": true,
+	"restartListenMqtt": {
+		"enable": true,
+		"timeRestart": 3600000,
+		"delayAfterStopListening": 1000,
+		"logNoti": true,
+		"notes": "bạn không nên chỉnh sửa chỗ này nếu như bạn không biết nó là gì"
+	},
+	"logEvents": {
+		"disableAll": false,
+		"message": true,
+		"message_reaction": true,
+		"message_unsend": true,
+		"message_reply": true,
+		"event": true,
+		"read_receipt": false,
+		"typ": false,
+		"presence": false
+	},
+	"optionsFca": {
+		"forceLogin": true,
+		"listenEvents": true,
+		"updatePresence": true,
+		"listenTyping": true,
+		"logLevel": "error",
+		"selfListen": false,
+		"selfListenEvent": true,
+		"autoMarkDelivery": false,
+		"notes": "Document here: https://github.com/ntkhang03/fb-chat-api/blob/master/DOCS.md#apisetoptionsoptions "
+	}
 }
