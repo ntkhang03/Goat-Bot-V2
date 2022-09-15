@@ -1,0 +1,54 @@
+<%~ includeFile("partials/header.eta") %>
+<%~ includeFile("partials/message.eta"); %>
+
+<div class="bg-primary text-white py-3">
+  <div class="container">
+    <h6 class="text-white">
+      <i class="fas fa-user"></i> Verify Your Account
+    </h6>
+  </div>
+</div>
+
+<!--posts-->
+<!-- form verify code -->
+<section class="post my-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5 mx-auto">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="text-center">Verify Your Account</h4>
+          </div>
+          <form id="form-submit-code" action="/register/submit-code" method="POST">
+            <div class="card-body">
+              <div class="form-group">
+                <label for="code">Verification Code</label>
+                <input type="text" class="form-control" id="code" name="code" placeholder="Enter code">
+              </div>
+              <div class="alert alert-info mt-3">
+                <p>
+                  <i class="fas fa-info-circle"></i> Nhập mã xác thực đã được gửi về email của
+                  bạn.
+                </p>
+              </div>
+
+              <div class="form-group">
+                <a href="/register/resend-code" id="resend-code" class="btn btn-primary btn-block mt-2">
+                  <i class="fas fa-redo"></i> Resend Code
+                </a>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block mt-2"><i class="fas fa-check"></i>
+                Verify</button>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="text/javascript">$("#code").on("'keypress keyup keydown",(function(){6===$("#code").val().length?$("#verify").removeAttr("disabled"):$("#verify").attr("disabled","disabled")}));</script>
+
+<!--footer section-->
+<%~ includeFile("partials/footer.eta") %>

@@ -1,0 +1,59 @@
+<%~ includeFile("partials/header.eta") %>
+<%~ includeFile("partials/message.eta"); %>
+
+<div class="bg-primary text-white py-3">
+  <div class="container">
+    <h6 class="text-white">
+      <i class="fas fa-user"></i> Goat Bot Dashboard Register
+    </h6>
+  </div>
+</div>
+
+<!--posts-->
+<section class="post my-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10 col-lg-5 col-xl-4 mx-auto">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="text-center">Account Register</h4>
+          </div>
+          <div class="card-body">
+            <form id="registerForm">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" readonly onfocus="this.removeAttribute('readonly');">
+              </div>
+
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter name">
+              </div>
+
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
+              </div>
+
+              <div class="form-group">
+                <label for="password_confirmation">Confirm Password</label>
+                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm password">
+              </div>
+
+              <div class="g-recaptcha mt-3  d-flex justify-content-center" data-sitekey="<%=it.gRecaptcha_siteKey%>"></div>
+              <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary btn-block mt-4" id="register">Register</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="text/javascript">!function(){const e=$("#email"),a=$("#name"),n=$("#password"),s=$("#password_confirmation");function i(){if(e.val().length>100||e.val().length<5){console.log(e.val()),e.val(e.val().substring(0,100)),e.addClass("is-invalid");const a=document.createElement("div");a.className="invalid-feedback",a.innerHTML="Email must be between 5 and 100 characters",0===e.parent().find(".invalid-feedback").length&&e.parent().append(a)}else e.removeClass("is-invalid"),e.parent().find(".invalid-feedback").remove()}function r(){if(a.val().length>30||a.val().length<3){a.val(a.val().substring(0,30)),a.addClass("is-invalid");const e=document.createElement("div");e.className="invalid-feedback",e.innerHTML="Name must be between 3 and 30 characters",0===a.parent().find(".invalid-feedback").length&&a.parent().append(e)}else a.removeClass("is-invalid"),a.parent().find(".invalid-feedback").remove()}function t(){if(n.val().length<6){n.val(n.val().substring(0,6)),n.addClass("is-invalid");const e=document.createElement("div");e.className="invalid-feedback",e.innerHTML="Password must be at least 6 characters",0===n.parent().find(".invalid-feedback").length&&n.parent().append(e)}else n.removeClass("is-invalid"),n.parent().find(".invalid-feedback").remove()}function l(){if(s.val()!=n.val()||s.val().length<6){s.addClass("is-invalid");const e=document.createElement("div");e.className="invalid-feedback",e.innerHTML="Password confirmation must match password",0===s.parent().find(".invalid-feedback").length&&s.parent().append(e)}else s.removeClass("is-invalid"),s.parent().find(".invalid-feedback").remove()}e.val(),a.val(),n.val(),s.val(),i(),r(),t(),l(),e.on("keypress keyup keydown",i),a.on("keypress keyup keydown",r),n.on("keypress keyup keydown",t),s.on("keypress keyup keydown",l),$("#register").on("click",(async function(i){if(i.preventDefault(),document.querySelector(".is-invalid"))$.createToast({type:"error",message:"Please fix the errors in the form"});else{const i=grecaptcha.getResponse(),r=this;r.disabled=!0,r.innerHTML="<span class='spinner-border spinner-border-sm'></span> Registering...",$.ajax({url:"/register",type:"POST",data:{email:e.val(),name:a.val(),password:n.val(),password_confirmation:s.val(),"g-recaptcha-response":i},success:function(e){window.location.href="/register/submit-code"},error:function(e){grecaptcha.reset(),r.disabled=!1,r.innerHTML="Register",$.createToast({type:"error",message:e.responseJSON.message})}})}}))}();</script>
+
+<!--footer section-->
+<%~ includeFile("partials/footer.eta") %>

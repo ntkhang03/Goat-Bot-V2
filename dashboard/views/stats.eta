@@ -1,0 +1,76 @@
+<%~ includeFile("partials/header") %>
+<div class="bg-light py-3">
+  <div class="container">
+    <h6 style="text-align: center;">
+      <i class=""></i>Bot Stats
+    </h6>
+  </div>
+</div>
+
+<section class="post my-4">
+  <div class="container">
+    <table class="table d-table">
+      <thead class="thead has-text-centered">
+        <tr>
+          <th style="font-size: 20px;" scope="col">Type</th>
+          <th style="font-size: 20px;" scope="col">Data</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="has-text-centered">
+          <td style="font-size: 15px;"><i class="fas fa-users"></i> Users</td>
+          <td style="font-size: 15px;">
+            <%= totalUser %>
+          </td>
+        </tr>
+        <tr class="has-text-centered">
+          <td style="font-size: 15px;"><i class="fas fa-server"></i> Threads</td>
+          <td style="font-size: 15px;">
+            <%= totalThread %>
+          </td>
+        </tr>
+        <tr class="has-text-centered">
+          <td style="font-size: 15px;"><i class="fas fa-hashtag"></i> Prefix</td>
+          <td style="font-size: 15px;">
+            <%= prefix %>
+          </td>
+        </tr>
+        <tr class="has-text-centered">
+          <td style="font-size: 15px;"><i class="fa fa-clock"></i> Uptime</td>
+          <td style="font-size: 15px;" id="uptime">
+            <%= uptime %>
+          </td>
+        </tr>
+        <tr class="has-text-centered">
+          <td style="font-size: 15px;"><i class="fab fa-facebook-square"></i> Fca Version</td>
+          <td style="font-size: 15px;">
+            <%= fcaVersion %>
+          </td>
+        </tr>
+        <tr class="has-text-centered">
+          <td style="font-size: 15px;"><i class="fab fa-node-js"></i> Node.js Version</td>
+          <td style="font-size: 15px;">
+            <%= process.version %>
+          </td>
+        </tr>
+        <tr class="has-text-centered">
+          <td style="font-size: 15px;"><i class="fas fa-laptop"></i> Usage</td>
+          <td style="font-size: 15px;">
+            <ul>
+              <li id="memory">Memory: <%= (process.memoryUsage().rss / 1024 / 1024).toFixed(2) %> MB
+              </li>
+              <li id="cpu">CPU: <%= (process.cpuUsage().system / 1024 / 1024).toFixed(2) %>%</li>
+              <li id="nodeCpu">Node CPU: <%= (process.cpuUsage().user / 1024 / 1024).toFixed(2) %>%
+              </li>
+            </ul>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<script type="text/javascript">function cvt(t,e="giây",o="phút ",n="giờ ",r="ngày ",a="tháng ",c="năm "){const u=Math.floor(t/1e3%60),l=Math.floor(t/1e3/60%60),f=Math.floor(t/1e3/60/60%24),h=Math.floor(t/1e3/60/60/24%30),i=Math.floor(t/1e3/60/60/24/30%12),M=Math.floor(t/1e3/60/60/24/30/12);return`${M?M+c:""}${i?i+a:M?"00"+a:""}${h?h+r:i||M?"00"+r:""}${f?f+n:h||i||M?"00"+n:""}${l?l+o:f||h||i||M?"00"+o:""}${u}${e}`}let countDownDate=Number("<%=uptimeSecond%>");setInterval((function(){countDownDate+=1,document.getElementById("uptime").innerHTML=cvt(1e3*countDownDate)}),1e3);</script>
+
+<%~ includeFile("partials/footer") %>

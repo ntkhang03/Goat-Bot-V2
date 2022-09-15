@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi">
+<% const { user } = E; %>
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" /> -->
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous"> -->
+  <link rel="stylesheet" href="https://bootswatch.com/5/flatly/bootstrap.min.css" id="bootstrap-css">
+  <link rel="stylesheet" href="/css/custom.css">
+
+  <title>Goat Bot</title>
+  <link rel="icon" href="/images/logo.png" type="image/icon type">
+  <script>document.getElementById("bootstrap-css").href=localStorage.getItem("theme")||"https://bootswatch.com/5/flatly/bootstrap.min.css";</script>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary py-2">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/home">
+          <img src="/images/logo-non-bg.png" width="30" height="30" class="d-inline-block align-top rounded" alt="">
+          GoatBot
+        </a>
+        <button class="navbar-toggler collapsed" data-toggle="collapse" data-target="#navcollapse">
+          <span class="toggler-icon top-bar"></span>
+          <span class="toggler-icon middle-bar"></span>
+          <span class="toggler-icon bottom-bar"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navcollapse">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a href="/dashboard" class="nav-link px-3">Dashboard</a>
+            </li>
+
+            <li class="nav-item">
+              <a href="/stats" class="nav-link px-3">Bot stats</a>
+            </li>
+
+            <li class="nav-item">
+              <a href="/donate" class="nav-link px-3">Donate</a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link px-3 dropdown-toggle" data-toggle="dropdown" id="themes">Themes </a>
+              <div class="dropdown-menu themes">
+                <a class="dropdown-item theme-list">Flatly</a>
+                <a class="dropdown-item theme-list">Cyborg</a>
+                <a class="dropdown-item theme-list">Darkly</a>
+                <a class="dropdown-item theme-list">Cosmo</a>
+                <a class="dropdown-item theme-list">Journal</a>
+                <a class="dropdown-item theme-list">Litera</a>
+                <a class="dropdown-item theme-list">Lumen</a>
+                <a class="dropdown-item theme-list">Lux</a>
+                <a class="dropdown-item theme-list">Materia</a>
+                <a class="dropdown-item theme-list">Minty</a>
+                <a class="dropdown-item theme-list">Morph</a>
+                <a class="dropdown-item theme-list">Quartz</a>
+                <a class="dropdown-item theme-list">Pulse</a>
+                <a class="dropdown-item theme-list">Sandstone</a>
+                <a class="dropdown-item theme-list">Simplex</a>
+                <a class="dropdown-item theme-list">Sketchy</a>
+                <a class="dropdown-item theme-list">Slate</a>
+                <a class="dropdown-item theme-list">Solar</a>
+                <a class="dropdown-item theme-list">Spacelab</a>
+                <a class="dropdown-item theme-list">Superhero</a>
+                <a class="dropdown-item theme-list">United</a>
+                <a class="dropdown-item theme-list">Vapor</a>
+                <a class="dropdown-item theme-list">Yeti</a>
+                <a class="dropdown-item theme-list">Zephyr</a>
+                <a class="dropdown-item theme-list">Cerulean</a>
+              </div>
+            </li>
+          </ul>
+
+          <ul class="navbar-nav ml-auto">
+            <% if (user) { %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+                <i class="fas fa-user"></i>
+                <%= user.name %>
+              </a>
+              <div class="dropdown-menu">
+                <% if (!user.facebookUserID) { %>
+                <a href="/verifyfbid" class="dropdown-item">
+                  <i class="fas fa-user-check"></i> Xác thực id facebook
+                </a>
+                <% } %>
+                <a href="/profile" class="dropdown-item">
+                  <i class="fas fa-user-circle"></i> Profile
+                </a>
+                <a href="/change-password" class="dropdown-item">
+                  <i class="fas fa-key"></i> Đổi mật khẩu
+                </a>
+                <a href="/logout" class="dropdown-item">
+                  <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+              </div>
+            </li>
+            <%} else {%>
+            <li class="nav-item">
+              <a href="/login" class="nav-link px-3">Login</a>
+            </li>
+            <li class="nav-item">
+              <a href="/register" class="nav-link px-3">Register</a>
+            </li>
+            <%}%>
+					</ul>
+				</div>
+		</nav>
+
+	</header>
+
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+
+	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
+	
+
+<script>!function(t){let e="hwt",n=function(t,e){this.init(t,e)};n.prototype={init:function(t,e){this.$el=t,"function"===this.getType(e)&&(e={highlight:e}),"custom"===this.getType(e)?(this.highlight=e,this.generate()):console.error("valid config object not provided")},getType:function(t){let e=typeof t;if(!t)return"falsey";if(Array.isArray(t))return 2===t.length&&"number"==typeof t[0]&&"number"==typeof t[1]?"range":"array";if("object"===e){if(t instanceof RegExp)return"regexp";if(t.hasOwnProperty("highlight"))return"custom"}else if("function"===e||"string"===e)return e;return"other"},generate:function(){switch(this.$el.addClass("hwt-input hwt-content").on("input.hwt",this.handleInput.bind(this)).on("scroll.hwt",this.handleScroll.bind(this)),this.$highlights=t("<div>",{class:"hwt-highlights hwt-content"}),this.$backdrop=t("<div>",{class:"hwt-backdrop"}).append(this.$highlights),this.$container=t("<div>",{class:"hwt-container"}).insertAfter(this.$el).append(this.$backdrop,this.$el).on("scroll",this.blockContainerScroll.bind(this)),this.browser=this.detectBrowser(),this.browser){case"firefox":this.fixFirefox();break;case"ios":this.fixIOS()}this.isGenerated=!0,this.handleInput()},detectBrowser:function(){let t=window.navigator.userAgent.toLowerCase();return-1!==t.indexOf("firefox")?"firefox":t.match(/msie|trident\/7|edge/)?"ie":t.match(/ipad|iphone|ipod/)&&-1===t.indexOf("windows phone")?"ios":"other"},fixFirefox:function(){let t=this.$highlights.css(["padding-top","padding-right","padding-bottom","padding-left"]),e=this.$highlights.css(["border-top-width","border-right-width","border-bottom-width","border-left-width"]);this.$highlights.css({padding:"0","border-width":"0"}),this.$backdrop.css({"margin-top":"+="+t["padding-top"],"margin-right":"+="+t["padding-right"],"margin-bottom":"+="+t["padding-bottom"],"margin-left":"+="+t["padding-left"]}).css({"margin-top":"+="+e["border-top-width"],"margin-right":"+="+e["border-right-width"],"margin-bottom":"+="+e["border-bottom-width"],"margin-left":"+="+e["border-left-width"]})},fixIOS:function(){this.$highlights.css({"padding-left":"+=3px","padding-right":"+=3px"})},handleInput:function(){let t=this.$el.val(),e=this.getRanges(t,this.highlight),n=this.removeStaggeredRanges(e),i=this.getBoundaries(n);this.renderMarks(i)},getRanges:function(t,e){switch(this.getType(e)){case"array":return this.getArrayRanges(t,e);case"function":return this.getFunctionRanges(t,e);case"regexp":return this.getRegExpRanges(t,e);case"string":return this.getStringRanges(t,e);case"range":return this.getRangeRanges(t,e);case"custom":return this.getCustomRanges(t,e);default:if(!e)return[];console.error("unrecognized highlight type")}},getArrayRanges:function(t,e){let n=e.map(this.getRanges.bind(this,t));return Array.prototype.concat.apply([],n)},getFunctionRanges:function(t,e){return this.getRanges(t,e(t))},getRegExpRanges:function(t,e){let n,i=[];for(;n=e.exec(t),null!==n&&(i.push([n.index,n.index+n[0].length]),e.global););return i},getStringRanges:function(t,e){let n=[],i=t.toLowerCase(),s=e.toLowerCase(),a=0;for(;a=i.indexOf(s,a),-1!==a;)n.push([a,a+s.length]),a+=s.length;return n},getRangeRanges:function(t,e){return[e]},getCustomRanges:function(t,e){let n=this.getRanges(t,e.highlight);return e.className&&n.forEach((function(t){t.className?t.className=e.className+" "+t.className:t.className=e.className})),n},removeStaggeredRanges:function(t){let e=[];return t.forEach((function(t){e.some((function(e){return(t[0]>e[0]&&t[0]<e[1])!==(t[1]>e[0]&&t[1]<e[1])}))||e.push(t)})),e},getBoundaries:function(t){let e=[];return t.forEach((function(t){e.push({type:"start",index:t[0],className:t.className}),e.push({type:"stop",index:t[1]})})),this.sortBoundaries(e),e},sortBoundaries:function(t){t.sort((function(t,e){return t.index!==e.index?e.index-t.index:"stop"===t.type&&"start"===e.type?1:"start"===t.type&&"stop"===e.type?-1:0}))},renderMarks:function(t){let e=this.$el.val();t.forEach((function(t,n){let i;i="start"===t.type?"{{hwt-mark-start|"+n+"}}":"{{hwt-mark-stop}}",e=e.slice(0,t.index)+i+e.slice(t.index)})),e=e.replace(/\n(\{\{hwt-mark-stop\}\})?$/,"\n\n$1"),e=e.replace(/</g,"&lt;").replace(/>/g,"&gt;"),"ie"===this.browser&&(e=e.replace(/ /g," <wbr>")),e=e.replace(/\{\{hwt-mark-start\|(\d+)\}\}/g,(function(e,n){var i=t[+n].className;return i?'<mark class="'+i+'">':"<mark>"})),e=e.replace(/\{\{hwt-mark-stop\}\}/g,"</mark>"),this.$highlights.html(e)},handleScroll:function(){let t=this.$el.scrollTop();this.$backdrop.scrollTop(t);let e=this.$el.scrollLeft();this.$backdrop.css("transform",e>0?"translateX("+-e+"px)":"")},blockContainerScroll:function(){this.$container.scrollLeft(0)},destroy:function(){this.$backdrop.remove(),this.$el.unwrap().removeClass("hwt-text hwt-input").off(e).removeData(e)}},t.fn.highlightWithinTextarea=function(i){return this.each((function(){let s=t(this),a=s.data(e);if("string"==typeof i)if(a)switch(i){case"update":a.handleInput();break;case"destroy":a.destroy();break;default:console.error("unrecognized method string")}else console.error("plugin must be instantiated first");else a&&a.destroy(),a=new n(s,i),a.isGenerated&&s.data(e,a)}))}}(jQuery),$.fn.highlight=function(t){var e=$(this).attr("id");"string"==typeof t&&(t=[t]),t=t.map((function(t){return"string"==typeof t&&(t={name:t,desc:""}),t}));const n=$("#"+e);let i=n.text();for(const e of t)i=i.replace(new RegExp(e.name,"g"),`<span class="highlight">${e.name}</span>`),n.html(i);return n.focusEnd(),this},$.fn.focusEnd=function(){$(this).focus();var t=$("<span />").appendTo($(this)),e=t.get(0),n=null,i=null;return document.selection?((n=document.body.createTextRange()).moveToElementText(e),n.select()):window.getSelection&&((n=document.createRange()).selectNode(e),(i=window.getSelection()).removeAllRanges(),i.addRange(n)),t.remove(),this},$.fn.autocomplete=function(t){const e=$(this);var n,i=e.attr("id"),s=document.getElementById(i);function a(t){if(!t)return!1;!function(t){for(var e=0;e<t.length;e++)t[e].getElementsByTagName("div")[0].classList.value.includes("autocomplete-item")||t[e].getElementsByTagName("div")[0].classList.add("autocomplete-item"),t[e].classList.remove("autocomplete-active")}(t),n>=t.length&&(n=0),n<0&&(n=t.length-1),t[n].getElementsByTagName("div")[0].classList.remove("autocomplete-item"),t[n].classList.add("autocomplete-active")}function o(t){$(".autocomplete-list").remove();for(var e=document.getElementsByClassName("autocomplete-items"),n=0;n<e.length;n++)t!=e[n]&&t!=s&&e[n].parentNode.removeChild(e[n])}return"string"==typeof t&&(t=[t]),t=t.map((function(t){return"string"==typeof t&&(t={name:t,desc:""}),t})),s.addEventListener("input",(function(i){var a,r,c=s.selectionStart,l=$("#"+this.id).val();const h=l.slice(l.lastIndexOf("{"));if(o(),!l)return!1;n=-1;const d=document.createElement("div");if(d.setAttribute("class","autocomplete-list"),s.parentNode.appendChild(d),c==l.length)for(const n of t)n.name.slice(0,h.length)==h&&((a=document.createElement("div")).setAttribute("class","autocomplete-items"),d.appendChild(a),(r=document.createElement("div")).setAttribute("class","change-item"),r.innerHTML="<b>"+n.name.substr(0,h.length)+"</b>",r.innerHTML+=n.name.substr(h.length),r.innerHTML+="<input type='hidden' value='"+n.name+"'>",r.innerHTML+='<div class="desc">'+n.desc+"</div>",r.addEventListener("click",(function(n){const i=l.slice(0,l.lastIndexOf(h))+this.getElementsByTagName("input")[0].value;$("#"+s.id).val(i),o(),e.highlightWithinTextarea({highlight:t.map((t=>t.name))}),e.focus()})),a.appendChild(r))})),s.addEventListener("keydown",(function(i){var s=document.getElementsByClassName("autocomplete-list")[0];return!!s&&(!!(s=s.getElementsByClassName("autocomplete-items")).length&&void(40==i.keyCode?(n++,a(s)):38==i.keyCode?(n--,a(s)):13==i.keyCode&&(i.preventDefault(),n>-1&&(s&&s[n].getElementsByClassName("change-item")[0].click(),e.highlightWithinTextarea({highlight:t.map((t=>t.name))}),e.focus()))))})),document.addEventListener("click",(function(t){o(t.target)})),this},$.createToast=function({title:t="",message:e="",type:n="info",duration:i=3e3}){const s=document.getElementById("toast");if(s){const a=document.createElement("div"),o=setTimeout((function(){s.removeChild(a)}),i+1e3);a.onclick=function(t){t.target.closest(".toast__close")&&(s.removeChild(a),clearTimeout(o))};const r={success:"fas fa-check-circle",info:"fas fa-info-circle",warning:"fas fa-exclamation-circle",error:"fas fa-exclamation-circle"}[n],c=(i/1e3).toFixed(2);a.classList.add("toast",`toast--${n}`),a.style.animation=`slideInLeft ease .3s, fadeOut linear 1s ${c}s forwards`,a.innerHTML=`\n\t\t\t\t<div class="toast__icon">\n\t\t\t\t\t\t<i class="${r}"></i>\n\t\t\t\t</div>\n\t\t\t\t<div class="toast__body">\n\t\t\t\t\t\t<h3 class="toast__title">${t}</h3>\n\t\t\t\t\t\t<p class="toast__msg">${e}</p>\n\t\t\t\t</div>\n\t\t\t\t<div class="toast__close">\n\t\t\t\t\t\t<i class="fas fa-times"></i>\n\t\t\t\t</div>`,s.appendChild(a)}};const themeList=document.getElementsByClassName("theme-list");for(let t=0;t<themeList.length;t++)themeList[t].addEventListener("click",(function(t){const e=document.getElementById("bootstrap-css"),n=this.text;document.querySelector(".theme-list.active-theme").classList.remove("active-theme"),e.href=`https://bootswatch.com/5/${n.toLowerCase()}/bootstrap.min.css`,localStorage.setItem("theme",e.href),this.classList.add("active-theme")})),(localStorage.getItem("theme")||"flatly").indexOf(themeList[t].text.toLowerCase())>-1&&themeList[t].classList.add("active-theme");</script>

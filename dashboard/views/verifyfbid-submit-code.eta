@@ -1,0 +1,45 @@
+<%~ includeFile("partials/header.eta") %>
+<div class="bg-primary text-white py-3">
+  <div class="container">
+    <h6 class="text-white">
+      <i class="fas fa-cog"></i> Verify Code
+    </h6>
+  </div>
+</div>
+<%~ includeFile("partials/message.eta"); %>
+
+<section class="addsection bg-light py-3" id="verifyfbid">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+        <div class="card">
+          <div class="card-header">
+            <h4>
+              <i class="fas fa-user"></i> Verify Code
+            </h4>
+          </div>
+          <div class="card-body">
+            <form id="verifyfbidForm" autocomplete="off">
+              <div class="form-group">
+                <label for="fbid">
+                  <i class="fab fa-facebook-square"></i> Code
+                </label>
+                <input type="text" class="form-control" name="code" id="fbid" placeholder="" required>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block mt-2" id="submitSend">Send</button>
+              <div class="alert alert-info mt-3">
+                <p>
+                  <i class="fas fa-info-circle"></i> Nhập mã xác minh đã được gửi đến facebook
+                  của bạn
+                </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="text/javascript">$("#submitSend").on("click",(function(e){e.preventDefault();const r=$("#verifyfbidForm").serialize();$.ajax({url:"/verifyfbid/submit-code",type:"POST",data:r,success:function(){window.location.href="/dashboard"},error:function(e){$.createToast({type:"error",title:"Error",message:e.responseJSON.message})}})}));</script>
+
+<%~ includeFile("partials/footer.eta") %>

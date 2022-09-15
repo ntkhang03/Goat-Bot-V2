@@ -1,0 +1,19 @@
+<% const { errors, success, warnings } = E; %>
+
+<div id="toast"></div>
+
+<% for (const err of errors) { %>
+<script>$.createToast({title:"Error",message:"<%= err.msg %>",type:"error"});</script>
+<% } %>
+
+
+
+<% for (const succ of success) { %>
+<script>$.createToast({title:"Success",message:"<%= succ.msg %>",type:"info"});</script>
+<% } %>
+
+
+
+<% for (const w of warnings) { %>
+<script>$.createToast({title:"Warning",message:"<%= w.msg %>",type:"warning"});</script>
+<% } %>

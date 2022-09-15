@@ -1,0 +1,35 @@
+<%~ includeFile("partials/header.eta") %>
+<%~ includeFile("partials/message.eta"); %>
+
+<div class="bg-primary text-white py-3">
+  <div class="container">
+    <h6 class="text-white">
+      <a class="text-white" href="/donate" style="text-decoration: none;"><i class="fas fa-cog "></i>
+        Donate</a>
+    </h6>
+  </div>
+</div>
+
+<div class="container">
+<% /* Do not edit or replace this!! */ %>
+<% /* Không chỉnh sửa hoặc thay thế cái này!! */ %>
+  <div class="row mt-5">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">MOMO</h5>
+        </div>
+        <div class="card-body">
+          <p class="card-text">
+            <strong>0789629831</strong>
+          </p>
+          <p class="card-text">
+            <strong>NGUYEN THANH KHANG</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%~ includeFile("partials/footer.eta") %>

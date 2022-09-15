@@ -1,0 +1,78 @@
+<%~ includeFile("partials/header.eta"); %>
+<%~ includeFile("partials/message.eta"); %>
+<%
+	const { threadID } = threadData; 
+%>
+
+<div class="bg-primary text-white py-3">
+  <div class="container">
+    <h6 class="text-white">
+      <a class="text-white" href="/dashboard" style="text-decoration: none;"><i class="fas fa-cog "></i>
+        Dashboard</a>
+    </h6>
+  </div>
+</div>
+
+<form id="setData" class="container">
+  <br>
+  <p class="text-success">Box Name: <%=threadData.threadName || "null" %>
+  </p>
+  <p class="text-info">Box ID: <%=threadID%>
+  </p>
+
+  <div class="jwvIWx">
+    <div class="dwztKr" href="<%= '/dashboard/' + threadID + '/welcome' %>">
+      <div class="jSrukW">
+        <label class="switch">
+          <input class="form-check-input" type="checkbox" id="sw-welcome" <%=
+						threadData.settings.sendWelcomeMessage ? 'checked' : '' %>>
+          <span class="slider round"></span>
+        </label>
+      </div>
+      <h5>👋 Welcome</h5>
+      <div class="bEBnTb">Gửi tin nhắn chào mừng thành viên mới!</div>
+    </div>
+
+    <div class="dwztKr" href="<%= '/dashboard/' + threadID + '/leave' %>">
+      <div class="jSrukW">
+        <label class="switch">
+          <input type="checkbox" id="sw-leave" <%= threadData.settings.sendLeaveMessage ? 'checked' : '' %>>
+          <span class="slider round"></span>
+        </label>
+      </div>
+      <h5 class="bEBnTb">🤧 Leave</h5>
+      <div class="bEBnTb">Gửi tin nhắn tạm biệt thành viên rời khỏi nhóm!</div>
+    </div>
+
+    <div class="dwztKr" href="<%= '/dashboard/' + threadID + '/rankup' %>">
+      <div class="jSrukW">
+        <label class="switch">
+          <input type="checkbox" id="sw-rankup" <%= threadData.settings.sendRankupMessage ? 'checked' : '' %>>
+          <span class="slider round"></span>
+        </label>
+      </div>
+      <h5 class="bEBnTb">🏆 Rankup</h5>
+      <div class="bEBnTb">Gửi tin nhắn thông báo thăng cấp!</div>
+    </div>
+
+    <div class="dwztKr" href="<%= '/dashboard/' + threadID + '/custom-cmd' %>">
+      <div class="jSrukW">
+        <label class="switch">
+          <input type="checkbox" name="customCommand" id="sw-customcmd" <%= threadData.settings.customCommand
+						? 'checked' : '' %>>
+          <span class="slider round"></span>
+        </label>
+
+      </div>
+      <h5 class="bEBnTb">⚙️ Custom command</h5>
+      <div class="bEBnTb">Tùy chỉnh lệnh của bot!</div>
+    </div>
+
+    <input type="hidden" name="threadID" value="<%= threadID %>">
+    <button type="submit" id="save" class="btn btn-primary btn-block" <%=authConfigDashboard ? '' : 'disabled'%>>Lưu</button>
+
+  </div>
+</form>
+
+<script type="text/javascript">(function(){const e=$("#save");e.on("click",(function(e){e.preventDefault();"<% if (authConfigDashboard) { %>";$.ajax({url:"/api/thread/setData/settings",type:"POST",data:{threadID:"<%= threadID %>",updateData:{sendWelcomeMessage:$("#sw-welcome").is(":checked"),sendLeaveMessage:$("#sw-leave").is(":checked"),sendRankupMessage:$("#sw-rankup").is(":checked"),customCommand:$("#sw-customcmd").is(":checked")}},success:function(e){$.createToast({title:"Success",type:"success",message:"Cập nhật thành công!"})},error:function(e){$.createToast({title:"Lỗi",type:"error",message:"Đã xảy ra lỗi!"})}});"<% } else { %>";e.preventDefault();$.createToast({title:"Warnig",message:"[!] Chỉ quản trị viên của nhóm chat hoặc những thành viên được cho phép mới có thể chỉnh sửa dashboard",type:"warning"});"<% } %>"}));$(".dwztKr").on("click",(function(e){if(e.target.type!=="checkbox"&&e.target.className!=="slider round")window.location.href=this.getAttribute("href")}))})();</script>
+<%~ includeFile("partials/footer.eta") %>

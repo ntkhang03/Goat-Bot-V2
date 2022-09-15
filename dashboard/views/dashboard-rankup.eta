@@ -1,0 +1,25 @@
+<%~ includeFile("partials/header.eta") %>
+<div class="bg-primary text-white py-3">
+  <div class="container">
+    <h6 class="text-white">
+      <a class="text-white" href="/dashboard" style="text-decoration: none;"><i class="fas fa-cog "></i>
+        Rankup</a>
+    </h6>
+  </div>
+</div>
+
+<%~ includeFile("partials/message.eta"); %>
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">Warning!</h4>
+        <p>This feature is currently under construction. Please come back later.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">$.createToast({title:"Comming soon",message:"Tính năng này đang được phát triển. Vui lòng quay lại sau.",type:"warning",time:1e4});</script>
+
+<%~ includeFile("partials/footer.eta") %>

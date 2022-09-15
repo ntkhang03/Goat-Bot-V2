@@ -1,0 +1,35 @@
+<%~ includeFile('partials/header.eta') %>
+
+<div id="toast"></div>
+<div class="bg-primary text-white py-3">
+  <div class="container">
+    <h6 class="text-white">
+      <i class="fas fa-user"></i> Resend Email Verification
+    </h6>
+  </div>
+</div>
+
+<section class="posts">
+  <div class="container my-4">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h3>Resend Email Verification</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
+            </div>
+            <button type="submit" id="btn-resend-code" class="btn btn-primary mt-3" disabled>Resend</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="text/javascript">$("#btn-resend-code").on("click",(function(e){$.ajax({url:"/register/resend-code",type:"POST",data:"email="+$("#email").val(),success:function(e){window.location.href="/register/submit-code"},error:function(e){$.createToast({title:"Error",type:"error",message:e.responseJSON.message})}})})),$("#email").on("keyup",(function(e){""!=$(this).val()?$("#btn-resend-code").removeAttr("disabled"):$("#btn-resend-code").attr("disabled","disabled")}));</script>
+
+<%~ includeFile("partials/footer.eta") %>

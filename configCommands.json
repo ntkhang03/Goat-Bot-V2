@@ -1,0 +1,38 @@
+{
+	"commandBanned": {},
+	"envGlobal": {
+		"weatherApiKey": "d7e795ae6a0d44aaa8abb1a0a7ac19e4",
+		"youtube": "AIzaSyBZjYk2QtAvsZjAzUJ5o4qGl8eRl6gr2SA"
+	},
+	"envCommands": {
+		"daily": {
+			"rewardDay1": {
+				"coin": 100,
+				"exp": 10
+			}
+		},
+		"notification": {
+			"delayPerGroup": 250
+		},
+		"rank": {
+			"deltaNext": 5
+		},
+		"rankup": {
+			"deltaNext": 5
+		},
+		"appstore": {
+			"limitResult": 3
+		}
+	},
+	"envEvents": {
+		"leave": {
+			"defaultLeaveMessage": "{userName} đã {type} khỏi nhóm"
+		},
+		"logsbot": {
+			"allow": true
+		},
+		"welcome": {
+			"defaultWelcomeMessage": "Xin chào {userName}.\nChào mừng {multiple} đã đến với nhóm chat: {boxName}\nChúc {multiple} có một buổi {session} vui vẻ 😊"
+		}
+	}
+}

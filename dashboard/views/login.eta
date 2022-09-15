@@ -1,0 +1,64 @@
+<%~ includeFile("partials/header.eta") %>
+<%~ includeFile("partials/message.eta"); %>
+
+<div class="bg-primary text-white py-3">
+  <div class="container">
+    <h6 class="text-white">
+      <i class="fas fa-user"></i> Goat Bot Dashboard Login
+    </h6>
+  </div>
+</div>
+
+<!--posts-->
+<section class="post my-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10 col-lg-5 col-xl-4 mx-auto">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="text-center">Account login</h4>
+          </div>
+          <div class="card-body">
+            <form id="loginForm">
+              <div class="form-group">
+
+                <div class="input-group input-group-lg mb-5 mt-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  </div>
+                  <input class="form-control" placeholder="Email" type="text" id="username" name="username">
+                </div>
+
+                <div class="input-group input-group-lg my-5">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                  </div>
+                  <input type="password" class="form-control" placeholder="Password" id="password" name="password">
+                </div>
+
+                <div class="g-recaptcha d-flex justify-content-center" data-sitekey="<%=it.gRecaptcha_siteKey%>"></div>
+                <div class="d-flex justify-content-center">
+                  <button type="submit" class="btn btn-primary btn-block mt-4" id="login">Login</button>
+                </div>
+              </div>
+              <!-- button login -->
+              <!-- no account? create here-->
+              <p class="text-center" style="margin-top: 1rem;">
+                No Account? <a href="/register">Register Here</a>
+              </p>
+              <!-- forgot pass -->
+              <p class="text-center" style="margin-top: 1rem;">
+                Forgot Password? <a href="/forgot-password">Reset Password</a>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="text/javascript">$("#login").on("click",(async function(e){e.preventDefault();const r=$("#username").val(),n=$("#password").val(),s=grecaptcha.getResponse();if(!s)return $.createToast({type:"error",title:"Error",message:"Vui lòng xác nhận captcha",time:5e3});const a=this;a.innerHTML='<span class="spinner-border spinner-border-sm"></span> Login',a.disabled=!0,$.ajax({url:"/login",type:"POST",data:{username:r,password:n,"g-recaptcha-response":s},success:function(e){window.location.href=e.redirectLink},error:function(e){e.responseJSON.errors.forEach((function(e){a.html("Login"),a.attr("disabled",!1),grecaptcha.reset(),$.createToast({type:"error",title:"Error",message:e.msg})}))}})}));</script>
+
+<!--footer section-->
+<%~ includeFile("partials/footer.eta") %>

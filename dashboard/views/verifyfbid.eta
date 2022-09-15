@@ -1,0 +1,54 @@
+<%~ includeFile("partials/header.eta"); %>
+<%~ includeFile("partials/message.eta"); %>
+
+<div class="bg-primary text-white py-3">
+  <div class="container">
+    <h6 class="text-white">
+      <i class="fas fa-cog"></i> Verify Facebook ID
+    </h6>
+  </div>
+</div>
+
+<section class="addsection bg-light py-3" id="verifyfbid">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+        <div class="card">
+          <div class="card-header">
+            <h4>
+              <i class="fas fa-user"></i> Verify Facebook ID
+            </h4>
+          </div>
+          <div class="card-body">
+            <form id="verifyfbidForm" autocomplete="off">
+              <div class="form-group">
+                <label for="fbid">
+                  <i class="fab fa-facebook-square mb-2"></i> Facebook ID
+                </label>
+                <input type="text" class="form-control" name="fbid" id="fbid" placeholder="Enter your Facebook ID or url profile" value="<%=user.facebookUserID || ''%>" required>
+              </div>
+              <div class="g-recaptcha mt-3 d-flex justify-content-center" data-sitekey="<%=gRecaptcha_siteKey%>"></div>
+              <button type="submit" class="btn btn-primary btn-block mt-2" id="submitSend" <%=global.statusAccountBot == 'good' ? '' : 'disabled'%>>Send</button>
+              <div class="alert alert-info mt-3">
+                <p>
+                  <i class="fas fa-info-circle"></i> Chúng tôi sẽ gửi một tin nhắn kèm mã xác minh đến id facebook bạn điền vào ở phía trên để xác minh bạn là chủ của tài khoản đó
+                </p>
+              </div>
+              <% if (global.statusAccountBot != 'good') {%>
+              <div class="alert alert-danger mt-3">
+                <p>
+                  <i class="fas fa-exclamation-triangle"></i> Hiện tại bot đang offline, không thể thực hiện chức năng này
+                </p>
+              </div>
+              <% } %>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="text/javascript">(function(){const e=$("#submitSend");e.on("click",(function(s){s.preventDefault();"<% if (global.statusAccountBot == 'good') {%>";e.disabled=true;e.addClass("disabled");e.html("<span class='spinner-border spinner-border-sm'></span> Sending...");const a=$("#g-recaptcha-response").val();$.ajax({url:"/verifyfbid",type:"POST",data:{fbid:$("#fbid").val(),"g-recaptcha-response":a},success:function(){window.location.href="/verifyfbid/submit-code"},error:function(s){a.reset();e.disabled=false;e.removeClass("disabled");e.html("Send");$.createToast({type:"error",title:"Error",message:s.responseJSON.message})}});"<% } %>"}))})();</script>
+
+<%~ includeFile("partials/footer.eta") %>

@@ -1,0 +1,79 @@
+<%~ includeFile("partials/header.eta") %>
+<div class="bg-primary text-white py-3">
+  <div class="container">
+    <h6 class="text-white">
+      <i class="fas fa-user"></i> User Profile
+    </h6>
+  </div>
+</div>
+
+<section class="post my-4" style="text-align: -webkit-center">
+  <div class="wrapper">
+    <div class="right">
+      <div class="info">
+        <h3>Information</h3>
+        <div class="info_data">
+          <div class="data">
+            <h4>Email</h4>
+            <p>
+              <%= user.email %>
+            </p>
+          </div>
+          <div class="data">
+            <h4>Name</h4>
+            <p>
+              <%= user.name %>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="projects">
+        <h3>Economy</h3>
+        <% if (!user.facebookUserID) { %>
+        <div class="data">
+          <p style="color: #919aa3">
+            Bạn chưa xác thực id facebook
+          </p>
+        </div>
+        <% } else { %>
+        <div class="projects_data">
+          <div class="data">
+            <h4>Money</h4>
+            <p id="money"></p>
+          </div>
+          <div class="data">
+            <h4>Level</h4>
+            <p id="level"></p>
+          </div>
+        </div>
+        <% } %>
+      </div>
+
+      <div class="projects">
+        <h3>Facebook Info</h3>
+        <% if (!user.facebookUserID) {%>
+        <div class="data">
+          <p style="color: #919aa3">
+            Bạn chưa xác thực id facebook
+          </p>
+        </div>
+        <% } else { %>
+        <div class="projects_data">
+          <div class="data">
+            <h4>User ID</h4>
+            <p id="facebookUserID"><%=user.facebookUserID%></p>
+          </div>
+          <div class="data">
+            <h4>Name</h4>
+            <p id="facebookUserName"></p>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="text/javascript">$.ajax({url:"/api/getMyUserData",type:"GET",success:function(e){"error"==e.status?alert(e.message):($("#money").text(e.data.money),$("#level").text(e.data.exp),$("#facebookUserID").text(e.data.userID),$("#facebookUserName").text(e.data.name))}});</script>
+<%~ includeFile("partials/footer.eta") %>

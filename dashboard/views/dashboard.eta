@@ -1,0 +1,54 @@
+<%~ includeFile("partials/header.eta") %>
+<%~ includeFile("partials/message.eta"); %>
+
+<div class="bg-primary text-white py-3">
+  <div class="container">
+    <h6 class="text-white">
+      <a class="text-white" href="/dashboard" style="text-decoration: none;"><i class="fas fa-cog "></i> Dashboard</a>
+    </h6>
+  </div>
+</div>
+
+<div class="container my-4">
+  <div class="row">
+    <div class="card">
+      <div class="card-header">
+        <h3>Thread List</h3>
+      </div>
+      <table class="table table-striped sortable" id="threads">
+        <thead>
+          <td>#</td>
+          <td>Box ID</td>
+          <td>Box Name</td>
+          <td>Members</td>
+          <td></td>
+        </thead>
+
+        <tbody>
+          <% for (let i=0; i < threads.length; i++) { %>
+          <tr>
+            <td>
+              <%= i + 1 %>
+            </td>
+            <td>
+              <%= threads[i].threadID %>
+            </td>
+            <td>
+              <%= threads[i].threadName || "null" %>
+            </td>
+            <td>
+              <%= threads[i].members.filter(m=> m.inGroup).length %>
+            </td>
+            <td><a href='/dashboard/<%=threads[i].threadID %>' class='btn btn-primary text-white'>Custom <i class='fa fa-angle-double-right'></i></td>
+          </tr>
+          <% } %>
+        </tbody>
+
+      </table>
+    </div>
+
+  </div>
+</div>
+<script type="text/javascript">$(document).ready((function(){$("#threads").DataTable({paging:!1,searching:!1,info:!1}),$("#threads").removeAttr("style")}));</script>
+
+<%~ includeFile("partials/footer.eta") %>

@@ -1,0 +1,105 @@
+{
+	"name": "goat-bot-v2",
+	"version": "1.0.0",
+	"description": "A simple Bot chat messenger made by NTKhang",
+	"main": "index.js",
+	"engines": {
+		"node": "16.x",
+		"npm": ">=7.0.0"
+	},
+	"dependencies": {
+		"axios": "^0.26.1",
+		"bcrypt": "^5.0.1",
+		"canvas": "^2.9.1",
+		"chalk": "4.1.2",
+		"cheerio": "^1.0.0-rc.12",
+		"child_process": "^1.0.2",
+		"connect-flash": "^0.1.1",
+		"discord-image-generation": "^1.4.13",
+		"eta": "^1.12.3",
+		"express": "^4.18.1",
+		"express-fileupload": "^1.4.0",
+		"express-rate-limit": "^6.5.2",
+		"express-session": "^1.17.3",
+		"fb-chat-api": "^10.4.13",
+		"form-data": "^4.0.0",
+		"fs-extra": "^10.1.0",
+		"googleapis": "^100.0.0",
+		"graphql-query-to-json": "^2.0.1",
+		"https": "^1.0.0",
+		"moment-timezone": "^0.5.34",
+		"mongoose": "^6.3.1",
+		"nodemailer": "^6.7.5",
+		"ora": "^5.4.1",
+		"passport": "^0.6.0",
+		"passport-local": "^1.0.0",
+		"path": "^0.12.7",
+		"qrcode-reader": "^1.0.4",
+		"qs": "^6.11.0",
+		"request-promise": "^4.2.6",
+		"searchitunes": "^2.5.4",
+		"sequelize": "^6.19.0",
+		"socket.io": "^4.5.1",
+		"sqlite3": "^5.0.5",
+		"streaming-cache": "^0.5.5",
+		"totp-generator": "^0.0.13",
+		"ytdl-core": "^4.11.1"
+	},
+	"scripts": {
+		"start": "node index.js"
+	},
+	"author": "NTKhang",
+	"license": "ISC",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ntkhang03/Goat-Bot-V2.git"
+	},
+	"keywords": [],
+	"bugs": {
+		"url": "https://github.com/ntkhang03/Goat-Bot-V2/issues"
+	},
+	"homepage": "https://github.com/ntkhang03/Goat-Bot-V2#readme",
+	"devDependencies": {
+		"eslint": "^8.2.0",
+		"eslint-config-airbnb": "^19.0.4",
+		"eslint-config-node": "^4.1.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-import": "^2.25.3",
+		"eslint-plugin-jsx-a11y": "^6.5.1",
+		"eslint-plugin-node": "^11.1.0",
+		"eslint-plugin-prettier": "^4.0.0",
+		"eslint-plugin-react": "^7.28.0",
+		"eslint-plugin-react-hooks": "^4.3.0",
+		"javascript-obfuscator": "^4.0.0",
+		"prettier": "^2.7.1",
+		"terser": "^5.15.0"
+	},
+	"eslintConfig": {
+		"env": {
+			"commonjs": true,
+			"es2021": true,
+			"node": true
+		},
+		"extends": "eslint:recommended",
+		"parserOptions": {
+			"ecmaVersion": 13
+		},
+		"rules": {
+			"no-prototype-builtins": 0,
+			"no-unused-vars": 1,
+			"comma-dangle": 1,
+			"no-redeclare": 0,
+			"prefer-const": 1,
+			"no-useless-escape": 0,
+			"no-mixed-spaces-and-tabs": 0,
+			"semi": 1,
+			"no-useless-catch": 0,
+			"no-empty": 0,
+			"use-isnan": 0,
+			"no-extra-semi": 1,
+			"no-async-promise-executor": 0,
+			"no-unreachable": 1,
+			"no-var": 1
+		}
+	}
+}

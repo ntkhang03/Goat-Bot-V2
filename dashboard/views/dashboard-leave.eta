@@ -1,0 +1,96 @@
+<%~ includeFile("partials/header.eta") %>
+<%~ includeFile("partials/message.eta") %>
+
+<div class="bg-primary text-white py-3">
+  <div class="container">
+    <h6 class="text-white">
+      <a class="text-white" href="/dashboard" style="text-decoration: none;"><i class="fas fa-cog "></i>
+        Dashboard</a>
+    </h6>
+  </div>
+</div>
+
+<div class="container">
+  <br>
+  <p class="text-success">Box Name: <%=threadData.threadName || "null" %>
+  </p>
+  <p class="text-info">Box ID: <%=threadID%>
+  </p>
+
+  <div class="jwvIWx">
+    <h3 class="text-center">Leave Message 🤧</h3>
+
+    <ul class="list" id="list-shortcut">
+      <h4 class="mb-3">Danh sách các shortcut có sẵn:</h4>
+    </ul>
+
+    <h4>Tin nhắn tạm biệt thành viên rời nhóm:</h4>
+    <textarea class="textarea" id="message" spellcheck="false"><%=threadData.data.leaveMessage || defaultLeaveMessage%></textarea>
+
+    <!-- button save -->
+    <div class="jwvIwx" style="gap: 2px">
+      <button class="btn btn-primary" id="save-message">Lưu</button>
+      <button type="button" class="btn btn-warning" id="reset-message" value="<%=defaultLeaveMessage%>">Reset</button>
+    </div>
+
+  </div>
+
+  <hr>
+
+  <p>Những tệp được gửi kèm tin nhắn tạm biệt trong nhóm bạn:</p>
+
+  <br>
+
+  <div class="my-file">
+    <div class="row files card-deck" id="previewMediaLeave">
+      <% for (const file of leaveAttachments) { %>
+      <% const getExt = file.name.split('.').pop() %>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-2" file-name="<%=file.name%>" file-id="<%=file.id%>">
+        <div class="card preview">
+          <% if (imageExt.includes(getExt)) { %>
+          <img src="https://docs.google.com/uc?id=<%=file.id%>&export=download&confirm=t" alt="image" style="object-fit: contain; width: 100%; height: 150px;">
+          <% } else if (videoExt.includes(getExt)) { %>
+          <video src="https://docs.google.com/uc?id=<%=file.id%>&export=download&confirm=t" controls style="object-fit: contain; width: 100%; height: 150px;">
+            Your browser does not support the video tag.
+          </video>
+          <% } else if (audioExt.includes(getExt)) {%>
+          <audio src="https://docs.google.com/uc?id=<%=file.id%>&export=download&confirm=t" controls style="object-fit: contain; width: 100%; height: 150px;">
+            Your browser does not support the audio tag.
+          </audio>
+          <% } else { %>
+          <img src="https://www.pngrepo.com/png/332374/180/file-unknown.png" style="object-fit: contain; width: 100%; height: 150px;">
+          <% } %>
+          <div class="card-body">
+            <p class="card-text"><%=file.name%></p>
+            <p class="card-text"><small class="text-muted"><%=convertSize(file.size)%></small></p>
+
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="<%=file.id%>" name="myCheckboxes">
+              <label class="form-check-label" for="checkbox-<%=file.id%>">
+                Chọn để xóa
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+
+  <button class="btn btn-danger" style="margin-left: auto!important;" id="deleteFile"> <i class="fas fa-trash-alt"></i> </button>
+  <button class="btn btn-primary" id="select-all-delete">Select all</button>
+
+  <hr>
+
+  <input type="file" id="upload-multi" multiple hidden>
+  <label for="upload-multi" class="btn btn-primary mb-3"><i class="fa fa-upload"></i> Click to upload file</label>
+
+  <div class="my-file">
+    <div class="row files card-deck" id="list-preview">
+    </div>
+  </div>
+
+</div>
+
+<script type="text/javascript">!function(){const t=[{name:"{userName}",desc:"tên thành viên rời khỏi nhóm"},{name:"{userNameTag}",desc:"tên thành viên rời khỏi nhóm (tag trong tin nhắn)"},{name:"{threadName}",desc:"tên nhóm chat của bạn"},{name:"{boxName}",desc:"tên nhóm chat của bạn"},{name:"{session}",desc:"buổi trong ngày"},{name:"{multiple}",desc:"bạn | các bạn"},{name:"{type}",desc:"tự rời | bị quản trị viên kick"}],e=$("#message");e.highlightWithinTextarea({highlight:t.map((t=>t.name))}),e.autocomplete(t);const n=document.getElementById("list-shortcut");for(const e of t){const t=document.createElement("li");t.className="list-item",t.innerHTML='<div class="highlight" style="display: initial;">'+e.name+"</div>: "+e.desc,n.appendChild(t)}$("#reset-message").click((function(){e.val(this.value),e.highlightWithinTextarea({highlight:t.map((t=>t.name))})})),$("#save-message").click((function(){$.ajax({url:"/api/thread/setData/leaveMessage",type:"POST",data:{threadID:"<%=threadID%>",message:$("#message").val(),type:"update"},success:function(t){$.createToast({title:"Success",message:"Lưu thành công",type:"success"})},error:function(t){$.createToast({title:"Error",message:"Đã xảy ra lỗi, vui lòng thử lại",type:"error"})}})}));let a=[];const s=document.getElementById("upload-multi"),i=document.querySelector('label[for="upload-multi"]');s.addEventListener("change",(function(){if(null===document.getElementById("submit-upload")){const t=document.createElement("button");t.type="submit",t.id="submit-upload",t.innerHTML="Upload",t.className="btn btn-primary",t.addEventListener("click",(function(){t.innerHTML='<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Uploading...',t.disabled=!0,i.classList.add("disabled");const e=new FormData;for(const t of a)e.append(t.name,t);e.append("threadID","<%=threadID%>"),e.append("commandName","setleave"),$.ajax({url:"/api/upload/leaveAttachment",type:"POST",contentType:!1,processData:!1,data:e,success:function(t){a=[];document.getElementById("list-preview");const e=document.getElementById("previewMediaLeave"),n=document.getElementsByClassName("list-file-upload");for(const a of t.success){const t=a.rootName;let s="";const i=t.slice(t.lastIndexOf(".")+1),l=`https://docs.google.com/uc?id=${a.id}&export=download&confirm=t`;s="<%=imageExt%>".includes(i)?`<img src="${l}" alt="image" style="object-fit: contain; width: 100%; height: 150px;">`:"<%=videoExt%>".includes(i)?`<video src="${l}" controls style="object-fit: contain; width: 100%; height: 150px;">\n\t\t\t\t\t\t\t\t\t\tYour browser does not support the video tag.\n\t\t\t\t\t\t\t\t\t</video>`:"<%=audioExt%>".includes(i)?`<audio src="${l}" controls style="object-fit: contain; width: 100%; height: 150px;">\n\t\t\t\t\t\t\t\t\t\tYour browser does not support the audio tag.\n\t\t\t\t\t\t\t\t\t</audio>`:'<img src="https://www.pngrepo.com/png/332374/180/file-unknown.png" style="object-fit: contain; width: 100%; height: 150px;">',e.innerHTML+=`<div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-2" file-name="${a.newFileName}" file-id="${a.id}">\n\t\t\t\t\t\t\t\t\t<div class="card preview">\n\t\t\t\t\t\t\t\t\t\t${s}\n\t\t\t\t\t\t\t\t\t\t\t<div class="card-body"> \n\t\t\t\t\t\t\t\t\t\t\t\t<p class="card-text">${a.newFileName}</p>\n\t\t\t\t\t\t\t\t\t\t\t\t<p class="card-text"><small class="text-muted">${a.size/1024/1024>1?(a.size/1024/1024).toFixed(2)+" MB":(a.size/1024).toFixed(2)+" KB"}</small></p>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class="form-check">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input class="form-check-input" type="checkbox" value="${a.id}" id="checkbox-${a.id}" name="myCheckboxes">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class="form-check-label" for="checkbox-${a.id}">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tChọn để xóa\n\t\t\t\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>`,n[a.count].style.display="none"}$.createToast({title:"Success",message:`Upload ${t.success.length} file thành công`,type:"success"});document.querySelectorAll('li[class="list-file-upload"][style*="display: none;"]').forEach((t=>t.remove()));for(const e of t.failed)$.createToast({title:"Error",message:`Xảy ra lỗi khi upload file "${e.rootName}": ${e.message}`,type:"error"})},error:function(t){const e=document.getElementsByClassName("list-file-upload"),n=document.createElement("div");n.className="alert alert-danger",n.style.margin="0.9rem 0 0 0",n.innerHTML="Error";for(let t=0;t<e.length;t++)e[t].appendChild(n);$.createToast({title:"Error",message:"Đã xảy ra lỗi, vui lòng thử lại sau",type:"error"})},complete:function(e){t.remove(),i.classList.remove("disabled")}})})),s.parentNode.appendChild(t)}const t=document.getElementById("list-preview"),e=this.files;function n(t){return t.includes("video")}for(const s of e){if(a.some((t=>t.name===s.name)))continue;a.push(s);const e=document.createElement("div");e.setAttribute("class","col-12 col-sm-6 col-md-4 col-lg-3 mb-2 list-file-upload"),e.setAttribute("file-name",s.name);const i=document.createElement("div");i.setAttribute("class","card-preview");const l=URL.createObjectURL(s);-1!==s.type.indexOf("image")?i.innerHTML=`<img src="${l}" alt="image" style="object-fit: contain; width: 100%; height: 150px;">`:-1!==s.type.indexOf("video")?i.innerHTML=`<video src="${l}" controls="controls" style="object-fit: contain; width: 100%; height: 150px;"> </video>`:-1!==s.type.indexOf("audio")&&(i.innerHTML=`<audio src="${l}" controls="controls"> </audio>`);const c=document.createElement("div");c.setAttribute("class","card-body");const o=s.size/1024/1024>1?(s.size/1024/1024).toFixed(2)+" MB":(s.size/1024).toFixed(2)+" KB";c.innerHTML=`<p class="card-text" style="word-wrap: break-word;">${s.name}</p>\n          <p class="card-text"><small class="text-muted">${o}</small></p>`,s.size>26214400&&!n(s.type)?c.innerHTML+='<div class="alert alert-danger" role="alert" style="margin: 1rem 0 0 0">\n\t\t\t\t\t\tFile size max is 25MB.\n\t\t\t\t\t</div>':s.size>87031808&&n(s.type)&&(c.innerHTML+='<div class="alert alert-danger" role="alert" style="margin: 1rem 0 0 0">\n\t\t\t\t\t\tVideo file size max is 83MB.\n\t\t\t\t\t</div>');const r=document.createElement("button");r.setAttribute("class","btn btn-danger"),r.style.marginTop="1rem",r.innerHTML="Remove",r.addEventListener("click",(function(){t.removeChild(e),a.splice(a.findIndex((t=>t.name===s.name)),1),0===a.length&&document.getElementById("submit-upload").remove()})),c.appendChild(r),i.appendChild(c),e.appendChild(i),t.appendChild(e)}s.value=""}));document.getElementById("select-all-delete").onclick=function(){let t=document.querySelectorAll('input[type="checkbox"]:not(:checked)');0==t.length&&(t=document.querySelectorAll("input[name=myCheckboxes]:checked")),t.forEach((t=>t.click()))};const l=document.getElementById("deleteFile");l.onclick=function(){l.innerHTML='<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>\n    \t\t<span class="visually-hidden">Loading...</span>',l.disabled=!0;const t=document.querySelectorAll("input[name=myCheckboxes]:checked"),e=Array.from(t).map((t=>t.value));if(0==e.length)return $.createToast({title:"Warning",message:"Please select a file to delete",type:"warning"}),l.innerHTML='<i class="fas fa-trash-alt"></i>',void(l.disabled=!1);$.ajax({url:"/api/delete/leaveAttachment",type:"POST",data:{fileIDs:e,threadID:"<%=threadID%>",location:"data.leaveAttachment"},success:function(t){if("error"==t.status)return $.createToast({title:"Error",message:"Đã xảy ra lỗi, vui lòng thử lại",type:"error"});for(const e of t.success)document.querySelector(`[file-id="${e}"]`).remove();$.createToast({title:"Success",message:`Xóa ${t.success.length} file thành công`,type:"success"}),t.failed.length&&$.createToast({title:"Success",message:`Xóa ${t.failed.length} file thất bại`,type:"error"}),l.disabled=!1},error:function(){$.createToast({title:"Error",message:"Xóa file thất bại, vui lòng thử lại sau",type:"error"}),l.disabled=!1},complete:function(){l.innerHTML='<i class="fas fa-trash-alt"></i>',l.disabled=!1}})}}();</script>
+<%~ includeFile("partials/footer.eta") %>
