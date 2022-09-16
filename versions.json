@@ -1,0 +1,8 @@
+[
+	{
+		"version": "1.0.1",
+		"files": {
+			"bot/login/login.js": "fix terminal freeze"
+		}
+	}
+]
