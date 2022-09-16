@@ -4,5 +4,11 @@
 		"files": {
 			"bot/login/login.js": "fix terminal freeze"
 		}
+	},
+	{
+		"version": "1.0.2",
+		"files": {
+			"bot/login/loadData.js": "fix terminal freeze"
+		}
 	}
 ]

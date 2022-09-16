@@ -1,6 +1,6 @@
 {
 	"name": "goat-bot-v2",
-	"version": "1.0.0",
+	"version": "1.0.2",
 	"description": "A simple Bot chat messenger made by NTKhang",
 	"main": "index.js",
 	"engines": {
@@ -72,6 +72,7 @@
 		"eslint-plugin-react-hooks": "^4.3.0",
 		"javascript-obfuscator": "^4.0.0",
 		"prettier": "^2.7.1",
+		"prompt-checkbox": "^2.2.0",
 		"terser": "^5.15.0"
 	},
 	"eslintConfig": {
