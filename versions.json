@@ -10,5 +10,11 @@
 		"files": {
 			"bot/login/loadData.js": "fix terminal freeze"
 		}
+	},
+	{
+		"version": "1.0.3",
+		"files": {
+			"bot/handler/handlerEvents.js": "fix terminal freeze"
+		}
 	}
 ]
