@@ -22,7 +22,8 @@
 		"files": {
 			"scripts/cmds/badwords.js": "fix error `Cannot read properties of undefined (reading 'settings')`",
 			"scripts/cmds/loadconfig.js": "fix error `Cannot read properties of undefined (reading 'dirConfig')`",
-			"scripts/cmds/tik.js": "fix api"
+			"scripts/cmds/tik.js": "fix api",
+			"bot/login/login.js": "fix bugs"
 		}
 	}
 ]
