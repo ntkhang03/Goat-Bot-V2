@@ -15,7 +15,7 @@
 
 ## 📝 Tutorial
 #### A Tutorial has been uploaded on YouTube, Watch it by clicking on the image down below
-- Repl.it:
+- Replit.com: https://www.youtube.com/watch?v=nTIT8OQeRnY&t=282s
 - VPS/Windows:
 
 ## 📙 Support
