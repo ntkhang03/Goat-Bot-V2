@@ -31,5 +31,11 @@
 		"files": {
 			"bot/login/login.js": "fix duplicate login"
 		}
+	},
+	{
+		"version": "1.0.6",
+		"files": {
+			"scripts/cmds/ytb.js": "fix error `AxiosError: unable to verify the first certificate`"
+		}
 	}
 ]
