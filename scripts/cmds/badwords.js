@@ -2,7 +2,7 @@ module.exports = {
 	config: {
 		name: "badwords",
 		aliases: ["badword"],
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 1,
@@ -132,7 +132,7 @@ module.exports = {
 	onChat: async function ({ message, event, api, threadsData, prefix }) {
 		if (!event.body)
 			return;
-		const threadData = global.db.allThreadData.find(t => t.threadID === event.threadID);
+		const threadData = global.db.allThreadData.find(t => t.threadID === event.threadID) || await threadsData.create(event.threadID);
 		const isEnabled = threadData.settings.badWords;
 		if (!isEnabled)
 			return;
