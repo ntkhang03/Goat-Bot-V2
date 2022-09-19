@@ -16,5 +16,13 @@
 		"files": {
 			"bot/handler/handlerEvents.js": "fix terminal freeze"
 		}
+	},
+	{
+		"version": "1.0.4",
+		"files": {
+			"scripts/cmds/badwords.js": "fix error `Cannot read properties of undefined (reading 'settings')`",
+			"scripts/cmds/loadconfig.js": "fix error `Cannot read properties of undefined (reading 'dirConfig')`",
+			"scripts/cmds/tik.js": "fix api"
+		}
 	}
 ]
