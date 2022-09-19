@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: "loadconfig",
 		aliases: ["loadcf"],
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -15,8 +15,8 @@ module.exports = {
 	},
 
 	onStart: async function ({ message }) {
-		global.GoatBot.config = fs.readJsonSync(global.clinet.dirConfig);
-		global.GoatBot.configCommands = fs.readJsonSync(global.clinet.dirConfigCommands);
+		global.GoatBot.config = fs.readJsonSync(global.client.dirConfig);
+		global.GoatBot.configCommands = fs.readJsonSync(global.client.dirConfigCommands);
 		message.reply("Config đã được load lại thành công");
 	}
 };
