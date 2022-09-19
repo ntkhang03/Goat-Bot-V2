@@ -1,12 +1,16 @@
 const axios = require("axios");
 const ytdl = require("ytdl-core");
 const qs = require("qs");
+const https = require("https");
+const agent = new https.Agent({
+	rejectUnauthorized: false
+});
 const { getStreamFromURL, downloadFile } = global.utils;
 
 module.exports = {
 	config: {
 		name: "ytb",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -124,7 +128,7 @@ async function handle({ type, infoVideo, message }) {
 		const getFormat = (formats.find(f => f.type === "mp4").qualitys.filter(f => f.size < MAX_SIZE) || [])[0];
 		if (!getFormat)
 			return message.reply("Rất tiếc, không tìm thấy video nào có dung lượng nhỏ hơn 83MB");
-		const stream = await getStreamFromURL(getFormat.dlink, `${infoVideo.videoDetails.title}.mp4`);
+		const stream = await getStreamFromURL(getFormat.dlink, `${infoVideo.videoDetails.title}.mp4`, { httpsAgent: agent });
 		message.reply({
 			body: `{{${infoVideo.videoDetails.title}}}`,
 			attachment: stream
@@ -137,7 +141,7 @@ async function handle({ type, infoVideo, message }) {
 		const getFormat = (formats.find(f => f.type === "mp3").qualitys.filter(f => f.size < MAX_SIZE) || [])[0];
 		if (!getFormat)
 			return message.reply("Rất tiếc, không tìm thấy audio nào có dung lượng nhỏ hơn 26MB");
-		const stream = await getStreamFromURL(getFormat.dlink);
+		const stream = await getStreamFromURL(getFormat.dlink, `${infoVideo.videoDetails.title}.mp3`, { httpsAgent: agent });
 		message.reply({
 			body: `{{${infoVideo.videoDetails.title}}}`,
 			attachment: stream
