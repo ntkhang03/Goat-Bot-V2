@@ -25,5 +25,11 @@
 			"scripts/cmds/loadconfig.js": "fix error `Cannot read properties of undefined (reading 'dirConfig')`",
 			"scripts/cmds/tik.js": "fix api"
 		}
+	},
+	{
+		"version": "1.0.5",
+		"files": {
+			"bot/login/login.js": "fix duplicate login"
+		}
 	}
 ]
