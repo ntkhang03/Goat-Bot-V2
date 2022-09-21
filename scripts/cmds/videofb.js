@@ -5,7 +5,7 @@ const qs = require("qs");
 module.exports = {
 	config: {
 		name: "videofb",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -64,6 +64,9 @@ function convertTime(hms) {
 
 async function fbDownloader(url) {
 	try {
+		const response1 = await axios.get("https://fdownloader.net");
+		const k_exp = response1.data.split('k_exp="')[1].split('"')[0];
+		const k_token = response1.data.split('k_token="')[1].split('"')[0];
 		const response = await axios({
 			method: 'POST',
 			url: 'https://fdownloader.net/api/ajaxSearch',
@@ -71,7 +74,9 @@ async function fbDownloader(url) {
 				'Content-Type': 'application/x-www-form-urlencoded'
 			},
 			data: qs.stringify({
-				'q': url
+				'q': url,
+				k_exp,
+				k_token
 			})
 		});
 
@@ -97,6 +102,7 @@ async function fbDownloader(url) {
 		};
 	}
 	catch (err) {
+    console.log(err)
 		return {
 			success: false
 		};
