@@ -37,5 +37,11 @@
 		"files": {
 			"scripts/cmds/ytb.js": "fix error `AxiosError: unable to verify the first certificate`"
 		}
+	},
+	{
+		"version": "1.0.7",
+		"files": {
+			"scripts/cmds/videofb.js": "fix error Cannot download video"
+		}
 	}
 ]
