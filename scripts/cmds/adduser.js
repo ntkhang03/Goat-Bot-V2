@@ -77,7 +77,7 @@ module.exports = {
 		if (lengthUserWaitApproval)
 			msg += `\n- Đã thêm ${lengthUserWaitApproval} thành viên vào danh sách phê duyệt`;
 		if (lengthUserError)
-			msg += `\n- Đã xảy ra lỗi khi thêm ${lengthUserError} thành viên vào nhóm:${failed.reduce((a, b) => a += `\n    + ${b.uids.join('; ')}: ${b.type}`, "")}`;
+			msg += `\n- Đã xảy ra lỗi khi thêm ${lengthUserError} thành viên vào nhóm:${failed.reduce((a, b) => a += `\n    + {{${b.uids.join('; ')}: ${b.type}}}`, "")}`;
 		await message.reply(msg);
 	}
 };

@@ -379,7 +379,7 @@ const utils = {
 		if (typeof text !== "string")
 			throw new Error(`The first argument (text) must be a string`);
 		if (!lang)
-			lang = config.language;
+			lang = 'en';
 		if (typeof lang !== "string")
 			throw new Error(`The second argument (lang) must be a string`);
 		const wordTranslate = [''];
@@ -389,6 +389,8 @@ const utils = {
 
 		if (word.indexOf(text.charAt(0)) == -1)
 			wordTranslate.push('');
+		else
+			wordNoTranslate.splice(0, 1);
 
 		for (let i = 0; i < text.length; i++) {
 			const char = text[i];
@@ -409,7 +411,7 @@ const utils = {
 			}
 			else { // is no word
 				const lengWordNoTranslate = wordNoTranslate.length - 1;
-				const twoWordLast = wordNoTranslate[lengWordNoTranslate].slice(-2);
+				const twoWordLast = wordNoTranslate[lengWordNoTranslate]?.slice(-2) || '';
 				if (lastPosition == 'wordNoTranslate') {
 					if (twoWordLast == '}}') {
 						wordTranslate.push("");
@@ -436,15 +438,25 @@ const utils = {
 		let output = '';
 
 		for (let i = 0; i < wordTransAfter.length; i++) {
-			let wordTrans = (await wordTransAfter[i]).trim();
+			let wordTrans = (await wordTransAfter[i]);
+			if (wordTrans.trim().length === 0) {
+				console.log(`'${wordTrans}'`);
+				output += wordTrans;
+				if (wordNoTranslate[i] != undefined)
+					output += wordNoTranslate[i];
+				continue;
+			}
+
+			wordTrans = wordTrans.trim();
 			const numberStartSpace = lengthWhiteSpacesStartLine(wordTranslate[i]);
 			const numberEndSpace = lengthWhiteSpacesEndLine(wordTranslate[i]);
+
 			wordTrans = ' '.repeat(numberStartSpace) + wordTrans.trim() + ' '.repeat(numberEndSpace);
+
 			output += wordTrans;
-			if (wordNoTranslate[i])
+			if (wordNoTranslate[i] != undefined)
 				output += wordNoTranslate[i];
 		}
-
 		return output;
 	},
 	drive: {
