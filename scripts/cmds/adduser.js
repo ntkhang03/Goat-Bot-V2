@@ -3,7 +3,7 @@ const { findUid } = global.utils;
 module.exports = {
 	config: {
 		name: "adduser",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 1,
