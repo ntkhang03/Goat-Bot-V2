@@ -43,5 +43,12 @@
 		"files": {
 			"scripts/cmds/videofb.js": "fix error Cannot download video"
 		}
+	},
+	{
+		"version": "1.0.8",
+		"files": {
+			"utils.js": "update system translate",
+			"scripts/cmds/adduser.js": "update system translate"
+		}
 	}
 ]
