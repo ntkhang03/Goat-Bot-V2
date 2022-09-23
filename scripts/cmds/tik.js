@@ -1,20 +1,21 @@
 const axios = require("axios");
 const qs = require("qs");
 const cheerio = require("cheerio");
+const tinyUrl = require('tinyurl');
 const { getStreamFromURL } = global.utils;
 
 module.exports = {
 	config: {
 		name: "tik",
 		aliases: ["tiktok"],
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
 		shortDescription: "Tiktok",
-		longDescription: "Tải video, audio từ link tiktok",
+		longDescription: "Tải video/slide (image), audio từ link tiktok",
 		category: "media",
-		guide: "{pn} {{[video|-v|v] <url>}}: dùng để tải video từ link tiktok."
+		guide: "{pn} {{[video|-v|v] <url>}}: dùng để tải video/slide (image) từ link tiktok."
 			+ "\n{pn} {{[audio|-a|a] <url>}}: dùng để tải audio từ link tiktok"
 	},
 
@@ -32,10 +33,22 @@ module.exports = {
 				}
 
 				const msgSend = message.reply(`Đang tải video: {{${data.title}}}...`);
-				const linksNoWatermark = data.downloadUrl;
+				const linksNoWatermark = data.downloadUrls;
+				if (Array.isArray(linksNoWatermark)) {
+					const allStreamImage = await Promise.all(linksNoWatermark.map(link => getStreamFromURL(link)));
+					const allImageShortUrl = await Promise.all(linksNoWatermark.map((link, index) => tinyUrl
+						.shorten(link)
+						.then(shortUrl => `${index + 1}: ${shortUrl}`)
+					));
+					message.reply({
+						body: `Đã tải slide {{${data.title}\n${allImageShortUrl.join('\n')}}}`,
+						attachment: allStreamImage
+					}, async () => message.unsend((await msgSend).messageID));
+					return;
+				}
 				const streamFile = await getStreamFromURL(linksNoWatermark, 'video.mp4');
 				message.reply({
-					body: `Đã tải video {{${data.desc}}}`,
+					body: `Đã tải video {{${data.title}\nUrl Download: ${await tinyUrl.shorten(linksNoWatermark)}}}`,
 					attachment: streamFile
 				}, async () => message.unsend((await msgSend).messageID));
 				break;
@@ -50,7 +63,7 @@ module.exports = {
 					else
 						return message.reply(dataAudio.message);
 				}
-				const urlAudio = dataAudio.downloadUrl, audioName = dataAudio.title;
+				const urlAudio = dataAudio.downloadUrls, audioName = dataAudio.title;
 				const msgSendAudio = message.reply(`Đang tải audio {{"${audioName}"}}...`);
 				const streamFileAudio = await getStreamFromURL(urlAudio, "audio.mp3");
 				message.reply({
@@ -89,8 +102,18 @@ async function query(url, isMp3 = false) {
 
 	const format = {
 		status: 'success',
-		title: $('.maintext').text(),
-		downloadUrl: $(allUrls[isMp3 ? allUrls.length - 1 : 0]).attr('href')
+		title: $('.maintext').text()
 	};
+
+	const slide = $(".slide");
+	if (slide.length != 0) {
+		const url = [];
+		slide.each((index, element) => {
+			url.push($(element).attr('href'));
+		});
+		format.downloadUrls = url;
+		return format;
+	}
+	format.downloadUrls = $(allUrls[isMp3 ? allUrls.length - 1 : 0]).attr('href')
 	return format;
 }
