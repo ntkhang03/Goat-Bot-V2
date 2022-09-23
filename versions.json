@@ -50,5 +50,11 @@
 			"utils.js": "update system translate",
 			"scripts/cmds/adduser.js": "update system translate"
 		}
+	},
+	{
+		"version": "1.0.9",
+		"files": {
+			"scripts/cmds/tik.js": "add slide download feature (images)"
+		}
 	}
 ]
