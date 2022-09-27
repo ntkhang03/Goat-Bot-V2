@@ -56,5 +56,12 @@
 		"files": {
 			"scripts/cmds/tik.js": "add slide download feature (images)"
 		}
+	},
+	{
+		"version": "1.0.10",
+		"files": {
+			"bot/handler/handlerEvents.js": "",
+			"scripts/cmds/simsimi.js": "new command"
+		}
 	}
 ]
