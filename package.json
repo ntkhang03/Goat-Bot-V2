@@ -1,6 +1,6 @@
 {
 	"name": "goat-bot-v2",
-	"version": "1.0.10",
+	"version": "1.0.11",
 	"description": "A simple Bot chat messenger made by NTKhang",
 	"main": "index.js",
 	"engines": {
@@ -42,6 +42,7 @@
 		"socket.io": "^4.5.1",
 		"sqlite3": "^5.0.5",
 		"streaming-cache": "^0.5.5",
+		"tinyurl": "^1.1.7",
 		"totp-generator": "^0.0.13",
 		"ytdl-core": "^4.11.1"
 	},
