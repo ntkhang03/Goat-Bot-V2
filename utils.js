@@ -13,7 +13,7 @@ const { config } = global.GoatBot;
 const { gmailAccount } = config.credentials;
 const { clientId, clientSecret, refreshToken, apiKey: googleApiKey } = gmailAccount;
 if (!clientId || !clientSecret || !refreshToken) {
-	log.err("CREDENTIALS", `Please provide a valid clientId, clientSecret and refreshToken in file ${global.client.client}`);
+	log.err("CREDENTIALS", `Please provide a valid clientId, clientSecret and refreshToken in file ${global.client.dirConfig}`);
 	process.exit();
 }
 
