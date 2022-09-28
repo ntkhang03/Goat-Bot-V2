@@ -10,7 +10,7 @@ module.exports = {
 		role: 0,
 		shortDescription: 'Simsimi',
 		longDescription: 'Chat với simsimi',
-		category: 'custom',
+		category: 'funny',
 		guide: {
 			body: '   {pn} {{[on | off]}}: bật/tắt simsimi'
 				+ '\n'
