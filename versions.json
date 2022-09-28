@@ -63,5 +63,14 @@
 			"bot/handler/handlerEvents.js": "",
 			"scripts/cmds/simsimi.js": "new command"
 		}
+	},
+	{
+		"version": "1.0.11",
+		"files": {
+			"utils.js": "",
+			"scripts/cmds/anime.js": "new command random anime image",
+			"scripts/cmds/avatar.js": "new command create avatar anime",
+			"scripts/cmds/simsimi.js": ""
+		}
 	}
 ]
