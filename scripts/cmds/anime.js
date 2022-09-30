@@ -6,7 +6,7 @@ module.exports = {
 		name: "anime",
 		aliases: ["neko"],
 		author: "NTKhang",
-		version: "1.0",
+		version: "1.1",
 		cooldowns: 5,
 		role: 0,
 		shortDescription: "random anime image",
@@ -28,7 +28,7 @@ module.exports = {
 			const { data } = await axios.get(`https://neko-love.xyz/api/v1/${endpoint}`);
 			const imageRandom = await getStreamFromURL(data.url);
 			return message.reply({
-				attachent: imageRandom
+				attachment: imageRandom
 			});
 		}
 		catch (err) {
