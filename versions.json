@@ -72,5 +72,12 @@
 			"scripts/cmds/avatar.js": "new command create avatar anime",
 			"scripts/cmds/simsimi.js": ""
 		}
+	},
+	{
+		"version": "1.0.12",
+		"files": {
+			"scripts/cmds/anime.js": "fix error Dissallowed props: `attachent`",
+			"scripts/cmds/videofb.js": ""
+		}
 	}
 ]
