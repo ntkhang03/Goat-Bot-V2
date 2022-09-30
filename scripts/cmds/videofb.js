@@ -102,7 +102,6 @@ async function fbDownloader(url) {
 		};
 	}
 	catch (err) {
-    console.log(err)
 		return {
 			success: false
 		};
