@@ -79,5 +79,14 @@
 			"scripts/cmds/anime.js": "fix error Dissallowed props: `attachent`",
 			"scripts/cmds/videofb.js": ""
 		}
+	},
+	{
+		"version": "1.0.13",
+		"files": {
+			"bot/handler/handlerEvents.js": "fix adminOnly not working",
+			"bot/login/loadScripts.js": "",
+			"scripts/cmds/cmd.js": "add function `install`",
+			"scripts/cmds/event.js": "add function `install`"
+		}
 	}
 ]
