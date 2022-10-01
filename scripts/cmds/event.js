@@ -81,6 +81,12 @@ module.exports = {
 						}
 					});
 				});
+			else {
+				const infoLoad = loadScripts("cmds", fileName, log, configCommands, api, threadModel, userModel, threadsData, usersData, rawCode);
+				infoLoad.status == "success" ?
+					message.reply(`✅ | Đã load command event {{${infoLoad.name}}} thành công`)
+					: message.reply(`❌ | Load command event {{${infoLoad.name}}} thất bại với lỗi\n{{${infoLoad.error.stack}}}`);
+			}
 		}
 		else
 			message.SyntaxError();
