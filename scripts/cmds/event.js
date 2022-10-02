@@ -18,18 +18,6 @@ module.exports = {
 
 	},
 
-	onReaction: async function ({ Reaction, message, event, api, threadModel, userModel, threadsData, usersData }) {
-		const { author, messageID, data: { fileName, rawCode } } = Reaction;
-		if (event.userID != author)
-			return;
-		const { configCommands } = global.GoatBot;
-		const { log, loadScripts } = global.utils;
-		const infoLoad = loadScripts("cmds", fileName, log, configCommands, api, threadModel, userModel, threadsData, usersData, rawCode);
-		infoLoad.status == "success" ?
-			message.reply(`✅ | Đã load command event {{${infoLoad.name}}} thành công`, () => message.unsend(messageID))
-			: message.reply(`❌ | Load command event {{${infoLoad.name}}} thất bại với lỗi\n{{${infoLoad.error.stack}}}`, () => message.unsend(messageID));
-	},
-
 	onStart: async ({ args, message, api, threadModel, userModel, threadsData, usersData, commandName, event }) => {
 		const { configCommands } = global.GoatBot;
 		const { log, loadScripts } = global.utils;
@@ -40,12 +28,12 @@ module.exports = {
 			const infoLoad = loadScripts("events", args[1], log, configCommands, api, threadModel, userModel, threadsData, usersData);
 			infoLoad.status == "success" ?
 				message.reply(`✅ | Đã load command event {{${infoLoad.name}}} thành công`)
-				: message.reply(`❌ | Load command event {{${infoLoad.name}}} thất bại với lỗi\n${infoLoad.error.stack}`);
+				: message.reply(`❌ | Load command event {{${infoLoad.name}}} thất bại với lỗi\n${infoLoad.error.name}: ${infoLoad.error.message}`);
 		}
 		else if (args[0].toLowerCase() == "loadall" || (args[0] == "load" && args.length > 2)) {
 			const allFile = args[0].toLowerCase() == "loadall" ?
 				fs.readdirSync(path.join(__dirname, "..", "events"))
-					.filter(item => item.endsWith(".js"))
+					.filter(file => file.endsWith(".js") && file != "example.js" && !file.endsWith(".dev.js") && !configCommands.commandEventUnload?.includes(file))
 					.map(item => item = item.split(".")[0]) :
 				args.slice(1);
 			const arraySucces = [];
@@ -54,12 +42,20 @@ module.exports = {
 				const infoLoad = loadScripts("events", fileName, log, configCommands, api, threadModel, userModel, threadsData, usersData);
 				infoLoad.status == "success" ?
 					arraySucces.push(fileName)
-					: arrayFail.push(`{{${fileName}: ${infoLoad.error.name}: ${infoLoad.error.stack.split("\n").slice(0, 5).join("\n")}}}`);
+					: arrayFail.push(`{{${fileName} => ${infoLoad.error.name}: ${infoLoad.error.message}}}`);
 			}
 			message.reply(
 				arraySucces.length > 0 ? `✅ | Đã load thành công ${arraySucces.length} command event` : ""
 					+ arrayFail.length > 0 ? `\n\n❌ | Load thất bại ${arrayFail.length} command\n${"❗" + arrayFail.join("\n❗ ")})` : ""
 			);
+		}
+		else if (args[0] == "unload") {
+			if (!args[1])
+				return message.reply("⚠️ | Vui lòng nhập vào tên lệnh bạn muốn unload");
+			const infoUnload = global.utils.unloadScripts("events", args[1], configCommands);
+			infoUnload.status == "success" ?
+				message.reply(`✅ | Đã unload command event {{${infoUnload.name}}} thành công`)
+				: message.reply(`❌ | Unload command event {{${infoUnload.name}}} thất bại với lỗi\n{{${infoUnload.error.name}: ${infoUnload.error.message}}}`);
 		}
 		else if (args[0] == "install") {
 			const [url, fileName] = args.slice(1);
@@ -84,11 +80,23 @@ module.exports = {
 			else {
 				const infoLoad = loadScripts("cmds", fileName, log, configCommands, api, threadModel, userModel, threadsData, usersData, rawCode);
 				infoLoad.status == "success" ?
-					message.reply(`✅ | Đã load command event {{${infoLoad.name}}} thành công`)
-					: message.reply(`❌ | Load command event {{${infoLoad.name}}} thất bại với lỗi\n{{${infoLoad.error.stack}}}`);
+					message.reply(`✅ | Đã cài đặt command event {{${infoLoad.name}}} thành công, file lệnh được lưu tại {{${path.join(__dirname, fileName).replace(process.cwd(), "")}}}`)
+					: message.reply(`❌ | Cài đặt command event {{${infoLoad.name}}} thất bại với lỗi\n{{${infoLoad.error.name}: ${infoLoad.error.message}}}`);
 			}
 		}
 		else
 			message.SyntaxError();
+	},
+
+	onReaction: async function ({ Reaction, message, event, api, threadModel, userModel, threadsData, usersData }) {
+		const { author, messageID, data: { fileName, rawCode } } = Reaction;
+		if (event.userID != author)
+			return;
+		const { configCommands } = global.GoatBot;
+		const { log, loadScripts } = global.utils;
+		const infoLoad = loadScripts("cmds", fileName, log, configCommands, api, threadModel, userModel, threadsData, usersData, rawCode);
+		infoLoad.status == "success" ?
+			message.reply(`✅ | Đã cài đặt command event {{${infoLoad.name}}} thành công, file lệnh được lưu tại {{${path.join(__dirname, '..', 'events', fileName).replace(process.cwd(), "")}}}`, () => message.unsend(messageID))
+			: message.reply(`❌ | Cài đặt command event {{${infoLoad.name}}} thất bại với lỗi\n{{${infoLoad.error.name}: ${infoLoad.error.message}}}`, () => message.unsend(messageID));
 	}
 };
