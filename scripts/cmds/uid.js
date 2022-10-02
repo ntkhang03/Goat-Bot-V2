@@ -35,7 +35,8 @@ module.exports = {
 		}
 		let msg = "";
 		const { mentions } = event;
-		for (const id in mentions) msg += `{{${mentions[id].replace("@", "")}}}: ${id}\n`;
+		for (const id in mentions)
+			msg += `{{${mentions[id].replace("@", "")}}}: ${id}\n`;
 		message.reply(msg || "Vui lòng tag người muốn xem uid hoặc để trống để xem uid của bản thân");
 	}
 };
