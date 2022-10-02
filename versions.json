@@ -88,5 +88,13 @@
 			"scripts/cmds/cmd.js": "add function `install`: Download and install a script from a url, url is the path to the script (raw)",
 			"scripts/cmds/event.js": "add function `install`: Download and install a script from a url, url is the path to the script (raw)"
 		}
+	},
+	{
+		"version": "1.0.14",
+		"files": {
+			"bot/login/login.js": "automatically remove duplicate event listeners",
+			"scripts/cmds/cmd.js": "fix error: `TypeError: Cannot read property 'indexOf' of undefined`",
+			"index.js": "added notification feature when new update is available"
+		}
 	}
 ]
