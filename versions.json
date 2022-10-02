@@ -96,5 +96,14 @@
 			"scripts/cmds/cmd.js": "fix error: `TypeError: Cannot read property 'indexOf' of undefined`",
 			"index.js": "added notification feature when new update is available"
 		}
+	},
+	{
+		"version": "1.0.15",
+		"files": {
+			"bot/login/login.js": "fix bot not working after some time",
+			"scripts/cmds/admin.js": "new command help you Add, remove, edit admin rights",
+			"scripts/cmds/cmd.js": "fix error `TypeError: Cannot read properties of undefined (reading 'toLowerCase')`",
+			"scripts/cmds/event.js": "fix error `TypeError: Cannot read properties of undefined (reading 'toLowerCase')``"
+		}
 	}
 ]
