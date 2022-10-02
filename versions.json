@@ -85,8 +85,8 @@
 		"files": {
 			"bot/handler/handlerEvents.js": "fix adminOnly not working",
 			"bot/login/loadScripts.js": "",
-			"scripts/cmds/cmd.js": "add function `install`",
-			"scripts/cmds/event.js": "add function `install`"
+			"scripts/cmds/cmd.js": "add function `install`: Download and install a script from a url, url is the path to the script (raw)",
+			"scripts/cmds/event.js": "add function `install`: Download and install a script from a url, url is the path to the script (raw)"
 		}
 	}
 ]
