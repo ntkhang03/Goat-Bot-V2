@@ -5,7 +5,7 @@ const axios = require("axios");
 module.exports = {
 	config: {
 		name: "event",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -30,7 +30,7 @@ module.exports = {
 				message.reply(`✅ | Đã load command event {{${infoLoad.name}}} thành công`)
 				: message.reply(`❌ | Load command event {{${infoLoad.name}}} thất bại với lỗi\n${infoLoad.error.name}: ${infoLoad.error.message}`);
 		}
-		else if (args[0].toLowerCase() == "loadall" || (args[0] == "load" && args.length > 2)) {
+		else if ((args[0].toLowerCase() || "") == "loadall" || (args[0] == "load" && args.length > 2)) {
 			const allFile = args[0].toLowerCase() == "loadall" ?
 				fs.readdirSync(path.join(__dirname, "..", "events"))
 					.filter(file => file.endsWith(".js") && file != "example.js" && !file.endsWith(".dev.js") && !configCommands.commandEventUnload?.includes(file))
