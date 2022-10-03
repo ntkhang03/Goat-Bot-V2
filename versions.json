@@ -112,5 +112,17 @@
 			"index.js": "",
 			"scripts/cmds/moon.js": "fix error `TypeError: Cannot read property 'slice' of undefined`"
 		}
+	},
+	{
+		"version": "1.0.17",
+		"files": {
+			"database/connectDB/connectMongoDB.js": "fix can't connect mongodb",
+			"database/controller/dashBoardData.js": "fix can't connect mongodb",
+			"database/controller/index.js": "fix can't connect mongodb",
+			"database/controller/threadsData.js": "fix can't connect mongodb",
+			"database/controller/usersData.js": "fix can't connect mongodb",
+			"index.js": "Update error reporting system",
+			"utils.js": "Update error reporting system"
+		}
 	}
 ]
