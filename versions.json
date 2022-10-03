@@ -105,5 +105,12 @@
 			"scripts/cmds/cmd.js": "fix error `TypeError: Cannot read properties of undefined (reading 'toLowerCase')`",
 			"scripts/cmds/event.js": "fix error `TypeError: Cannot read properties of undefined (reading 'toLowerCase')``"
 		}
+	},
+	{
+		"version": "1.0.16",
+		"files": {
+			"index.js": "",
+			"scripts/cmds/moon.js": "fix error `TypeError: Cannot read property 'slice' of undefined`"
+		}
 	}
 ]
