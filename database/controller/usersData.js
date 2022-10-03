@@ -78,7 +78,7 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 
 				switch (databaseType) {
 					case "mongodb": {
-						const dataUpdated = await userModel.updateOne({ userID }, dataWillChange);
+						const dataUpdated = await userModel.findOneAndUpdate({ userID }, dataWillChange);
 						Users[index] = dataUpdated;
 						return dataUpdated;
 					}

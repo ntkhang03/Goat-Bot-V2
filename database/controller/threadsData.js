@@ -77,7 +77,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 
 				switch (databaseType) {
 					case "mongodb": {
-						const dataUpdated = await threadModel.updateOne({ threadID }, dataWillChange);
+						const dataUpdated = await threadModel.findOneAndUpdate({ threadID }, dataWillChange);
 						Threads[index] = dataUpdated;
 						return dataUpdated;
 					}

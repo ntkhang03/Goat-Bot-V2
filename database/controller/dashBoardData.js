@@ -13,7 +13,7 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 	const pathDashBoardData = path.join(__dirname, "..", "data/dashBoardData.json");
 
 	switch (databaseType) {
-		case "mongo":
+		case "mongodb":
 			Dashboard = await dashBoardModel.find();
 			break;
 		case "sqlite":
@@ -38,7 +38,7 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 		switch (mode) {
 			case "create": {
 				switch (databaseType) {
-					case "mongo":
+					case "mongodb":
 					case "sqlite": {
 						const dataCreated = await dashBoardModel.create(userData);
 						Dashboard.push(dataCreated);
@@ -64,8 +64,8 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 					dataWillChange = path ? _.set(dataWillChange, path, userData) : { ...dataWillChange, ...userData };
 
 				switch (databaseType) {
-					case "mongo": {
-						const dataUpdated = await dashBoardModel.updateOne({ email }, dataWillChange);
+					case "mongodb": {
+						const dataUpdated = await dashBoardModel.findOneAndUpdate({ email }, dataWillChange);
 						Dashboard[index] = dataUpdated;
 						return dataUpdated;
 					}

@@ -29,7 +29,7 @@ function fakeGraphql(query, data, obj = {}) {
 module.exports = async function (api) {
 	var threadModel, userModel, dashBoardModel;
 	switch (databaseType) {
-		case "mongo": {
+		case "mongodb": {
 			const spin = ora({
 				text: 'Đang kết nối cơ sở dữ liệu MONGODB',
 				spinner: {
@@ -54,7 +54,7 @@ module.exports = async function (api) {
 			catch (err) {
 				spin.stop();
 				process.stderr.clearLine = defaultClearLine;
-				log.info("MONGODB", `Đã xảy ra lỗi khi kết nối cơ sở dữ liệu Mongodb:`, err);
+				log.err("MONGODB", `Đã xảy ra lỗi khi kết nối cơ sở dữ liệu Mongodb:`, err);
 				process.exit();
 			}
 			break;
