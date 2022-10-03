@@ -3,6 +3,7 @@
  * ! The source code is written by NTKhang, please don't change the author's name everywhere. Thank you for using 
  */
 const axios = require("axios");
+const chalk = require("chalk");
 const { NODE_ENV } = process.env;
 process.on('unhandledRejection', error => console.log(error));
 process.on('uncaughtException', error => console.log(error));
@@ -72,7 +73,7 @@ global.temp = {
 	const { data: { version } } = await axios.get("https://raw.githubusercontent.com/ntkhang03/Goat-Bot-V2/main/package.json");
 	if (compareVersion(version, require("./package.json").version) === 1) {
 		if (global.GoatBot.config.language === "vi")
-			utils.log.master("NEW UPDATE", `Bạn đang dùng phiên bản ${config.version}, phiên bản mới nhất là ${version}. Vui lòng cập nhật để sử dụng bot tốt hơn bằng cách gõ vào console/cmd lệnh: node update`);
+			utils.log.master("NEW UPDATE", `Bạn đang dùng phiên bản ${chalk.grey(version)}, phiên bản mới nhất là ${chalk.hex("#eb6a07")(version)}. Vui lòng cập nhật để sử dụng bot tốt hơn bằng cách gõ vào console/cmd lệnh: node update`);
 		else
 			utils.log.master("NEW UPDATE", `You are using version ${config.version}, the latest version is ${version}. Please update to use the bot better by typing the command into the console/cmd: node update`);
 	}
