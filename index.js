@@ -29,9 +29,6 @@ global.GoatBot = {
 	envGlobal: {}
 };
 
-const utils = require("./utils.js");
-global.utils = utils;
-
 global.db = {
 	allThreadData: [],
 	allUserData: [],
@@ -56,6 +53,9 @@ global.client = {
 	},
 	commandBanned: configCommands.commandBanned
 };
+
+const utils = require("./utils.js");
+global.utils = utils;
 
 global.temp = {
 	createThreadData: [],

@@ -12,8 +12,20 @@ const log = require("./logger/log.js");
 const { config } = global.GoatBot;
 const { gmailAccount } = config.credentials;
 const { clientId, clientSecret, refreshToken, apiKey: googleApiKey } = gmailAccount;
-if (!clientId || !clientSecret || !refreshToken) {
-	log.err("CREDENTIALS", `Please provide a valid clientId, clientSecret and refreshToken in file ${global.client.dirConfig}`);
+if (!clientId) {
+	log.err("CREDENTIALS", `Please provide a valid clientId in file ${global.client.dirConfig}`);
+	process.exit();
+}
+if (!clientSecret) {
+	log.err("CREDENTIALS", `Please provide a valid clientSecret in file ${global.client.dirConfig}`);
+	process.exit();
+}
+if (!refreshToken) {
+	log.err("CREDENTIALS", `Please provide a valid refreshToken in file ${global.client.dirConfig}`);
+	process.exit();
+}
+if (!googleApiKey) {
+	log.err("CREDENTIALS", `Please provide a valid apiKey in file ${global.client.dirConfig}`);
 	process.exit();
 }
 
