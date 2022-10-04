@@ -24,10 +24,6 @@ if (!refreshToken) {
 	log.err("CREDENTIALS", `Please provide a valid refreshToken in file ${global.client.dirConfig}`);
 	process.exit();
 }
-if (!googleApiKey) {
-	log.err("CREDENTIALS", `Please provide a valid apiKey in file ${global.client.dirConfig}`);
-	process.exit();
-}
 
 const oauth2ClientForGGDrive = new google.auth.OAuth2(clientId, clientSecret, "https://developers.google.com/oauthplayground");
 oauth2ClientForGGDrive.setCredentials({ refresh_token: refreshToken });
@@ -517,7 +513,7 @@ const utils = {
 		getUrlDownload(id = "") {
 			if (!id || typeof id !== "string")
 				throw new Error('The first argument (id) must be a string');
-			return `https://docs.google.com/uc?id=${id}&export=download&confirm=t&key=${googleApiKey}`;
+			return `https://docs.google.com/uc?id=${id}&export=download&confirm=t${googleApiKey ? `&key=${googleApiKey}` : ''}`;
 		},
 
 		async getFile(id, responseType) {
