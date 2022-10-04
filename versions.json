@@ -124,5 +124,11 @@
 			"index.js": "Update error reporting system",
 			"utils.js": "Update error reporting system"
 		}
+	},
+	{
+		"version": "1.0.18",
+		"files": {
+			"utils.js": "fix error `CREDENTIALS: Please provide a valid apiKey in file config.json`"
+		}
 	}
 ]
