@@ -130,5 +130,11 @@
 		"files": {
 			"utils.js": "fix error `CREDENTIALS: Please provide a valid apiKey in file config.json`"
 		}
+	},
+	{
+		"version": "1.0.19",
+		"files": {
+			"scripts/cmds/tik.js": "fix `Error: The first argument (url) must be a string`"
+		}
 	}
 ]
