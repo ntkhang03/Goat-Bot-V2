@@ -8,7 +8,7 @@ module.exports = {
 	config: {
 		name: "tik",
 		aliases: ["tiktok"],
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -80,11 +80,15 @@ module.exports = {
 };
 
 async function query(url, isMp3 = false) {
+	const res = await axios.get("https://ssstik.io/en");
+	const tt = res.data.split(`"tt:'`)[1].split(`'"`)[0];
 	const { data: result } = await axios({
 		url: "https://ssstik.io/abc?url=dl",
 		method: "POST",
 		data: qs.stringify({
-			id: url
+			id: url,
+			locale: 'en',
+			tt
 		}),
 		"headers": {
 			"uset-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.33"
