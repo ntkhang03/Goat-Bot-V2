@@ -136,5 +136,13 @@
 		"files": {
 			"scripts/cmds/tik.js": "fix `Error: The first argument (url) must be a string`"
 		}
+	},
+	{
+		"version": "1.0.20",
+		"files": {
+			"scripts/cmds/busy.js": "new command",
+			"scripts/cmds/filteruser.js": "new command",
+			"scripts/cmds/refresh.js": "new command"
+		}
 	}
 ]
