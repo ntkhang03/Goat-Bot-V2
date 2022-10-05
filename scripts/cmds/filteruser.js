@@ -1,10 +1,10 @@
 module.exports = {
 	config: {
 		name: "filteruser",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
-		role: 0,
+		role: 1,
 		shortDescription: "lọc thành viên nhóm",
 		longDescription: "lọc thành viên nhóm theo số tin nhắn hoặc bị khóa acc",
 		category: "box chat",
