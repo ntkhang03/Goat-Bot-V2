@@ -1,6 +1,6 @@
 {
 	"name": "goat-bot-v2",
-	"version": "1.0.19",
+	"version": "1.0.20",
 	"description": "A simple Bot chat messenger made by NTKhang",
 	"main": "index.js",
 	"engines": {
@@ -101,7 +101,8 @@
 			"no-extra-semi": 1,
 			"no-async-promise-executor": 0,
 			"no-unreachable": 1,
-			"no-var": 1
+			"no-var": 1,
+			"no-fallthrough": 1
 		}
 	}
 }
