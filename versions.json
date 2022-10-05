@@ -144,5 +144,11 @@
 			"scripts/cmds/filteruser.js": "new command",
 			"scripts/cmds/refresh.js": "new command"
 		}
+	},
+	{
+		"version": "1.0.21",
+		"files": {
+			"scripts/cmds/refresh.js": "edit role 0 (everyone) to 1 (admin only)"
+		}
 	}
 ]
