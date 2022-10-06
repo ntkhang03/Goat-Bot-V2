@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: "setleave",
 		aliases: ["setl"],
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -39,7 +39,7 @@ module.exports = {
 				else if (args[1] == "reset")
 					delete data.leaveMessage;
 				else
-					data.leaveMessage = body.slice(body.indexOf('text') + 5);
+					data.leaveMessage = body.slice(body.indexOf(args[0]) + args[0].length).trim();
 				await threadsData.set(threadID, {
 					data
 				});

@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: "setwelcome",
 		aliases: ["setwc"],
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 1,
@@ -29,7 +29,7 @@ module.exports = {
 	},
 
 	onStart: async function ({ args, threadsData, message, event, commandName }) {
-		const { threadID, senderID } = event;
+		const { threadID, senderID, body } = event;
 		const { data } = await threadsData.get(threadID);
 
 		switch (args[0]) {
@@ -39,7 +39,7 @@ module.exports = {
 				else if (args[1] == "reset")
 					delete data.welcomeMessage;
 				else
-					data.welcomeMessage = args.slice(1).join(" ");
+					data.welcomeMessage = body.slice(body.indexOf(args[0]) + args[0].length).trim();
 				await threadsData.set(threadID, {
 					data
 				});
