@@ -150,5 +150,15 @@
 		"files": {
 			"scripts/cmds/refresh.js": "edit role 0 (everyone) to 1 (admin only)"
 		}
+	},
+	{
+		"version": "1.0.22",
+		"files": {
+			"index.js": "confusion between variable \"version\" and \"currentVersion\" 🤧",
+			"scripts/cmds/setleave.js": "fix can't customize newline text",
+			"scripts/cmds/setwelcome.js": "fix can't customize newline text",
+			"scripts/cmds/shortcut.js": "fix bug",
+			"scripts/cmds/simsimi.js": ""
+		}
 	}
 ]
