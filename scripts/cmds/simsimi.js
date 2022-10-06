@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: 'simsimi',
 		aliases: ['sim'],
-		version: '1.0',
+		version: '1.1',
 		author: 'NTKhang',
 		countDown: 5,
 		role: 0,
@@ -40,7 +40,7 @@ module.exports = {
 		if (args.length > 1 && !isUserCallCommand && await threadsData.get(event.threadID, "settings.simsimi")) {
 			try {
 				const responseMessage = await getMessage(args.join(" "));
-				return message.reply(`{{${responseMessage}}}`);
+				return message.reply(`{{${responseMessage}\n🐣 Simsimi trả lời bạn!}}`);
 			}
 			catch (err) {
 				return message.reply("Simsimi đang bận, bạn hãy thử lại sau");
