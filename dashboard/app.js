@@ -234,9 +234,11 @@ module.exports = async (api) => {
 	});
 
 
-	app.get('/profile', isAuthenticated_G, (req, res) => res.render('profile', {
-		userData: getUserDataSync(req.user.userID)
-	}));
+	app.get('/profile', isAuthenticated_G, (req, res) => {
+		res.render('profile', {
+			userData: getUserDataSync(req.user.facebookUserID) || {}
+		});
+	});
 	app.get('/donate', (req, res) => res.render('donate'));
 
 	app.get('/logout', (req, res, next) => {
