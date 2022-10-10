@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { config } = global.GoatBot;
-const { log } = global.utils;
+const { log, getText } = global.utils;
 if (global.timeOutUptime != undefined)
 	clearTimeout(global.timeOutUptime);
 if (!config.autoUptime.enable)
@@ -43,4 +43,4 @@ setTimeout(async function autoUptime() {
 	}
 	global.timeOutUptime = setInterval(autoUptime, config.autoUptime.timeInterval);
 }, config.autoUptime.timeInterval);
-log.info("AUTO UPTIME", "Đã bật chế độ autoUptime");
+log.info("AUTO UPTIME", getText("autoUptime", "sucautoUptimecess", myUrl));

@@ -1,5 +1,6 @@
 const { graphQlQueryToJson } = require("graphql-query-to-json");
-const ora = require("ora"); const { log } = global.utils;
+const ora = require("ora");
+const { log, getText } = global.utils;
 const { config } = global.GoatBot;
 const databaseType = config.database.type;
 
@@ -31,7 +32,7 @@ module.exports = async function (api) {
 	switch (databaseType) {
 		case "mongodb": {
 			const spin = ora({
-				text: 'Đang kết nối cơ sở dữ liệu MONGODB',
+				text: getText('indexController', 'connectingMongoDB'),
 				spinner: {
 					interval: 80,
 					frames: [
@@ -49,19 +50,19 @@ module.exports = async function (api) {
 				var { threadModel, userModel, dashBoardModel } = await require("../connectDB/connectMongoDB.js")(config.database.uriMongodb);
 				spin.stop();
 				process.stderr.clearLine = defaultClearLine;
-				log.info("MONGODB", `Đã kết nối cơ sở dữ liệu Mongodb thành công!`);
+				log.info("MONGODB", getText("indexController", "connectMongoDBSuccess"));
 			}
 			catch (err) {
 				spin.stop();
 				process.stderr.clearLine = defaultClearLine;
-				log.err("MONGODB", `Đã xảy ra lỗi khi kết nối cơ sở dữ liệu Mongodb:`, err);
+				log.err("MONGODB", getText("indexController", "connectMongoDBError"), err);
 				process.exit();
 			}
 			break;
 		}
 		case "sqlite": {
 			const spin = ora({
-				text: 'Đang kết nối cơ sở dữ liệu SQLITE',
+				text: getText('indexController', 'connectingMySQL'),
 				spinner: {
 					interval: 80,
 					frames: [
@@ -79,12 +80,12 @@ module.exports = async function (api) {
 				var { threadModel, userModel, dashBoardModel } = await require("../connectDB/connectSqlite.js")();
 				process.stderr.clearLine = defaultClearLine;
 				spin.stop();
-				log.info("SQLITE", `Đã kết nối cơ sở dữ liệu Sqlite thành công!`);
+				log.info("SQLITE", getText("indexController", "connectMySQLSuccess"));
 			}
 			catch (err) {
 				process.stderr.clearLine = defaultClearLine;
 				spin.stop();
-				log.info("SQLITE", `Đã xảy ra lỗi khi kết nối cơ sở dữ liệu Sqlite:\n${err.message}`);
+				log.info("SQLITE", getText("indexController", "connectMySQLError"), err);
 				process.exit();
 			}
 			break;

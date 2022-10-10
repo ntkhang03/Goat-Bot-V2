@@ -1,0 +1,63 @@
+# index.js
+index.newVersionDetected=Bạn đang dùng phiên bản %1, phiên bản mới nhất là %2. Vui lòng cập nhật để sử dụng bot tốt hơn bằng cách gõ vào console/cmd lệnh: node update
+
+# bot/login/login.js
+login.currentlyLogged=Đang tiến hành đăng nhập
+login.notFoundDirAccount=Không tìm thấy tệp tin %1
+login.loginToken=Đang đăng nhập bằng access token
+login.loginCookieString=Đang đăng nhập bằng cookie string
+login.loginCookieArray=Đang đăng nhập bằng cookie array
+login.accountError=Vui lòng nhập token full quyền dạng %1 hoặc cookie dạng string %2 hoặc cookie dạng array:\n[\n  { name: %3, value: %4 },\n  { name: %5, value: %6 }\n]\n hoặc\n[\n  { key: %3, value: %4 },\n  { key: %5, value: %6 }\n]\nvào file %7
+login.tokenError=Token không hợp lệ hoặc đã hết hạn. Vui lòng nhập token full quyền dạng %1 vào file %2
+login.cookieError=Cookie không hợp lệ hoặc đã hết hạn.
+login.loginPassword=Đang tiến hành đăng nhập bằng email & password...
+login.loginPasswordError=Đã xảy ra lỗi khi đăng nhập bằng mail & password
+login.loginSuccess=Đăng nhập thành công
+login.loginError=Đã xảy ra lỗi khi đăng nhập
+login.openDashboardSuccess=Đã mở trang quản lý bot thành công
+login.openDashboardError=Đã xảy ra lỗi khi mở trang quản lý bot
+login.checkGbanError=Đang mở trang quản lý bot
+login.changeGbanData=DỮ LIỆU ĐÃ BỊ THAY ĐỔI, HIỆN TẠI KHÔNG THỂ KHỞI CHẠY BOT
+login.errorNoti=Đã xảy ra lỗi khi lấy thông báo
+login.refreshFbstateSuccess=Đã làm mới file %1
+login.refreshFbstateError=Đã xảy ra lỗi khi làm mới file %1
+login.youAreBanned=Bạn đã bị cấm khỏi project Goat-Bot
+login.runBot=Khởi chạy bot thành công, bắt đầu nhận tin nhắn từ người dùng
+login.notLoggedIn=Đã xảy ra lỗi không thể đăng nhập, vui lòng kiểm tra lại tài khoản của bạn
+login.callBackError=Đã xảy ra lỗi khi callback listenMqtt
+login.userBanned=Bạn đã bị global ban không thể sử dụng bot!!
+login.openServerUptimeSuccess=🚀 Đã mở sever uptime: %1
+login.openServerUptimeError=Đã xảy ra lỗi, không thể mở server uptime
+login.restartListenMessage=Đã bật khởi động lại ListenMQTT sau mỗi %1ms (%2 minutes)
+login.stopRestartListenMessage=Đã tắt khởi động lại ListenMQTT
+login.restartListenMessageError=Đã xảy ra lỗi khi khởi động lại ListenMQTT
+login.restartListenMessage2=Đã khởi động lại ListenMQTT thành công
+
+# bot/login/loadData.js
+loadData.loadThreadDataSuccess=Đã tải xong dữ liệu của %1 nhóm!
+loadData.loadUserDataSuccess=Đã tải xong dữ liệu của %1 người dùng!
+loadData.refreshingThreadData=Đang cập nhật thông tin của các nhóm...
+loadData.refreshThreadDataSuccess=Đã cập nhật thông tin của %1 nhóm!
+loadData.refreshThreadDataError=Đã có lỗi xảy ra khi cập nhật thông tin các nhóm!\n
+
+# bot/login/loadScripts.js
+loadScripts.loadScriptsError=Những file %1 xảy ra lỗi trong quá trình load:
+
+# bot/login/socketIO.js
+socketIO.connected=Đã khởi tạo server socket.io thành công!
+socketIO.error=Đã xảy ra lỗi khi khởi tạo server socket.io
+
+# bot/handler/handlerCheckData.js
+handlerCheckData.cantCreateThread=Không thể ghi nhóm có id '%1' vào database!
+handlerCheckData.cantCreateUser=Không thể ghi người dùng có id '%1' vào database!
+
+# bot/autoUptime.js
+autoUptime.autoUptime=Đã bật chế độ autoUptime
+
+# database/controller/index.js
+indexController.connectingMongoDB=Đang kết nối cơ sở dữ liệu MONGODB
+indexController.connectMongoDBSuccess=Đã kết nối cơ sở dữ liệu Mongodb thành công!
+indexController.connectMongoDBError=Đã xảy ra lỗi khi kết nối cơ sở dữ liệu Mongodb:
+indexController.connectingMySQL=Đang kết nối cơ sở dữ liệu SQLITE
+indexController.connectMySQLSuccess=Đã kết nối cơ sở dữ liệu SQLITE thành công!
+indexController.connectMySQLError=Đã xảy ra lỗi khi kết nối cơ sở dữ liệu SQLITE:

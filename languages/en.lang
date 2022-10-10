@@ -1,0 +1,62 @@
+# index.js
+index.newVersionDetected=You are using version %1, the latest version is %2. Please update to use the bot better by typing into the console/cmd command: node update
+
+# bot/login/login.js
+login.currentlyLogged=Login in progress
+login.notFoundDirAccount=Cannot find file %1
+login.loginToken=Login with access token
+login.loginCookieString=Login with cookie string
+login.loginCookieArray=Login with cookie array
+login.loginPassword=Login with email & password...
+login.accountError=Please enter the full permission token in the form of %1 or cookie in the form of string %2 or cookie in the form of array:\n[\n  { name: %3, value: %4 },\n  { name: %5, value: %6 }\n]\n or\n[\n  { key: %3, value: %4 },\n  { key: %5, value: %6 }\n]\ninto the file %7
+login.tokenError=Token is invalid or expired. Please enter the full permission token in the form of %1 into the file %2
+login.cookieError=Cookie is invalid or expired.
+login.loginPasswordError=Error occurred when logging in with email & password
+login.loginSuccess=Successful logon
+login.loginError=An error occurred while signing in
+login.openDashboardSuccess=Successfully opened bot management page
+login.openDashboardError=An error occurred when opening the bot management page
+login.changeGbanData=DATA HAS BEEN CHANGED, IT IS CURRENTLY IMPOSSIBLE TO LAUNCH A BOT
+login.errorNoti=An error occurred when retrieving the message
+login.refreshFbstateSuccess=Refreshed %1 file
+login.refreshFbstateError=An error occurred when refreshing the %1 file
+login.youAreBanned=You have been banned from the Goat-Bot project
+login.runBot=Launch bot successfully, start receiving messages from users
+login.notLoggedIn=An error occurred, please check your account again
+login.callBackError=An error occurred when callback listenMqtt
+login.userBanned=You've been banned from using a bot!!
+login.openServerUptimeSuccess=🚀 Opened uptime server: %1
+login.openServerUptimeError=An error has occurred, cannot open server uptime
+login.restartListenMessage=ListenMQTT restart enabled every %1ms (%2 minutes)
+login.stopRestartListenMessage=ListenMQTT restart disabled
+login.restartListenMessageError=An error occurred when restarting ListenMQTT
+login.restartListenMessage2=Successfully restarted ListenMQTT
+
+# bot/login/loadData.js
+loadData.loadThreadDataSuccess=Finished downloading the data of %1 group!
+loadData.loadUserDataSuccess=Finished downloading %1 user's data!
+loadData.refreshingThreadData=Updating the information of the groups...
+loadData.refreshThreadDataSuccess=Updated information of %1 group!
+loadData.refreshThreadDataError=Something went wrong when updating the groups information!
+
+# bot/login/loadScripts.js
+loadScripts.loadScriptsError=The %1 files have an error during loading:
+
+# bot/login/socketIO.js
+socketIO.connected=Connected to socket.io server
+socketIO.error=An error occurred when connecting to the socket.io server
+
+# bot/handler/handlerCheckData.js
+handlerCheckData.cantCreateThread=Groups with id '%1' cannot be written to the database!
+handlerCheckData.cantCreateUser=Users with id '%1' cannot be written to the database!
+
+# bot/autoUptime.js
+autoUptime.autoUptime=AutoUptime mode turned on
+
+# database/controller/index.js
+indexController.connectingMongoDB=Connecting a MONGODB database
+indexController.connectMongoDBSuccess=Successfully connected mongodb database!
+indexController.connectMongoDBError=An error occurred when connecting the Mongodb database:
+indexController.connectingMySQL=Connecting a SQLITE database
+indexController.connectMySQLSuccess=Successfully connected SQLITE database!
+indexController.connectMySQLError=An error occurred while connecting to a SQLITE database:

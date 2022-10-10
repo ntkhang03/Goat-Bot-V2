@@ -1,6 +1,6 @@
 const { db, utils, GoatBot } = global;
 const { config } = GoatBot;
-const { log } = utils;
+const { log, getText } = utils;
 
 module.exports = async function (usersData, threadsData, event) {
 	const { threadID, isGroup } = event;
@@ -15,7 +15,7 @@ module.exports = async function (usersData, threadsData, event) {
 		}
 		catch (err) {
 			global.temp.createThreadDataError.push(threadID);
-			log.err("DATABASE", `Không thể ghi nhóm có id '${threadID}' vào database!`, err);
+			log.err("DATABASE", getText("handlerCheckData", "cantCreateThread", threadID), err);
 		}
 	}
 	// ————————————— CHECK USER DATA ————————————— //
@@ -25,7 +25,7 @@ module.exports = async function (usersData, threadsData, event) {
 			log.info("DATABASE", `New User: ${senderID} | ${userData.name} | ${config.database.type}`);
 		}
 		catch (err) {
-			log.err("DATABASE", `Không thể ghi người dùng có id '${senderID}' vào database!`, err);
+			log.err("DATABASE", getText("handlerCheckData", "cantCreateUser", senderID), err);
 		}
 	}
 };

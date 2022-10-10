@@ -4,13 +4,15 @@
  */
 const axios = require("axios");
 const chalk = require("chalk");
+const fs = require("fs-extra");
+
 const { NODE_ENV } = process.env;
 process.on('unhandledRejection', error => console.log(error));
 process.on('uncaughtException', error => console.log(error));
 
-const dirConfig = `${__dirname}/config${NODE_ENV === 'development' || NODE_ENV === 'test' ? '.dev.json' : '.json'}`;
-const dirConfigCommands = `${__dirname}/configCommands${NODE_ENV === 'development' || NODE_ENV === 'test' ? '.dev.json' : '.json'}`;
-const dirAccount = `${__dirname}/account${NODE_ENV === 'development' || NODE_ENV === 'test' ? '.dev.txt' : '.txt'}`;
+const dirConfig = `${__dirname}/config${['test', 'development'].includes(NODE_ENV) ? '.dev.json' : '.json'}`;
+const dirConfigCommands = `${__dirname}/configCommands${['test', 'development'].includes(NODE_ENV) ? '.dev.json' : '.json'}`;
+const dirAccount = `${__dirname}/account${['test', 'development'].includes(NODE_ENV) ? '.dev.txt' : '.txt'}`;
 const config = require(dirConfig);
 const configCommands = require(dirConfigCommands);
 
@@ -68,18 +70,50 @@ global.temp = {
 	}
 };
 
-// ———————————————————— LOGIN ———————————————————— //
+// ———————————————— LOAD LANGUAGE ———————————————— //
+let pathLanguageFile = `${__dirname}/languages/${global.GoatBot.config.language}.lang`;
+if (!fs.existsSync(pathLanguageFile)) {
+	utils.log.warn("LANGUAGE", `Can't find language file ${global.GoatBot.config.language}.lang, using default language file "${__dirname}/languages/en.lang"`);
+	pathLanguageFile = `${__dirname}/languages/en.lang`;
+}
+const readLanguage = fs.readFileSync(pathLanguageFile, "utf-8");
+const languageData = readLanguage
+	.split(/\r?\n|\r/)
+	.filter(line => line && !line.trim().startsWith("#") && !line.trim().startsWith("//") && line != "");
+
+global.language = {};
+for (const sentence of languageData) {
+	const getSeparator = sentence.indexOf('=');
+	const itemKey = sentence.slice(0, getSeparator).trim();
+	const itemValue = sentence.slice(getSeparator + 1, sentence.length).trim();
+	const head = itemKey.slice(0, itemKey.indexOf('.'));
+	const key = itemKey.replace(head + '.', '');
+	const value = itemValue.replace(/\\n/gi, '\n');
+	if (!global.language[head])
+		global.language[head] = {};
+	global.language[head][key] = value;
+}
+
+function getText(head, key, ...args) {
+	if (!global.language[head]?.[key])
+		return `Can't find text: "${head}.${key}"`;
+	let text = global.language[head][key];
+	for (let i = args.length - 1; i >= 0; i--)
+		text = text.replace(new RegExp(`%${i + 1}`, 'g'), args[i]);
+	return text;
+}
+global.utils.getText = getText;
+
 (async () => {
+	// ———————————————— CHECK VERSION ———————————————— //
 	const { data: { version } } = await axios.get("https://raw.githubusercontent.com/ntkhang03/Goat-Bot-V2/main/package.json");
 	const currentVersion = require("./package.json").version;
-	if (compareVersion(version, currentVersion) === 1) {
-		if (global.GoatBot.config.language === "vi")
-			utils.log.master("NEW UPDATE", `Bạn đang dùng phiên bản ${chalk.grey(currentVersion)}, phiên bản mới nhất là ${chalk.hex("#eb6a07")(version)}. Vui lòng cập nhật để sử dụng bot tốt hơn bằng cách gõ vào console/cmd lệnh: node update`);
-		else
-			utils.log.master("NEW UPDATE", `You are using version ${config.version}, the latest version is ${version}. Please update to use the bot better by typing the command into the console/cmd: node update`);
-	}
+	if (compareVersion(version, currentVersion) === 1)
+		utils.log.master("NEW VERSION", getText("index", "newVersionDetected", chalk.grey(currentVersion), chalk.hex("#eb6a07")(version)));
+	// —————————— CHECK FOLDER GOOGLE DRIVE —————————— //
 	const parentIdGoogleDrive = await utils.drive.checkAndCreateParentFolder("GoatBot");
 	utils.drive.parentID = parentIdGoogleDrive;
+	// ———————————————————— LOGIN ———————————————————— //
 	require(`./bot/login/login${NODE_ENV === 'development' ? '.dev.js' : '.js'}`);
 })();
 

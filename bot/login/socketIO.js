@@ -4,7 +4,7 @@
  * view file ./connectSocketIO.example.js
  */
 const { Server } = require("socket.io");
-const { log } = global.utils;
+const { log, getText } = global.utils;
 const { config } = global.GoatBot;
 
 module.exports = async (server) => {
@@ -13,14 +13,14 @@ module.exports = async (server) => {
 
 	try {
 		if (!channelName)
-			throw ("Vui lòng nhập \"channelName\" (do bạn tùy chọn) vào config.json");
+			throw ('"channelName" is not defined in config');
 		if (!verifyToken)
-			throw ("Vui lòng nhập \"verifyToken\" (do bạn tùy chọn) vào config.json");
+			throw ('"verifyToken" is not defined in config');
 		io = new Server(server);
-		log.info("SOCKET IO", "Đã khởi tạo server socket.io thành công!");
+		log.info("SOCKET IO", getText("socketIO", "connected"));
 	}
 	catch (err) {
-		return log.err("SOCKET IO", 'Đã xảy ra lỗi khi khởi tạo server socket.io', err);
+		return log.err("SOCKET IO", getText("socketIO", "error"), err);
 	}
 
 	io.on("connection", (socket) => {

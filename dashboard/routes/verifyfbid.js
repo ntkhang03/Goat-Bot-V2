@@ -73,6 +73,7 @@ module.exports = function ({ isAuthenticated_G, isAuthenticated_P, randomNumberA
 			const index = waitingVeryFbid.findIndex(item => item.email === user.email);
 			if (waitingVeryFbid[index].code === code) {
 				const fbid = req.user.waitVerify;
+				console.log(`User ${user.email} verify fbid ${fbid}`);
 				delete req.user.waitVerify;
 				await dashBoardData.set(user.email, { facebookUserID: fbid });
 				req.flash('success', { msg: 'Đã xác nhận user id facebook thành công' });
