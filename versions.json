@@ -206,5 +206,11 @@
 			"dashboard/routes/api.js": "",
 			"dashboard/app.js": ""
 		}
+	},
+	{
+		"version": "1.0.24",
+		"files": {
+			"update.js": ""
+		}
 	}
 ]
