@@ -50,6 +50,12 @@ socketIO.error=An error occurred when connecting to the socket.io server
 handlerCheckData.cantCreateThread=Groups with id '%1' cannot be written to the database!
 handlerCheckData.cantCreateUser=Users with id '%1' cannot be written to the database!
 
+# bot/handler/handlerEvents.js
+handlerEvents.userBanned=You have been banned from using the bot\n» Reason: {{%1}}\n» Time: %2\n» User ID: %3
+handlerEvents.threadBanned=This group has been banned from using the bot\n» Reason: {{%1}}\n» Time: %2\n» Thread ID: %3
+handlerEvents.onlyAdminBox=This group is currently enabled only group administrators can use the bot
+handlerEvents.onlyAdminBot=❌ | Currently only admin bot can use the bot
+
 # bot/autoUptime.js
 autoUptime.autoUptime=AutoUptime mode turned on
 

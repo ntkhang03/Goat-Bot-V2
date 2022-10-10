@@ -51,6 +51,12 @@ socketIO.error=Đã xảy ra lỗi khi khởi tạo server socket.io
 handlerCheckData.cantCreateThread=Không thể ghi nhóm có id '%1' vào database!
 handlerCheckData.cantCreateUser=Không thể ghi người dùng có id '%1' vào database!
 
+# bot/handler/handlerEvents.js
+handlerEvents.userBanned=Bạn đã bị Admin cấm sử dụng bot\n» Lý do: {{%1}}\n» Thời gian: %2\n» User ID: %3
+handlerEvents.threadBanned=Nhóm này đã bị Admin cấm sử dụng bot\n» Lý do: {{%1}}\n» Thời gian: %2\n» Thread ID: %3
+handlerEvents.onlyAdminBox=Hiện tại nhóm này đã được bật chế độ chỉ quản trị viên nhóm mới có thể sử dụng bot
+handlerEvents.onlyAdminBot=❌ | Hiện tại đã bật chế độ chỉ admin bot mới có thể sử dụng bot
+
 # bot/autoUptime.js
 autoUptime.autoUptime=Đã bật chế độ autoUptime
 
