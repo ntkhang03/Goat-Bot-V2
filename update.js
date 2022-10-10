@@ -33,10 +33,10 @@ const chalk = require('chalk');
 				console.log(chalk.bold.blue('[↑]'), `${filePath}:`, chalk.hex('#858585')(description));
 			}
 			else {
-				const cutFullPath = fullPath.split('/');
+				const cutFullPath = filePath.split('/');
 				cutFullPath.pop();
 				for (let i = 0; i < cutFullPath.length; i++) {
-					const path = cutFullPath.slice(0, i + 1).join('/');
+					const path = `${__dirname}/${cutFullPath.slice(0, i + 1).join('/')}`;
 					if (!fs.existsSync(path))
 						fs.mkdirSync(path);
 				}
