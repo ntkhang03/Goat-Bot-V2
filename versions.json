@@ -177,6 +177,7 @@
 			"dashboard/views/forgot-password-submit-code.eta": "cancel minify and fix bugs",
 			"dashboard/views/forgot-password.eta": "cancel minify and fix bugs",
 			"dashboard/views/home.eta": "cancel minify and fix bugs",
+			"dashboard/views/i.js": "cancel minify and fix bugs",
 			"dashboard/views/login.eta": "cancel minify and fix bugs",
 			"dashboard/views/partials": "cancel minify and fix bugs",
 			"dashboard/views/profile.eta": "cancel minify and fix bugs",
