@@ -49,6 +49,17 @@
 
   </div>
 </div>
-<script type="text/javascript">$(document).ready((function(){$("#threads").DataTable({paging:!1,searching:!1,info:!1}),$("#threads").removeAttr("style")}));</script>
+<script type="text/javascript">
+  (function() {
+    $(document).ready(function() {
+      $('#threads').DataTable({
+        paging: false,
+        searching: false,
+        info: false
+      });
+      $('#threads').removeAttr('style');
+    });
+  })();
+</script>
 
 <%~ includeFile("partials/footer.eta") %>

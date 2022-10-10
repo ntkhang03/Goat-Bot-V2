@@ -49,6 +49,41 @@
   </div>
 </section>
 
-<script type="text/javascript">(function(){const e=$("#submitSend");e.on("click",(function(s){s.preventDefault();"<% if (global.statusAccountBot == 'good') {%>";e.disabled=true;e.addClass("disabled");e.html("<span class='spinner-border spinner-border-sm'></span> Sending...");const a=$("#g-recaptcha-response").val();$.ajax({url:"/verifyfbid",type:"POST",data:{fbid:$("#fbid").val(),"g-recaptcha-response":a},success:function(){window.location.href="/verifyfbid/submit-code"},error:function(s){a.reset();e.disabled=false;e.removeClass("disabled");e.html("Send");$.createToast({type:"error",title:"Error",message:s.responseJSON.message})}});"<% } %>"}))})();</script>
+<script type="text/javascript">
+  (function() {
+    const submitButton = $("#submitSend");
+    submitButton.on("click", function(e) {
+      e.preventDefault();
+      "<% if (global.statusAccountBot == 'good') {%>"
+      submitButton.disabled = true;
+      submitButton.addClass("disabled");
+      submitButton.html("<span class='spinner-border spinner-border-sm'></span> Sending...");
+      const recaptcha = $("#g-recaptcha-response").val();
+      $.ajax({
+        url: "/verifyfbid",
+        type: "POST",
+        data: {
+          fbid: $("#fbid").val(),
+          "g-recaptcha-response": recaptcha
+        },
+        success: function() {
+          window.location.href = "/verifyfbid/submit-code";
+        },
+        error: function(data) {
+          recaptcha.reset();
+          submitButton.disabled = false;
+          submitButton.removeClass("disabled");
+          submitButton.html("Send");
+          $.createToast({
+            type: "error",
+            title: "Error",
+            message: data.responseJSON.message
+          });
+        }
+      });
+      "<% } %>"
+    });
+  })();
+</script>
 
 <%~ includeFile("partials/footer.eta") %>

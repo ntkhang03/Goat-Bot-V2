@@ -36,7 +36,8 @@
                   <input type="password" class="form-control" placeholder="Password" id="password" name="password">
                 </div>
 
-                <div class="g-recaptcha d-flex justify-content-center" data-sitekey="<%=it.gRecaptcha_siteKey%>"></div>
+                <div class="g-recaptcha d-flex justify-content-center" data-sitekey="<%=it.gRecaptcha_siteKey%>">
+                </div>
                 <div class="d-flex justify-content-center">
                   <button type="submit" class="btn btn-primary btn-block mt-4" id="login">Login</button>
                 </div>
@@ -58,7 +59,50 @@
   </div>
 </section>
 
-<script type="text/javascript">$("#login").on("click",(async function(e){e.preventDefault();const r=$("#username").val(),n=$("#password").val(),s=grecaptcha.getResponse();if(!s)return $.createToast({type:"error",title:"Error",message:"Vui lòng xác nhận captcha",time:5e3});const a=this;a.innerHTML='<span class="spinner-border spinner-border-sm"></span> Login',a.disabled=!0,$.ajax({url:"/login",type:"POST",data:{username:r,password:n,"g-recaptcha-response":s},success:function(e){window.location.href=e.redirectLink},error:function(e){e.responseJSON.errors.forEach((function(e){a.html("Login"),a.attr("disabled",!1),grecaptcha.reset(),$.createToast({type:"error",title:"Error",message:e.msg})}))}})}));</script>
+<script type="text/javascript">
+  (function() {
+    $("#login").on("click", async function(e) {
+      e.preventDefault();
+      const username = $("#username").val();
+      const password = $("#password").val();
+      const gRecaptcha = grecaptcha.getResponse();
+      if (!gRecaptcha)
+        return $.createToast({
+          type: "error",
+          title: "Error",
+          message: "Vui lòng xác nhận captcha",
+          time: 5000
+        });
+      const btnLogin = this;
+      btnLogin.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Login';
+      btnLogin.disabled = true;
+      $.ajax({
+        url: "/login",
+        type: "POST",
+        data: {
+          username: username,
+          password: password,
+          "g-recaptcha-response": gRecaptcha
+        },
+        success: function(data) {
+          window.location.href = data.redirectLink;
+        },
+        error: function(data) {
+          data.responseJSON.errors.forEach(function(error) {
+            btnLogin.innerHTML = 'Login';
+            btnLogin.disabled = false;
+            grecaptcha.reset();
+            $.createToast({
+              type: "error",
+              title: "Error",
+              message: error.msg
+            });
+          });
+        }
+      });
+    });
+  })();
+</script>
 
 <!--footer section-->
 <%~ includeFile("partials/footer.eta") %>

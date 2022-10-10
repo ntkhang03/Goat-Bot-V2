@@ -20,6 +20,15 @@
   </div>
 </div>
 
-<script type="text/javascript">$.createToast({title:"Comming soon",message:"Tính năng này đang được phát triển. Vui lòng quay lại sau.",type:"warning",time:1e4});</script>
+<script type="text/javascript">
+  (function() {
+    $.createToast({
+      title: "Comming soon",
+      message: "Tính năng này đang được phát triển. Vui lòng quay lại sau.",
+      type: "warning",
+      time: 10000
+    });
+  })();
+</script>
 
 <%~ includeFile("partials/footer.eta") %>

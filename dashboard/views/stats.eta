@@ -71,6 +71,8 @@
   </div>
 </section>
 
-<script type="text/javascript">function cvt(t,e="giây",o="phút ",n="giờ ",r="ngày ",a="tháng ",c="năm "){const u=Math.floor(t/1e3%60),l=Math.floor(t/1e3/60%60),f=Math.floor(t/1e3/60/60%24),h=Math.floor(t/1e3/60/60/24%30),i=Math.floor(t/1e3/60/60/24/30%12),M=Math.floor(t/1e3/60/60/24/30/12);return`${M?M+c:""}${i?i+a:M?"00"+a:""}${h?h+r:i||M?"00"+r:""}${f?f+n:h||i||M?"00"+n:""}${l?l+o:f||h||i||M?"00"+o:""}${u}${e}`}let countDownDate=Number("<%=uptimeSecond%>");setInterval((function(){countDownDate+=1,document.getElementById("uptime").innerHTML=cvt(1e3*countDownDate)}),1e3);</script>
+<script type="text/javascript">
+  function cvt(e,t="giây",o="phút ",n="giờ ",r="ngày ",a="tháng ",c="năm "){const u=Math.floor(e/1e3%60),i=Math.floor(e/1e3/60%60),l=Math.floor(e/1e3/60/60%24),f=Math.floor(e/1e3/60/60/24%30),h=Math.floor(e/1e3/60/60/24/30%12),m=Math.floor(e/1e3/60/60/24/30/12);return`${m?m+c:""}${h?h+a:m?"00"+a:""}${f?f+r:h||m?"00"+r:""}${l?l+n:f||h||m?"00"+n:""}${i?i+o:l||f||h||m?"00"+o:""}${u}${t}`}let countDownDate=Number("<%=uptimeSecond%>");setInterval((function(){countDownDate+=1,document.getElementById("uptime").innerHTML=cvt(1e3*countDownDate)}),1e3);
+</script>
 
 <%~ includeFile("partials/footer") %>

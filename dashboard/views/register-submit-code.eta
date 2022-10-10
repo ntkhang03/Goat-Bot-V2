@@ -48,7 +48,16 @@
   </div>
 </section>
 
-<script type="text/javascript">$("#code").on("'keypress keyup keydown",(function(){6===$("#code").val().length?$("#verify").removeAttr("disabled"):$("#verify").attr("disabled","disabled")}));</script>
+<script type="text/javascript">
+  (function() {
+    $("#code").on("'keypress keyup keydown", function() {
+      if ($("#code").val().length === 6)
+        $("#verify").removeAttr("disabled");
+      else
+        $("#verify").attr("disabled", "disabled");
+    });
+  })();
+</script>
 
 <!--footer section-->
 <%~ includeFile("partials/footer.eta") %>

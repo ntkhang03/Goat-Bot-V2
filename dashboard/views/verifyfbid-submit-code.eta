@@ -40,6 +40,30 @@
   </div>
 </section>
 
-<script type="text/javascript">$("#submitSend").on("click",(function(e){e.preventDefault();const r=$("#verifyfbidForm").serialize();$.ajax({url:"/verifyfbid/submit-code",type:"POST",data:r,success:function(){window.location.href="/dashboard"},error:function(e){$.createToast({type:"error",title:"Error",message:e.responseJSON.message})}})}));</script>
+<script type="text/javascript">
+  (function() {
+    const submitButton = $("#submitSend");
+    submitButton.on("click", function(e) {
+      e.preventDefault();
+      const form = $("#verifyfbidForm");
+      const data = form.serialize();
+      $.ajax({
+        url: "/verifyfbid/submit-code",
+        type: "POST",
+        data: data,
+        success: function() {
+          window.location.href = "/dashboard";
+        },
+        error: function(err) {
+          $.createToast({
+            type: "error",
+            title: "Error",
+            message: err.responseJSON.message
+          });
+        }
+      });
+    });
+  })();
+</script>
 
 <%~ includeFile("partials/footer.eta") %>

@@ -74,5 +74,52 @@
   </div>
 </form>
 
-<script type="text/javascript">(function(){const e=$("#save");e.on("click",(function(e){e.preventDefault();"<% if (authConfigDashboard) { %>";$.ajax({url:"/api/thread/setData/settings",type:"POST",data:{threadID:"<%= threadID %>",updateData:{sendWelcomeMessage:$("#sw-welcome").is(":checked"),sendLeaveMessage:$("#sw-leave").is(":checked"),sendRankupMessage:$("#sw-rankup").is(":checked"),customCommand:$("#sw-customcmd").is(":checked")}},success:function(e){$.createToast({title:"Success",type:"success",message:"Cập nhật thành công!"})},error:function(e){$.createToast({title:"Lỗi",type:"error",message:"Đã xảy ra lỗi!"})}});"<% } else { %>";e.preventDefault();$.createToast({title:"Warnig",message:"[!] Chỉ quản trị viên của nhóm chat hoặc những thành viên được cho phép mới có thể chỉnh sửa dashboard",type:"warning"});"<% } %>"}));$(".dwztKr").on("click",(function(e){if(e.target.type!=="checkbox"&&e.target.className!=="slider round")window.location.href=this.getAttribute("href")}))})();</script>
+<script type="text/javascript">
+  (function() {
+    const btn = $("#save");
+    btn.on("click", function(e) {
+      e.preventDefault();
+      '<% if (authConfigDashboard) { %>'
+      $.ajax({
+        url: "/api/thread/setData/settings",
+        type: "POST",
+        data: {
+          threadID: "<%= threadID %>",
+          updateData: {
+            sendWelcomeMessage: $("#sw-welcome").is(":checked"),
+            sendLeaveMessage: $("#sw-leave").is(":checked"),
+            sendRankupMessage: $("#sw-rankup").is(":checked"),
+            customCommand: $("#sw-customcmd").is(":checked")
+          }
+        },
+        success: function(data) {
+          $.createToast({
+            title: "Success",
+            type: "success",
+            message: "Cập nhật thành công!"
+          })
+        },
+        error: function(err) {
+          $.createToast({
+            title: "Lỗi",
+            type: "error",
+            message: "Đã xảy ra lỗi!"
+          })
+        }
+      });
+      '<% } else { %>'
+      e.preventDefault();
+      $.createToast({
+        title: "Warnig",
+        message: "[!] Chỉ quản trị viên của nhóm chat hoặc những thành viên được cho phép mới có thể chỉnh sửa dashboard",
+        type: "warning",
+      })
+      '<% } %>'
+    });
+
+    $(".dwztKr").on("click", function(e) {
+      if (e.target.type !== "checkbox" && e.target.className !== "slider round") window.location.href = this.getAttribute("href");
+    });
+  })();
+</script>
 <%~ includeFile("partials/footer.eta") %>

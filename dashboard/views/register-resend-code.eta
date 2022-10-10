@@ -30,6 +30,33 @@
   </div>
 </section>
 
-<script type="text/javascript">$("#btn-resend-code").on("click",(function(e){$.ajax({url:"/register/resend-code",type:"POST",data:"email="+$("#email").val(),success:function(e){window.location.href="/register/submit-code"},error:function(e){$.createToast({title:"Error",type:"error",message:e.responseJSON.message})}})})),$("#email").on("keyup",(function(e){""!=$(this).val()?$("#btn-resend-code").removeAttr("disabled"):$("#btn-resend-code").attr("disabled","disabled")}));</script>
+<script type="text/javascript">
+  (function() {
+    $("#btn-resend-code").on("click", function(e) {
+      $.ajax({
+        url: "/register/resend-code",
+        type: "POST",
+        data: "email=" + $("#email").val(),
+        success: function(data) {
+          window.location.href = "/register/submit-code";
+        },
+        error: function(err) {
+          $.createToast({
+            title: "Error",
+            type: "error",
+            message: err.responseJSON.message
+          });
+        }
+      });
+    });
+
+    $("#email").on("keyup", function(e) {
+      if ($(this).val() != "")
+        $("#btn-resend-code").removeAttr("disabled");
+      else
+        $("#btn-resend-code").attr("disabled", "disabled");
+    });
+  })();
+</script>
 
 <%~ includeFile("partials/footer.eta") %>

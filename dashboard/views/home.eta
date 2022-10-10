@@ -86,6 +86,13 @@
 </div>
 
 
-<script type="text/javascript">$(".addme").on("click",(()=>{window.open("https://www.facebook.com/<%= global.botID %>","_blank")}));</script>
+<script type="text/javascript">
+  (function() {
+    const btn = $('.addme');
+    btn.on("click", () => {
+      window.open("https://www.facebook.com/" + "<%= global.botID %>", "_blank");
+    });
+  })();
+</script>
 
 <%~ includeFile('partials/footer.eta') %>
