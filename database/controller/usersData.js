@@ -15,7 +15,7 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 
 	switch (databaseType) {
 		case "mongodb": {
-			Users = await userModel.find();
+			Users = await userModel.find().lean();
 			break;
 		}
 		case "sqlite": {
@@ -36,11 +36,11 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 		if (index === -1 && mode === "update") {
 			try {
 				await create(userID);
-				index = Users.length - 1;
+				index = _.findIndex(Users, { userID });
 			}
 			catch (err) {
 				const e = new Error(`Can't find user with userID: ${userID} in database`);
-				e.name = "UserNotExist";
+				e.name = "USER_NOT_FOUND";
 				throw e;
 			}
 		}
@@ -78,13 +78,14 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 
 				switch (databaseType) {
 					case "mongodb": {
-						const dataUpdated = await userModel.findOneAndUpdate({ userID }, dataWillChange);
+						const dataUpdated = await userModel.findOneAndUpdate({ userID }, dataWillChange, { returnDocument: 'after' });
 						Users[index] = dataUpdated;
 						return dataUpdated;
 					}
 					case "sqlite": {
-						let dataUpdated = (await userModel.findOne({ where: { userID } })).update(dataWillChange);
-						dataUpdated = dataUpdated.get({ plain: true });
+						const dataUpdated = (await (await userModel.findOne({ where: { userID } }))
+							.update(dataWillChange))
+							.get({ plain: true });
 						Users[index] = dataUpdated;
 						return dataUpdated;
 					}

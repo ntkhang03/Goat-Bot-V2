@@ -14,7 +14,7 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 
 	switch (databaseType) {
 		case "mongodb":
-			Dashboard = await dashBoardModel.find();
+			Dashboard = await dashBoardModel.find().lean();
 			break;
 		case "sqlite":
 			Dashboard = (await dashBoardModel.findAll()).map(u => u.get({ plain: true }));
@@ -31,7 +31,7 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 		const index = _.findIndex(Dashboard, { email });
 		if (index === -1 && mode === "update") {
 			const e = new Error(`Can't find user with email: ${email} in database`);
-			e.name = "UserNotExist";
+			e.name = "USER_NOT_FOUND";
 			throw e;
 		}
 
@@ -65,13 +65,14 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 
 				switch (databaseType) {
 					case "mongodb": {
-						const dataUpdated = await dashBoardModel.findOneAndUpdate({ email }, dataWillChange);
+						const dataUpdated = await dashBoardModel.findOneAndUpdate({ email }, dataWillChange, { returnDocument: 'after' });
 						Dashboard[index] = dataUpdated;
 						return dataUpdated;
 					}
 					case "sqlite": {
-						let dataUpdated = (await dashBoardModel.findOne({ where: { email } })).update(dataWillChange);
-						dataUpdated = dataUpdated.get({ plain: true });
+						const dataUpdated = (await (await dashBoardModel.findOne({ where: { email } }))
+							.update(dataWillChange))
+							.get({ plain: true });
 						Dashboard[index] = dataUpdated;
 						return dataUpdated;
 					}

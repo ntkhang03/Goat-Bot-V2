@@ -33,7 +33,8 @@ const threadModel = new Schema({
 	},
 	isGroup: Boolean
 }, {
-	timestamps: true
+	timestamps: true,
+	minimize: false
 });
 
 module.exports = mongoose.model("threads", threadModel);

@@ -14,7 +14,8 @@ const userModel = new Schema({
 		default: false
 	}
 }, {
-	timestamps: true
+	timestamps: true,
+	minimize: false
 });
 
 module.exports = mongoose.model("usersDashboard", userModel);

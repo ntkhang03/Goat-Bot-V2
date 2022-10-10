@@ -14,7 +14,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 
 	switch (databaseType) {
 		case "mongodb": {
-			Threads = await threadModel.find();
+			Threads = await threadModel.find().lean();
 			break;
 		}
 		case "sqlite": {
@@ -36,7 +36,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 		if (index === -1 && mode === "update") {
 			try {
 				await create(threadID);
-				index = Threads.length - 1;
+				index = _.findIndex(Threads, { threadID });
 			}
 			catch (err) {
 				const e = new Error(`Can't find thread with threadID: ${threadID} in database`);
@@ -77,13 +77,14 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 
 				switch (databaseType) {
 					case "mongodb": {
-						const dataUpdated = await threadModel.findOneAndUpdate({ threadID }, dataWillChange);
+						const dataUpdated = await threadModel.findOneAndUpdate({ threadID }, dataWillChange, { returnDocument: 'after' });
 						Threads[index] = dataUpdated;
 						return dataUpdated;
 					}
 					case "sqlite": {
-						let dataUpdated = await (await threadModel.findOne({ where: { threadID } })).update(dataWillChange);
-						dataUpdated = dataUpdated.get({ plain: true });
+						const dataUpdated = (await (await threadModel.findOne({ where: { threadID } }))
+							.update(dataWillChange))
+							.get({ plain: true });
 						Threads[index] = dataUpdated;
 						return dataUpdated;
 					}
@@ -131,13 +132,13 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 		const queue = new Promise(async function (resolve, reject) {
 			try {
 				if (Threads.some(t => t.threadID == threadID)) {
-					const messageError = `Thread with id "${threadID}" already exists in the data`;
-					messageError.name = "Data already exists";
-					throw messageError;
+					const error = new Error(`Thread with id "${threadID}" already exists in the data`);
+					error.name = "DATA_EXISTS";
+					throw error;
 				}
 				if (isNaN(threadID)) {
 					const error = new Error(`The "threadID" argument must be of type number.`);
-					error.name = "Invalid threadID";
+					error.name = "INVALID_THREAD_ID";
 					throw error;
 				}
 				threadInfo = threadInfo || await api.getThreadInfo(threadID);
