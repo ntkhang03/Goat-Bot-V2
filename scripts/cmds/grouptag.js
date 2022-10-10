@@ -2,7 +2,7 @@ module.exports = {
 	config: {
 		name: "grouptag",
 		aliases: ["grtag"],
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -17,6 +17,7 @@ module.exports = {
 			+ "\n   Ví dụ: {{{pn} remove TEAM1}}"
 			+ "\n\n   {pn} {{rename <groupTagName> | <newGroupTagName>}}: dùng để đổi tên nhóm tag"
 			+ "\n\n   {pn} {{[list | all]}}: dùng để xem danh sách các nhóm tag trong nhóm chat của bạn"
+			+ "\n\n   {pn} {{info <groupTagName>}}: dùng để xem thông tin của nhóm tag"
 	},
 
 	onStart: async function ({ message, event, args, threadsData }) {
@@ -67,9 +68,27 @@ module.exports = {
 			}
 			case "list":
 			case "all": {
+				if (args[1]) {
+					const groupTagName = args.slice(1).join(" ");
+					if (!groupTagName)
+						return message.reply("Vui lòng nhập tên nhóm tag");
+					const groupTag = groupTags.find(tag => tag.name.toLowerCase() === groupTagName.toLowerCase());
+					if (!groupTag)
+						return message.reply(`Nhóm tag {{"${groupTagName}"}} không tồn tại trong box chat của bạn`);
+					return showInfoGroupTag(message, groupTag);
+				}
 				const msg = groupTags.reduce((msg, group) => msg + `\n\n{{${group.name}}}:\n {{${Object.values(group.users).map(name => name).join("\n ")}}}`, "");
 				message.reply(msg || "Box chat của bạn chưa thêm nhóm tag nào");
 				break;
+			}
+			case "info": {
+				const groupTagName = args.slice(1).join(" ");
+				if (!groupTagName)
+					return message.reply("Vui lòng nhập tên nhóm tag");
+				const groupTag = groupTags.find(tag => tag.name.toLowerCase() === groupTagName.toLowerCase());
+				if (!groupTag)
+					return message.reply(`Nhóm tag {{"${groupTagName}"}} không tồn tại trong box chat của bạn`);
+				return showInfoGroupTag(message, groupTag);
 			}
 			case "del": {
 				const content = (args.slice(1) || []).join(" ");
@@ -158,3 +177,10 @@ module.exports = {
 		}
 	}
 };
+
+function showInfoGroupTag(message, groupTag) {
+	let msg = `📑 | Tên nhóm: {{"${groupTag.name}"}}\n`;
+	msg += `👥 | Số thành viên: {{${Object.keys(groupTag.users).length}}}\n`;
+	msg += `👤 | Thành viên:\n ${Object.keys(groupTag.users).map(uid => ` ${groupTag.users[uid]}`).join(", ")}`;
+	message.reply(msg);
+}
