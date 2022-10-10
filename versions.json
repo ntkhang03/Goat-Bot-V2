@@ -210,7 +210,8 @@
 	{
 		"version": "1.0.24",
 		"files": {
-			"update.js": ""
+			"update.js": "update handle update",
+			"languages/en.lang": ""
 		}
 	}
 ]
