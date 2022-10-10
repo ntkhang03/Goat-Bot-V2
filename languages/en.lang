@@ -54,7 +54,7 @@ handlerCheckData.cantCreateUser=Users with id '%1' cannot be written to the data
 handlerEvents.userBanned=You have been banned from using the bot\n» Reason: {{%1}}\n» Time: %2\n» User ID: %3
 handlerEvents.threadBanned=This group has been banned from using the bot\n» Reason: {{%1}}\n» Time: %2\n» Thread ID: %3
 handlerEvents.onlyAdminBox=This group is currently enabled only group administrators can use the bot
-handlerEvents.onlyAdminBot=❌ | Currently only admin bot can use the bot
+handlerEvents.onlyAdminBot=❌ | Currently only bot's admin can use bot
 
 # bot/autoUptime.js
 autoUptime.autoUptime=AutoUptime mode turned on
