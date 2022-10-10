@@ -240,7 +240,7 @@ module.exports = function ({ isAuthenticated_P, isVeryfiUserIDFacebook_P, checkH
 					case 'settings': {
 						const { updateData } = req.body;
 						for (const key in updateData)
-							threadData.settings[key] = updateData[key];
+							threadData.settings[key] = updateData[key] == 'true';
 						break;
 					}
 				}
