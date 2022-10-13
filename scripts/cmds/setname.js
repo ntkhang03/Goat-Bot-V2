@@ -1,13 +1,18 @@
 async function checkShortCut(nickname, uid, usersData) {
-	/\{userName\}/gi.test(nickname) ? nickname = nickname.replace(/\{userName\}/gi, await usersData.getName(uid)) : null;
-	/\{userID\}/gi.test(nickname) ? nickname = nickname.replace(/\{userID\}/gi, uid) : null;
-	return nickname;
+	try {
+		/\{userName\}/gi.test(nickname) ? nickname = nickname.replace(/\{userName\}/gi, await usersData.getName(uid)) : null;
+		/\{userID\}/gi.test(nickname) ? nickname = nickname.replace(/\{userID\}/gi, uid) : null;
+		return nickname;
+	}
+	catch (e) {
+		return nickname;
+	}
 }
 
 module.exports = {
 	config: {
 		name: "setname",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
