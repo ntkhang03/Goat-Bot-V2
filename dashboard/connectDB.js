@@ -17,18 +17,21 @@ global.client = {
 };
 global.db = {
 	allThreadData: [],
-	allUserData: []
+	allUserData: [],
+	globalData: []
 };
 
 module.exports = async function () {
 	const controller = await require(path.join(__dirname, "..", "database/controller/index.js"))(null); // data is loaded here
-	const { threadModel, userModel, dashBoardModel, threadsData, usersData, dashBoardData } = controller;
+	const { threadModel, userModel, dashBoardModel, globalModel, threadsData, usersData, dashBoardData, globalData } = controller;
 	return {
 		threadModel,
 		userModel,
 		dashBoardModel,
+		globalModel,
 		threadsData,
 		usersData,
-		dashBoardData
+		dashBoardData,
+		globalData
 	};
 };

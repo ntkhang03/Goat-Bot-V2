@@ -448,7 +448,6 @@ const utils = {
 		for (let i = 0; i < wordTransAfter.length; i++) {
 			let wordTrans = (await wordTransAfter[i]);
 			if (wordTrans.trim().length === 0) {
-				console.log(`'${wordTrans}'`);
 				output += wordTrans;
 				if (wordNoTranslate[i] != undefined)
 					output += wordNoTranslate[i];

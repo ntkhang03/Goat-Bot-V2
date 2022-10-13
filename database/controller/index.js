@@ -47,7 +47,7 @@ module.exports = async function (api) {
 			process.stderr.clearLine = function () { };
 			spin.start();
 			try {
-				var { threadModel, userModel, dashBoardModel } = await require("../connectDB/connectMongoDB.js")(config.database.uriMongodb);
+				var { threadModel, userModel, dashBoardModel, globalModel } = await require("../connectDB/connectMongoDB.js")(config.database.uriMongodb);
 				spin.stop();
 				process.stderr.clearLine = defaultClearLine;
 				log.info("MONGODB", getText("indexController", "connectMongoDBSuccess"));
@@ -77,7 +77,7 @@ module.exports = async function (api) {
 			process.stderr.clearLine = function () { };
 			spin.start();
 			try {
-				var { threadModel, userModel, dashBoardModel } = await require("../connectDB/connectSqlite.js")();
+				var { threadModel, userModel, dashBoardModel, globalModel } = await require("../connectDB/connectSqlite.js")();
 				process.stderr.clearLine = defaultClearLine;
 				spin.stop();
 				log.info("SQLITE", getText("indexController", "connectMySQLSuccess"));
@@ -97,24 +97,29 @@ module.exports = async function (api) {
 	const threadsData = await require("./threadsData.js")(databaseType, threadModel, api, fakeGraphql);
 	const usersData = await require("./usersData.js")(databaseType, userModel, api, fakeGraphql);
 	const dashBoardData = await require("./dashBoardData.js")(databaseType, dashBoardModel, fakeGraphql);
+	const globalData = await require("./globalData.js")(databaseType, globalModel, fakeGraphql);
 
 	global.db = {
 		...global.db,
 		threadModel,
 		userModel,
 		dashBoardModel,
+		globalModel,
 		threadsData,
 		usersData,
-		dashBoardData
+		dashBoardData,
+		globalData
 	};
 
 	return {
 		threadModel,
 		userModel,
 		dashBoardModel,
+		globalModel,
 		threadsData,
 		usersData,
 		dashBoardData,
+		globalData,
 		databaseType
 	};
 };

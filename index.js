@@ -36,10 +36,12 @@ global.db = {
 	allUserData: [],
 	threadModel: null,
 	userModel: null,
-	userDashboardModel: null,
+	dashboardModel: null,
+	globalModel: null,
 	threadsData: null,
 	usersData: null,
-	dashBoardData: null
+	dashBoardData: null,
+	globalData: null,
 };
 
 global.client = {
@@ -51,7 +53,8 @@ global.client = {
 	database: {
 		creatingThreadData: [],
 		creatingUserData: [],
-		creatingDashBoardData: []
+		creatingDashBoardData: [],
+		creatingGlobalData: []
 	},
 	commandBanned: configCommands.commandBanned
 };
