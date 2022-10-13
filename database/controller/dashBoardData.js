@@ -102,6 +102,8 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 
 
 	async function create(data) {
+		if (typeof data != "object" || Array.isArray(data))
+			throw new Error(`The first argument(data) must be an object, not a ${Array.isArray(data) ? "array" : typeof data}`);
 		const email = data.email;
 		const findInCreatingData = creatingDashBoardData.find(u => u.email == email);
 		if (findInCreatingData)
@@ -111,7 +113,7 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 			try {
 				if (Dashboard.some(u => u.email == email)) {
 					const messageError = new Error(`User with email "${email}" already exists in the data`);
-					messageError.name = "Email already exists";
+					messageError.name = "USER_ALREADY_EXISTS";
 					throw messageError;
 				}
 
@@ -137,13 +139,13 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 
 			if (query)
 				if (typeof query !== "string")
-					throw new Error(`The "query" argument must be of type string.`);
+					throw new Error(`The third argument (query) must be a string, not a ${typeof query}`);
 				else
 					dataReturn = dataReturn.map(uData => fakeGraphql(query, uData));
 
 			if (path)
 				if (!["string", "object"].includes(typeof path))
-					throw new Error(`The "path" argument must be of type string or array.`);
+					throw new Error(`The first argument (path) must be a string or an array, not a ${typeof path}`);
 				else
 					if (typeof path === "string")
 						return dataReturn.map(uData => _.get(uData, path, defaultValue));
@@ -161,17 +163,19 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 	function get(email, path, defaultValue, query) {
 		try {
 			if (!email || typeof email != "string")
-				throw new Error(`The "email" argument must be of type string.`);
+				throw new Error(`The first argument (email) must be a string, not a ${typeof email}`);
 			let userData = Dashboard.find(u => u.email == email);
+			if (!userData)
+				return undefined;
 
 			if (query)
 				if (typeof query !== "string")
-					throw new Error(`The "query" argument must be of type string.`);
+					throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
 				else userData = fakeGraphql(query, userData);
 
 			if (path)
 				if (!["string", "array"].includes(typeof path))
-					throw new Error(`The "path" argument must be of type string or array.`);
+					throw new Error(`The second argument (path) must be a string or an array, not a ${typeof path}`);
 				else
 					if (typeof path === "string")
 						return _.get(userData, path, defaultValue);
@@ -187,11 +191,16 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 	async function set(email, updateData, path, query) {
 		try {
 			if (!path && (typeof updateData != "object" || typeof updateData == "object" && Array.isArray(updateData)))
-				throw new Error(`The "updateData" argument must be of type object.`);
+				throw new Error(`The second argument (updateData) must be an object or an array, not a ${typeof updateData}`);
+			if (!Dashboard.some(u => u.email == email)) {
+				const messageError = new Error(`User with email "${email}" does not exist in the data`);
+				messageError.name = "USER_NOT_FOUND";
+				throw messageError;
+			}
 			const userData = await save(email, updateData, "update", path);
 			if (query)
 				if (typeof query !== "string")
-					throw new Error(`The "query" argument must be of type string.`);
+					throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
 				else
 					return fakeGraphql(query, userData);
 			return userData;
@@ -204,6 +213,11 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 
 	async function remove(email) {
 		try {
+			if (typeof threadID != "string") {
+				const error = new Error(`The first argument (email) must be a string, not a ${typeof email}`);
+				error.name = "INVALID_THREAD_ID";
+				throw error;
+			}
 			await save(email, { email }, "remove");
 			return true;
 		}

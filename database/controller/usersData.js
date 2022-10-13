@@ -123,7 +123,7 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 
 	async function getName(userID, checkData = true) {
 		if (isNaN(userID)) {
-			const error = new Error(`The "userID" argument must be of type number.`);
+			const error = new Error(`The first argument (userID) must be a number, not ${typeof userID}`);
 			error.name = "Invalid userID";
 			throw error;
 		}
@@ -143,7 +143,7 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 
 	async function getAvatarUrl(userID) {
 		if (isNaN(userID)) {
-			const error = new Error(`The "userID" argument must be of type number.`);
+			const error = new Error(`The first argument (userID) must be a number, not ${typeof userID}`);
 			error.name = "Invalid userID";
 			throw error;
 		}
@@ -174,7 +174,7 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 					throw messageError;
 				}
 				if (isNaN(userID)) {
-					const error = new Error(`The "userID" argument must be of type number.`);
+					const error = new Error(`The first argument (userID) must be a number, not ${typeof userID}`);
 					error.name = "Invalid userID";
 					throw error;
 				}
@@ -209,7 +209,7 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 	async function refreshInfo(userID, updateInfoUser) {
 		try {
 			if (isNaN(userID)) {
-				const error = new Error(`The "userID" argument must be of type number.`);
+				const error = new Error(`The first argument (userID) must be a number, not ${typeof userID}`);
 				error.name = "Invalid userID";
 				throw error;
 			}
@@ -240,13 +240,13 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 
 			if (query)
 				if (typeof query !== "string")
-					throw new Error(`The "query" argument must be of type string.`);
+					throw new Error(`The third argument (query) must be a string, not ${typeof query}`);
 				else
 					dataReturn = dataReturn.map(uData => fakeGraphql(query, uData));
 
 			if (path)
 				if (!["string", "object"].includes(typeof path))
-					throw new Error(`The "path" argument must be of type string or array.`);
+					throw new Error(`The first argument (path) must be a string or object, not ${typeof path}`);
 				else
 					if (typeof path === "string")
 						return dataReturn.map(uData => _.get(uData, path, defaultValue));
@@ -263,8 +263,8 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 	async function get(userID, path, defaultValue, query) {
 		try {
 			if (isNaN(userID)) {
-				const error = new Error(`The "userID" argument must be of type number.`);
-				error.name = "Invalid userID";
+				const error = new Error(`The first argument (userID) must be a number, not ${typeof userID}`);
+				error.name = "INVALID_USER_ID";
 				throw error;
 			}
 			let userData;
@@ -277,12 +277,12 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 
 			if (query)
 				if (typeof query !== "string")
-					throw new Error(`The "query" argument must be of type string.`);
+					throw new Error(`The fourth argument (query) must be a string, not ${typeof query}`);
 				else userData = fakeGraphql(query, userData);
 
 			if (path)
 				if (!["string", "array"].includes(typeof path))
-					throw new Error(`The "path" argument must be of type string or array.`);
+					throw new Error(`The second argument (path) must be a string or array, not ${typeof path}`);
 				else
 					if (typeof path === "string")
 						return _.get(userData, path, defaultValue);
@@ -300,16 +300,16 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 	async function set(userID, updateData, path, query) {
 		try {
 			if (isNaN(userID)) {
-				const error = new Error(`The "userID" argument must be of type number.`);
+				const error = new Error(`The first argument (userID) must be a number, not ${typeof userID}`);
 				error.name = "Invalid userID";
 				throw error;
 			}
 			if (!path && (typeof updateData != "object" || typeof updateData == "object" && Array.isArray(updateData)))
-				throw new Error(`The "updateData" argument must be of type object.`);
+				throw new Error(`The second argument (updateData) must be an object, not ${typeof updateData}`);
 			const userData = await save(userID, updateData, "update", path);
 			if (query)
 				if (typeof query !== "string")
-					throw new Error(`The "query" argument must be of type string.`);
+					throw new Error(`The fourth argument (query) must be a string, not ${typeof query}`);
 				else
 					return fakeGraphql(query, userData);
 			return userData;
@@ -322,8 +322,8 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 	async function remove(userID) {
 		try {
 			if (isNaN(userID)) {
-				const error = new Error(`The "userID" argument must be of type number.`);
-				error.name = "Invalid userID";
+				const error = new Error(`The first argument (userID) must be a number, not ${typeof userID}`);
+				error.name = "INVALID_USER_ID";
 				throw error;
 			}
 			await save(userID, { userID }, "remove");

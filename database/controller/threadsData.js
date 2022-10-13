@@ -137,7 +137,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 					throw error;
 				}
 				if (isNaN(threadID)) {
-					const error = new Error(`The "threadID" argument must be of type number.`);
+					const error = new Error(`The first argument (threadID) must be a number, not a ${typeof threadID}`);
 					error.name = "INVALID_THREAD_ID";
 					throw error;
 				}
@@ -199,7 +199,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 	async function refreshInfo(threadID, newThreadInfo) {
 		try {
 			if (isNaN(threadID)) {
-				const error = new Error(`The "threadID" argument must be of type number.`);
+				const error = new Error(`The first argument (threadID) must be a number, not a ${typeof threadID}`);
 				error.name = "Invalid threadID";
 				throw error;
 			}
@@ -256,13 +256,13 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 
 			if (query)
 				if (typeof query !== "string")
-					throw new Error(`The "query" argument must be of type string.`);
+					throw new Error(`The third argument (query) must be a string, not a ${typeof query}`);
 				else
 					dataReturn = dataReturn.map(tData => fakeGraphql(query, tData));
 
 			if (path)
 				if (!["string", "object"].includes(typeof path))
-					throw new Error(`The "path" argument must be of type string or array.`);
+					throw new Error(`The first argument (path) must be a string or an object, not a ${typeof path}`);
 				else
 					if (typeof path === "string")
 						return dataReturn.map(tData => _.get(tData, path, defaultValue));
@@ -279,7 +279,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 	async function get(threadID, path, defaultValue, query) {
 		try {
 			if (isNaN(threadID)) {
-				const error = new Error(`The "threadID" argument must be of type number.`);
+				const error = new Error(`The first argument (threadID) must be a number, not a ${typeof threadID}`);
 				error.name = "Invalid threadID";
 				throw error;
 			}
@@ -293,13 +293,13 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 
 			if (query)
 				if (typeof query != "string")
-					throw new Error(`The "query" argument must be of type string.`);
+					throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
 				else
 					threadData = fakeGraphql(query, threadData);
 
 			if (path)
 				if (!["string", "object"].includes(typeof path))
-					throw new Error(`The "path" argument must be of type string or array.`);
+					throw new Error(`The second argument (path) must be a string or an object, not a ${typeof path}`);
 				else
 					if (typeof path === "string")
 						return _.get(threadData, path, defaultValue);
@@ -316,16 +316,16 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 	async function set(threadID, updateData, path, query) {
 		try {
 			if (isNaN(threadID)) {
-				const error = new Error(`The "threadID" argument must be of type number.`);
+				const error = new Error(`The first argument (threadID) must be a number, not a ${typeof threadID}`);
 				error.name = "Invalid threadID";
 				throw error;
 			}
 			if (!path && (typeof updateData != "object" || Array.isArray(updateData)))
-				throw new Error(`The "updateData" argument must be of type object.`);
+				throw new Error(`The second argument (updateData) must be an object, not a ${typeof updateData}`);
 			const threadData = await save(threadID, updateData, "update", path);
 			if (query)
 				if (typeof query !== "string")
-					throw new Error(`The "query" argument must be of type string.`);
+					throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
 				else
 					return fakeGraphql(query, threadData);
 			return threadData;
@@ -338,8 +338,8 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 	async function remove(threadID) {
 		try {
 			if (isNaN(threadID)) {
-				const error = new Error(`The "threadID" argument must be of type number.`);
-				error.name = "Invalid threadID";
+				const error = new Error(`The first argument (threadID) must be a number, not a ${typeof threadID}`);
+				error.name = "INVALID_THREAD_ID";
 				throw error;
 			}
 			await save(threadID, { threadID }, "delete");
