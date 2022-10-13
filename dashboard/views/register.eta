@@ -104,7 +104,6 @@
           },
           error: function(data) {
             grecaptcha.reset();
-						console.log(data);
             register.disabled = false;
             register.innerHTML = "Register";
 						data.responseJSON.errors.forEach(function(error) {
@@ -120,7 +119,6 @@
 
     function checkValidEmail() {
       if (email.val().length > 100 || email.val().length < 5) {
-        console.log(email.val());
         email.val(email.val().substring(0, 100));
         email.addClass("is-invalid");
         const div = document.createElement("div");
