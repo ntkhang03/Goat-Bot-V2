@@ -213,32 +213,5 @@
 			"update.js": "update handle update",
 			"languages/en.lang": ""
 		}
-	},
-	{
-		"version": "1.0.25",
-		"files": {
-			"bot/handler/handlerAction.js": "add globalModel and globalData",
-			"utils.js": "add globalModel and globalData",
-			"scripts/cmds/eval.js": "add globalModel and globalData",
-			"index.js": "add globalModel and globalData",
-			"database/models/sqlite/global.js": "add globalModel and globalData",
-			"database/models/mongodb/global.js": "add globalModel and globalData",
-			"database/controller/index.js": "add globalModel and globalData",
-			"database/controller/globalData.js": "add globalModel and globalData",
-			"database/connectDB/connectSqlite.js": "add globalModel and globalData",
-			"database/connectDB/connectMongoDB.js": "add globalModel and globalData",
-			"dashboard/connectDB.js": "add globalModel and globalData",
-			"bot/login/loadData.js": "add globalModel and globalData",
-			"bot/login/login.js": "add globalModel and globalData",
-			"bot/login/handlerEvents.js":"add globalModel and globalData",
-			"bot/login/checkLiveCookie.js": "Update checkLiveCookie.js",
-			"dashboard/views/register.eta": "",
-			"database/controller/dashBoardData.js": "Update many error messages",
-			"database/controller/threadsData.js": "Update many error messages",
-			"database/controller/usersData.js": "Update many error messages",
-			"scripts/cmds/setname.js": "",
-			"updater.js": "update updater",
-			"update.js": "update updater"
-		}
 	}
 ]
