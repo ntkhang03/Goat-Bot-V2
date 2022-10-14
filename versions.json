@@ -240,15 +240,5 @@
 			"updater.js": "update updater",
 			"update.js": "update updater"
 		}
-	},
-	{
-		"version": "1.0.26",
-		"files": {
-			"scripts/cmds/setalias.js": "add option -g (applies to the whole system)",
-			"scripts/cmds/event.js": "add Argument and Parameter `globalModel`, `globalData`",
-			"scripts/cmds/cmd.js": "add Argument and Parameter `globalModel`, `globalData`",
-			"bot/login/loadScripts.js": "add Argument and Parameter `globalModel`, `globalData`",
-			"bot/handler/handlerEvents.js": "add Argument and Parameter `globalModel`, `globalData`"
-		}
 	}
 ]
