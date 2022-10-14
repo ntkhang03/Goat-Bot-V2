@@ -251,5 +251,11 @@
 			"bot/handler/handlerEvents.js": "add Argument and Parameter `globalModel`, `globalData`",
 			"bot/login/login.js": "add Argument and Parameter `globalModel`, `globalData`"
 		}
+	},
+	{
+		"version": "1.0.27",
+		"files": {
+			"bot/login/login.js": "fix console freeze error"
+		}
 	}
 ]
