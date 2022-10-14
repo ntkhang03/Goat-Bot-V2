@@ -5,7 +5,7 @@ const axios = require("axios");
 module.exports = {
 	config: {
 		name: "event",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -18,14 +18,14 @@ module.exports = {
 
 	},
 
-	onStart: async ({ args, message, api, threadModel, userModel, threadsData, usersData, commandName, event }) => {
+	onStart: async ({ args, message, api, threadModel, userModel, dashBoardModel, globalModel, threadsData, usersData, dashBoardData, globalData, commandName, event }) => {
 		const { configCommands } = global.GoatBot;
 		const { log, loadScripts } = global.utils;
 
 		if (args[0] == "load" && args.length == 2) {
 			if (!args[1])
 				return message.reply("⚠️ | Vui lòng nhập vào tên lệnh bạn muốn reload");
-			const infoLoad = loadScripts("events", args[1], log, configCommands, api, threadModel, userModel, threadsData, usersData);
+			const infoLoad = loadScripts("events", args[1], log, configCommands, api, threadModel, userModel, dashBoardModel, globalModel, threadsData, usersData, dashBoardData, globalData);
 			infoLoad.status == "success" ?
 				message.reply(`✅ | Đã load command event {{${infoLoad.name}}} thành công`)
 				: message.reply(`❌ | Load command event {{${infoLoad.name}}} thất bại với lỗi\n${infoLoad.error.name}: ${infoLoad.error.message}`);
@@ -39,7 +39,7 @@ module.exports = {
 			const arraySucces = [];
 			const arrayFail = [];
 			for (const fileName of allFile) {
-				const infoLoad = loadScripts("events", fileName, log, configCommands, api, threadModel, userModel, threadsData, usersData);
+				const infoLoad = loadScripts("events", fileName, log, configCommands, api, threadModel, userModel, dashBoardModel, globalModel, threadsData, usersData, dashBoardData, globalData);
 				infoLoad.status == "success" ?
 					arraySucces.push(fileName)
 					: arrayFail.push(`{{${fileName} => ${infoLoad.error.name}: ${infoLoad.error.message}}}`);
@@ -78,7 +78,7 @@ module.exports = {
 					});
 				});
 			else {
-				const infoLoad = loadScripts("cmds", fileName, log, configCommands, api, threadModel, userModel, threadsData, usersData, rawCode);
+				const infoLoad = loadScripts("cmds", fileName, log, configCommands, api, threadModel, userModel, dashBoardModel, globalModel, threadsData, usersData, dashBoardData, globalData, rawCode);
 				infoLoad.status == "success" ?
 					message.reply(`✅ | Đã cài đặt command event {{${infoLoad.name}}} thành công, file lệnh được lưu tại {{${path.join(__dirname, fileName).replace(process.cwd(), "")}}}`)
 					: message.reply(`❌ | Cài đặt command event {{${infoLoad.name}}} thất bại với lỗi\n{{${infoLoad.error.name}: ${infoLoad.error.message}}}`);
@@ -88,13 +88,13 @@ module.exports = {
 			message.SyntaxError();
 	},
 
-	onReaction: async function ({ Reaction, message, event, api, threadModel, userModel, threadsData, usersData }) {
+	onReaction: async function ({ Reaction, message, event, api, threadModel, userModel, dashBoardModel, globalModel, threadsData, usersData, dashBoardData, globalData }) {
 		const { author, messageID, data: { fileName, rawCode } } = Reaction;
 		if (event.userID != author)
 			return;
 		const { configCommands } = global.GoatBot;
 		const { log, loadScripts } = global.utils;
-		const infoLoad = loadScripts("cmds", fileName, log, configCommands, api, threadModel, userModel, threadsData, usersData, rawCode);
+		const infoLoad = loadScripts("cmds", fileName, log, configCommands, api, threadModel, userModel, dashBoardModel, globalModel, threadsData, usersData, dashBoardData, globalData, rawCode);
 		infoLoad.status == "success" ?
 			message.reply(`✅ | Đã cài đặt command event {{${infoLoad.name}}} thành công, file lệnh được lưu tại {{${path.join(__dirname, '..', 'events', fileName).replace(process.cwd(), "")}}}`, () => message.unsend(messageID))
 			: message.reply(`❌ | Cài đặt command event {{${infoLoad.name}}} thất bại với lỗi\n{{${infoLoad.error.name}: ${infoLoad.error.message}}}`, () => message.unsend(messageID));
