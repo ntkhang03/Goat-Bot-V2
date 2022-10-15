@@ -230,7 +230,7 @@
 			"dashboard/connectDB.js": "add globalModel and globalData",
 			"bot/login/loadData.js": "add globalModel and globalData",
 			"bot/login/login.js": "add globalModel and globalData",
-			"bot/handler/handlerEvents.js":"add globalModel and globalData",
+			"bot/handler/handlerEvents.js": "add globalModel and globalData",
 			"bot/login/checkLiveCookie.js": "Update checkLiveCookie.js",
 			"dashboard/views/register.eta": "",
 			"database/controller/dashBoardData.js": "Update many error messages",
@@ -256,6 +256,15 @@
 		"version": "1.0.27",
 		"files": {
 			"bot/login/login.js": "fix console freeze error"
+		}
+	},
+	{
+		"version": "1.0.28",
+		"files": {
+			"scripts/cmds/notification.js": "fixes `Error: parseAndCheckLogin got status code: 404. Bailing out of trying to parse response.`"
+		},
+		"deleteFiles": {
+			"scripts/cmds/instagram.js": "api is no longer working"
 		}
 	}
 ]
