@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: "notification",
 		aliases: ["notify", "noti"],
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -17,7 +17,7 @@ module.exports = {
 		}
 	},
 
-	onStart: async function ({ message, api, event, args, commandName, envCommands }) {
+	onStart: async function ({ message, api, event, args, commandName, envCommands, threadsData }) {
 		const { delayPerGroup } = envCommands[commandName];
 		if (!args[0])
 			return message.reply("Vui lòng nhập tin nhắn bạn muốn gửi đến tất cả các nhóm");
@@ -26,16 +26,15 @@ module.exports = {
 			attachment: await getStreamsFromAttachment([...event.attachments, ...(event.messageReply?.attachments || [])])
 		});
 
-		const allThreadID = (await api.getThreadList(2000, null, ["INBOX"]))
-			.filter(item => item.isGroup === true && item.threadID != event.threadID)
-			.map(item => item = item.threadID);
+		const allThreadID = threadsData.getAll().filter(t => t.isGroup && t.members.find(m => m.userID == api.getCurrentUserID())?.inGroup);
 		message.reply(`Bắt đầu gửi thông báo từ admin bot đến ${allThreadID.length} nhóm chat`);
 
 		let sendSucces = 0;
 		const sendError = [];
 		const wattingSend = [];
 
-		for (const tid of allThreadID) {
+		for (const thread of allThreadID) {
+			const tid = thread.threadID;
 			try {
 				wattingSend.push({
 					threadID: tid,
