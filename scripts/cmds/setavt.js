@@ -4,14 +4,14 @@ module.exports = {
 	config: {
 		name: "setavt",
 		aliases: ["changeavt", "setavatar"],
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
 		shortDescription: "Đổi avatar bot",
 		longDescription: "Đổi avatar bot",
 		category: "owner",
-		guide: "{pn} {{<image url>}} [{{<caption>}} | để trống] [{{<expirationAfter>}} | để trống]"
+		guide: "{pn} {{[<image url> | <phản hồi tin nhắn có ảnh>]}} [{{<caption>}} | để trống] [{{<expirationAfter (seconds)>}} | để trống]"
 			+ "\nPhản hồi 1 tin nhắn có chứa ảnh với nội dung: {pn}"
 			+ "\nGửi kèm 1 tin nhắn có chứa ảnh với nội dung: {pn}"
 			+ "\n\nGhi chú:"
@@ -24,10 +24,9 @@ module.exports = {
 	},
 
 	onStart: async function ({ message, event, api, args }) {
-		const imageURL = args[0].startsWith("http") ? args[0] : event.attachments[0]?.url || event.messageReply?.attachments[0]?.url;
-		const expirationAfter = !isNaN(args[args.length]) ? args[args.length] : null;
-		let caption = args[0].startsWith("http") ? args.slice(1, expirationAfter ? -1 : args.length).join(" ") : args.join(" ");
-		!isNaN(caption.split(" ").pop()) && (caption = caption.split(" ").slice(0, -1).join(" "));
+		const imageURL = (args[0] || "").startsWith("http") ? args.shift() : event.attachments[0]?.url || event.messageReply?.attachments[0]?.url;
+		const expirationAfter = !isNaN(args[args.length - 1]) ? args.pop() : null;
+		const caption = args.join(" ");
 		if (!imageURL)
 			return message.SyntaxError();
 		let response;
