@@ -10,7 +10,7 @@ const { getStreamFromURL, downloadFile } = global.utils;
 module.exports = {
 	config: {
 		name: "ytb",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -23,14 +23,10 @@ module.exports = {
 			+ "\nVí dụ:"
 			+ "\n   {pn} {{-v Fallen Kingdom}}"
 			+ "\n   {pn} {{-a Fallen Kingdom}}"
-			+ "\n   {pn} {{-i Fallen Kingdom}}",
-		envGlobal: {
-			youtube: "AIzaSyBZjYk2QtAvsZjAzUJ5o4qGl8eRl6gr2SA"
-		}
+			+ "\n   {pn} {{-i Fallen Kingdom}}"
 	},
 
-	onStart: async function ({ args, message, event, commandName, envGlobal }) {
-		const API_KEY = envGlobal.youtube;
+	onStart: async function ({ args, message, event, commandName }) {
 		let type;
 		switch (args[0]) {
 			case "-v":
@@ -62,13 +58,13 @@ module.exports = {
 
 		const keyWord = args.slice(1).join(" ");
 		const maxResults = 6;
-		const url = encodeURI(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&part=snippet&q=${keyWord}&maxResults=${maxResults}&type=video`);
+
 		let result;
 		try {
-			result = (await axios.get(url)).data;
+			result = (await search(keyWord)).slice(0, maxResults);
 		}
 		catch (err) {
-			return message.reply(`Đã xảy ra lỗi: {{${err.response.data.error.message}}}`);
+			return message.reply(`Đã xảy ra lỗi: {{${err.message}}}`);
 		}
 		result = result.items;
 		if (result.length == 0)
@@ -79,13 +75,8 @@ module.exports = {
 		const arrayID = [];
 
 		for (const info of result) {
-			const { videoId } = info.id;
-			const infoWithApi = (await axios.get(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet&id=${videoId}&key=${API_KEY}`)).data.items[0];
-			const time = infoWithApi.contentDetails.duration.slice(2).toLowerCase();
-			const listthumbnails = Object.values(infoWithApi.snippet.thumbnails);
-			const linkthumbnails = listthumbnails[listthumbnails.length - 1].url;
-			thumbnails.push(getStreamFromURL(linkthumbnails));
-			msg += `{{${i++}. ${info.snippet.title}}}\nTime: ${time}\n\n`;
+			thumbnails.push(getStreamFromURL(info.thumbnail));
+			msg += `{{${i++}. ${info.title}}}\nTime: ${info.time}\nChannel: {{${info.channel.name}}}\n\n`;
 		}
 
 		message.reply({
@@ -174,8 +165,8 @@ async function handle({ type, infoVideo, message }) {
 		message.reply({
 			body: msg,
 			attachment: [
-				await getStreamFromURL(info.thumbnails[info.thumbnails.length - 1].url),
-				await getStreamFromURL(info.author.thumbnails[info.author.thumbnails.length - 1].url)
+				await getStreamFromURL(info.thumbnail),
+				await getStreamFromURL(info.channel.thumbnail)
 			]
 		});
 	}
@@ -251,4 +242,30 @@ function convert(videoId, k) {
 			.then(res => resolve(res.data))
 			.catch(err => reject(err));
 	});
+}
+
+async function search(keyWord) {
+	try {
+		const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(keyWord)}`;
+		const res = await axios.get(url);
+		const video = JSON.parse(res.data.split("ytInitialData = ")[1].split(";</script>")[0]);
+		return video.contents.twoColumnSearchResultsRenderer.primaryContents.sectionListRenderer.contents[0].itemSectionRenderer.contents.filter(item => item.videoRenderer).map(item => {
+			return {
+				id: item.videoRenderer.videoId,
+				title: item.videoRenderer.title.runs[0].text,
+				thumbnail: item.videoRenderer.thumbnail.thumbnails.pop().url,
+				time: item.videoRenderer.lengthText.simpleText,
+				channel: {
+					id: item.videoRenderer.ownerText.runs[0].navigationEndpoint.browseEndpoint.browseId,
+					name: item.videoRenderer.ownerText.runs[0].text,
+					thumbnail: item.videoRenderer.channelThumbnailSupportedRenderers.channelThumbnailWithLinkRenderer.thumbnail.thumbnails.pop().url.replace(/s[0-9]+\-c/g, '-c')
+				}
+			};
+		});
+	}
+	catch (e) {
+		const error = new Error("Cannot search video");
+		error.code = "SEARCH_VIDEO_ERROR";
+		throw error;
+	}
 }
