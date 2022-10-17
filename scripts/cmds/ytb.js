@@ -10,7 +10,7 @@ const { getStreamFromURL, downloadFile } = global.utils;
 module.exports = {
 	config: {
 		name: "ytb",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -66,7 +66,6 @@ module.exports = {
 		catch (err) {
 			return message.reply(`Đã xảy ra lỗi: {{${err.message}}}`);
 		}
-		result = result.items;
 		if (result.length == 0)
 			return message.reply(`Không có kết quả tìm kiếm nào phù hợp với từ khóa {{${keyWord}}}`);
 		let msg = "";
@@ -99,7 +98,7 @@ module.exports = {
 		const choice = event.body;
 		if (!isNaN(choice) && choice <= 6) {
 			const infoChoice = result[choice - 1];
-			const idvideo = infoChoice.id.videoId;
+			const idvideo = infoChoice.id;
 			const infoVideo = await ytdl.getInfo(idvideo);
 			api.unsendMessage(Reply.messageID);
 			await handle({ type, infoVideo, message });
