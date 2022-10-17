@@ -276,5 +276,12 @@
 			"scripts/cmds/setavt.js": "fixes `TypeError: Cannot read property 'startsWith' of undefined`",
 			"scripts/cmds/ytb.js": "no need to use youtube api key v3 anymore"
 		}
+	},
+	{
+		"version": "1.0.30",
+		"files": {
+			"scripts/cmds/ytb.js": "fixes `TypeError: Cannot read property 'length' of undefined`",
+			"scripts/cmds/customrankcard.js": ""
+		}
 	}
 ]
