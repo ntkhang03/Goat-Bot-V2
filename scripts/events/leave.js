@@ -6,7 +6,7 @@ module.exports = {
 		version: "1.1",
 		author: "NTKhang",
 		envConfig: {
-			defaultLeaveMessage: "{userName} đã {type} khỏi nhóm"
+			defaultLeaveMessage: "{userName} has left the chat group"
 		}
 	},
 
