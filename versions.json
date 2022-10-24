@@ -357,5 +357,19 @@
 			"scripts/cmds/weather.js": "add custom language",
 			"scripts/cmds/ytb.js": "add custom language"
 		}
+	},
+	{
+		"version": "1.1.1",
+		"files": {
+			"languages/en.lang": "",
+			"languages/vi.lang": "",
+			"scripts/cmds/help.js": "fixes error `TypeError: Cannot read property 'doNotHave' of undefined`",
+			"scripts/cmds/kick.js": "added languages",
+			"bot/handler/handlerEvents.js": "optimization function getLang",
+			"scripts/event/checkwarn.js": "added languages",
+			"scripts/event/leave.js": "added languages",
+			"scripts/event/logsbot.js": "added languages",
+			"scripts/event/welcome.js": "added languages"
+		}
 	}
 ]
