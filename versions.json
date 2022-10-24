@@ -308,7 +308,6 @@
 			"scripts/cmds/anime.js": "add custom language",
 			"scripts/cmds/antichangeinfobox.js": "add custom language",
 			"scripts/cmds/appstore.js": "add custom language",
-			"scripts/cmds/assets": "add custom language",
 			"scripts/cmds/autosetname.js": "add custom language",
 			"scripts/cmds/avatar.js": "add custom language",
 			"scripts/cmds/badwords.js": "add custom language",
