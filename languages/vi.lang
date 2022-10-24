@@ -56,6 +56,18 @@ handlerEvents.userBanned=Bạn đã bị Admin cấm sử dụng bot\n» Lý do:
 handlerEvents.threadBanned=Nhóm này đã bị Admin cấm sử dụng bot\n» Lý do: {{%1}}\n» Thời gian: %2\n» Thread ID: %3
 handlerEvents.onlyAdminBox=Hiện tại nhóm này đã được bật chế độ chỉ quản trị viên nhóm mới có thể sử dụng bot
 handlerEvents.onlyAdminBot=❌ | Hiện tại đã bật chế độ chỉ admin bot mới có thể sử dụng bot
+handlerEvents.commandNotFound=Lệnh "%1" không tồn tại, gõ %2help để xem tất cả lệnh hiện có
+handlerEvents.commandNotFound2=Lệnh bạn sử dụng không tồn tại, gõ %1help để xem tất cả lệnh hiện có
+handlerEvents.commandSyntaxError=Lệnh bạn đang sử dụng sai cú pháp, vui lòng gõ %1help %2 để xem chi tiết cách sử dụng lệnh này
+handlerEvents.onlyAdmin=Chỉ quản trị viên của nhóm chat mới có thể dùng lệnh "%1"
+handlerEvents.onlyAdminBot2=Chỉ admin bot mới có thể dùng lệnh "%1"
+handlerEvents.waitingForCommand=⏱ Bạn đang trong thời gian chờ sử dụng lệnh này, vui lòng quay lại sau %1s
+handlerEvents.errorOccurred=❌ [ %1 ]\nĐã xảy ra lỗi tại command "%2"\n\n%3
+handlerEvents.errorOccurred2=❌ [ %1 ]\nĐã xảy ra lỗi tại command onChat ở lệnh "%2"\n\n%3
+handlerEvents.errorOccurred3=❌ [ %1 ]\nĐã xảy ra lỗi khi thực thi onReply tại command "%2"\n\n%3
+handlerEvents.errorOccurred4=❌ [ %1 ]\n Đã xảy ra lỗi khi thực thi onReaction tại command "%2"\n\n%3
+handlerEvents.errorOccurred5=❌ [ %1 ]\nĐã xảy ra lỗi tại command event "%2"\n\n%3
+handlerEvents.errorOccurred6=❌ [ %1 ]\nĐã xảy ra lỗi tại command onEvent ở lệnh "%2"\n\n%3
 
 # bot/autoUptime.js
 autoUptime.autoUptime=Đã bật chế độ autoUptime
