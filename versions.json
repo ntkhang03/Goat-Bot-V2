@@ -1,5 +1,290 @@
 [
 	{
+		"version": "1.0.1",
+		"files": {
+			"bot/login/login.js": "fixes terminal freeze"
+		}
+	},
+	{
+		"version": "1.0.2",
+		"files": {
+			"bot/login/loadData.js": "fixes terminal freeze"
+		}
+	},
+	{
+		"version": "1.0.3",
+		"files": {
+			"bot/handler/handlerEvents.js": "fixes terminal freeze"
+		}
+	},
+	{
+		"version": "1.0.4",
+		"files": {
+			"bot/login/login.js": "fixes bugs",
+			"scripts/cmds/badwords.js": "fixes error `Cannot read properties of undefined (reading 'settings')`",
+			"scripts/cmds/loadconfig.js": "fixes error `Cannot read properties of undefined (reading 'dirConfig')`",
+			"scripts/cmds/tik.js": "fixes api"
+		}
+	},
+	{
+		"version": "1.0.5",
+		"files": {
+			"bot/login/login.js": "fixes duplicate login"
+		}
+	},
+	{
+		"version": "1.0.6",
+		"files": {
+			"scripts/cmds/ytb.js": "fixes error `AxiosError: unable to verify the first certificate`"
+		}
+	},
+	{
+		"version": "1.0.7",
+		"files": {
+			"scripts/cmds/videofb.js": "fixes error Cannot download video"
+		}
+	},
+	{
+		"version": "1.0.8",
+		"files": {
+			"utils.js": "update system translate",
+			"scripts/cmds/adduser.js": "update system translate"
+		}
+	},
+	{
+		"version": "1.0.9",
+		"files": {
+			"scripts/cmds/tik.js": "add slide download feature (images)"
+		}
+	},
+	{
+		"version": "1.0.10",
+		"files": {
+			"bot/handler/handlerEvents.js": "",
+			"scripts/cmds/simsimi.js": "new command"
+		}
+	},
+	{
+		"version": "1.0.11",
+		"files": {
+			"utils.js": "",
+			"scripts/cmds/anime.js": "new command random anime image",
+			"scripts/cmds/avatar.js": "new command create avatar anime",
+			"scripts/cmds/simsimi.js": ""
+		}
+	},
+	{
+		"version": "1.0.12",
+		"files": {
+			"scripts/cmds/anime.js": "fixes error Dissallowed props: `attachent`",
+			"scripts/cmds/videofb.js": ""
+		}
+	},
+	{
+		"version": "1.0.13",
+		"files": {
+			"bot/handler/handlerEvents.js": "fixes adminOnly not working",
+			"bot/login/loadScripts.js": "",
+			"scripts/cmds/cmd.js": "add function `install`: Download and install a script from a url, url is the path to the script (raw)",
+			"scripts/cmds/event.js": "add function `install`: Download and install a script from a url, url is the path to the script (raw)"
+		}
+	},
+	{
+		"version": "1.0.14",
+		"files": {
+			"bot/login/login.js": "automatically remove duplicate event listeners",
+			"scripts/cmds/cmd.js": "fixes error: `TypeError: Cannot read property 'indexOf' of undefined`",
+			"index.js": "added notification feature when new update is available"
+		}
+	},
+	{
+		"version": "1.0.15",
+		"files": {
+			"bot/login/login.js": "fixes bot not working after some time",
+			"scripts/cmds/admin.js": "new command help you Add, remove, edit admin rights",
+			"scripts/cmds/cmd.js": "fixes error `TypeError: Cannot read properties of undefined (reading 'toLowerCase')`",
+			"scripts/cmds/event.js": "fixes error `TypeError: Cannot read properties of undefined (reading 'toLowerCase')``"
+		}
+	},
+	{
+		"version": "1.0.16",
+		"files": {
+			"index.js": "",
+			"scripts/cmds/moon.js": "fixes error `TypeError: Cannot read property 'slice' of undefined`"
+		}
+	},
+	{
+		"version": "1.0.17",
+		"files": {
+			"database/connectDB/connectMongoDB.js": "fixes can't connect mongodb",
+			"database/controller/dashBoardData.js": "fixes can't connect mongodb",
+			"database/controller/index.js": "fixes can't connect mongodb",
+			"database/controller/threadsData.js": "fixes can't connect mongodb",
+			"database/controller/usersData.js": "fixes can't connect mongodb",
+			"index.js": "Update error reporting system",
+			"utils.js": "Update error reporting system"
+		}
+	},
+	{
+		"version": "1.0.18",
+		"files": {
+			"utils.js": "fixes error `CREDENTIALS: Please provide a valid apiKey in file config.json`"
+		}
+	},
+	{
+		"version": "1.0.19",
+		"files": {
+			"scripts/cmds/tik.js": "fixes `Error: The first argument (url) must be a string`"
+		}
+	},
+	{
+		"version": "1.0.20",
+		"files": {
+			"scripts/cmds/busy.js": "new command",
+			"scripts/cmds/filteruser.js": "new command",
+			"scripts/cmds/refresh.js": "new command"
+		}
+	},
+	{
+		"version": "1.0.21",
+		"files": {
+			"scripts/cmds/refresh.js": "edit role 0 (everyone) to 1 (admin only)"
+		}
+	},
+	{
+		"version": "1.0.22",
+		"files": {
+			"index.js": "confusion between variable \"version\" and \"currentVersion\" 🤧",
+			"scripts/cmds/setleave.js": "fixes can't customize newline text",
+			"scripts/cmds/setwelcome.js": "fixes can't customize newline text",
+			"scripts/cmds/shortcut.js": "fixes bug",
+			"scripts/cmds/simsimi.js": ""
+		}
+	},
+	{
+		"version": "1.0.23",
+		"files": {
+			"dashboard/views/404.eta": "cancel minify and fixes bugs",
+			"dashboard/views/change-password.eta": "cancel minify and fixes bugs",
+			"dashboard/views/dashboard-custom-cmd.eta": "cancel minify and fixes bugs",
+			"dashboard/views/dashboard-leave.eta": "cancel minify and fixes bugs",
+			"dashboard/views/dashboard-rankup.eta": "cancel minify and fixes bugs",
+			"dashboard/views/dashboard-thread.eta": "cancel minify and fixes bugs",
+			"dashboard/views/dashboard-welcome.eta": "cancel minify and fixes bugs",
+			"dashboard/views/dashboard.eta": "cancel minify and fixes bugs",
+			"dashboard/views/donate.eta": "cancel minify and fixes bugs",
+			"dashboard/views/forgot-password-new-password.eta": "cancel minify and fixes bugs",
+			"dashboard/views/forgot-password-submit-code.eta": "cancel minify and fixes bugs",
+			"dashboard/views/forgot-password.eta": "cancel minify and fixes bugs",
+			"dashboard/views/home.eta": "cancel minify and fixes bugs",
+			"dashboard/views/login.eta": "cancel minify and fixes bugs",
+			"dashboard/views/profile.eta": "cancel minify and fixes bugs",
+			"dashboard/views/register-resend-code.eta": "cancel minify and fixes bugs",
+			"dashboard/views/register-submit-code.eta": "cancel minify and fixes bugs",
+			"dashboard/views/register.eta": "cancel minify and fixes bugs",
+			"dashboard/views/stats.eta": "cancel minify and fixes bugs",
+			"dashboard/views/verifyfbid-submit-code.eta": "cancel minify and fixes bugs",
+			"dashboard/views/verifyfbid.eta": "cancel minify and fixes bugs",
+			"bot/autoUptime.js": "add language adjustment function for terminal",
+			"bot/handler/handlerCheckData.js": "add language adjustment function for terminal",
+			"languages/vi.lang": "add language adjustment function for terminal",
+			"languages/en.lang": "add language adjustment function for terminal",
+			"index.js": "add language adjustment function for terminal",
+			"database/controller/index.js": "add language adjustment function for terminal",
+			"dashboard/routes/verifyfbid.js": "add language adjustment function for terminal",
+			"bot/login/socketIO.js": "add language adjustment function for terminal",
+			"bot/login/login.js": "add language adjustment function for terminal",
+			"bot/login/loadScripts.js": "add language adjustment function for terminal",
+			"bot/login/loadData.js": "add language adjustment function for terminal",
+			"scripts/cmds/grouptag.js": "add feature to view tag group information",
+			"database/models/mongodb/userDashBoard.js": "fixes mongodb not working",
+			"database/models/mongodb/user.js": "fixes mongodb not working",
+			"database/models/mongodb/thread.js": "fixes mongodb not working",
+			"database/controller/usersData.js": "fixes mongodb not working",
+			"database/controller/threadsData.js": "fixes mongodb not working",
+			"database/controller/dashBoardData.js": "fixes mongodb not working",
+			"dashboard/routes/api.js": "",
+			"dashboard/app.js": ""
+		}
+	},
+	{
+		"version": "1.0.24",
+		"files": {
+			"update.js": "update handle update",
+			"languages/en.lang": ""
+		}
+	},
+	{
+		"version": "1.0.25",
+		"files": {
+			"bot/handler/handlerAction.js": "add globalModel and globalData",
+			"utils.js": "add globalModel and globalData",
+			"scripts/cmds/eval.js": "add globalModel and globalData",
+			"index.js": "add globalModel and globalData",
+			"database/models/sqlite/global.js": "add globalModel and globalData",
+			"database/models/mongodb/global.js": "add globalModel and globalData",
+			"database/controller/index.js": "add globalModel and globalData",
+			"database/controller/globalData.js": "add globalModel and globalData",
+			"database/connectDB/connectSqlite.js": "add globalModel and globalData",
+			"database/connectDB/connectMongoDB.js": "add globalModel and globalData",
+			"dashboard/connectDB.js": "add globalModel and globalData",
+			"bot/login/loadData.js": "add globalModel and globalData",
+			"bot/login/login.js": "add globalModel and globalData",
+			"bot/handler/handlerEvents.js": "add globalModel and globalData",
+			"bot/login/checkLiveCookie.js": "Update checkLiveCookie.js",
+			"dashboard/views/register.eta": "",
+			"database/controller/dashBoardData.js": "Update many error messages",
+			"database/controller/threadsData.js": "Update many error messages",
+			"database/controller/usersData.js": "Update many error messages",
+			"scripts/cmds/setname.js": "",
+			"updater.js": "update updater",
+			"update.js": "update updater"
+		}
+	},
+	{
+		"version": "1.0.26",
+		"files": {
+			"scripts/cmds/setalias.js": "add option -g (applies to the whole system)",
+			"scripts/cmds/event.js": "add Argument and Parameter `globalModel`, `globalData`",
+			"scripts/cmds/cmd.js": "add Argument and Parameter `globalModel`, `globalData`",
+			"bot/login/loadScripts.js": "add Argument and Parameter `globalModel`, `globalData`",
+			"bot/handler/handlerEvents.js": "add Argument and Parameter `globalModel`, `globalData`",
+			"bot/login/login.js": "add Argument and Parameter `globalModel`, `globalData`"
+		}
+	},
+	{
+		"version": "1.0.27",
+		"files": {
+			"bot/login/login.js": "fixes console freeze error"
+		}
+	},
+	{
+		"version": "1.0.28",
+		"files": {
+			"scripts/cmds/notification.js": "fixes `Error: parseAndCheckLogin got status code: 404. Bailing out of trying to parse response.`"
+		},
+		"deleteFiles": {
+			"scripts/cmds/instagram.js": "api is no longer working"
+		}
+	},
+	{
+		"version": "1.0.29",
+		"files": {
+			"bot/handler/handlerEvents.js": "fixes `Can't find text: \"handlerEvents..\"`",
+			"package-lock.json": "update package `fb-chat-api` version 10.4.14",
+			"package.json": "update package `fb-chat-api` version 10.4.14",
+			"scripts/cmds/setavt.js": "fixes `TypeError: Cannot read property 'startsWith' of undefined`",
+			"scripts/cmds/ytb.js": "no need to use youtube api key v3 anymore"
+		}
+	},
+	{
+		"version": "1.0.30",
+		"files": {
+			"scripts/cmds/ytb.js": "fixes `TypeError: Cannot read property 'length' of undefined`",
+			"scripts/cmds/customrankcard.js": ""
+		}
+	},
+	{
 		"version": "1.1.0",
 		"files": {
 			"config.json": "",
@@ -75,291 +360,6 @@
 			"scripts/cmds/warn.js": "add custom language",
 			"scripts/cmds/weather.js": "add custom language",
 			"scripts/cmds/ytb.js": "add custom language"
-		}
-	},
-	{
-		"version": "1.0.30",
-		"files": {
-			"scripts/cmds/ytb.js": "fixes `TypeError: Cannot read property 'length' of undefined`",
-			"scripts/cmds/customrankcard.js": ""
-		}
-	},
-	{
-		"version": "1.0.29",
-		"files": {
-			"bot/handler/handlerEvents.js": "fixes `Can't find text: \"handlerEvents..\"`",
-			"package-lock.json": "update package `fb-chat-api` version 10.4.14",
-			"package.json": "update package `fb-chat-api` version 10.4.14",
-			"scripts/cmds/setavt.js": "fixes `TypeError: Cannot read property 'startsWith' of undefined`",
-			"scripts/cmds/ytb.js": "no need to use youtube api key v3 anymore"
-		}
-	},
-	{
-		"version": "1.0.28",
-		"files": {
-			"scripts/cmds/notification.js": "fixes `Error: parseAndCheckLogin got status code: 404. Bailing out of trying to parse response.`"
-		},
-		"deleteFiles": {
-			"scripts/cmds/instagram.js": "api is no longer working"
-		}
-	},
-	{
-		"version": "1.0.27",
-		"files": {
-			"bot/login/login.js": "fixes console freeze error"
-		}
-	},
-	{
-		"version": "1.0.26",
-		"files": {
-			"scripts/cmds/setalias.js": "add option -g (applies to the whole system)",
-			"scripts/cmds/event.js": "add Argument and Parameter `globalModel`, `globalData`",
-			"scripts/cmds/cmd.js": "add Argument and Parameter `globalModel`, `globalData`",
-			"bot/login/loadScripts.js": "add Argument and Parameter `globalModel`, `globalData`",
-			"bot/handler/handlerEvents.js": "add Argument and Parameter `globalModel`, `globalData`",
-			"bot/login/login.js": "add Argument and Parameter `globalModel`, `globalData`"
-		}
-	},
-	{
-		"version": "1.0.25",
-		"files": {
-			"bot/handler/handlerAction.js": "add globalModel and globalData",
-			"utils.js": "add globalModel and globalData",
-			"scripts/cmds/eval.js": "add globalModel and globalData",
-			"index.js": "add globalModel and globalData",
-			"database/models/sqlite/global.js": "add globalModel and globalData",
-			"database/models/mongodb/global.js": "add globalModel and globalData",
-			"database/controller/index.js": "add globalModel and globalData",
-			"database/controller/globalData.js": "add globalModel and globalData",
-			"database/connectDB/connectSqlite.js": "add globalModel and globalData",
-			"database/connectDB/connectMongoDB.js": "add globalModel and globalData",
-			"dashboard/connectDB.js": "add globalModel and globalData",
-			"bot/login/loadData.js": "add globalModel and globalData",
-			"bot/login/login.js": "add globalModel and globalData",
-			"bot/handler/handlerEvents.js": "add globalModel and globalData",
-			"bot/login/checkLiveCookie.js": "Update checkLiveCookie.js",
-			"dashboard/views/register.eta": "",
-			"database/controller/dashBoardData.js": "Update many error messages",
-			"database/controller/threadsData.js": "Update many error messages",
-			"database/controller/usersData.js": "Update many error messages",
-			"scripts/cmds/setname.js": "",
-			"updater.js": "update updater",
-			"update.js": "update updater"
-		}
-	},
-	{
-		"version": "1.0.24",
-		"files": {
-			"update.js": "update handle update",
-			"languages/en.lang": ""
-		}
-	},
-	{
-		"version": "1.0.23",
-		"files": {
-			"dashboard/views/404.eta": "cancel minify and fixes bugs",
-			"dashboard/views/change-password.eta": "cancel minify and fixes bugs",
-			"dashboard/views/dashboard-custom-cmd.eta": "cancel minify and fixes bugs",
-			"dashboard/views/dashboard-leave.eta": "cancel minify and fixes bugs",
-			"dashboard/views/dashboard-rankup.eta": "cancel minify and fixes bugs",
-			"dashboard/views/dashboard-thread.eta": "cancel minify and fixes bugs",
-			"dashboard/views/dashboard-welcome.eta": "cancel minify and fixes bugs",
-			"dashboard/views/dashboard.eta": "cancel minify and fixes bugs",
-			"dashboard/views/donate.eta": "cancel minify and fixes bugs",
-			"dashboard/views/forgot-password-new-password.eta": "cancel minify and fixes bugs",
-			"dashboard/views/forgot-password-submit-code.eta": "cancel minify and fixes bugs",
-			"dashboard/views/forgot-password.eta": "cancel minify and fixes bugs",
-			"dashboard/views/home.eta": "cancel minify and fixes bugs",
-			"dashboard/views/login.eta": "cancel minify and fixes bugs",
-			"dashboard/views/profile.eta": "cancel minify and fixes bugs",
-			"dashboard/views/register-resend-code.eta": "cancel minify and fixes bugs",
-			"dashboard/views/register-submit-code.eta": "cancel minify and fixes bugs",
-			"dashboard/views/register.eta": "cancel minify and fixes bugs",
-			"dashboard/views/stats.eta": "cancel minify and fixes bugs",
-			"dashboard/views/verifyfbid-submit-code.eta": "cancel minify and fixes bugs",
-			"dashboard/views/verifyfbid.eta": "cancel minify and fixes bugs",
-			"bot/autoUptime.js": "add language adjustment function for terminal",
-			"bot/handler/handlerCheckData.js": "add language adjustment function for terminal",
-			"languages/vi.lang": "add language adjustment function for terminal",
-			"languages/en.lang": "add language adjustment function for terminal",
-			"index.js": "add language adjustment function for terminal",
-			"database/controller/index.js": "add language adjustment function for terminal",
-			"dashboard/routes/verifyfbid.js": "add language adjustment function for terminal",
-			"bot/login/socketIO.js": "add language adjustment function for terminal",
-			"bot/login/login.js": "add language adjustment function for terminal",
-			"bot/login/loadScripts.js": "add language adjustment function for terminal",
-			"bot/login/loadData.js": "add language adjustment function for terminal",
-			"scripts/cmds/grouptag.js": "add feature to view tag group information",
-			"database/models/mongodb/userDashBoard.js": "fixes mongodb not working",
-			"database/models/mongodb/user.js": "fixes mongodb not working",
-			"database/models/mongodb/thread.js": "fixes mongodb not working",
-			"database/controller/usersData.js": "fixes mongodb not working",
-			"database/controller/threadsData.js": "fixes mongodb not working",
-			"database/controller/dashBoardData.js": "fixes mongodb not working",
-			"dashboard/routes/api.js": "",
-			"dashboard/app.js": ""
-		}
-	},
-	{
-		"version": "1.0.22",
-		"files": {
-			"index.js": "confusion between variable \"version\" and \"currentVersion\" 🤧",
-			"scripts/cmds/setleave.js": "fixes can't customize newline text",
-			"scripts/cmds/setwelcome.js": "fixes can't customize newline text",
-			"scripts/cmds/shortcut.js": "fixes bug",
-			"scripts/cmds/simsimi.js": ""
-		}
-	},
-	{
-		"version": "1.0.21",
-		"files": {
-			"scripts/cmds/refresh.js": "edit role 0 (everyone) to 1 (admin only)"
-		}
-	},
-	{
-		"version": "1.0.20",
-		"files": {
-			"scripts/cmds/busy.js": "new command",
-			"scripts/cmds/filteruser.js": "new command",
-			"scripts/cmds/refresh.js": "new command"
-		}
-	},
-	{
-		"version": "1.0.19",
-		"files": {
-			"scripts/cmds/tik.js": "fixes `Error: The first argument (url) must be a string`"
-		}
-	},
-	{
-		"version": "1.0.18",
-		"files": {
-			"utils.js": "fixes error `CREDENTIALS: Please provide a valid apiKey in file config.json`"
-		}
-	},
-	{
-		"version": "1.0.17",
-		"files": {
-			"database/connectDB/connectMongoDB.js": "fixes can't connect mongodb",
-			"database/controller/dashBoardData.js": "fixes can't connect mongodb",
-			"database/controller/index.js": "fixes can't connect mongodb",
-			"database/controller/threadsData.js": "fixes can't connect mongodb",
-			"database/controller/usersData.js": "fixes can't connect mongodb",
-			"index.js": "Update error reporting system",
-			"utils.js": "Update error reporting system"
-		}
-	},
-	{
-		"version": "1.0.16",
-		"files": {
-			"index.js": "",
-			"scripts/cmds/moon.js": "fixes error `TypeError: Cannot read property 'slice' of undefined`"
-		}
-	},
-	{
-		"version": "1.0.15",
-		"files": {
-			"bot/login/login.js": "fixes bot not working after some time",
-			"scripts/cmds/admin.js": "new command help you Add, remove, edit admin rights",
-			"scripts/cmds/cmd.js": "fixes error `TypeError: Cannot read properties of undefined (reading 'toLowerCase')`",
-			"scripts/cmds/event.js": "fixes error `TypeError: Cannot read properties of undefined (reading 'toLowerCase')``"
-		}
-	},
-	{
-		"version": "1.0.14",
-		"files": {
-			"bot/login/login.js": "automatically remove duplicate event listeners",
-			"scripts/cmds/cmd.js": "fixes error: `TypeError: Cannot read property 'indexOf' of undefined`",
-			"index.js": "added notification feature when new update is available"
-		}
-	},
-	{
-		"version": "1.0.13",
-		"files": {
-			"bot/handler/handlerEvents.js": "fixes adminOnly not working",
-			"bot/login/loadScripts.js": "",
-			"scripts/cmds/cmd.js": "add function `install`: Download and install a script from a url, url is the path to the script (raw)",
-			"scripts/cmds/event.js": "add function `install`: Download and install a script from a url, url is the path to the script (raw)"
-		}
-	},
-	{
-		"version": "1.0.12",
-		"files": {
-			"scripts/cmds/anime.js": "fixes error Dissallowed props: `attachent`",
-			"scripts/cmds/videofb.js": ""
-		}
-	},
-	{
-		"version": "1.0.11",
-		"files": {
-			"utils.js": "",
-			"scripts/cmds/anime.js": "new command random anime image",
-			"scripts/cmds/avatar.js": "new command create avatar anime",
-			"scripts/cmds/simsimi.js": ""
-		}
-	},
-	{
-		"version": "1.0.10",
-		"files": {
-			"bot/handler/handlerEvents.js": "",
-			"scripts/cmds/simsimi.js": "new command"
-		}
-	},
-	{
-		"version": "1.0.9",
-		"files": {
-			"scripts/cmds/tik.js": "add slide download feature (images)"
-		}
-	},
-	{
-		"version": "1.0.8",
-		"files": {
-			"utils.js": "update system translate",
-			"scripts/cmds/adduser.js": "update system translate"
-		}
-	},
-	{
-		"version": "1.0.7",
-		"files": {
-			"scripts/cmds/videofb.js": "fixes error Cannot download video"
-		}
-	},
-	{
-		"version": "1.0.6",
-		"files": {
-			"scripts/cmds/ytb.js": "fixes error `AxiosError: unable to verify the first certificate`"
-		}
-	},
-	{
-		"version": "1.0.5",
-		"files": {
-			"bot/login/login.js": "fixes duplicate login"
-		}
-	},
-	{
-		"version": "1.0.4",
-		"files": {
-			"bot/login/login.js": "fixes bugs",
-			"scripts/cmds/badwords.js": "fixes error `Cannot read properties of undefined (reading 'settings')`",
-			"scripts/cmds/loadconfig.js": "fixes error `Cannot read properties of undefined (reading 'dirConfig')`",
-			"scripts/cmds/tik.js": "fixes api"
-		}
-	},
-	{
-		"version": "1.0.3",
-		"files": {
-			"bot/handler/handlerEvents.js": "fixes terminal freeze"
-		}
-	},
-	{
-		"version": "1.0.2",
-		"files": {
-			"bot/login/loadData.js": "fixes terminal freeze"
-		}
-	},
-	{
-		"version": "1.0.1",
-		"files": {
-			"bot/login/login.js": "fixes terminal freeze"
 		}
 	}
 ]
