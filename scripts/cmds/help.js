@@ -13,7 +13,7 @@ const characters = "━━━━━━━━━━━━━";
 module.exports = {
 	config: {
 		name: "help",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -48,7 +48,7 @@ module.exports = {
 		en: {
 			doNotDelete: "[ 🐐 | Goat Bot ]",
 			help: "%1\n%2\n%1\nPage [ %3/%4 ]\nCurrently, the bot has %5 commands that can be used\n» Type %6help to view the command list\n» Type %6help to view the details of how to use that command\n%1\n%7",
-			help2: "%1%2\n» Currently, the bot has %3 commands that can be used, type %3help <command name> to view the details of how to use that command\n%2\n%4",
+			help2: "%1%2\n» Currently, the bot has %3 commands that can be used, type %4help <command name> to view the details of how to use that command\n%2\n%5",
 			commandNotFound: "Command \"%1\" does not exist",
 			getInfoCommand: "%1\n» Description: %2\n» Other names: %3\n» Other names in your group: %4\n» Version: %5\n» Role: %6\n» Time per command: %7s\n» Author: %8\n» Usage guide:\n\n%9",
 			doNotHave: "Do not have",
@@ -58,7 +58,7 @@ module.exports = {
 		}
 	},
 
-	onStart: async function ({ message, args, event, threadsData, getLang }) {
+	onStart: async function ({ message, args, event, threadsData, getLang, role }) {
 		const langCode = await threadsData.get(event.threadID, "data.lang") || global.GoatBot.config.languege;
 		let customLang;
 		if (fs.existsSync(`${path.join(__dirname, "..", "..", "languages", "cmds", `${langCode}.js`)}`))
@@ -81,6 +81,8 @@ module.exports = {
 				const page = parseInt(args[0]) || 1;
 				const numberOfOnePage = 30;
 				for (const [name, value] of commands) {
+					if (value.config.role > 1 && role < value.config.role)
+						continue;
 					let describe = name;
 					let shortDescription;
 					const shortDescriptionCustomLang = customLang[name]?.shortDescription;
@@ -104,6 +106,8 @@ module.exports = {
 			}
 			else if (sortHelp == "category") {
 				for (const [, value] of commands) {
+					if (value.config.role > 1 && role < value.config.role)
+						continue;
 					if (arrayInfo.some(item => item.category == value.config.category.toLowerCase())) {
 						const index = arrayInfo.findIndex(item => item.category == value.config.category.toLowerCase());
 						arrayInfo[index].names.push(value.config.name);

@@ -3,11 +3,8 @@ const { getTime, drive } = global.utils;
 module.exports = {
 	config: {
 		name: "leave",
-		version: "1.1",
-		author: "NTKhang",
-		envConfig: {
-			defaultLeaveMessage: "{userName} has left the chat group"
-		}
+		version: "1.2",
+		author: "NTKhang"
 	},
 
 	langs: {
@@ -17,7 +14,8 @@ module.exports = {
 			session3: "chiều",
 			session4: "tối",
 			leaveType1: "tự rời khỏi nhóm",
-			leaveType2: "bị kick khỏi nhóm"
+			leaveType2: "bị kick khỏi nhóm",
+			defaultLeaveMessage: "{userName} đã {type} khỏi nhóm"
 		},
 		en: {
 			session1: "morning",
@@ -25,11 +23,12 @@ module.exports = {
 			session3: "afternoon",
 			session4: "evening",
 			leaveType1: "left the group",
-			leaveType2: "was kicked from the group"
+			leaveType2: "was kicked from the group",
+			defaultLeaveMessage: "{userName} {type} the group"
 		}
 	},
 
-	onStart: async ({ threadsData, message, event, api, usersData, commandName, envEvents, getLang }) => {
+	onStart: async ({ threadsData, message, event, api, usersData, getLang }) => {
 		if (event.logMessageType == "log:unsubscribe")
 			return async function () {
 				const { threadID } = event;
@@ -51,7 +50,7 @@ module.exports = {
 				// {time}       : time
 				// {session}    : session
 
-				let { leaveMessage = envEvents[commandName].defaultLeaveMessage } = threadData.data;
+				let { leaveMessage = getLang("defaultLeaveMessage") } = threadData.data;
 				const form = {
 					mentions: leaveMessage.match(/\{userNameTag\}/g) ? [{
 						tag: userName,

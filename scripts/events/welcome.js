@@ -3,11 +3,8 @@ const { getTime, drive } = global.utils;
 module.exports = {
 	config: {
 		name: "welcome",
-		version: "1.1",
-		author: "NTKhang",
-		envConfig: {
-			defaultWelcomeMessage: `Hello {userName}.\nWelcome {multiple} to the chat group: {boxName}\nHave a nice {session} 😊`
-		}
+		version: "1.2",
+		author: "NTKhang"
 	},
 
 	langs: {
@@ -18,7 +15,8 @@ module.exports = {
 			session4: "tối",
 			welcomeMessage: "Cảm ơn bạn đã mời tôi vào nhóm!\nPrefix bot: %1\nĐể xem danh sách lệnh hãy nhập: %1help",
 			multiple1: "bạn",
-			multiple2: "các bạn"
+			multiple2: "các bạn",
+			defaultWelcomeMessage: "Xin chào {userName}.\nChào mừng bạn đến với {boxName}.\nChúc bạn có buổi {session} vui vẻ!"
 		},
 		en: {
 			session1: "morning",
@@ -27,11 +25,12 @@ module.exports = {
 			session4: "evening",
 			welcomeMessage: "Thank you for inviting me to the group!\nBot prefix: %1\nTo view the list of commands, please enter: %1help",
 			multiple1: "you",
-			multiple2: "you guys"
+			multiple2: "you guys",
+			defaultWelcomeMessage: `Hello {userName}.\nWelcome {multiple} to the chat group: {boxName}\nHave a nice {session} 😊`
 		}
 	},
 
-	onStart: async ({ threadsData, message, event, api, commandName, envEvents, getLang }) => {
+	onStart: async ({ threadsData, message, event, api, getLang }) => {
 		if (event.logMessageType == "log:subscribe")
 			return async function () {
 				const hours = getTime("HH");
@@ -67,7 +66,7 @@ module.exports = {
 				// {boxName}:    name of group
 				// {threadName}: name of group
 				// {session}:    session of day
-				let { welcomeMessage = envEvents[commandName].defaultWelcomeMessage } = threadData.data;
+				let { welcomeMessage = getLang("defaultWelcomeMessage") } = threadData.data;
 				const form = {
 					mentions: welcomeMessage.match(/\{userNameTag\}/g) ? mentions : null
 				};
