@@ -371,5 +371,14 @@
 			"scripts/events/logsbot.js": "added languages",
 			"scripts/events/welcome.js": "added languages"
 		}
+	},
+	{
+		"version": "1.1.2",
+		"files": {
+			"languages/cmds/en.js": "update language",
+			"scripts/cmds/help.js": "update language",
+			"scripts/events/leave.js": "update language",
+			"scripts/events/welcome.js": "update language"
+		}
 	}
 ]
