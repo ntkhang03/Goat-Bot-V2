@@ -3,51 +3,96 @@ const { getStreamFromURL } = global.utils;
 module.exports = {
 	config: {
 		name: "antichangeinfobox",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: "Chống đổi thông tin box chat",
-		longDescription: "Bật tắt chức năng chống thành viên đổi thông tin box chat của bạn",
+		shortDescription: {
+			vi: "Chống đổi thông tin box chat",
+			en: "Anti change info box"
+		},
+		longDescription: {
+			vi: "Bật tắt chức năng chống thành viên đổi thông tin box chat của bạn",
+			en: "Turn on/off anti change info box"
+		},
 		category: "box chat",
-		guide: "{pn} {{avt [on | off]}}: chống đổi avatar box chat"
-			+ "\n{pn} {{name [on | off]}}: chống đổi tên box chat"
-			+ "\n{pn} {{theme [on | off]}}: chống đổi theme (chủ đề) box chat"
-			+ "\n{pn} {{emoji [on | off]}}: chống đổi trạng emoji box chat"
+		guide: {
+			vi: "   {pn} avt [on | off]: chống đổi avatar box chat"
+				+ "\n   {pn} name [on | off]: chống đổi tên box chat"
+				+ "\n   {pn} theme [on | off]: chống đổi theme (chủ đề) box chat"
+				+ "\n   {pn} emoji [on | off]: chống đổi trạng emoji box chat",
+			en: "   {pn} avt [on | off]: anti change avatar box chat"
+				+ "\n   {pn} name [on | off]: anti change name box chat"
+				+ "\n   {pn} theme [on | off]: anti change theme (chủ đề) box chat"
+				+ "\n   {pn} emoji [on | off]: anti change emoji box chat"
+		}
 	},
 
-	onStart: async function ({ message, event, args, threadsData }) {
+	langs: {
+		vi: {
+			antiChangeAvatarOn: "Đã bật chức năng chống đổi avatar box chat",
+			antiChangeAvatarOff: "Đã tắt chức năng chống đổi avatar box chat",
+			missingAvt: "Bạn chưa đặt avatar cho box chat",
+			antiChangeNameOn: "Đã bật chức năng chống đổi tên box chat",
+			antiChangeNameOff: "Đã tắt chức năng chống đổi tên box chat",
+			antiChangeThemeOn: "Đã bật chức năng chống đổi theme (chủ đề) box chat",
+			antiChangeThemeOff: "Đã tắt chức năng chống đổi theme (chủ đề) box chat",
+			antiChangeEmojiOn: "Đã bật chức năng chống đổi emoji box chat",
+			antiChangeEmojiOff: "Đã tắt chức năng chống đổi emoji box chat",
+			antiChangeAvatarAlreadyOn: "Hiện tại box chat của bạn đang bật chức năng cấm thành viên đổi avatar",
+			antiChangeNameAlreadyOn: "Hiện tại box chat của bạn đang bật chức năng cấm thành viên đổi tên",
+			antiChangeThemeAlreadyOn: "Hiện tại box chat của bạn đang bật chức năng cấm thành viên đổi theme (chủ đề)",
+			antiChangeEmojiAlreadyOn: "Hiện tại box chat của bạn đang bật chức năng cấm thành viên đổi emoji"
+		},
+		en: {
+			antiChangeAvatarOn: "Turn on anti change avatar box chat",
+			antiChangeAvatarOff: "Turn off anti change avatar box chat",
+			missingAvt: "You have not set avatar for box chat",
+			antiChangeNameOn: "Turn on anti change name box chat",
+			antiChangeNameOff: "Turn off anti change name box chat",
+			antiChangeThemeOn: "Turn on anti change theme box chat",
+			antiChangeThemeOff: "Turn off anti change theme box chat",
+			antiChangeEmojiOn: "Turn on anti change emoji box chat",
+			antiChangeEmojiOff: "Turn off anti change emoji box chat",
+			antiChangeAvatarAlreadyOn: "Your box chat is currently on anti change avatar",
+			antiChangeNameAlreadyOn: "Your box chat is currently on anti change name",
+			antiChangeThemeAlreadyOn: "Your box chat is currently on anti change theme",
+			antiChangeEmojiAlreadyOn: "Your box chat is currently on anti change emoji"
+		}
+	},
+
+	onStart: async function ({ message, event, args, threadsData, getLang }) {
 		if (!["on", "off"].includes(args[1]))
 			return message.SyntaxError();
 		const { threadID } = event;
 		const dataAntiChangeInfoBox = await threadsData.get(threadID, "data.antiChangeInfoBox", {});
-		async function checkAndSaveData(key, data, type) {
+		async function checkAndSaveData(key, data) {
 			dataAntiChangeInfoBox[key] = args[1] === "on" ? data : false;
 			await threadsData.set(threadID, dataAntiChangeInfoBox, "data.antiChangeInfoBox");
-			message.send(`Đã ${args[1] == "on" ? "bật" : "tắt"} chức năng chống đổi ${type} box chat`);
+			message.send(getLang(key.slice(0, 1).toUpperCase() + key.slice(1) + args[1].slice(0, 1).toUpperCase() + args[1].slice(1)));
 		}
 		switch (args[0]) {
 			case "avt":
 			case "avatar": {
 				const { imageSrc } = await threadsData.get(threadID);
 				if (!imageSrc)
-					return message.send("Box chat của bạn cần phải đặt avatar trước");
-				await checkAndSaveData("avatar", imageSrc, "avatar");
+					return message.send(getLang("missingAvt"));
+				await checkAndSaveData("avatar", imageSrc);
 				break;
 			}
 			case "name": {
 				const { threadName } = await threadsData.get(threadID);
-				await checkAndSaveData("name", threadName, "tên");
+				await checkAndSaveData("name", threadName);
 				break;
 			}
 			case "theme": {
 				const { threadThemeID } = await threadsData.get(threadID);
-				await checkAndSaveData("theme", threadThemeID, "chủ đề");
+				await checkAndSaveData("theme", threadThemeID);
 				break;
 			}
 			case "emoji": {
 				const { emoji } = await threadsData.get(threadID);
-				await checkAndSaveData("emoji", emoji, "emoji");
+				await checkAndSaveData("emoji", emoji);
 				break;
 			}
 			default: {
@@ -56,7 +101,7 @@ module.exports = {
 		}
 	},
 
-	onEvent: async function ({ message, event, threadsData, role, api }) {
+	onEvent: async function ({ message, event, threadsData, role, api, getLang }) {
 		const { threadID, logMessageType, logMessageData, author } = event;
 		switch (logMessageType) {
 			case "log:thread-image": {
@@ -65,7 +110,7 @@ module.exports = {
 					return;
 				return async function () {
 					if (role < 1 && api.getCurrentUserID() !== author) {
-						message.reply(`Hiện tại box chat của bạn đang bật chức năng cấm thành viên đổi avatar`);
+						message.reply(getLang("antiChangeAvatarAlreadyOn"));
 						api.changeGroupImage(await getStreamFromURL(imgURL), threadID);
 					}
 					else {
@@ -80,7 +125,7 @@ module.exports = {
 					return;
 				return async function () {
 					if (role < 1 && api.getCurrentUserID() !== author) {
-						message.reply(`Hiện tại box chat của bạn đang bật chức năng chống thành viên đổi tên nhóm`);
+						message.reply(getLang("antiChangeNameAlreadyOn"));
 						api.setTitle(name, threadID);
 					}
 					else {
@@ -95,7 +140,7 @@ module.exports = {
 					return;
 				return async function () {
 					if (role < 1 && api.getCurrentUserID() !== author) {
-						message.reply(`Hiện tại box chat của bạn đang bật chức năng chống thành viên đổi theme (chủ đề)`);
+						message.reply(getLang("antiChangeThemeAlreadyOn"));
 						api.changeThreadColor(themeID || "196241301102133", threadID); // 196241301102133 is default color
 					}
 					else {
@@ -110,7 +155,7 @@ module.exports = {
 					return;
 				return async function () {
 					if (role < 1 && api.getCurrentUserID() !== author) {
-						message.reply(`Hiện tại box chat của bạn đang bật chức năng chống thành viên đổi emoji`);
+						message.reply(getLang("antiChangeEmojiAlreadyOn"));
 						api.changeThreadEmoji(emoji, threadID);
 					}
 					else {

@@ -4,12 +4,18 @@ module.exports = {
 	config: {
 		name: "loadconfig",
 		aliases: ["loadcf"],
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: "Load lại config",
-		longDescription: "Load lại config của bot",
+		shortDescription: {
+			vi: "Load lại config",
+			en: "Reload config"
+		},
+		longDescription: {
+			vi: "Load lại config của bot",
+			en: "Reload config of bot"
+		},
 		category: "owner",
 		guide: "{pn}"
 	},

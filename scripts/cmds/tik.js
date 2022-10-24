@@ -8,18 +8,44 @@ module.exports = {
 	config: {
 		name: "tik",
 		aliases: ["tiktok"],
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
 		shortDescription: "Tiktok",
-		longDescription: "Tải video/slide (image), audio từ link tiktok",
+		longDescription: {
+			vi: "Tải video/slide (image), audio từ link tiktok",
+			en: "Download video/slide (image), audio from tiktok link"
+		},
 		category: "media",
-		guide: "{pn} {{[video|-v|v] <url>}}: dùng để tải video/slide (image) từ link tiktok."
-			+ "\n{pn} {{[audio|-a|a] <url>}}: dùng để tải audio từ link tiktok"
+		guide: {
+			vi: "   {pn} [video|-v|v] <url>: dùng để tải video/slide (image) từ link tiktok."
+				+ "\n   {pn} [audio|-a|a] <url>: dùng để tải audio từ link tiktok",
+			en: "   {pn} [video|-v|v] <url>: use to download video/slide (image) from tiktok link."
+				+ "\n   {pn} [audio|-a|a] <url>: use to download audio from tiktok link"
+		}
 	},
 
-	onStart: async function ({ args, message }) {
+	langs: {
+		vi: {
+			invalidUrl: "Vui lòng nhập url tiktok hợp lệ",
+			downloadingVideo: "Đang tải video: %1...",
+			downloadedSlide: "Đã tải slide: %1\n%2",
+			downloadedVideo: "Đã tải video: %1\nUrl Download: %2",
+			downloadingAudio: "Đang tải audio: %1...",
+			downloadedAudio: "Đã tải audio: %1"
+		},
+		en: {
+			invalidUrl: "Please enter a valid tiktok url",
+			downloadingVideo: "Downloading video: %1...",
+			downloadedSlide: "Downloaded slide: %1\n%2",
+			downloadedVideo: "Downloaded video: %1\nDownload Url: %2",
+			downloadingAudio: "Downloading audio: %1...",
+			downloadedAudio: "Downloaded audio: %1"
+		}
+	},
+
+	onStart: async function ({ args, message, getLang }) {
 		switch (args[0]) {
 			case "video":
 			case "-v":
@@ -27,12 +53,12 @@ module.exports = {
 				const data = await query(args[1]);
 				if (data.status == 'error') {
 					if (data.message == 'It seems that TikTok is changed something on their website, so we are not able to reach their data. Please wait for 5 minutes and try to request your link again. We are looking into this issue.')
-						return message.reply("Vui lòng nhập url tiktok hợp lệ");
+						return message.reply(getLang("invalidUrl"));
 					else
 						return message.reply(data.message);
 				}
 
-				const msgSend = message.reply(`Đang tải video: {{${data.title}}}...`);
+				const msgSend = message.reply(getLang("downloadingVideo", data.title));
 				const linksNoWatermark = data.downloadUrls;
 				if (Array.isArray(linksNoWatermark)) {
 					const allStreamImage = await Promise.all(linksNoWatermark.map(link => getStreamFromURL(link)));
@@ -41,14 +67,14 @@ module.exports = {
 						.then(shortUrl => `${index + 1}: ${shortUrl}`)
 					));
 					message.reply({
-						body: `Đã tải slide {{${data.title}\n${allImageShortUrl.join('\n')}}}`,
+						body: getLang("downloadedSlide", data.title, allImageShortUrl.join('\n')),
 						attachment: allStreamImage
 					}, async () => message.unsend((await msgSend).messageID));
 					return;
 				}
 				const streamFile = await getStreamFromURL(linksNoWatermark, 'video.mp4');
 				message.reply({
-					body: `Đã tải video {{${data.title}\nUrl Download: ${await tinyUrl.shorten(linksNoWatermark)}}}`,
+					body: getLang("downloadedVideo", data.title, await tinyUrl.shorten(linksNoWatermark)),
 					attachment: streamFile
 				}, async () => message.unsend((await msgSend).messageID));
 				break;
@@ -64,10 +90,10 @@ module.exports = {
 						return message.reply(dataAudio.message);
 				}
 				const urlAudio = dataAudio.downloadUrls, audioName = dataAudio.title;
-				const msgSendAudio = message.reply(`Đang tải audio {{"${audioName}"}}...`);
+				const msgSendAudio = message.reply(getLang("downloadingAudio", audioName));
 				const streamFileAudio = await getStreamFromURL(urlAudio, "audio.mp3");
 				message.reply({
-					body: `Đã tải audio {{"${audioName}"}}`,
+					body: getLang("downloadedAudio", audioName),
 					attachment: streamFileAudio
 				}, async () => message.unsend((await msgSendAudio).messageID));
 				break;

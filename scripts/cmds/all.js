@@ -1,14 +1,23 @@
 module.exports = {
 	config: {
 		name: "all",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 1,
-		shortDescription: "Tag tất cả thành viên",
-		longDescription: "Tag tất cả thành viên trong nhóm chat của bạn",
+		shortDescription: {
+			vi: "Tag tất cả thành viên",
+			en: "Tag all members"
+		},
+		longDescription: {
+			vi: "Tag tất cả thành viên trong nhóm chat của bạn",
+			en: "Tag all members in your group chat"
+		},
 		category: "box chat",
-		guide: "{pn} {{[nội dung | để trống]}}"
+		guide: {
+			vi: "{pn} [nội dung | để trống]",
+			en: "{pn} [content | empty]"
+		}
 	},
 
 	onStart: async function ({ message, event, args, api }) {

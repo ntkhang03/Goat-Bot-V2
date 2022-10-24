@@ -3,26 +3,93 @@ const { getStreamsFromAttachment, getTime } = global.utils;
 module.exports = {
 	config: {
 		name: "sendnoti",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: "Tạo và gửi thông báo đến các nhóm",
-		longDescription: "Tạo và gửi thông báo đến các nhóm do bạn quản lý",
-		category: "box-chat",
-		guide: "  + {pn} {{create}} <groupName>: Tạo một group noti (notification) mới với tên gọi <groupName>"
-			+ "\n   Ví dụ: {pn} create TEAM1"
-			+ "\n\n  + {pn} {{add <groupName>}}: thêm box chat hiện tại vào group noti <groupName> (bạn phải là quản trị viên của box chat này)"
-			+ "\n   Ví dụ: {pn} {{add TEAM1}}"
-			+ "\n\n  + {pn} {{delete}}: xóa box chat hiện tại khỏi group noti <groupName> (bạn phải là quản trị viên của box chat này)"
-			+ "\n   Ví dụ: {pn} {{delete TEAM1}}"
-			+ "\n\n  + {pn} {{send <groupName> | <message>}}: gửi thông báo tới tất cả các nhóm trong group noti <groupName> (bạn phải là quản trị viên của những box đó)"
-			+ "\n   Ví dụ: {pn} {{remove TEAM1}}"
-			+ "\n\n  + {pn} {{remove <groupName>}}: xóa group noti <groupName> (bạn phải là người tạo group noti <groupName>)"
-			+ "\n   Ví dụ: {pn} {{remove TEAM1}}"
+		shortDescription: {
+			vi: "Tạo và gửi thông báo đến các nhóm",
+			en: "Create and send notification to groups"
+		},
+		longDescription: {
+			vi: "Tạo và gửi thông báo đến các nhóm do bạn quản lý",
+			en: "Create and send notification to groups that you manage"
+		},
+		category: "box chat",
+		guide: {
+			vi: "   {pn} create <groupName>: Tạo một group noti (notification) mới với tên gọi <groupName>"
+				+ "\n   Ví dụ:\n    {pn} create TEAM1"
+				+ "\n\n   {pn} add <groupName>: thêm box chat hiện tại vào group noti <groupName> (bạn phải là quản trị viên của box chat này)"
+				+ "\n   Ví dụ:\n    {pn} add TEAM1"
+				+ "\n\n   {pn} delete: xóa box chat hiện tại khỏi group noti <groupName> (bạn phải là người tạo group noti này)"
+				+ "\n   Ví dụ:\n    {pn} delete TEAM1"
+				+ "\n\n   {pn} send <groupName> | <message>: gửi thông báo tới tất cả các nhóm trong group noti <groupName> (bạn phải là quản trị viên của những box đó)"
+				+ "\n   Ví dụ:\n    {pn} remove TEAM1"
+				+ "\n\n   {pn} remove <groupName>: xóa group noti <groupName> (bạn phải là người tạo group noti <groupName>)"
+				+ "\n   Ví dụ:\n    {pn} remove TEAM1",
+			en: "   {pn} create <groupName>: Create a new notification group with name <groupName>"
+				+ "\n   Example:\n    {pn} create TEAM1"
+				+ "\n\n   {pn} add <groupName>: add current box chat to notification group <groupName> (you must be admin of this box chat)"
+				+ "\n   Example:\n    {pn} add TEAM1"
+				+ "\n\n   {pn} delete: remove current box chat from notification group <groupName> (you must be creator of this group)"
+				+ "\n   Example:\n    {pn} delete TEAM1"
+				+ "\n\n   {pn} send <groupName> | <message>: send notification to all groups in notification group <groupName> (you must be admin of those groups)"
+				+ "\n   Example:\n    {pn} remove TEAM1"
+				+ "\n\n   {pn} remove <groupName>: remove notification group <groupName> (you must be creator of notification group <groupName>)"
+				+ "\n   Example:\n    {pn} remove TEAM1"
+		}
 	},
 
-	onStart: async function ({ message, event, args, usersData, threadsData, api }) {
+	langs: {
+		vi: {
+			missingGroupName: "Vui lòng nhập tên groupNoti",
+			groupNameExists: "Group send noti mang tên %1 đã được tạo trước đó bởi bạn rồi, vui lòng chọn tên khác",
+			createdGroup: "Đã tạo group send noti thành công:\n- Name: %1\n- ID: %2",
+			missingGroupNameToAdd: "Vui lòng nhập tên groupNoti bạn muốn thêm nhóm chat này vào",
+			groupNameNotExists: "Hiện tại bạn chưa tạo/quản lý group noti nào mang tên: %1",
+			notAdmin: "Bạn không phải là quản trị viên của nhóm chat này",
+			added: "Đã thêm nhóm chat hiện tại vào group noti: %1",
+			missingGroupNameToDelete: "Vui lòng nhập tên groupNoti bạn muốn xóa nhóm chat này khỏi danh sách",
+			notInGroup: "Hiện tại nhóm chat này chưa có trong group noti %1",
+			deleted: "Đã xóa nhóm chat hiện tại khỏi group noti: %1",
+			missingGroupNameToRemove: "Vui lòng nhập tên groupNoti bạn muốn xóa bỏ",
+			removed: "Đã xóa bỏ group noti: %1",
+			missingGroupNameToSend: "Vui lòng nhập tên groupNoti bạn muốn gủi tin nhắn",
+			groupIsEmpty: "Hiện tại group noti \"%1\" chưa có nhóm chat nào trong danh sách",
+			sending: "Đang gửi thông báo đến %1 nhóm chat",
+			success: "Đã gửi thông báo đến %1 nhóm chat trong group noti \"%2\" thành công",
+			notAdminOfGroup: "Bạn không phải là quản trị viên của nhóm này",
+			missingGroupNameToView: "Vui lòng nhập tên groupNoti bạn muốn xem thông tin",
+			groupInfo: "- Group Name: %1\n- ID: %2\n- Ngày tạo: %3\n%4 ",
+			groupInfoHasGroup: "- Gồm các nhóm chat: \n%1",
+			noGroup: "Hiện tại bạn chưa tạo/quản lý group noti nào"
+		},
+		en: {
+			missingGroupName: "Please enter groupNoti name",
+			groupNameExists: "Notification group with name %1 has been created by you before, please choose another name",
+			createdGroup: "Created notification group successfully:\n- Name: %1\n- ID: %2",
+			missingGroupNameToAdd: "Please enter groupNoti name you want to add this group chat to",
+			groupNameNotExists: "You have not created/manage any notification group with name: %1",
+			notAdmin: "You are not admin of this group chat",
+			added: "Added current group chat to notification group: %1",
+			missingGroupNameToDelete: "Please enter groupNoti name you want to delete this group chat from list",
+			notInGroup: "Current group chat is not in notification group %1",
+			deleted: "Deleted current group chat from notification group: %1",
+			missingGroupNameToRemove: "Please enter groupNoti name you want to remove",
+			removed: "Removed notification group: %1",
+			missingGroupNameToSend: "Please enter groupNoti name you want to send message",
+			groupIsEmpty: "Notification group \"%1\" is empty",
+			sending: "Sending notification to %1 group chats",
+			success: "Sent notification to %1 group chats in notification group \"%2\" successfully",
+			notAdminOfGroup: "You are not admin of this group",
+			missingGroupNameToView: "Please enter groupNoti name you want to view info",
+			groupInfo: "- Group Name: %1\n - ID: %2\n - Created at: %3\n%4 ",
+			groupInfoHasGroup: "- Has group chats: \n%1",
+			noGroup: "You have not created/manage any notification group"
+		}
+	},
+
+	onStart: async function ({ message, event, args, usersData, threadsData, api, getLang, role }) {
 		const { threadID, senderID } = event;
 		const groupsSendNotiData = await usersData.get(senderID, 'data.groupsSendNoti', []);
 
@@ -31,11 +98,11 @@ module.exports = {
 				const groupName = args.slice(1).join(' ');
 				const groupID = Date.now();
 				if (!groupName)
-					return message.reply('Vui lòng nhập tên groupNoti');
+					return message.reply(getLang('missingGroupName'));
 
 				const groupsSendNotiData = await usersData.get(senderID, 'data.groupsSendNoti', []);
 				if (groupsSendNotiData.some(item => item.groupName === groupName))
-					return message.reply(`Group send noti mang tên {{${groupName}}} đã được tạo trước đó bởi bạn rồi, vui lòng chọn tên khác`);
+					return message.reply(getLang('groupNameExists', groupName));
 
 				groupsSendNotiData.push({
 					groupName,
@@ -43,77 +110,72 @@ module.exports = {
 					threadIDs: []
 				});
 				await usersData.set(senderID, groupsSendNotiData, 'data.groupsSendNoti');
-				message.reply(`Đã tạo group send noti thành công:\n- Name: {{${groupName}}}\n- ID: ${groupID}`);
+				message.reply(getLang('createdGroup', groupName, groupID));
 				break;
 			}
 			case "add": {
 				const groupName = args.slice(1).join(' ');
 				if (!groupName)
-					return message.reply('Vui lòng nhập tên groupNoti bạn muốn thêm nhóm chat này vào');
+					return message.reply(getLang('missingGroupNameToAdd'));
 				const getGroup = (groupsSendNotiData || []).find(item => item.groupName == groupName);
 
 				if (!getGroup)
-					return message.reply(`Hiện tại bạn chưa tạo/quản lý group noti nào mang tên: {{${groupName}}}`);
+					return message.reply(getLang('groupNameNotExists', groupName));
 
-				const adminIDs = await threadsData.get(threadID, 'adminIDs');
-				if (!adminIDs.includes(senderID))
-					return message.reply('Bạn không phải là quản trị viên của nhóm chat này');
+				if (role != 1)
+					return message.reply(getLang('notAdmin'));
 
 				getGroup.threadIDs.push(threadID);
 				await usersData.set(senderID, groupsSendNotiData, 'data.groupsSendNoti');
 
-				message.reply(`Đã thêm nhóm chat hiện tại vào group noti: {{${groupName}}}`);
+				message.reply(getLang('added', groupName));
 				break;
 			}
 			case "delete": {
 				const groupName = args.slice(1).join(' ');
 				if (!groupName)
-					return message.reply('Vui lòng nhập tên groupNoti bạn muốn xóa nhóm chat này khỏi danh sách');
+					return message.reply(getLang('missingGroupNameToDelete'));
 
 				const getGroup = (groupsSendNotiData || []).find(item => item.groupName == groupName);
 				if (!getGroup)
-					return message.reply(`Hiện tại bạn chưa tạo/quản lý group noti nào mang tên: {{${groupName}}}`);
-
-				const adminIDs = await threadsData.get(threadID, 'adminIDs');
-				if (!adminIDs.includes(senderID))
-					return message.reply('Bạn không phải là quản trị viên của nhóm chat này');
+					return message.reply(getLang('groupNameNotExists', groupName));
 
 				const findIndexThread = getGroup.threadIDs.findIndex(item => item == threadID);
 				if (findIndexThread == -1)
-					return message.reply(`Hiện tại nhóm chat này chưa có trong group noti {{${groupName}}}`);
+					return message.reply(getLang('notInGroup', groupName));
 
 				getGroup.threadIDs.splice(findIndexThread, 1);
 				await usersData.set(senderID, groupsSendNotiData, 'data.groupsSendNoti');
 
-				message.reply(`Đã xóa nhóm chat hiện tại khỏi group noti: {{${groupName}}}`);
+				message.reply(getLang('deleted', groupName));
 				break;
 			}
 			case "remove":
 			case "-r": {
 				const groupName = args.slice(1).join(' ');
 				if (!groupName)
-					return message.reply('Vui lòng nhập tên groupNoti bạn muốn xóa bỏ');
+					return message.reply(getLang('missingGroupNameToRemove'));
 				const findIndex = (groupsSendNotiData.threadIDs || []).findIndex(item => item.groupName == groupName);
 
 				if (findIndex == -1)
-					return message.reply(`Hiện tại bạn chưa tạo/quản lý group noti nào mang tên: {{${groupName}}}`);
+					return message.reply(getLang('groupNameNotExists', groupName));
 
 				groupsSendNotiData.splice(findIndex, 1);
 				await usersData.set(senderID, groupsSendNotiData, 'data.groupsSendNoti');
 
-				message.reply(`Đã xóa bỏ group noti: {{${groupName}}}`);
+				message.reply(getLang('removed', groupName));
 				break;
 			}
 			case "send": {
 				const groupName = args.slice(1).join(' ').split('|')[0].trim();
 				if (!groupName)
-					return message.reply('Vui lòng nhập tên groupNoti bạn muốn gủi tin nhắn');
+					return message.reply(getLang('missingGroupNameToSend'));
 
 				const getGroup = (groupsSendNotiData || []).find(item => item.groupName == groupName);
 				if (!getGroup)
-					return message.reply(`Hiện tại bạn chưa tạo/quản lý group noti nào mang tên: {{${groupName}}}}`);
+					return message.reply(getLang('groupNameNotExists', groupName));
 				if (getGroup.threadIDs.length == 0)
-					return message.reply(`Hiện tại group noti {{"${groupName}}} chưa có nhóm chat nào trong danh sách`);
+					return message.reply(getLang('groupIsEmpty', groupName));
 
 				const messageSend = args.slice(2).join(' ').split('|').slice(1).join(' ').trim();
 				const formSend = {
@@ -128,7 +190,7 @@ module.exports = {
 				const pendings = [];
 
 				const { threadIDs } = getGroup;
-				const msgSend = message.reply(`Đang gửi thông báo đến {{${threadIDs.length}}} nhóm`);
+				const msgSend = message.reply(getLang('sending', groupName, threadIDs.length));
 				for (const tid of threadIDs) {
 					await new Promise((r) => setTimeout(r, 1000));
 					pendings.push(
@@ -173,32 +235,41 @@ module.exports = {
 					}
 				}
 				api.unsendMessage((await msgSend).messageID);
-				message.reply(
-					success.length ? `Đã gửi thông báo đến ${success.length} nhóm chat trong group noti "{{${groupName}}}" thành công` : ''
-						+ (failed.length ? `Gửi thông báo đến {{${failed.length}}} nhóm thất bại: ${failed.map(item => `\n- id: ${item.threadID}\n- Name: ${item.threadName}\n- Error: ${item.error == 'PERMISSION_DENIED' ? 'Bạn không phải là quản trị viên của nhóm này' : ''}`).join('\n')}` : '')
-				);
+				let msg = "";
+				if (success.length)
+					msg += `${getLang('success', success.length, groupName)}\n`;
+				if (failed.length)
+					msg += getLang('failed', failed.length,
+						failed.map(item => `\n- id: ${item.threadID}`
+							+ `\n- Name: ${item.threadName}`
+							+ `\n- Error: ${item.error == 'PERMISSION_DENIED' ?
+								getLang('notAdminOfGroup') :
+								''}`
+						).join('\n')
+					);
+				message.reply(msg);
 
 				break;
 			}
 			case "info": {
 				const groupName = args.slice(1).join(' ');
 				if (!groupName)
-					return message.reply('Vui lòng nhập tên groupNoti bạn muốn xem thông tin');
+					return message.reply(getLang('missingGroupNameToView'));
 
 				const getGroup = (groupsSendNotiData || []).find(item => item.groupName == groupName);
 				if (!getGroup)
-					return message.reply(`Hiện tại bạn chưa tạo/quản lý group noti nào mang tên: {{${groupName}}}}`);
+					return message.reply(getLang('groupNameNotExists', groupName));
 				const { threadIDs } = getGroup;
 
 				const allThreadData = await threadsData.getAll();
 
 				const msg = threadIDs.reduce((acc, tid) => {
 					const threadData = allThreadData.find(i => i.threadID == tid) || {};
-					acc += ` + ID: ${tid}\n + Name: {{${threadData.threadName || 'null'}}}\n\n`;
+					acc += ` + ID: ${tid}\n + Name: ${threadData.threadName || 'null'}\n\n`;
 					return acc;
 				}, '');
 
-				message.reply(`- Group Name: {{${groupName}}}\n- ID: {{${getGroup.groupID}}}\n- Ngày tạo: ${getTime(getGroup.groupID, 'DD/MM/YYYY HH:mm:ss')}\n- Gồm các nhóm chat:\n${msg ? `{{${msg}}}` : 'Không có nhóm chat nào'}`);
+				message.reply(getLang('groupInfo', groupName, getGroup.groupID, getTime(getGroup.groupID, 'DD/MM/YYYY HH:mm:ss'), msg ? getLang('groupInfoHasGroup', msg) : getLang('groupIsEmpty', groupName)));
 				break;
 			}
 			default: {

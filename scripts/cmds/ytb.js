@@ -10,23 +10,58 @@ const { getStreamFromURL, downloadFile } = global.utils;
 module.exports = {
 	config: {
 		name: "ytb",
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
 		shortDescription: "YouTube",
-		longDescription: "Tải video, audio hoặc xem thông tin video trên YouTube",
+		longDescription: {
+			vi: "Tải video, audio hoặc xem thông tin video trên YouTube",
+			en: "Download video, audio or view video information on YouTube"
+		},
 		category: "media",
-		guide: "{pn} {{[video|-v]}} [<tên video>|<link video>]: dùng để tải video từ youtube."
-			+ "\n{pn} {{[audio|-a]}} [<tên video>|<link video>]: dùng để tải audio từ youtube"
-			+ "\n{pn} {{[info|-i]}} [<tên video>|<link video>]: dùng để xem thông tin video từ youtube"
-			+ "\nVí dụ:"
-			+ "\n   {pn} {{-v Fallen Kingdom}}"
-			+ "\n   {pn} {{-a Fallen Kingdom}}"
-			+ "\n   {pn} {{-i Fallen Kingdom}}"
+		guide: {
+			vi: "   {pn} [video|-v] [<tên video>|<link video>]: dùng để tải video từ youtube."
+				+ "\n   {pn} [audio|-a] [<tên video>|<link video>]: dùng để tải audio từ youtube"
+				+ "\n   {pn} [info|-i] [<tên video>|<link video>]: dùng để xem thông tin video từ youtube"
+				+ "\n   Ví dụ:"
+				+ "\n    {pn} -v Fallen Kingdom"
+				+ "\n    {pn} -a Fallen Kingdom"
+				+ "\n    {pn} -i Fallen Kingdom",
+			en: "   {pn} [video|-v] [<video name>|<video link>]: use to download video from youtube."
+				+ "\n   {pn} [audio|-a] [<video name>|<video link>]: use to download audio from youtube"
+				+ "\n   {pn} [info|-i] [<video name>|<video link>]: use to view video information from youtube"
+				+ "\n   Example:"
+				+ "\n    {pn} -v Fallen Kingdom"
+				+ "\n    {pn} -a Fallen Kingdom"
+				+ "\n    {pn} -i Fallen Kingdom"
+		}
 	},
 
-	onStart: async function ({ args, message, event, commandName }) {
+	langs: {
+		vi: {
+			error: "Đã xảy ra lỗi: %1",
+			noResult: "Không có kết quả tìm kiếm nào phù hợp với từ khóa %1",
+			choose: "%1Reply tin nhắn với số để chọn hoặc nội dung bất kì để gỡ",
+			downloading: "Đang tải xuống video %1",
+			noVideo: "Rất tiếc, không tìm thấy video nào có dung lượng nhỏ hơn 83MB",
+			downloadingAudio: "Đang tải xuống audio %1",
+			noAudio: "Rất tiếc, không tìm thấy audio nào có dung lượng nhỏ hơn 26MB",
+			info: "💠 Tiêu đề: %1\n🏪 Channel: %2\n👨‍👩‍👧‍👦 Subscriber: %3\n⏱ Thời gian video: %4\n👀 Lượt xem: %5\n👍 Lượt thích: %6\n👎 Không thích: %7\n🆙 Ngày tải lên: %8\n#️⃣ ID: %9"
+		},
+		en: {
+			error: "An error has occurred: %1",
+			noResult: "No search results match the keyword %1",
+			choose: "%1Reply to the message with the number to choose or any content to cancel",
+			downloading: "Downloading video %1",
+			noVideo: "Sorry, no video was found with a size less than 83MB",
+			downloadingAudio: "Downloading audio %1",
+			noAudio: "Sorry, no audio was found with a size less than 26MB",
+			info: "💠 Title: %1\n🏪 Channel: %2\n👨‍👩‍👧‍👦 Subscriber: %3\n⏱ Video duration: %4\n👀 View count: %5\n👍 Like count: %6\n👎 Dislike count: %7\n🆙 Upload date: %8\n#️⃣ ID: %9"
+		}
+	},
+
+	onStart: async function ({ args, message, event, commandName, getLang }) {
 		let type;
 		switch (args[0]) {
 			case "-v":
@@ -52,7 +87,7 @@ module.exports = {
 
 		if (urlYtb) {
 			const infoVideo = await ytdl.getInfo(args[1]);
-			handle({ type, infoVideo, message, downloadFile });
+			handle({ type, infoVideo, message, downloadFile, getLang });
 			return;
 		}
 
@@ -64,10 +99,10 @@ module.exports = {
 			result = (await search(keyWord)).slice(0, maxResults);
 		}
 		catch (err) {
-			return message.reply(`Đã xảy ra lỗi: {{${err.message}}}`);
+			return message.reply(getLang("error", err.message));
 		}
 		if (result.length == 0)
-			return message.reply(`Không có kết quả tìm kiếm nào phù hợp với từ khóa {{${keyWord}}}`);
+			return message.reply(getLang("noResult", keyWord));
 		let msg = "";
 		let i = 1;
 		const thumbnails = [];
@@ -75,11 +110,11 @@ module.exports = {
 
 		for (const info of result) {
 			thumbnails.push(getStreamFromURL(info.thumbnail));
-			msg += `{{${i++}. ${info.title}}}\nTime: ${info.time}\nChannel: {{${info.channel.name}}}\n\n`;
+			msg += `${i++}. ${info.title}\nTime: ${info.time}\nChannel: ${info.channel.name}\n\n`;
 		}
 
 		message.reply({
-			body: `${msg}Reply tin nhắn với số để chọn hoặc nội dung bất kì để gỡ`,
+			body: getLang("choose", msg),
 			attachment: await Promise.all(thumbnails)
 		}, (err, info) => {
 			global.GoatBot.onReply.set(info.messageID, {
@@ -93,7 +128,7 @@ module.exports = {
 		});
 	},
 
-	onReply: async ({ event, api, Reply, message }) => {
+	onReply: async ({ event, api, Reply, message, getLang }) => {
 		const { result, type } = Reply;
 		const choice = event.body;
 		if (!isNaN(choice) && choice <= 6) {
@@ -101,39 +136,39 @@ module.exports = {
 			const idvideo = infoChoice.id;
 			const infoVideo = await ytdl.getInfo(idvideo);
 			api.unsendMessage(Reply.messageID);
-			await handle({ type, infoVideo, message });
+			await handle({ type, infoVideo, message, getLang });
 		}
 		else
 			api.unsendMessage(Reply.messageID);
 	}
 };
 
-async function handle({ type, infoVideo, message }) {
+async function handle({ type, infoVideo, message, getLang }) {
 	const { video_url } = infoVideo.videoDetails;
 
 	if (type == "video") {
 		const MAX_SIZE = 87031808; // 83MB
-		const msgSend = message.reply(`Đang tải xuống video {{${infoVideo.videoDetails.title}}}`);
+		const msgSend = message.reply(getLang("downloading", infoVideo.videoDetails.title));
 		const formats = await getFormatsUrl(video_url);
 		const getFormat = (formats.find(f => f.type === "mp4").qualitys.filter(f => f.size < MAX_SIZE) || [])[0];
 		if (!getFormat)
-			return message.reply("Rất tiếc, không tìm thấy video nào có dung lượng nhỏ hơn 83MB");
+			return message.reply(getLang("noVideo"));
 		const stream = await getStreamFromURL(getFormat.dlink, `${infoVideo.videoDetails.title}.mp4`, { httpsAgent: agent });
 		message.reply({
-			body: `{{${infoVideo.videoDetails.title}}}`,
+			body: `${infoVideo.videoDetails.title}`,
 			attachment: stream
 		}, async () => message.unsend((await msgSend).messageID));
 	}
 	else if (type == "audio") {
 		const MAX_SIZE = 26000000; // 26MB
-		const msgSend = message.reply(`Đang tải xuống audio {{${infoVideo.videoDetails.title}}}`);
+		const msgSend = message.reply(getLang("downloadingAudio", infoVideo.videoDetails.title));
 		const formats = await getFormatsUrl(video_url);
 		const getFormat = (formats.find(f => f.type === "mp3").qualitys.filter(f => f.size < MAX_SIZE) || [])[0];
 		if (!getFormat)
-			return message.reply("Rất tiếc, không tìm thấy audio nào có dung lượng nhỏ hơn 26MB");
+			return message.reply(getLang("noAudio"));
 		const stream = await getStreamFromURL(getFormat.dlink, `${infoVideo.videoDetails.title}.mp3`, { httpsAgent: agent });
 		message.reply({
-			body: `{{${infoVideo.videoDetails.title}}}`,
+			body: `${infoVideo.videoDetails.title}`,
 			attachment: stream
 		}, async () => message.unsend((await msgSend).messageID));
 	}
@@ -144,15 +179,7 @@ async function handle({ type, infoVideo, message }) {
 		const hours = Math.floor(lengthSeconds / 3600);
 		const minutes = Math.floor(lengthSeconds % 3600 / 60);
 		const seconds = Math.floor(lengthSeconds % 3600 % 60);
-		const msg = "💠 Tiêu đề: " + title
-			+ "\n🏪 Channel: " + info.author.name
-			+ "\n👨‍👩‍👧‍👦 Subscriber: " + (info.author.subscriber_count || 0)
-			+ `\n⏱ Thời gian video: ${hours}:${minutes}:${seconds}`
-			+ "\n👀 Lượt xem: " + viewCount
-			+ "\n👍 Lượt thích: " + likes
-			+ "\n👎 Không thích: " + dislikes
-			+ "\n🆙 Ngày tải lên: " + uploadDate
-			+ "\n#️⃣ ID: " + videoId;
+		const msg = getLang("info", info.author.name, (info.author.subscriber_count || 0), `${hours}:${minutes}:${seconds}`, viewCount, likes, dislikes, uploadDate, videoId);
 		// if (chapters.length > 0) {
 		//     msg += "\n📋 Danh sách phân đoạn:\n"
 		//         + chapters.reduce((acc, cur) => {

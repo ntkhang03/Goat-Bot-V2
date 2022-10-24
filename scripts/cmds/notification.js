@@ -4,30 +4,55 @@ module.exports = {
 	config: {
 		name: "notification",
 		aliases: ["notify", "noti"],
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
-		shortDescription: "Gửi thông báo từ admin đến all box",
-		longDescription: "Gửi thông báo từ admin đến all box",
+		shortDescription: {
+			vi: "Gửi thông báo từ admin đến all box",
+			en: "Send notification from admin to all box"
+		},
+		longDescription: {
+			vi: "Gửi thông báo từ admin đến all box",
+			en: "Send notification from admin to all box"
+		},
 		category: "owner",
-		guide: "{pn} <tin nhắn>",
+		guide: {
+			en: "{pn} <tin nhắn>"
+		},
 		envConfig: {
 			delayPerGroup: 250
 		}
 	},
 
-	onStart: async function ({ message, api, event, args, commandName, envCommands, threadsData }) {
+	langs: {
+		vi: {
+			missingMessage: "Vui lòng nhập tin nhắn bạn muốn gửi đến tất cả các nhóm",
+			notification: "Thông báo từ admin bot đến tất cả nhóm chat (không phản hồi tin nhắn này)",
+			sendingNotification: "Bắt đầu gửi thông báo từ admin bot đến %1 nhóm chat",
+			sentNotification: "✅ Đã gửi thông báo đến %1 nhóm thành công",
+			errorSendingNotification: "Có lỗi xảy ra khi gửi đến %1 nhóm:\n %2"
+		},
+		en: {
+			missingMessage: "Please enter the message you want to send to all groups",
+			notification: "Notification from admin bot to all chat groups (do not reply to this message)",
+			sendingNotification: "Start sending notification from admin bot to %1 chat groups",
+			sentNotification: "✅ Sent notification to %1 groups successfully",
+			errorSendingNotification: "An error occurred while sending to %1 groups:\n %2"
+		}
+	},
+
+	onStart: async function ({ message, api, event, args, commandName, envCommands, threadsData, getLang }) {
 		const { delayPerGroup } = envCommands[commandName];
 		if (!args[0])
-			return message.reply("Vui lòng nhập tin nhắn bạn muốn gửi đến tất cả các nhóm");
+			return message.reply(getLang("missingMessage"));
 		const formSend = await checkAndTranslate({
-			body: `Thông báo từ admin bot đến tất cả nhóm chat (không phản hồi tin nhắn này)\n────────────────\n{{${args.join(" ")}}}`,
+			body: `${getLang("notification")}\n────────────────\n${args.join(" ")}`,
 			attachment: await getStreamsFromAttachment([...event.attachments, ...(event.messageReply?.attachments || [])])
 		});
 
 		const allThreadID = threadsData.getAll().filter(t => t.isGroup && t.members.find(m => m.userID == api.getCurrentUserID())?.inGroup);
-		message.reply(`Bắt đầu gửi thông báo từ admin bot đến ${allThreadID.length} nhóm chat`);
+		message.reply(getLang("sendingNotification", allThreadID.length));
 
 		let sendSucces = 0;
 		const sendError = [];
@@ -57,6 +82,11 @@ module.exports = {
 			}
 		}
 
-		message.reply(`✅ Đã gửi thông báo đến ${sendSucces} nhóm thành công${sendError.length > 0 ? `\n❌ Có lỗi xảy ra khi gửi đến ${sendError.length} nhóm:\n${sendError.join("\n ")}` : ""}`);
+		let msg = "";
+		if (sendSucces > 0)
+			msg += getLang("sentNotification", sendSucces) + "\n";
+		if (sendError.length > 0)
+			msg += getLang("errorSendingNotification", sendError.length, sendError.join("\n "));
+		message.reply(msg);
 	}
 };

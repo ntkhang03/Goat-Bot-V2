@@ -1,23 +1,53 @@
 module.exports = {
 	config: {
 		name: "filteruser",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 1,
-		shortDescription: "lọc thành viên nhóm",
-		longDescription: "lọc thành viên nhóm theo số tin nhắn hoặc bị khóa acc",
+		shortDescription: {
+			vi: "lọc thành viên nhóm",
+			en: "filter group members"
+		},
+		longDescription: {
+			vi: "lọc thành viên nhóm theo số tin nhắn hoặc bị khóa acc",
+			en: "filter group members by number of messages or locked account"
+		},
 		category: "box chat",
-		guide: "{pn} [<số tin nhắn> | {{die}}]"
+		guide: {
+			vi: "   {pn} [<số tin nhắn> | die]",
+			en: "   {pn} [<number of messages> | die]"
+		}
 	},
 
-	onStart: async function ({ api, args, threadsData, message, event, commandName }) {
+	langs: {
+		vi: {
+			needAdmin: "⚠️ | Vui lòng thêm bot làm quản trị viên của box để sử dụng lệnh này",
+			confirm: "⚠️ | Bạn có chắc chắn muốn xóa thành viên nhóm có số tin nhắn nhỏ hơn %1 không?\nThả cảm xúc bất kì vào tin nhắn này để xác nhận",
+			kickByBlock: "✅ | Đã xóa thành công %1 thành viên bị khóa acc",
+			kickByMsg: "✅ | Đã xóa thành công %1 thành viên có số tin nhắn nhỏ hơn %2",
+			kickError: "❌ | Đã xảy ra lỗi không thể kick %1 thành viên:\n%2",
+			noBlock: "✅ | Không có thành viên nào bị khóa acc",
+			noMsg: "✅ | Không có thành viên nào có số tin nhắn nhỏ hơn %1"
+		},
+		en: {
+			needAdmin: "⚠️ | Please add the bot as a group admin to use this command",
+			confirm: "⚠️ | Are you sure you want to delete group members with less than %1 messages?\nReact to this message to confirm",
+			kickByBlock: "✅ | Successfully deleted %1 members who are locked acc",
+			kickByMsg: "✅ | Successfully deleted %1 members with less than %2 messages",
+			kickError: "❌ | An error occurred and could not kick %1 members:\n%2",
+			noBlock: "✅ | There are no members who are locked acc",
+			noMsg: "✅ | There are no members with less than %1 messages"
+		}
+	},
+
+	onStart: async function ({ api, args, threadsData, message, event, commandName, getLang }) {
 		const threadData = await threadsData.get(event.threadID);
 		if (!threadData.adminIDs.includes(api.getCurrentUserID()))
-			return message.reply("⚠️ | Vui lòng thêm bot làm quản trị viên của box để sử dụng lệnh này");
+			return message.reply(getLang("needAdmin"));
 
 		if (!isNaN(args[0])) {
-			message.reply(`⚠️ | Bạn có chắc chắn muốn xóa thành viên nhóm có số tin nhắn nhỏ hơn ${args[0]} không?\nThả cảm xúc bất kì vào tin nhắn này để xác nhận`, (err, info) => {
+			message.reply(getLang("confirm", args[0]), (err, info) => {
 				global.GoatBot.onReaction.set(info.messageID, {
 					author: event.senderID,
 					messageID: info.messageID,
@@ -42,17 +72,21 @@ module.exports = {
 					}
 				}
 			}
-			message.reply(
-				membersBlocked.length > 0 ?
-					(success.length ? `✅ | Đã xóa thành công ${success.length} thành viên bị khóa acc` : '') + (errors.length > 0 ? `\n❌ | Đã xảy ra lỗi không thể kick ${errors.length} thành viên:\n${errors.join("\n")}` : '')
-					: "✅ | Không có thành viên nào bị khóa acc"
-			);
+
+			let msg = "";
+			if (success.length > 0)
+				msg += `${getLang("kickByBlock", success.length)}\n`;
+			if (errors.length > 0)
+				msg += `${getLang("kickError", errors.length, errors.join("\n"))}\n`;
+			if (msg == "")
+				msg += getLang("noBlock");
+			message.reply(msg);
 		}
 		else
 			message.SyntaxError();
 	},
 
-	onReaction: async function ({ api, Reaction, event, threadsData, message }) {
+	onReaction: async function ({ api, Reaction, event, threadsData, message, getLang }) {
 		const { minimum = 1 } = Reaction;
 		const threadData = await threadsData.get(event.threadID);
 		const botID = api.getCurrentUserID();
@@ -68,10 +102,14 @@ module.exports = {
 				errors.push(member.name);
 			}
 		}
-		message.reply(
-			membersCountLess.length > 0 ?
-				(success.length ? `✅ | Đã xóa thành công ${success.length} thành viên có số tin nhắn ít hơn ${minimum}` : '') + (errors.length > 0 ? `\n❌ | Đã xảy ra lỗi không thể kick ${errors.length} thành viên:\n${errors.join("\n")}` : '')
-				: `✅ | Không có thành viên nào có số tin nhắn ít hơn ${minimum}`
-		);
+
+		let msg = "";
+		if (success.length > 0)
+			msg += `${getLang("kickByMsg", success.length, minimum)}\n`;
+		if (errors.length > 0)
+			msg += `${getLang("kickError", errors.length, errors.join("\n"))}\n`;
+		if (msg == "")
+			msg += getLang("noMsg", minimum);
+		message.reply(msg);
 	}
 };

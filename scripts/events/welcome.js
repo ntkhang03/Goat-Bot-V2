@@ -1,17 +1,37 @@
-const fs = require("fs-extra");
 const { getTime, drive } = global.utils;
 
 module.exports = {
 	config: {
 		name: "welcome",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		envConfig: {
-			defaultWelcomeMessage: `Xin chào {userName}.\nChào mừng {multiple} đã đến với nhóm chat: {boxName}\nChúc {multiple} có một buổi {session} vui vẻ 😊`
+			defaultWelcomeMessage: `Hello {userName}.\nWelcome {multiple} to the chat group: {boxName}\nHave a nice {session} 😊`
 		}
 	},
 
-	onStart: async ({ threadsData, message, event, api, commandName, envEvents }) => {
+	langs: {
+		vi: {
+			session1: "sáng",
+			session2: "trưa",
+			session3: "chiều",
+			session4: "tối",
+			welcomeMessage: "Cảm ơn bạn đã mời tôi vào nhóm!\nPrefix bot: %1\nĐể xem danh sách lệnh hãy nhập: %1help",
+			multiple1: "bạn",
+			multiple2: "các bạn"
+		},
+		en: {
+			session1: "morning",
+			session2: "noon",
+			session3: "afternoon",
+			session4: "evening",
+			welcomeMessage: "Thank you for inviting me to the group!\nBot prefix: %1\nTo view the list of commands, please enter: %1help",
+			multiple1: "you",
+			multiple2: "you guys"
+		}
+	},
+
+	onStart: async ({ threadsData, message, event, api, commandName, envEvents, getLang }) => {
 		if (event.logMessageType == "log:subscribe")
 			return async function () {
 				const hours = getTime("HH");
@@ -23,7 +43,7 @@ module.exports = {
 				if (dataAddedParticipants.some(item => item.userFbId == api.getCurrentUserID())) {
 					if (nickNameBot)
 						api.changeNickname(nickNameBot, threadID, api.getCurrentUserID());
-					return message.send(`Thank you for inviting me!\nPrefix bot: ${global.utils.getPrefix(threadID)}\nĐể xem danh sách lệnh hãy nhập: {{${prefix}help}}`);
+					return message.send(getLang("welcomeMessage", prefix));
 				}
 				// if new member:
 				const threadData = await threadsData.get(threadID);
@@ -42,8 +62,8 @@ module.exports = {
 						id: user.userFbId
 					});
 				}
-				// {userName}:   tên của các thành viên mới
-				// {multiple}:   bạn || các bạn
+				// {userName}:   name of new member
+				// {multiple}:   
 				// {boxName}:    tên của nhóm chat
 				// {threadName}: tên của nhóm chat
 				// {session}:    buổi trong ngày
@@ -54,23 +74,20 @@ module.exports = {
 				welcomeMessage = welcomeMessage
 					.replace(/\{userName\}|\{userNameTag\}/g, userName.join(", "))
 					.replace(/\{boxName\}|\{threadName\}/g, threadName)
-					.replace(/\{multiple\}/g, multiple ? "các bạn" : "bạn")
-					.replace(/\{session\}/g, hours <= 10 ? "sáng" :
-						hours > 10 && hours <= 12 ? "trưa" :
-							hours > 12 && hours <= 18 ? "chiều" : "tối");
+					.replace(/\{multiple\}/g, multiple ? getLang("multiple2") : getLang("multiple1"))
+					.replace(/\{session\}/g, hours <= 10 ?
+						getLang("session1") :
+						hours <= 12 ?
+							getLang("session2") :
+							hours <= 18 ?
+								getLang("session3") :
+								getLang("session4")
+					);
 
-				form.body = `{{${welcomeMessage}}}`;
+				form.body = `${welcomeMessage}`;
 
 				if (threadData.data.welcomeAttachment) {
 					const files = threadData.data.welcomeAttachment;
-
-					// method save to local
-					// const folder = `${__dirname}/data/welcomeAttachment/${threadID}`;
-					// form.attachment = [];
-					// for (const file of files)
-					// form.attachment.push(fs.createReadStream(`${folder}/${file}`));
-
-					// method save to drive
 					const attachments = files.reduce((acc, file) => {
 						acc.push(drive.getFile(file, "stream"));
 						return acc;

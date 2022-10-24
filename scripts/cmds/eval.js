@@ -3,18 +3,50 @@ const { removeHomeDir } = global.utils;
 module.exports = {
 	config: {
 		name: "eval",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
-		shortDescription: "Test code nhanh",
-		longDescription: "Test code nhanh",
+		shortDescription: {
+			vi: "Test code nhanh",
+			en: "Test code quickly"
+		},
+		longDescription: {
+			vi: "Test code nhanh",
+			en: "Test code quickly"
+		},
 		category: "owner",
-		guide: "{pn} <đoạn code cần test>"
+		guide: {
+			vi: "{pn} <đoạn code cần test>",
+			en: "{pn} <code to test>"
+		}
 	},
 
-	onStart: async function ({ api, args, message, event, threadsData, usersData, dashBoardData, globalData, threadModel, userModel, dashBoardModel, globalModel, role, commandName }) {
-		const cmd = `(async () => { try { ${args.join(" ")} } catch(err) { message.send("❌ Đã có lỗi xảy ra:\\n" + "{{" + (err.stack ? removeHomeDir(err.stack) : removeHomeDir(JSON.stringify(err, null, 2))) + "}}"); }})()`;
+	langs: {
+		vi: {
+			error: "❌ Đã có lỗi xảy ra:"
+		},
+		en: {
+			error: "❌ An error occurred:"
+		}
+	},
+
+	onStart: async function ({ api, args, message, event, threadsData, usersData, dashBoardData, globalData, threadModel, userModel, dashBoardModel, globalModel, role, commandName, getLang }) {
+		const cmd = `
+		(async () => {
+			try {
+				${args.join(" ")}
+			}
+			catch(err) {
+				message.send(
+					"${getLang("error")}\\n" +
+					(err.stack ?
+						removeHomeDir(err.stack) :
+						removeHomeDir(JSON.stringify(err, null, 2))
+					)
+				);
+			}
+		})()`;
 		eval(cmd);
 	}
 };

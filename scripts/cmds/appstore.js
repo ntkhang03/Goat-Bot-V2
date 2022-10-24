@@ -4,24 +4,41 @@ const { getStreamFromURL } = global.utils;
 module.exports = {
 	config: {
 		name: "appstore",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: "Tìm app trên appstore",
-		longDescription: "Tìm app trên appstore",
+		shortDescription: {
+			vi: "Tìm app trên appstore",
+			en: "Search app on appstore"
+		},
+		longDescription: {
+			vi: "Tìm app trên appstore",
+			en: "Search app on appstore"
+		},
 		category: "software",
-		guide: "{pn}: {{<keyword>}}"
-			+ "\n- Ví dụ:"
+		guide: "   {pn}: <keyword>"
+			+ "\n   - Example:"
 			+ "\n   {pn} PUBG",
 		envConfig: {
 			limitResult: 3
 		}
 	},
 
-	onStart: async function ({ message, args, commandName, envCommands }) {
+	langs: {
+		vi: {
+			missingKeyword: "Bạn chưa nhập từ khóa",
+			noResult: "Không tìm thấy kết quả nào cho từ khóa %1"
+		},
+		en: {
+			missingKeyword: "You haven't entered any keyword",
+			noResult: "No result found for keyword %1"
+		}
+	},
+
+	onStart: async function ({ message, args, commandName, envCommands, getLang }) {
 		if (!args[0])
-			return message.reply("Vui lòng nhập từ khóa cần tìm");
+			return message.reply(getLang("missingKeyword"));
 		let results = [];
 		try {
 			results = (await itunes({
@@ -32,15 +49,14 @@ module.exports = {
 			})).results;
 		}
 		catch (err) {
-			return message.reply(`Không tìm thấy kết quả nào cho từ khóa: ${args.join(" ")}`);
+			return message.reply(getLang("noResult", args.join(" ")));
 		}
 
 		if (results.length > 0) {
 			let msg = "";
 			const pedningImages = [];
 			for (const result of results) {
-				const arr = new Array(Math.round(result.averageUserRating)).fill("🌟");
-				msg += `\n\n- ${result.trackCensoredName} by ${result.artistName}, ${result.formattedPrice} and rated ${arr.join('')} (${result.averageUserRating.toFixed(1)}/5)`
+				msg += `\n\n- ${result.trackCensoredName} by ${result.artistName}, ${result.formattedPrice} and rated ${"🌟".repeat(result.averageUserRating)} (${result.averageUserRating.toFixed(1)}/5)`
 					+ `\n- ${result.trackViewUrl}`;
 				pedningImages.push(await getStreamFromURL(result.artworkUrl512 || result.artworkUrl100 || result.artworkUrl60));
 			}
@@ -50,7 +66,7 @@ module.exports = {
 			});
 		}
 		else {
-			message.reply(`Không tìm thấy kết quả nào cho từ khóa: ${args.join(" ")}`);
+			message.reply(getLang("noResult", args.join(" ")));
 		}
 	}
 };

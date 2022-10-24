@@ -3,22 +3,59 @@ const { getTime } = global.utils;
 module.exports = {
 	config: {
 		name: "thread",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: "Quản lý các nhóm chat",
-		longDescription: "Quản lý các nhóm chat trong hệ thống bot",
+		shortDescription: {
+			vi: "Quản lý các nhóm chat",
+			en: "Manage group chat"
+		},
+		longDescription: {
+			vi: "Quản lý các nhóm chat trong hệ thống bot",
+			en: "Manage group chat in bot system"
+		},
 		category: "owner",
-		guide: "{pn} {{[find | -f | search | -s]}} <tên cần tìm>: tìm kiếm nhóm chat trong dữ liệu bot bằng tên"
-			+ "\n{pn} [{{ban | -b] [<tid>}} | để trống] {{<reason>}}: dùng để cấm nhóm mang id {{<tid>}} hoặc nhóm hiện tại sử dụng bot"
-			+ "\nVí dụ:"
-			+ "\n   {pn} {{ban 3950898668362484 spam bot}}"
-			+ "\n   {pn} {{ban spam quá nhiều}}"
-			+ "\n   {pn} {{unban [<tid>}} | để trống] để bỏ cấm nhóm mang id {{<tid>}} hoặc nhóm hiện tại"
+		guide: {
+			vi: "   {pn} [find | -f | search | -s] <tên cần tìm>: tìm kiếm nhóm chat trong dữ liệu bot bằng tên"
+				+ "\n   {pn} [ban | -b] [<tid> | để trống] <reason>: dùng để cấm nhóm mang id <tid> hoặc nhóm hiện tại sử dụng bot"
+				+ "\n   Ví dụ:"
+				+ "\n    {pn} ban 3950898668362484 spam bot"
+				+ "\n    {pn} ban spam quá nhiều"
+				+ "\n    {pn} unban [<tid> | để trống] để bỏ cấm nhóm mang id <tid> hoặc nhóm hiện tại",
+			en: "   {pn} [find | -f | search | -s] <name to find>: search group chat in bot data by name"
+				+ "\n   {pn} [ban | -b] [<tid> | leave blank] <reason>: use to ban group with id <tid> or current group using bot"
+				+ "\n   Example:"
+				+ "\n    {pn} ban 3950898668362484 spam bot"
+				+ "\n    {pn} ban spam too much"
+				+ "\n    {pn} unban [<tid> | leave blank] to unban group with id <tid> or current group"
+		}
 	},
 
-	onStart: async function ({ args, threadsData, message, role, event }) {
+	langs: {
+		vi: {
+			noPermission: "Bạn không có quyền sử dụng tính năng này",
+			found: "🔎 Tìm thấy %1 nhóm trùng với từ khóa \"%3\" trong dữ liệu của bot:\n%3",
+			notFound: "❌ Không tìm thấy nhóm nào có tên khớp với từ khoá: \"%1\" trong dữ liệu của bot",
+			hasBanned: "Nhóm mang id [%1 | %2] đã bị cấm từ trước:\n» Lý do: %3\n» Thời gian: %4",
+			banned: "Đã cấm nhóm mang id [%1 | %2] sử dụng bot.\n» Lý do: %3\n» Thời gian: %4",
+			notBanned: "Hiện tại nhóm mang id [%1 | %2] không bị cấm sử dụng bot",
+			unbanned: "Đã bỏ cấm nhóm mang tid [%1 | %2] sử dụng bot",
+			info: "» Box ID: %1\n» Tên: %2\n» Ngày tạo data: %3\n» Tổng thành viên: %4\n» Nam: %5 thành viên\n» Nữ: %6 thành viên\n» Tổng tin nhắn: %7%8"
+		},
+		en: {
+			noPermission: "You don't have permission to use this feature",
+			found: "🔎 Found %1 group matching the keyword \"%3\" in bot data:\n%3",
+			notFound: "❌ No group found matching the keyword: \"%1\" in bot data",
+			hasBanned: "Group with id [%1 | %2] has been banned before:\n» Reason: %3\n» Time: %4",
+			banned: "Banned group with id [%1 | %2] using bot.\n» Reason: %3\n» Time: %4",
+			notBanned: "Group with id [%1 | %2] is not banned using bot",
+			unbanned: "Unbanned group with tid [%1 | %2] using bot",
+			info: "» Box ID: %1\n» Name: %2\n» Date created data: %3\n» Total members: %4\n» Boy: %5 members\n» Girl: %6 members\n» Total messages: %7%8"
+		}
+	},
+
+	onStart: async function ({ args, threadsData, message, role, event, getLang }) {
 		const type = args[0];
 
 		switch (type) {
@@ -28,19 +65,24 @@ module.exports = {
 			case "-f":
 			case "-s": {
 				if (role < 2)
-					return message.reply("Bạn không có quyền sử dụng tính năng này");
+					return message.reply(getLang("noPermission"));
 				const allThread = await threadsData.getAll();
 				const keyword = args.slice(1).join(" ");
 				const result = allThread.filter(item => item.threadName.toLowerCase().includes(keyword.toLowerCase()));
-				const msg = result.reduce((i, thread) => i += `\n╭Name: {{${thread.threadName}}}\n╰ID: ${thread.threadID}`, "");
-				message.reply(result.length == 0 ? `❌ Không tìm thấy nhóm nào có tên khớp với từ khoá: "{{${keyword}}}" trong dữ liệu của bot` : `🔎 Tìm thấy ${result.length} nhóm trùng với từ khóa "{{${keyword}}}" trong dữ liệu của bot:\n${msg}`);
+				const resultText = result.reduce((i, thread) => i += `\n╭Name: ${thread.threadName}\n╰ID: ${thread.threadID}`, "");
+				let msg = "";
+				if (result.length > 0)
+					msg += getLang("found", keyword, resultText);
+				else
+					msg += getLang("notFound", keyword);
+				message.reply(msg);
 				break;
 			}
 			// ban thread
 			case "ban":
 			case "-b": {
 				if (role < 2)
-					return message.reply("Bạn không có quyền sử dụng tính năng này");
+					return message.reply(getLang("noPermission"));
 				let tid, reason;
 				if (!isNaN(args[1])) {
 					tid = args[1];
@@ -58,7 +100,7 @@ module.exports = {
 				const status = threadData.banned.status;
 
 				if (status)
-					return message.reply(`Nhóm mang id [${tid} | {{${name}}}] đã bị cấm từ trước:\n» Lý do: {{${threadData.banned.reason}}}\n» Thời gian: ${threadData.banned.date}`);
+					return message.reply(getLang("hasBanned", tid, name, threadData.banned.reason, threadData.banned.date));
 				const time = getTime("DD/MM/YYYY HH:mm:ss");
 				await threadsData.set(tid, {
 					banned: {
@@ -67,13 +109,13 @@ module.exports = {
 						date: time
 					}
 				});
-				return message.reply(`Đã cấm nhóm mang id [${tid} | {{${name}}}] sử dụng bot.\n» Lý do: ${reason}\n» Thời gian: ${time}`);
+				return message.reply(getLang("banned", tid, name, reason, time));
 			}
 			// unban thread
 			case "unban":
 			case "-u": {
 				if (role < 2)
-					return message.reply("Bạn không có quyền sử dụng tính năng này");
+					return message.reply(getLang("noPermission"));
 				let tid;
 				if (!isNaN(args[1]))
 					tid = args[1];
@@ -87,14 +129,14 @@ module.exports = {
 				const status = threadData.banned.status;
 
 				if (!status)
-					return message.reply(`Hiện tại nhóm mang id [${tid} | {{${name}}}] không bị cấm sử dụng bot`);
+					return message.reply(getLang("notBanned", tid, name));
 				await threadsData.set(tid, {
 					banned: {
 						status: false,
 						reason: null
 					}
 				});
-				return message.reply(`Đã bỏ cấm nhóm mang tid [${tid} | {{${name}}}] sử dụng bot`);
+				return message.reply(getLang("unbanned", tid, name));
 			}
 			// info thread
 			case "info":
@@ -107,17 +149,17 @@ module.exports = {
 				if (!tid)
 					return message.SyntaxError();
 				const threadData = await threadsData.get(tid);
+				const createdDate = getTime(threadData.createdAt, "DD/MM/YYYY HH:mm:ss");
 				const valuesMember = Object.values(threadData.members).filter(item => item.inGroup);
-				const msg = `» Box ID: ${threadData.threadID}`
-					+ `\n» Tên: {{${threadData.threadName}}}`
-					+ `\n» Ngày tạo data: ${getTime(threadData.createdAt, "DD/MM/YYYY HH:mm:ss")}`
-					+ `\n» Tổng thành viên: ${valuesMember.length}`
-					+ `\n» Nam: ${valuesMember.filter(item => item.gender == "MALE").length} thành viên`
-					+ `\n» Nữ: ${valuesMember.filter(item => item.gender == "FEMALE").length} thành viên`
-					+ `\n» Tổng tin nhắn: ${valuesMember.reduce((i, item) => i += item.count, 0)}`
-					+ (threadData.banned.status ? `\n- Banned: ${threadData.banned.status}`
-						+ `\n- Reason: {{${threadData.banned.reason}}}`
-						+ `\n- Time: ${threadData.banned.date}` : "");
+				const totalBoy = valuesMember.filter(item => item.gender == "MALE").length;
+				const totalGirl = valuesMember.filter(item => item.gender == "FEMALE").length;
+				const totalMessage = valuesMember.reduce((i, item) => i += item.count, 0);
+				const infoBanned = threadData.banned.status ?
+					`\n- Banned: ${threadData.banned.status}`
+					+ `\n- Reason: ${threadData.banned.reason}`
+					+ `\n- Time: ${threadData.banned.date}` :
+					"";
+				const msg = getLang("info", threadData.threadID, threadData.threadName, createdDate, valuesMember.length, totalBoy, totalGirl, totalMessage, infoBanned);
 				return message.reply(msg);
 			}
 			default:

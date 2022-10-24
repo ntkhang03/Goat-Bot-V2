@@ -1,25 +1,45 @@
 module.exports = {
 	config: {
 		name: "sorthelp",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: "Sắp xếp danh sách help",
-		longDescription: "Sắp xếp danh sách help",
+		shortDescription: {
+			vi: "Sắp xếp danh sách help",
+			en: "Sort help list"
+		},
+		longDescription: {
+			vi: "Sắp xếp danh sách help",
+			en: "Sort help list"
+		},
 		category: "image",
-		guide: "{pn} {{[name|category]}}"
+		guide: {
+			en: "{pn} [name | category]"
+		}
 	},
 
-	onStart: async function ({ message, event, args, threadsData }) {
+	langs: {
+		vi: {
+			savedName: "Đã lưu cài đặt sắp xếp danh sách help theo thứ tự chữ cái",
+			savedCategory: "Đã lưu cài đặt sắp xếp danh sách help theo thứ tự thể loại"
+		},
+		en: {
+			savedName: "Saved sort help list by name",
+			savedCategory: "Saved sort help list by category"
+		}
+	},
+
+	onStart: async function ({ message, event, args, threadsData, getLang }) {
 		if (args[0] == "name") {
 			await threadsData.set(event.threadID, "name", "settings.sortHelp");
-			message.reply("Đã lưu cài đặt sắp xếp danh sách help theo thứ tự chữ cái");
+			message.reply(getLang("savedName"));
 		}
 		else if (args[0] == "category") {
 			threadsData.set(event.threadID, "category", "settings.sortHelp");
-			message.reply("Đã lưu cài đặt sắp xếp danh sách help theo thứ tự nhóm");
+			message.reply(getLang("savedCategory"));
 		}
-		else message.SyntaxError();
+		else
+			message.SyntaxError();
 	}
 };

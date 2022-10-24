@@ -3,14 +3,33 @@ const { getTime, drive } = global.utils;
 module.exports = {
 	config: {
 		name: "leave",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		envConfig: {
 			defaultLeaveMessage: "{userName} đã {type} khỏi nhóm"
 		}
 	},
 
-	onStart: async ({ threadsData, message, event, api, usersData, commandName, envEvents }) => {
+	langs: {
+		vi: {
+			session1: "sáng",
+			session2: "trưa",
+			session3: "chiều",
+			session4: "tối",
+			leaveType1: "tự rời khỏi nhóm",
+			leaveType2: "bị kick khỏi nhóm"
+		},
+		en: {
+			session1: "morning",
+			session2: "noon",
+			session3: "afternoon",
+			session4: "evening",
+			leaveType1: "left the group",
+			leaveType2: "was kicked from the group"
+		}
+	},
+
+	onStart: async ({ threadsData, message, event, api, usersData, commandName, envEvents, getLang }) => {
 		if (event.logMessageType == "log:unsubscribe")
 			return async function () {
 				const { threadID } = event;
@@ -25,12 +44,13 @@ module.exports = {
 				const threadName = threadData.threadName;
 				const userName = await usersData.getName(leftParticipantFbId);
 
-				// {userName}   : tên của thành viên bị kick / tự out
-				// {type}       : tự rời/bị qtv kick
-				// {boxName}    : tên của nhóm chat
-				// {threadName} : tên của nhóm chat
-				// {time}       : thời gian rời
-				// {session}    : buổi trong ngày
+				// {userName}   : name of the user who left the group
+				// {type}       : type of the message (leave)
+				// {boxName}    : name of the box
+				// {threadName} : name of the box
+				// {time}       : time
+				// {session}    : session
+
 				let { leaveMessage = envEvents[commandName].defaultLeaveMessage } = threadData.data;
 				const form = {
 					mentions: leaveMessage.match(/\{userNameTag\}/g) ? [{
@@ -41,15 +61,19 @@ module.exports = {
 
 				leaveMessage = leaveMessage
 					.replace(/\{userName\}|\{userNameTag\}/g, userName)
-					.replace(/\{type\}/g, leftParticipantFbId == event.author ? "tự rời" : "bị quản trị viên xóa")
+					.replace(/\{type\}/g, leftParticipantFbId == event.author ? getLang("leaveType1") : getLang("leaveType2"))
 					.replace(/\{threadName\}|\{boxName\}/g, threadName)
 					.replace(/\{time\}/g, hours)
-					.replace(/\{session\}/g, hours <= 10 ? "sáng" :
-						hours > 10 && hours <= 12 ? "trưa" :
-							hours > 12 && hours <= 18 ? "chiều" : "tối"
+					.replace(/\{session\}/g, hours <= 10 ?
+						getLang("session1") :
+						hours <= 12 ?
+							getLang("session2") :
+							hours <= 18 ?
+								getLang("session3") :
+								getLang("session4")
 					);
 
-				form.body = `{{${leaveMessage}}}`;
+				form.body = leaveMessage;
 
 				if (leaveMessage.includes("{userNameTag}")) {
 					form.mentions = [{

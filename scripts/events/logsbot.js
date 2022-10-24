@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: "logsbot",
 		isBot: true,
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		envConfig: {
@@ -12,12 +12,28 @@ module.exports = {
 		}
 	},
 
-	onStart: async ({ usersData, threadsData, event, api }) => {
+	langs: {
+		vi: {
+			title: "====== Nhật ký bot ======",
+			added: "\n✅\nSự kiện: bot được thêm vào nhóm mới\n- Người thêm: %1",
+			kicked: "\n❌\nSự kiện: bot bị kick\n- Người kick: %1",
+			footer: "\n- User ID: %1\n- Nhóm: %2\n- ID nhóm: %3\n- Thời gian: %4"
+		},
+		en: {
+			title: "====== Bot logs ======",
+			added: "\n✅\nEvent: bot has been added to a new group\n- Added by: %1",
+			kicked: "\n❌\nEvent: bot has been kicked\n- Kicked by: %1",
+			footer: "\n- User ID: %1\n- Group: %2\n- Group ID: %3\n- Time: %4"
+		}
+	},
+
+	onStart: async ({ usersData, threadsData, event, api, getLang }) => {
 		if (
 			(event.logMessageType == "log:subscribe" && event.logMessageData.addedParticipants.some(item => item.userFbId == api.getCurrentUserID()))
 			|| (event.logMessageType == "log:unsubscribe" && event.logMessageData.leftParticipantFbId == api.getCurrentUserID())
 		) return async function () {
-			let msg = "====== Nhật ký bot ======";
+			let msg = getLang("title");
+			"====== Nhật ký bot ======";
 			const { author, threadID } = event;
 			if (author == api.getCurrentUserID())
 				return;
@@ -31,8 +47,7 @@ module.exports = {
 					api.changeNickname(config.nickNameBot, event.threadID, api.getCurrentUserID());
 				threadName = (await api.getThreadInfo(threadID)).threadName;
 				const authorName = await usersData.getName(author);
-				msg += `\n✅\nSự kiện: bot được thêm vào nhóm mới`
-					+ `\n- Người thêm: {{${authorName}}}`;
+				msg += getLang("added", authorName);
 			}
 			else if (event.logMessageType == "log:unsubscribe") {
 				if (event.logMessageData.leftParticipantFbId != api.getCurrentUserID())
@@ -40,14 +55,10 @@ module.exports = {
 				const authorName = await usersData.getName(author);
 				const threadData = await threadsData.get(threadID);
 				threadName = threadData.threadName;
-				msg += `\n❌\nSự kiện: bot bị kick`
-					+ `\n- Người kick: {{${authorName}}}`;
+				msg += getLang("kicked", authorName);
 			}
 			const time = getTime("DD/MM/YYYY HH:mm:ss");
-			msg += `\n- User ID: ${author}` +
-				`\n- Nhóm: {{${threadName}}}` +
-				`\n- ID nhóm: ${threadID}` +
-				`\n- Thời gian: ${time}`;
+			msg += getLang("footer", author, threadName, threadID, time);
 
 			for (const adminID of config.adminBot)
 				api.sendMessage(await checkAndTranslate(msg), adminID);

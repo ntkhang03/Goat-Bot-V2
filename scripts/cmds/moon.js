@@ -84,21 +84,46 @@ const moonImages = [
 module.exports = {
 	config: {
 		name: "moon",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: "xem ảnh mặt trăng",
-		longDescription: "xem ảnh mặt trăng vào đêm bạn chọn (dd/mm/yyyy)",
+		shortDescription: {
+			vi: "xem ảnh mặt trăng",
+			en: "view moon image"
+		},
+		longDescription: {
+			vi: "xem ảnh mặt trăng vào đêm bạn chọn (dd/mm/yyyy)",
+			en: "view moon image on the night you choose (dd/mm/yyyy)"
+		},
 		category: "image",
-		guide: "  {pn} <ngày/tháng/năm>"
-			+ "\n   {pn} <ngày/tháng/năm> <caption>"
+		guide: {
+			vi: "  {pn} <ngày/tháng/năm>"
+				+ "\n   {pn} <ngày/tháng/năm> <caption>",
+			en: "  {pn} <day/month/year>"
+				+ "\n   {pn} <day/month/year> <caption>"
+		}
 	},
 
-	onStart: async function ({ args, message }) {
+	langs: {
+		vi: {
+			invalidDateFormat: "Vui lòng nhập ngày/tháng/năm hợp lệ theo định dạng DD/MM/YYYY",
+			error: "Đã xảy ra lỗi không thể lấy ảnh mặt trăng của ngày %1",
+			invalidDate: "Ngày %1 không hợp lệ",
+			caption: "- Ảnh mặt trăng vào đêm %1"
+		},
+		en: {
+			invalidDateFormat: "Please enter a valid date in DD/MM/YYYY format",
+			error: "An error occurred while getting the moon image of %1",
+			invalidDate: "%1 is not a valid date",
+			caption: "- Moon image on %1"
+		}
+	},
+
+	onStart: async function ({ args, message, getLang }) {
 		const date = checkDate(args[0]);
 		if (!date)
-			return message.reply(`Vui lòng nhập ngày/tháng/năm hợp lệ theo định dạng DD/MM/YYYY`);
+			return message.reply(getLang("invalidDateFormat"));
 		const linkCrawl = `https://lunaf.com/lunar-calendar/${date}`;
 
 		let html;
@@ -106,7 +131,7 @@ module.exports = {
 			html = await axios.get(linkCrawl, { httpsAgent: agent });
 		}
 		catch (err) {
-			return message.reply(`Đã xảy ra lỗi không thể lấy ảnh mặt trăng của ngày ${args[0]}`);
+			return message.reply(getLang("error", args[0]));
 		}
 
 		const $ = cheerio.load(html.data);
@@ -116,7 +141,7 @@ module.exports = {
 			responseType: "arraybuffer"
 		});
 
-		const msg = `- Ảnh mặt trăng vào đêm ${args[0]}`
+		const msg = getLang("caption", args[0])
 			+ `\n- ${$($('h3').get()[0]).text()}`
 			+ `\n- ${$("#phimg > small").text()}`
 			+ `\n- ${linkCrawl}`

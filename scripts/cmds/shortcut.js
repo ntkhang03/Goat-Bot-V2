@@ -4,27 +4,81 @@ module.exports = {
 	config: {
 		name: 'shortcut',
 		aliases: ['short'],
-		version: '1.1',
+		version: '1.2',
 		author: 'NTKhang',
 		countDown: 5,
 		role: 0,
-		shortDescription: 'Thêm một phím tắt cho bạn',
-		longDescription: 'Thêm một phím tắt cho tin nhắn trong nhóm chat của bạn',
+		shortDescription: {
+			vi: 'Thêm một phím tắt cho bạn',
+			en: 'Add a shortcut for you'
+		},
+		longDescription: {
+			vi: 'Thêm một phím tắt cho tin nhắn trong nhóm chat của bạn',
+			en: 'Add a shortcut for your message in group chat'
+		},
 		category: 'custom',
 		guide: {
-			body: '   {pn} {{add <word> => <content>}}: thêm một phím tắt cho bạn (có thể gửi kèm hoặc phản hồi một tin nhắn có file để thêm tệp đính kèm)'
-				+ '\n   Ví dụ: {{{pn} add hi}} => Xin chào mọi người'
-				+ '\n'
-				+ '\n   {pn} {{del <word>}}: xóa một phím tắt'
-				+ '\n   Ví dụ: {pn} {{del hi}}'
-				+ '\n'
-				+ '\n   {pn} {{reomve}}: xóa bỏ tất cả các phím tắt trong nhóm chat của bạn'
-				+ '\n'
-				+ '\n   {pn} {{list}}: xem danh sách các phím tắt của bạn'
+			body: {
+				vi: '   {pn} add <word> => <content>: thêm một phím tắt cho bạn (có thể gửi kèm hoặc phản hồi một tin nhắn có file để thêm tệp đính kèm)'
+					+ '\n   Ví dụ:\n    {pn} add hi => Xin chào mọi người'
+					+ '\n'
+					+ '\n   {pn} del <word>: xóa một phím tắt'
+					+ '\n   Ví dụ:\n    {pn} del hi'
+					+ '\n'
+					+ '\n   {pn} reomve: xóa bỏ tất cả các phím tắt trong nhóm chat của bạn'
+					+ '\n'
+					+ '\n   {pn} list: xem danh sách các phím tắt của bạn',
+				en: '   {pn} add <word> => <content>: add a shortcut for you (you can send or reply a message with file to add attachment)'
+					+ '\n   Example:\n    {pn} add hi => Hello everyone'
+					+ '\n'
+					+ '\n   {pn} del <word>: delete a shortcut'
+					+ '\n   Example:\n    {pn} del hi'
+					+ '\n'
+					+ '\n   {pn} reomve: remove all shortcuts in your group chat'
+					+ '\n'
+					+ '\n   {pn} list: view your shortcuts list'
+			}
 		}
 	},
 
-	onStart: async function ({ args, threadsData, message, event, role, usersData }) {
+	langs: {
+		vi: {
+			missingContent: 'Vui lòng nhập nội dung tin nhắn',
+			shortcutExists: 'Shortcut này đã tồn tại',
+			added: 'Đã thêm shortcut ${key} => ${content}',
+			addedAttachment: ' với %1 tệp đính kèm',
+			missingKey: 'Vui lòng nhập từ khóa của shortcut muốn xóa',
+			notFound: 'Không tìm thấy shortcut nào cho từ khóa ${key} trong nhóm chat của bạn',
+			onlyAdmin: 'Chỉ quản trị viên mới có thể xóa shortcut của người khác',
+			deleted: 'Đã xóa shortcut ${key}',
+			empty: 'Nhóm chat của bạn chưa thêm shortcut nào',
+			message: 'Tin nhắn',
+			attachment: 'Tệp đính kèm',
+			list: 'Danh sách các shortcut của bạn',
+			onlyAdminRemoveAll: 'Chỉ quản trị viên mới có thể xóa tất cả các shortcut trong nhóm chat',
+			confirmRemoveAll: 'Bạn có chắc muốn xóa tất cả các shortcut trong nhóm chat này không? (thả cảm xúc vào tin nhắn này để xác nhận)',
+			removedAll: 'Đã xóa tất cả các shortcut trong nhóm chat của bạn'
+		},
+		en: {
+			missingContent: 'Please enter the message content',
+			shortcutExists: 'This shortcut already exists',
+			added: 'Added shortcut ${key} => ${content}',
+			addedAttachment: ' with %1 attachment(s)',
+			missingKey: 'Please enter the keyword of the shortcut you want to delete',
+			notFound: 'No shortcut found for keyword ${key} in your group chat',
+			onlyAdmin: 'Only administrators can delete other people\'s shortcuts',
+			deleted: 'Deleted shortcut ${key}',
+			empty: 'Your group chat has not added any shortcuts',
+			message: 'Message',
+			attachment: 'Attachment',
+			list: 'Your shortcuts list',
+			onlyAdminRemoveAll: 'Only administrators can remove all shortcuts in the group chat',
+			confirmRemoveAll: 'Are you sure you want to remove all shortcuts in this group chat? (react to this message to confirm)',
+			removedAll: 'Removed all shortcuts in your group chat'
+		}
+	},
+
+	onStart: async function ({ args, threadsData, message, event, role, usersData, getLang, commandName }) {
 		const { threadID, senderID, body } = event;
 		const dataShortcut = await threadsData.get(threadID, 'data.shortcut', []);
 
@@ -33,7 +87,9 @@ module.exports = {
 				const [key, content] = body.split(' ').slice(2).join(' ').split('=>');
 				const attachments = [...event.attachments, ...(event.messageReply ? event.messageReply.attachments : [])];
 				if (!key || !content && attachments.length === 0)
-					return message.reply('Vui lòng nhập nội dung tin nhắn');
+					return message.reply(getLang('missingContent'));
+				if (dataShortcut.some(item => item.key == key))
+					return message.reply(getLang('shortcutExists'));
 				let attachmentIDs = [];
 				if (attachments.length > 0)
 					attachmentIDs = attachments.map(async attachment => new Promise(async (resolve) => {
@@ -49,41 +105,60 @@ module.exports = {
 					author: senderID
 				});
 				await threadsData.set(threadID, dataShortcut, 'data.shortcut');
-				message.reply(`Đã thêm shortcut {{${key} => ${content}}}${attachments.length > 0 ? ` với ${attachments.length} tệp đính kèm` : ''}`);
+				let msg = getLang('added', key, content) + "\n";
+				if (attachmentIDs.length > 0)
+					msg += getLang('addedAttachment', attachmentIDs.length);
+				message.reply(msg);
 				break;
 			}
 			case 'del': {
 				const key = args.slice(1).join(' ');
 				if (!key)
-					return message.reply('Vui lòng nhập từ khóa của shortcut muốn xóa');
+					return message.reply(getLang('missingKey'));
 				const index = dataShortcut.findIndex(x => x.key === key);
 				if (index === -1)
-					return message.reply(`Không tìm thấy shortcut nào cho từ khóa {{'${key}'}} trong nhóm chat của bạn`);
+					return message.reply(getLang('notFound', key));
 				if (senderID != dataShortcut[index].author && role < 1)
-					return message.reply('Chỉ quản trị viên mới có thể xóa shortcut của người khác');
+					return message.reply(getLang('onlyAdmin'));
 				dataShortcut.splice(index, 1);
 				await threadsData.set(threadID, dataShortcut, 'data.shortcut');
-				message.reply(`Đã xóa shortcut {{'${key}'}}`);
+				message.reply(getLang('deleted', key));
 				break;
 			}
 			case 'list': {
 				if (dataShortcut.length === 0)
-					return message.reply('Nhóm chat của bạn chưa thêm shortcut nào');
-				const list = (await Promise.all(dataShortcut.map(async x => `[+] {{${x.key}}} => với ${x.content ? 1 : 0} tin nhắn${x.attachments.length > 0 ? ` và ${x.attachments.length} tệp đính kèm` : ''} {{(${await usersData.getName(x.author)})}}`))).join('\n');
-				message.reply(`Danh sách các shortcut của nhóm bạn:\n${list}`);
+					return message.reply(getLang('empty'));
+				const list = (await Promise.all(dataShortcut.map(async x => `[+] ${x.key} => ${x.content ? 1 : 0} ${getLang("message")}, ${x.attachments.length} ${getLang('attachment')} (${await usersData.getName(x.author)})`))).join('\n');
+				message.reply(getLang('list') + '\n' + list);
 				break;
 			}
 			case 'remove': {
 				if (threadID != senderID && role < 1)
-					return message.reply('Chỉ quản trị viên mới có thể xóa tất cả các shortcut trong nhóm chat');
-				await threadsData.set(threadID, 'data.shortcut', []);
-				message.reply('Đã xóa tất cả các shortcut trong nhóm chat của bạn');
+					return message.reply(getLang('onlyAdminRemoveAll'));
+				message.reply(getLang('confirmRemoveAll'), (err, info) => {
+					if (err)
+						return;
+					global.client.handleReaction.push({
+						name: commandName,
+						messageID: info.messageID,
+						author: senderID
+					});
+				});
 				break;
 			}
 			default:
 				message.SyntaxError();
 				break;
 		}
+	},
+
+	onReaction: async function ({ event, message, threadsData, getLang, Reaction }) {
+		const { author } = Reaction;
+		const { threadID, senderID } = event;
+		if (author != senderID)
+			return;
+		await threadsData.set(threadID, 'data.shortcut', []);
+		return message.reply(getLang('removedAll'));
 	},
 
 	onChat: async ({ threadsData, message, event }) => {

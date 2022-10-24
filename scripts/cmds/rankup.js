@@ -4,33 +4,56 @@ const expToLevel = exp => Math.floor((1 + Math.sqrt(1 + 8 * exp / deltaNext)) / 
 module.exports = {
 	config: {
 		name: "rankup",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: "Bật/tắt thông báo level up",
-		longDescription: "Bật/tắt thông báo level up",
+		shortDescription: {
+			vi: "Bật/tắt thông báo level up",
+			en: "Turn on/off level up notification"
+		},
+		longDescription: {
+			vi: "Bật/tắt thông báo level up",
+			en: "Turn on/off level up notification"
+		},
 		category: "rank",
-		guide: "{pn} {{[on | off]}}",
+		guide: {
+			en: "{pn} [on | off]"
+		},
 		envConfig: {
 			deltaNext: 5
 		}
 	},
 
-	onStart: async function ({ message, event, threadsData, args }) {
-		if (!["on", "off"].includes(args[0]))
-			return message.reply("Vui lòng chọn {{`on`}} hoặc {{`off`}}");
-		await threadsData.set(event.threadID, args[0] === "on", "settings.sendRankupMessage");
-		return message.reply(`Đã ${args[0] === "on" ? "bật" : "tắt"} thông báo level up`);
+	langs: {
+		vi: {
+			syntaxError: "Sai cú pháp, chỉ có thể dùng {pn} on hoặc {pn} off",
+			turnedOn: "Đã bật thông báo level up",
+			turnedOff: "Đã tắt thông báo level up",
+			notiMessage: "🎉🎉 chúc mừng bạn đạt level %1"
+		},
+		en: {
+			syntaxError: "Syntax error, only use {pn} on or {pn} off",
+			turnedOn: "Turned on level up notification",
+			turnedOff: "Turned off level up notification",
+			notiMessage: "🎉🎉 Congratulations on reaching level %1"
+		}
 	},
 
-	onChat: async function ({ threadsData, usersData, event, message }) {
+	onStart: async function ({ message, event, threadsData, args, getLang }) {
+		if (!["on", "off"].includes(args[0]))
+			return message.reply(getLang("syntaxError"));
+		await threadsData.set(event.threadID, args[0] == "on", "settings.sendRankupMessage");
+		return message.reply(args[0] == "on" ? getLang("turnedOn") : getLang("turnedOff"));
+	},
+
+	onChat: async function ({ threadsData, usersData, event, message, getLang }) {
 		const sendRankupMessage = await threadsData.get(event.threadID, "settings.sendRankupMessage");
 		if (!sendRankupMessage)
 			return;
 		const { exp } = await usersData.get(event.senderID);
-		if (expToLevel(exp) > expToLevel(exp - 1)) {
-			message.reply(`{{🎉🎉 chúc mừng bạn đạt level ${expToLevel(exp)}}}`);
-		}
+		const currentLevel = expToLevel(exp);
+		if (currentLevel > expToLevel(exp - 1))
+			message.reply(getLang("notiMessage", currentLevel));
 	}
 };

@@ -1,11 +1,22 @@
 module.exports = {
 	config: {
 		name: "checkwarn",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang"
 	},
 
-	onStart: async ({ threadsData, message, event, api, client }) => {
+	langs: {
+		vi: {
+			warn: "Thành viên %1 đã bị cảnh cáo đủ 3 lần trước đó và bị ban khỏi box chat\n- Name: %1\n- Uid: %2\n- Để gỡ ban vui lòng sử dụng lệnh \"%3warn unban <uid>\" (với uid là uid của người muốn gỡ ban)",
+			needPermission: "Bot cần quyền quản trị viên để kick thành viên bị ban"
+		},
+		en: {
+			warn: "Member %1 has been warned 3 times before and has been banned from the chat box\n- Name: %1\n- Uid: %2\n- To unban, please use the \"%3warn unban <uid>\" command (with uid is the uid of the person you want to unban)",
+			needPermission: "Bot needs administrator permission to kick banned members"
+		}
+	},
+
+	onStart: async ({ threadsData, message, event, api, client, getLang }) => {
 		if (event.logMessageType == "log:subscribe")
 			return async function () {
 				const { threadID } = event;
@@ -20,10 +31,7 @@ module.exports = {
 						const userName = user.fullName;
 						const uid = user.userFbId;
 						message.send({
-							body: `Thành viên ${userName} đã bị cảnh cáo đủ 3 lần trước đó và bị ban khỏi box chat`
-								+ `\n- Name: ${userName}`
-								+ `\n- Uid: ${uid}`
-								+ `\n- Để gỡ ban vui lòng sử dụng lệnh "${client.getPrefix(threadID)}warn unban <uid>" (với uid là uid của người muốn gỡ ban)`,
+							body: getLang("warn", userName, uid, client.getPrefix(threadID)),
 							mentions: [{
 								tag: userName,
 								id: uid
@@ -31,7 +39,7 @@ module.exports = {
 						}, function () {
 							api.removeUserFromGroup(uid, threadID, (err) => {
 								if (err)
-									return message.send(`Bot cần quyền quản trị viên để kick thành viên bị ban`);
+									return message.send(getLang("needPermission"));
 							});
 						});
 					}

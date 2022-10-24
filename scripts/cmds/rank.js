@@ -7,14 +7,20 @@ const levelToExp = level => Math.floor(((Math.pow(level, 2) - level) * deltaNext
 module.exports = {
 	config: {
 		name: "rank",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: "Xem level của người dùng",
-		longDescription: "Xem level của bạn hoặc người được tag. Có thể tag nhiều người",
+		shortDescription: {
+			vi: "Xem level của người dùng",
+			en: "View level of user"
+		},
+		longDescription: {
+			vi: "Xem level của bạn hoặc người được tag. Có thể tag nhiều người",
+			en: "View your level or the level of the tagged person. You can tag many people"
+		},
 		category: "rank",
-		guide: "{pn} [để trống | {{@tags}}]",
+		guide: "{pn} [để trống | @tags]",
 		envConfig: {
 			deltaNext: 5
 		}
@@ -62,23 +68,23 @@ module.exports = {
 				avatar: await usersData.getAvatarUrl(userID)
 			};
 
-			axios.get("https://goatbot.up.railway.app/taoanhdep/makerankcard", {
-				params: {
-					...defaultDesignCard,
-					...customRankCard,
-					...dataLevel
-				},
-				responseType: "stream"
-			})
-				.then(data => {
-					data.data.path = "rank.png";
-					message.reply({
-						attachment: data.data
-					});
-				})
-				.catch(err => {
-					message.err(err.message);
+			try {
+				const { data: image } = await axios.get("https://goatbot.up.railway.app/taoanhdep/makerankcard", {
+					params: {
+						...defaultDesignCard,
+						...customRankCard,
+						...dataLevel
+					},
+					responseType: "stream"
 				});
+				image.path = `rankcard_${userID}.png`;
+				message.reply({
+					attachment: image
+				});
+			}
+			catch (err) {
+				return message.err(err.message);
+			}
 		}
 	},
 

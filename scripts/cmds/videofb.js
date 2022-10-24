@@ -5,25 +5,48 @@ const qs = require("qs");
 module.exports = {
 	config: {
 		name: "videofb",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: "Tải video từ facebook",
-		longDescription: "Tải video/story từ facebook (công khai)",
+		shortDescription: {
+			vi: "Tải video từ facebook",
+			en: "Download video from facebook"
+		},
+		longDescription: {
+			vi: "Tải video/story từ facebook (công khai)",
+			en: "Download video/story from facebook (public)"
+		},
 		category: "media",
-		guide: "   {pn} {{<url video/story>}}: tải video từ facebook"
+		guide: {
+			en: "   {pn} <url video/story>: tải video từ facebook"
+		}
 	},
 
-	onStart: async function ({ args, message }) {
+	langs: {
+		vi: {
+			missingUrl: "Vui lòng nhập url video/story facebook (công khai) bạn muốn tải về",
+			error: "Đã xảy ra lỗi khi tải video",
+			downloading: "Đang tiến hành tải video cho bạn",
+			tooLarge: "Rất tiếc không thể tải video cho bạn vì dung lượng lớn hơn 83MB"
+		},
+		en: {
+			missingUrl: "Please enter the facebook video/story (public) url you want to download",
+			error: "An error occurred while downloading the video",
+			downloading: "Downloading video for you",
+			tooLarge: "Sorry, we can't download the video for you because the size is larger than 83MB"
+		}
+	},
+
+	onStart: async function ({ args, message, getLang }) {
 		if (!args[0])
-			return message.reply(`Vui lòng nhập url video/story facebook (công khai) bạn muốn tải về`);
+			return message.reply(getLang("missingUrl"));
 		const response = await fbDownloader(args[0]);
 		if (response.success === false)
-			return message.reply(`Đã xảy ra lỗi khi tải video`);
+			return message.reply(getLang("error"));
 
 		let success = false;
-		const msgSend = message.reply(`Đang tiến hành tải video cho bạn`);
+		const msgSend = message.reply(getLang("downloading"));
 
 		for (const item of response.download) {
 			const res = await axios({
@@ -42,7 +65,7 @@ module.exports = {
 
 		if (!success) {
 			message.unsend((await msgSend).messageID);
-			return message.reply('Rất tiếc không thể tải video cho bạn vì dung lượng lớn hơn 83MB');
+			return message.reply(getLang("tooLarge"));
 		}
 	}
 };

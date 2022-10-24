@@ -4,21 +4,32 @@ const fs = require("fs-extra");
 module.exports = {
 	config: {
 		name: "batslap",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
 		shortDescription: "Batslap image",
 		longDescription: "Batslap image",
 		category: "image",
-		guide: "{pn} @tag"
+		guide: {
+			en: "   {pn} @tag"
+		}
 	},
 
-	onStart: async function ({ event, message, usersData, args }) {
+	langs: {
+		vi: {
+			noTag: "Bạn phải tag người bạn muốn tát"
+		},
+		en: {
+			noTag: "You must tag the person you want to slap"
+		}
+	},
+
+	onStart: async function ({ event, message, usersData, args, getLang }) {
 		const uid1 = event.senderID;
 		const uid2 = Object.keys(event.mentions)[0];
 		if (!uid2)
-			return message.reply("Hãy tag 1 người để batslap");
+			return message.reply(getLang("noTag"));
 		const avatarURL1 = await usersData.getAvatarUrl(uid1);
 		const avatarURL2 = await usersData.getAvatarUrl(uid2);
 		const img = await new DIG.Batslap().getImage(avatarURL1, avatarURL2);
@@ -26,7 +37,7 @@ module.exports = {
 		fs.writeFileSync(pathSave, Buffer.from(img));
 		const content = args.join(' ').replace(Object.keys(event.mentions)[0], "");
 		message.reply({
-			body: `{{${(content || "Bópppp 😵‍💫😵")}}}`,
+			body: `${(content || "Bópppp 😵‍💫😵")}`,
 			attachment: fs.createReadStream(pathSave)
 		}, () => fs.unlinkSync(pathSave));
 	}

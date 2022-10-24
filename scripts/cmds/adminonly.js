@@ -6,28 +6,49 @@ module.exports = {
 	config: {
 		name: "adminonly",
 		aliases: ["adonly", "onlyad", "onlyadmin"],
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
-		shortDescription: "bật/tắt chỉ admin sử dụng bot",
-		longDescription: "bật/tắt chế độ chỉ admin mới có thể sử dụng bot",
+		shortDescription: {
+			vi: "bật/tắt chỉ admin sử dụng bot",
+			en: "turn on/off only admin can use bot"
+		},
+		longDescription: {
+			vi: "bật/tắt chế độ chỉ admin mới có thể sử dụng bot",
+			en: "turn on/off only admin can use bot"
+		},
 		category: "owner",
-		guide: "{pn} {{[on | off]}}"
+		guide: {
+			en: "{pn} [on | off]"
+		}
 	},
 
-	onStart: function ({ args, message }) {
+	langs: {
+		vi: {
+			turnedOn: "Đã bật chế độ chỉ admin mới có thể sử dụng bot",
+			turnedOff: "Đã tắt chế độ chỉ admin mới có thể sử dụng bot",
+			syntaxError: "Sai cú pháp, chỉ có thể dùng {pn} on hoặc {pn} off"
+		},
+		en: {
+			turnedOn: "Turned on the mode only admin can use bot",
+			turnedOff: "Turned off the mode only admin can use bot",
+			syntaxError: "Syntax error, only use {pn} on or {pn} off"
+		}
+	},
+
+	onStart: function ({ args, message, getLang  }) {
 		if (args[0] == "on") {
 			config.adminOnly = true;
-			message.reply("Đã bật chế độ chỉ admin mới có thể sử dụng bot");
+			message.reply(getLang("turnedOn"));
 			fs.writeFileSync(client.dirConfig, JSON.stringify(config, null, 2));
 		}
 		else if (args[0] == "off") {
 			config.adminOnly = false;
-			message.reply("Đã tắt chế độ chỉ admin mới có thể sử dụng bot");
+			message.reply(getLang("turnedOff"));
 			fs.writeFileSync(client.dirConfig, JSON.stringify(config, null, 2));
 		}
 		else
-			return message.reply("Vui lòng chọn chế độ on hoặc off");
+			return message.reply(getLang("syntaxError"));
 	}
 };

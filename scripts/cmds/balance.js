@@ -2,27 +2,49 @@ module.exports = {
 	config: {
 		name: "balance",
 		aliases: ["bal"],
-		version: "1.0.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: "xem số tiền của bạn",
-		longDescription: "xem số tiền hiện có của bạn hoặc người được tag",
+		shortDescription: {
+			vi: "xem số tiền của bạn",
+			en: "view your money"
+		},
+		longDescription: {
+			vi: "xem số tiền hiện có của bạn hoặc người được tag",
+			en: "view your money or the money of the tagged person"
+		},
 		category: "economy",
-		guide: "{pn}"
+		guide: {
+			vi: "   {pn}: xem số tiền của bạn"
+				+ "\n   {pn} <@tag>: xem số tiền của người được tag",
+			en: "   {pn}: view your money"
+				+ "\n   {pn} <@tag>: view the money of the tagged person"
+		}
 	},
 
-	onStart: async function ({ message, usersData, event }) {
+	langs: {
+		vi: {
+			money: "Bạn đang có %1$",
+			moneyOf: "%1 đang có %2$"
+		},
+		en: {
+			money: "You have %1$",
+			moneyOf: "%1 has %2$"
+		}
+	},
+
+	onStart: async function ({ message, usersData, event, getLang }) {
 		if (Object.keys(event.mentions).length > 0) {
 			const uids = Object.keys(event.mentions);
 			let msg = "";
 			for (const uid of uids) {
 				const userMoney = await usersData.get(uid, "money");
-				msg += `${event.mentions[uid].replace("@", "")} có ${userMoney} đ\n`;
+				msg += getLang("moneyOf", event.mentions[uid].replace("@", ""), userMoney) + '\n';
 			}
 			return message.reply(msg);
 		}
 		const userData = await usersData.get(event.senderID);
-		message.reply(`Bạn đang có ${userData.money} đ`);
+		message.reply(getLang("money", userData.money));
 	}
 };

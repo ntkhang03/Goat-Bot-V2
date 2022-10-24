@@ -12,29 +12,59 @@ async function checkShortCut(nickname, uid, usersData) {
 module.exports = {
 	config: {
 		name: "setname",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: "Đổi biệt danh ",
-		longDescription: "Đổi biệt danh của tất cả thành viên trong nhóm chat hoặc những thành viên được tag theo một định dạng",
+		shortDescription: {
+			vi: "Đổi biệt danh ",
+			en: "Change nickname"
+		},
+		longDescription: {
+			vi: "Đổi biệt danh của tất cả thành viên trong nhóm chat hoặc những thành viên được tag theo một định dạng",
+			en: "Change nickname of all members in chat or members tagged by a format"
+		},
 		category: "box chat",
 		guide: {
-			body: "   {pn} {{<nick name>}}: thay đổi biệt danh của bản thân"
-				+ "\n   {pn} {{@tags <nick name>}}: thay đổi biệt danh của những thành viên được tag"
-				+ "\n   {pn} {{all <nick name>}}: thay đổi biệt danh của tất cả thành viên trong nhóm chat"
-				+ "\n\nVới các shortcut có sẵn:"
-				+ "\n   + {userName}: tên của thành viên"
-				+ "\n   + {userID}: ID của thành viên"
-				+ "\n\nVí dụ: (xem ảnh)",
-			attachment: [
-				__dirname + "/assets/guide/setname/guide1.png",
-				__dirname + "/assets/guide/setname/guide2.png"
-			]
+			vi: {
+				body: "   {pn} <nick name>: thay đổi biệt danh của bản thân"
+					+ "\n   {pn} @tags <nick name>: thay đổi biệt danh của những thành viên được tag"
+					+ "\n   {pn} all <nick name>: thay đổi biệt danh của tất cả thành viên trong nhóm chat"
+					+ "\n\n   Với các shortcut có sẵn:"
+					+ "\n   + {userName}: tên của thành viên"
+					+ "\n   + {userID}: ID của thành viên"
+					+ "\n\n   Ví dụ: (xem ảnh)",
+				attachment: {
+					[__dirname + "/assets/guide/setname/guide1.png"]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/setname/guide1.png",
+					[__dirname + "/assets/guide/setname/guide2.png"]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/setname/guide2.png"
+				}
+			},
+			en: {
+				body: "   {pn} <nick name>: change nickname of yourself"
+					+ "\n   {pn} @tags <nick name>: change nickname of members tagged"
+					+ "\n   {pn} all <nick name>: change nickname of all members in chat"
+					+ "\n\nWith available shortcuts:"
+					+ "\n   + {userName}: name of member"
+					+ "\n   + {userID}: ID of member"
+					+ "\n\n   Example: (see image)",
+				attachment: {
+					[__dirname + "/assets/guide/setname/guide1.png"]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/setname/guide1.png",
+					[__dirname + "/assets/guide/setname/guide2.png"]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/setname/guide2.png"
+				}
+			}
 		}
 	},
 
-	onStart: async function ({ args, message, event, api, usersData }) {
+	langs: {
+		vi: {
+			error: "Đã có lỗi xảy ra, thử tắt tính năng liên kết mời trong nhóm và thử lại sau"
+		},
+		en: {
+			error: "An error has occurred, try turning off the invite link feature in the group and try again later"
+		}
+	},
+
+	onStart: async function ({ args, message, event, api, usersData, getLang }) {
 		const mentions = Object.keys(event.mentions);
 		let uids = [];
 		let nickname = args.join(" ");
@@ -58,7 +88,7 @@ module.exports = {
 			await api.changeNickname(await checkShortCut(nickname, uid, usersData), event.threadID, uid);
 		}
 		catch (e) {
-			return message.reply(`Đã có lỗi xảy ra, thử tắt tính năng liên kết mời trong nhóm và thử lại sau`);
+			return message.reply(getLang("error"));
 		}
 
 		for (const uid of uids)

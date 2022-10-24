@@ -1,19 +1,51 @@
 module.exports = {
 	config: {
 		name: "count",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: "Xem tin nhắn nhóm",
-		longDescription: "Xem số lượng tin nhắn của tất cả thành viên hoặc bản thân (tính từ lúc bot vào nhóm)",
+		shortDescription: {
+			vi: "Xem tin nhắn nhóm",
+			en: "View group messages"
+		},
+		longDescription: {
+			vi: "Xem số lượng tin nhắn của tất cả thành viên hoặc bản thân (tính từ lúc bot vào nhóm)",
+			en: "View the number of messages of all members or yourself (since the bot joined the group)"
+		},
 		category: "box chat",
-		guide: "{pn}: dùng để xem số lượng tin nhắn của bạn"
-			+ "\n{pn} {{@tag}}: dùng để xem số lượng tin nhắn của những người được tag"
-			+ "\n{pn} {{all}}: dùng để xem số lượng tin nhắn của tất cả thành viên"
+		guide: {
+			vi: "   {pn}: dùng để xem số lượng tin nhắn của bạn"
+				+ "\n   {pn} @tag: dùng để xem số lượng tin nhắn của những người được tag"
+				+ "\n   {pn} all: dùng để xem số lượng tin nhắn của tất cả thành viên",
+			en: "   {pn}: used to view the number of messages of you"
+				+ "\n   {pn} @tag: used to view the number of messages of those tagged"
+				+ "\n   {pn} all: used to view the number of messages of all members"
+		}
 	},
 
-	onStart: async function ({ args, threadsData, message, event, api, commandName }) {
+	langs: {
+		vi: {
+			count: "Số tin nhắn của các thành viên:",
+			endMessage: "Những người không có tên trong danh sách là chưa gửi tin nhắn nào.",
+			page: "Trang [%1/%2]",
+			reply: "Phản hồi tin nhắn này kèm số trang để xem tiếp",
+			result: "%1 hạng %2 với %3 tin nhắn",
+			yourResult: "Bạn đứng hạng %1 và đã gửi %2 tin nhắn trong nhóm này",
+			invalidPage: "Số trang không hợp lệ"
+		},
+		en: {
+			count: "Number of messages of members:",
+			endMessage: "Those who do not have a name in the list have not sent any messages.",
+			page: "Page [%1/%2]",
+			reply: "Reply to this message with the page number to view more",
+			result: "%1 rank %2 with %3 messages",
+			yourResult: "You are ranked %1 and have sent %2 messages in this group",
+			invalidPage: "Invalid page number"
+		}
+	},
+
+	onStart: async function ({ args, threadsData, message, event, api, commandName, getLang }) {
 		const { threadID, senderID } = event;
 		const threadData = await threadsData.get(threadID);
 		const { members } = threadData;
@@ -35,11 +67,11 @@ module.exports = {
 
 		if (args[0]) {
 			if (args[0].toLowerCase() == "all") {
-				let msg = "Số tin nhắn của các thành viên:\n";
-				const endMessage = "\n\nNhững người không có tên trong danh sách là chưa gửi tin nhắn nào";
+				let msg = getLang("count");
+				const endMessage = getLang("endMessage");
 				for (const item of arraySort) {
 					if (item.count > 0)
-						msg += `\n${item.stt}/ {{${item.name}}}: {{${item.count}}}`;
+						msg += `\n${item.stt}/ ${item.name}: ${item.count}`;
 				}
 
 				if ((msg + endMessage).length > 19999) {
@@ -51,9 +83,11 @@ module.exports = {
 					arraySort = splitPage.allPage[page - 1];
 					for (const item of arraySort) {
 						if (item.count > 0)
-							msg += `\n${item.stt}/ {{${item.name}}}: {{${item.count}}}`;
+							msg += `\n${item.stt}/ ${item.name}: ${item.count}`;
 					}
-					msg += `Trang [1/${splitPage.totalPage}]\n${endMessage}\nPhản hồi tin nhắn này kèm số trang để xem tiếp`;
+					msg += getLang("page", page, splitPage.totalPage)
+						+ "\n" + getLang("reply")
+						+ "\n\n" + endMessage;
 					return message.reply(msg, (err, info) => {
 						if (err)
 							return message.err(err);
@@ -65,40 +99,42 @@ module.exports = {
 						});
 					});
 				}
-				message.reply(msg + endMessage);
+				message.reply(msg);
 			}
 			else if (event.mentions) {
 				let msg = "";
 				for (const id in event.mentions) {
 					const findUser = arraySort.find(item => item.uid == id);
-					msg += `\n{{${findUser.name}}} hạng ${findUser.stt} với ${findUser.count} tin nhắn`;
+					msg += `\n${getLang("result", findUser.name, findUser.stt, findUser.count)}`;
 				}
 				message.reply(msg);
 			}
 		}
 		else {
 			const findUser = arraySort.find(item => item.uid == senderID);
-			return message.reply(`Bạn đứng hạng ${findUser.stt} và đã gửi ${findUser.count} tin nhắn trong nhóm này`);
+			return message.reply(getLang("yourResult", findUser.stt, findUser.count));
 		}
 	},
 
-	onReply: ({ message, event, Reply, commandName }) => {
+	onReply: ({ message, event, Reply, commandName, getLang }) => {
 		const { senderID, body } = event;
 		const { author, splitPage } = Reply;
 		if (author != senderID)
 			return;
 		const page = parseInt(body);
 		if (isNaN(page) || page < 1 || page > splitPage.totalPage)
-			return message.reply("Số trang không hợp lệ");
-		let msg = "Số tin nhắn của các thành viên:\n";
-		const endMessage = "\n\nNhững người không có tên trong danh sách là chưa gửi tin nhắn nào";
+			return message.reply(getLang("invalidPage"));
+		let msg = getLang("count");
+		const endMessage = getLang("endMessage");
 		const arraySort = splitPage.allPage[page - 1];
 		for (const item of arraySort) {
 			if (item.count > 0)
-				msg += `\n${item.stt}/ {{${item.name}}}: ${item.count}`;
+				msg += `\n${item.stt}/ ${item.name}: ${item.count}`;
 		}
-		msg += `${endMessage}\nTrang [${page}/${splitPage.totalPage}]`;
-		message.reply(msg + "\nPhản hồi tin nhắn này kèm số trang để xem tiếp", (err, info) => {
+		msg += getLang("page", page, splitPage.totalPage)
+			+ "\n" + getLang("reply")
+			+ "\n\n" + endMessage;
+		message.reply(msg, (err, info) => {
 			if (err)
 				return message.err(err);
 			message.unsend(Reply.messageID);
