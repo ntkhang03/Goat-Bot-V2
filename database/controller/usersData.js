@@ -319,6 +319,64 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 		}
 	}
 
+	async function addMoney(userID, money, query) {
+		try {
+			if (isNaN(userID)) {
+				const error = new Error(`The first argument (userID) must be a number, not ${typeof userID}`);
+				error.name = "Invalid userID";
+				throw error;
+			}
+			if (isNaN(money)) {
+				const error = new Error(`The second argument (money) must be a number, not ${typeof money}`);
+				error.name = "Invalid money";
+				throw error;
+			}
+			if (!Users.some(u => u.userID == userID))
+				await create(userID);
+			const currentMoney = await get(userID, "money");
+			const newMoney = currentMoney + money;
+			const userData = await save(userID, newMoney, "update", "money");
+			if (query)
+				if (typeof query !== "string")
+					throw new Error(`The third argument (query) must be a string, not ${typeof query}`);
+				else
+					return fakeGraphql(query, userData);
+			return userData;
+		}
+		catch (err) {
+			throw err;
+		}
+	}
+
+	async function subtractMoney(userID, money, query) {
+		try {
+			if (isNaN(userID)) {
+				const error = new Error(`The first argument (userID) must be a number, not ${typeof userID}`);
+				error.name = "Invalid userID";
+				throw error;
+			}
+			if (isNaN(money)) {
+				const error = new Error(`The second argument (money) must be a number, not ${typeof money}`);
+				error.name = "Invalid money";
+				throw error;
+			}
+			if (!Users.some(u => u.userID == userID))
+				await create(userID);
+			const currentMoney = await get(userID, "money");
+			const newMoney = currentMoney - money;
+			const userData = await save(userID, newMoney, "update", "money");
+			if (query)
+				if (typeof query !== "string")
+					throw new Error(`The third argument (query) must be a string, not ${typeof query}`);
+				else
+					return fakeGraphql(query, userData);
+			return userData;
+		}
+		catch (err) {
+			throw err;
+		}
+	}
+
 	async function remove(userID) {
 		try {
 			if (isNaN(userID)) {
@@ -342,6 +400,8 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 		getAll,
 		get,
 		set,
+		addMoney,
+		subtractMoney,
 		remove
 	};
 };
