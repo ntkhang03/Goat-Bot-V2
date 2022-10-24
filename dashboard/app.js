@@ -79,7 +79,6 @@ module.exports = async (api) => {
 		dashBoardData
 	} = global.db;
 
-	require('./passport-config.js')(Passport, dashBoardData, bcrypt);
 
 	// const verifyCodes = {
 	//     fbid: [],
@@ -112,6 +111,7 @@ module.exports = async (api) => {
 	app.use('/css', express.static(`${__dirname}/css`));
 	app.use('/images', express.static(`${__dirname}/images`));
 
+	require('./passport-config.js')(Passport, dashBoardData, bcrypt);
 	app.use(Passport.initialize());
 	app.use(Passport.session());
 	app.use(fileUpload());
