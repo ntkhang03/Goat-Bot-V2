@@ -64,9 +64,9 @@ module.exports = {
 				}
 				// {userName}:   name of new member
 				// {multiple}:   
-				// {boxName}:    tên của nhóm chat
-				// {threadName}: tên của nhóm chat
-				// {session}:    buổi trong ngày
+				// {boxName}:    name of group
+				// {threadName}: name of group
+				// {session}:    session of day
 				let { welcomeMessage = envEvents[commandName].defaultWelcomeMessage } = threadData.data;
 				const form = {
 					mentions: welcomeMessage.match(/\{userNameTag\}/g) ? mentions : null
