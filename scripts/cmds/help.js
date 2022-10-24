@@ -13,7 +13,7 @@ const characters = "━━━━━━━━━━━━━";
 module.exports = {
 	config: {
 		name: "help",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -50,7 +50,11 @@ module.exports = {
 			help: "%1\n%2\n%1\nPage [ %3/%4 ]\nCurrently, the bot has %5 commands that can be used\n» Type %6help to view the command list\n» Type %6help to view the details of how to use that command\n%1\n%7",
 			help2: "%1%2\n» Currently, the bot has %3 commands that can be used, type %3help <command name> to view the details of how to use that command\n%2\n%4",
 			commandNotFound: "Command \"%1\" does not exist",
-			getInfoCommand: "%1\n» Description: %2\n» Other names: %3\n» Other names in your group: %4\n» Version: %5\n» Role: %6\n» Time per command: %7s\n» Author: %8\n» Usage guide:\n\n%9"
+			getInfoCommand: "%1\n» Description: %2\n» Other names: %3\n» Other names in your group: %4\n» Version: %5\n» Role: %6\n» Time per command: %7s\n» Author: %8\n» Usage guide:\n\n%9",
+			doNotHave: "Do not have",
+			roleText0: "0 (All users)",
+			roleText1: "1 (Group administrators)",
+			roleText2: "2 (Admin bot)"
 		}
 	},
 
