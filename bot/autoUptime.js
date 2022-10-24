@@ -27,7 +27,7 @@ setTimeout(async function autoUptime() {
 		}
 	}
 	catch (e) {
-		const err = e.response.data;
+		const err = e.response?.data || e;
 		if (status != 'ok')
 			return;
 		status = 'failed';
@@ -42,5 +42,5 @@ setTimeout(async function autoUptime() {
 		}
 	}
 	global.timeOutUptime = setInterval(autoUptime, config.autoUptime.timeInterval);
-}, config.autoUptime.timeInterval);
+}, (config.autoUptime.timeInterval || 180) * 1000);
 log.info("AUTO UPTIME", getText("autoUptime", "sucautoUptimecess", myUrl));
