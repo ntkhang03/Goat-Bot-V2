@@ -315,7 +315,6 @@
 			"scripts/cmds/batslap.js": "add custom language",
 			"scripts/cmds/busy.js": "add custom language",
 			"scripts/cmds/callad.js": "add custom language",
-			"scripts/cmds/cmd.dev.js": "add custom language",
 			"scripts/cmds/count.js": "add custom language",
 			"scripts/cmds/customrankcard.js": "add custom language",
 			"scripts/cmds/dhbc.js": "add custom language",
