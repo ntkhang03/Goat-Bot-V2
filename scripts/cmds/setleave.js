@@ -61,6 +61,8 @@ module.exports = {
 
 	langs: {
 		vi: {
+			turnedOn: "Bật tin nhắn tạm biệt thành công",
+			turnedOff: "Tắt tin nhắn tạm biệt thành công",
 			missingContent: "Vui lùng nhập nội dung tin nhắn",
 			edited: "Đã chỉnh sửa nội dung tin nhắn tạm biệt của nhóm bạn thành:\n%1",
 			reseted: "Đã reset nội dung tin nhắn tạm biệt",
@@ -70,6 +72,8 @@ module.exports = {
 			addedFile: "Đã thêm %1 tệp đính kèm vào tin nhắn tạm biệt của nhóm bạn"
 		},
 		en: {
+			turnedOn: "Turned on leave message successfully",
+			turnedOff: "Turned off leave message successfully",
 			missingContent: "Please enter content",
 			edited: "Edited leave message content of your group to:\n%1",
 			reseted: "Reseted leave message content",
@@ -82,7 +86,7 @@ module.exports = {
 
 	onStart: async function ({ args, threadsData, message, event, commandName, getLang }) {
 		const { threadID, senderID, body } = event;
-		const { data } = await threadsData.get(threadID);
+		const { data, settings } = await threadsData.get(threadID);
 
 		switch (args[0]) {
 			case "text": {
@@ -125,6 +129,13 @@ module.exports = {
 				else {
 					saveChanges(message, event, threadID, senderID, threadsData, getLang);
 				}
+				break;
+			}
+			case "on":
+			case "off": {
+				settings.sendLeaveMessage = args[0] == "on";
+				await threadsData.set(threadID, { settings });
+				message.reply(getLang(args[0] == "on" ? "turnedOn" : "turnedOff"));
 				break;
 			}
 			default:

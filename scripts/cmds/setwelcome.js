@@ -57,6 +57,8 @@ module.exports = {
 
 	langs: {
 		vi: {
+			turnedOn: "Đã bật chức năng chào mừng thành viên mới",
+			turnedOff: "Đã tắt chức năng chào mừng thành viên mới",
 			missingContent: "Vui lùng nhập nội dung tin nhắn",
 			edited: "Đã chỉnh sửa nội dung tin nhắn chào mừng của nhóm bạn thành: %1",
 			reseted: "Đã reset nội dung tin nhắn chào mừng",
@@ -66,6 +68,8 @@ module.exports = {
 			addedFile: "Đã thêm %1 tệp đính kèm vào tin nhắn chào mừng của nhóm bạn"
 		},
 		en: {
+			turnedOn: "Turned on welcome message",
+			turnedOff: "Turned off welcome message",
 			missingContent: "Please enter welcome message content",
 			edited: "Edited welcome message content of your group to: %1",
 			reseted: "Reseted welcome message content",
@@ -78,7 +82,7 @@ module.exports = {
 
 	onStart: async function ({ args, threadsData, message, event, commandName, getLang }) {
 		const { threadID, senderID, body } = event;
-		const { data } = await threadsData.get(threadID);
+		const { data, settings } = await threadsData.get(threadID);
 
 		switch (args[0]) {
 			case "text": {
@@ -120,6 +124,13 @@ module.exports = {
 				else {
 					saveChanges(message, event, threadID, senderID, threadsData, getLang);
 				}
+				break;
+			}
+			case "on":
+			case "off": {
+				settings.sendWelcomeMessage = args[0] == "on";
+				await threadsData.set(threadID, { settings });
+				message.reply(settings.sendWelcomeMessage ? getLang("turnedOn") : getLang("turnedOff"));
 				break;
 			}
 			default:
