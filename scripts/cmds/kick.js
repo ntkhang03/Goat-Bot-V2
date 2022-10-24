@@ -1,7 +1,7 @@
 module.exports = {
 	config: {
 		name: "kick",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 1,
@@ -20,16 +20,25 @@ module.exports = {
 		}
 	},
 
-	onStart: async function ({ message, event, args, threadsData, api }) {
+	langs: {
+		vi: {
+			needAdmin: "Vui lòng thêm quản trị viên cho bot trước khi sử dụng tính năng này"
+		},
+		en: {
+			needAdmin: "Please add admin for bot before using this feature"
+		}
+	},
+
+	onStart: async function ({ message, event, args, threadsData, api, getLang }) {
 		const adminIDs = await threadsData.get(event.threadID, "adminIDs");
 		if (!adminIDs.includes(api.getCurrentUserID()))
-			return message.reply("Vui lòng thêm quản trị viên cho bot trước khi sử dụng tính năng này");
+			return message.reply();
 		async function kickAndCheckError(uid) {
 			try {
 				await api.removeUserFromGroup(uid, event.threadID);
 			}
 			catch (e) {
-				message.reply("Đã có lỗi xảy ra, hãy thêm bot làm quản trị viên và thử lại sau");
+				message.reply(getLang("needAdmin"));
 				return "ERROR";
 			}
 		}
