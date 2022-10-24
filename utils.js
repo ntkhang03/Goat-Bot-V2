@@ -33,17 +33,6 @@ const drive = google.drive({
 });
 
 const word = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÈÉÊÌÍÐÒÓÔÕÙÚÝĂĐĨŨƠỨ̧̄̈ẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼẾỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỲỴỶỸabcdefghijklmnopqrstuvwxyzàáâãèéêìíðòóôõùúýăđĩũơứ̧̄̈ạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ '.split("");
-async function checkAndTranslate(form, lang) {
-	if (!lang)
-		lang = config.language;
-	if (typeof form === "string")
-		form = { body: form };
-	if (!form.body)
-		return form;
-	form.body = config.language == "vi" ? form.body : await utils.translate(form.body, lang);
-	form.body = form.body.replace(/\{\{|\}\}/g, "");
-	return form;
-}
 
 function lengthWhiteSpacesEndLine(text) {
 	let length = 0;
@@ -74,7 +63,6 @@ function setErrorUptime() {
 const defaultStderrClearLine = process.stderr.clearLine;
 
 const utils = {
-	checkAndTranslate,
 	convertTime(miliSeconds, replaceSeconds = "giây", replaceMinutes = "phút ", replaceHours = "giờ ", replaceDays = "ngày ", replaceMonths = "tháng ", replaceYears = "năm ") {
 		const second = Math.floor(miliSeconds / 1000 % 60);
 		const minute = Math.floor(miliSeconds / 1000 / 60 % 60);
@@ -224,11 +212,10 @@ const utils = {
 				err = this.removeHomeDir(JSON.stringify(err, null, 2));
 			else
 				err = this.removeHomeDir(`${err.name || err.error}: ${err.message}`);
-			return await api.sendMessage(await checkAndTranslate(`❌ Đã xảy ra lỗi:\n{{${err}}}`, config.language), event.threadID, event.messageID);
+			return await api.sendMessage(`❌ Đã xảy ra lỗi:\n${err}`, event.threadID, event.messageID);
 		}
 		return {
 			send: async (form, callback) => {
-				form = await checkAndTranslate(form, config.language);
 				try {
 					global.statusAccountBot = 'good';
 					return await api.sendMessage(form, event.threadID, callback);
@@ -241,7 +228,6 @@ const utils = {
 				}
 			},
 			reply: async (form, callback) => {
-				form = await checkAndTranslate(form, config.language);
 				try {
 					global.statusAccountBot = 'good';
 					return await api.sendMessage(form, event.threadID, callback, event.messageID);
