@@ -3,7 +3,7 @@ const { getTime, drive } = global.utils;
 module.exports = {
 	config: {
 		name: "leave",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang"
 	},
 
@@ -13,8 +13,8 @@ module.exports = {
 			session2: "trưa",
 			session3: "chiều",
 			session4: "tối",
-			leaveType1: "tự rời khỏi nhóm",
-			leaveType2: "bị kick khỏi nhóm",
+			leaveType1: "tự rời",
+			leaveType2: "bị kick",
 			defaultLeaveMessage: "{userName} đã {type} khỏi nhóm"
 		},
 		en: {
@@ -22,8 +22,8 @@ module.exports = {
 			session2: "noon",
 			session3: "afternoon",
 			session4: "evening",
-			leaveType1: "left the group",
-			leaveType2: "was kicked from the group",
+			leaveType1: "left",
+			leaveType2: "was kicked from",
 			defaultLeaveMessage: "{userName} {type} the group"
 		}
 	},
