@@ -4,7 +4,7 @@ if (!global.client.busyList)
 module.exports = {
 	config: {
 		name: "busy",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -30,6 +30,7 @@ module.exports = {
 			turnedOff: "✅ | Đã tắt chế độ không làm phiền",
 			turnedOn: "✅ | Đã bật chế độ không làm phiền",
 			turnedOnWithReason: "✅ | Đã bật chế độ không làm phiền với lý do: %1",
+			turnedOnWithoutReason: "✅ | Đã bật chế độ không làm phiền",
 			alreadyOn: "Hiện tại người dùng %1 đang bận",
 			alreadyOnWithReason: "Hiện tại người dùng %1 đang bận với lý do: %2"
 		},
@@ -37,6 +38,7 @@ module.exports = {
 			turnedOff: "✅ | Do not disturb mode has been turned off",
 			turnedOn: "✅ | Do not disturb mode has been turned on",
 			turnedOnWithReason: "✅ | Do not disturb mode has been turned on with reason: %1",
+			turnedOnWithoutReason: "✅ | Do not disturb mode has been turned on",
 			alreadyOn: "User %1 is currently busy",
 			alreadyOnWithReason: "User %1 is currently busy with reason: %2"
 		}
@@ -54,8 +56,8 @@ module.exports = {
 		global.client.busyList[senderID] = reason;
 		return message.reply(
 			reason ?
-				getLang("withReason", reason) :
-				getLang("turnedOnWithReason")
+				getLang("turnedOnWithReason", reason) :
+				getLang("turnedOnWithoutReason")
 		);
 	},
 
