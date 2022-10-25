@@ -1,4 +1,4 @@
-const { getStreamsFromAttachment, checkAndTranslate } = global.utils;
+const { getStreamsFromAttachment } = global.utils;
 
 module.exports = {
 	config: {
@@ -46,10 +46,10 @@ module.exports = {
 		const { delayPerGroup } = envCommands[commandName];
 		if (!args[0])
 			return message.reply(getLang("missingMessage"));
-		const formSend = await checkAndTranslate({
+		const formSend = {
 			body: `${getLang("notification")}\n────────────────\n${args.join(" ")}`,
 			attachment: await getStreamsFromAttachment([...event.attachments, ...(event.messageReply?.attachments || [])])
-		});
+		};
 
 		const allThreadID = threadsData.getAll().filter(t => t.isGroup && t.members.find(m => m.userID == api.getCurrentUserID())?.inGroup);
 		message.reply(getLang("sendingNotification", allThreadID.length));

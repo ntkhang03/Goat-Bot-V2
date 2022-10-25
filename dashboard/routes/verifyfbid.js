@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { checkAndTranslate, findUid } = global.utils;
+const { findUid, getText } = global.utils;
 const waitingVeryFbid = [];
 
 module.exports = function ({ isAuthenticated_G, isAuthenticated_P, randomNumberApikey, expireVerifyCode, isVerifyRecaptcha, dashBoardData, api, createLimiter, config }) {
@@ -48,7 +48,7 @@ module.exports = function ({ isAuthenticated_G, isAuthenticated_P, randomNumberA
 			}, expireVerifyCode);
 
 			try {
-				await api.sendMessage(await checkAndTranslate(`Mã xác nhận của bạn là:\n${code}\nMã xác nhận có hiệu lực trong vòng ${config.dashBoard.expireVerifyCode / 60000} phút`, global.GoatBot.config.language), fbid);
+				await api.sendMessage(getText('verifyfbid', 'sendCode', code, config.dashBoard.expireVerifyCode / 60000, global.GoatBot.config.language), fbid);
 			}
 			catch (e) {
 				const errors = [];

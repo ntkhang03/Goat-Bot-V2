@@ -1,9 +1,9 @@
-const { getStreamsFromAttachment, checkAndTranslate } = global.utils;
+const { getStreamsFromAttachment } = global.utils;
 
 module.exports = {
 	config: {
 		name: "callad",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -59,14 +59,14 @@ module.exports = {
 			+ `\n- User ID: ${senderID}`
 			+ (isGroup ? getLang("sendByGroup", (await threadsData.get(threadID)).threadName, threadID) : getLang("sendByUser"));
 
-		api.sendMessage(await checkAndTranslate({
+		api.sendMessage({
 			body: msg + getLang("content", args.join(" ")),
 			mentions: [{
 				id: senderID,
 				tag: senderName
 			}],
 			attachment: await getStreamsFromAttachment([...event.attachments, ...(event.messageReply?.attachments || [])])
-		}), config.adminBot[0], (err, info) => {
+		}, config.adminBot[0], (err, info) => {
 			if (err)
 				return message.err(err);
 			message.reply(getLang("success"));
@@ -86,14 +86,14 @@ module.exports = {
 
 		switch (type) {
 			case "userCallAdmin": {
-				api.sendMessage(await checkAndTranslate({
+				api.sendMessage({
 					body: getLang("reply", senderName, args.join(" ")),
 					mentions: [{
 						id: event.senderID,
 						tag: senderName
 					}],
 					attachment: await getStreamsFromAttachment(event.attachments)
-				}), threadID, (err, info) => {
+				}, threadID, (err, info) => {
 					if (err)
 						return message.err(err);
 					message.reply(getLang("replySuccess"));
@@ -108,14 +108,14 @@ module.exports = {
 				break;
 			}
 			case "adminReply": {
-				api.sendMessage(await checkAndTranslate({
+				api.sendMessage({
 					body: getLang("feedback", senderName, event.senderID, args.join(" ")),
 					mentions: [{
 						id: event.senderID,
 						tag: senderName
 					}],
 					attachment: await getStreamsFromAttachment(event.attachments)
-				}), threadID, (err, info) => {
+				}, threadID, (err, info) => {
 					if (err)
 						return message.err(err);
 					message.reply(getLang("replyUserSuccess"));
