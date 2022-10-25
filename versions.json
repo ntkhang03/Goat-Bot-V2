@@ -393,7 +393,9 @@
 			"database/controller/usersData.js": "fixes bugs",
 			"database/controller/threadsData.js": "fixes bugs",
 			"database/controller/globalData.js": "fixes bugs",
-			"database/controller/dashBoardData.js": "fixes bugs"
+			"database/controller/dashBoardData.js": "fixes bugs",
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update"
 		}
 	}
 ]
