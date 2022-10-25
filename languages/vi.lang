@@ -86,3 +86,6 @@ indexController.connectMySQLError=Đã xảy ra lỗi khi kết nối cơ sở d
 updater.latestVersion=Bạn đang sử dụng phiên bản mới nhất
 updater.newVersions=Có %1 phiên bản cần cập nhật mới, bất đầu tiến hành cập nhật...
 updater.updateSuccess=Cập nhật thành công ✓
+
+# dashboard/routes/verifyfbid.js
+verifyfbid.sendCode=Mã xác nhận của bạn là:\n%1\nMã xác nhận có hiệu lực trong vòng %2 phút
