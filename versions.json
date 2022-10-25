@@ -375,10 +375,25 @@
 	{
 		"version": "1.1.2",
 		"files": {
-			"languages/cmds/en.js": "update language",
-			"scripts/cmds/help.js": "update language",
-			"scripts/events/leave.js": "update language",
-			"scripts/events/welcome.js": "update language"
+			"languages/cmds/en.js": "language update",
+			"scripts/cmds/help.js": "language update",
+			"scripts/events/leave.js": "language update",
+			"scripts/events/welcome.js": "language update"
+		}
+	},
+	{
+		"version": "1.1.3",
+		"files": {
+			"bot/handler/handlerEvents.js": "fix can't use bot when inbox 1-1",
+			"scripts/events/logsbot.js": "fixes error `TypeError: checkAndTranslate is not a function`",
+			"scripts/cmds/customrankcard.js": "language update",
+			"scripts/cmds/help.js": "language update",
+			"scripts/cmds/thread.js": "language update",
+			"languages/cmds/en.js": "language update",
+			"database/controller/usersData.js": "fixes bugs",
+			"database/controller/threadsData.js": "fixes bugs",
+			"database/controller/globalData.js": "fixes bugs",
+			"database/controller/dashBoardData.js": "fixes bugs"
 		}
 	}
 ]
