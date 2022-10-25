@@ -4,7 +4,7 @@ if (!global.client.busyList)
 module.exports = {
 	config: {
 		name: "busy",
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -63,7 +63,7 @@ module.exports = {
 		);
 	},
 
-	onChat: async ({ event, message, getLang, usersData }) => {
+	onChat: async ({ event, message, getLang }) => {
 		const { mentions } = event;
 
 		if (!mentions || Object.keys(mentions).length == 0)
@@ -71,8 +71,8 @@ module.exports = {
 		const arrayMentions = Object.keys(mentions);
 
 		for (const userID of arrayMentions) {
-			const reasonBusy = await usersData.get(userID, "data.busy", false);
-			if (reasonBusy != false || reasonBusy == '') {
+			const reasonBusy = global.db.allUserData.find(item => item.userID == userID)?.data.busy || false;
+			if (reasonBusy !== false) {
 				return message.reply(
 					reasonBusy ?
 						getLang("alreadyOnWithReason", mentions[userID].replace("@", ""), reasonBusy) :
