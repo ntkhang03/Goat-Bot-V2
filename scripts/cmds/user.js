@@ -125,7 +125,8 @@ module.exports = {
 				else if (args[1]) {
 					uid = args[1];
 				}
-				else return message.SyntaxError();
+				else
+					return message.SyntaxError();
 				if (!uid)
 					return message.reply(getLang("uidRequiredUnban"));
 				const userData = await usersData.get(uid);
