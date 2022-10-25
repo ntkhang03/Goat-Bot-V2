@@ -592,6 +592,7 @@ module.exports = {
 			banned: "Banned group with id [%1 | %2] using bot.\n» Reason: %3\n» Time: %4",
 			notBanned: "Group with id [%1 | %2] is not banned using bot",
 			unbanned: "Unbanned group with tid [%1 | %2] using bot",
+			missingReason: "Ban reason cannot be empty",
 			info: "» Box ID: %1\n» Name: %2\n» Date created data: %3\n» Total members: %4\n» Boy: %5 members\n» Girl: %6 members\n» Total messages: %7%8"
 		}
 	},

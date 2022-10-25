@@ -22,13 +22,19 @@ module.exports = {
 				+ "\n   Ví dụ:"
 				+ "\n    {pn} ban 3950898668362484 spam bot"
 				+ "\n    {pn} ban spam quá nhiều"
-				+ "\n    {pn} unban [<tid> | để trống] để bỏ cấm nhóm mang id <tid> hoặc nhóm hiện tại",
+				+ "\n\n   {pn} unban [<tid> | để trống] để bỏ cấm nhóm mang id <tid> hoặc nhóm hiện tại"
+				+ "\n   Ví dụ:"
+				+ "\n    {pn} unban 3950898668362484"
+				+ "\n    {pn} unban",
 			en: "   {pn} [find | -f | search | -s] <name to find>: search group chat in bot data by name"
 				+ "\n   {pn} [ban | -b] [<tid> | leave blank] <reason>: use to ban group with id <tid> or current group using bot"
 				+ "\n   Example:"
 				+ "\n    {pn} ban 3950898668362484 spam bot"
 				+ "\n    {pn} ban spam too much"
-				+ "\n    {pn} unban [<tid> | leave blank] to unban group with id <tid> or current group"
+				+ "\n\n   {pn} unban [<tid> | leave blank] to unban group with id <tid> or current group"
+				+ "\n   Example:"
+				+ "\n    {pn} unban 3950898668362484"
+				+ "\n    {pn} unban"
 		}
 	},
 
@@ -41,6 +47,7 @@ module.exports = {
 			banned: "Đã cấm nhóm mang id [%1 | %2] sử dụng bot.\n» Lý do: %3\n» Thời gian: %4",
 			notBanned: "Hiện tại nhóm mang id [%1 | %2] không bị cấm sử dụng bot",
 			unbanned: "Đã bỏ cấm nhóm mang tid [%1 | %2] sử dụng bot",
+			missingReason: "Lý do cấm không được để trống",
 			info: "» Box ID: %1\n» Tên: %2\n» Ngày tạo data: %3\n» Tổng thành viên: %4\n» Nam: %5 thành viên\n» Nữ: %6 thành viên\n» Tổng tin nhắn: %7%8"
 		},
 		en: {
@@ -51,6 +58,7 @@ module.exports = {
 			banned: "Banned group with id [%1 | %2] using bot.\n» Reason: %3\n» Time: %4",
 			notBanned: "Group with id [%1 | %2] is not banned using bot",
 			unbanned: "Unbanned group with tid [%1 | %2] using bot",
+			missingReason: "Ban reason cannot be empty",
 			info: "» Box ID: %1\n» Name: %2\n» Date created data: %3\n» Total members: %4\n» Boy: %5 members\n» Girl: %6 members\n» Total messages: %7%8"
 		}
 	},
@@ -92,8 +100,10 @@ module.exports = {
 					tid = event.threadID;
 					reason = args.slice(1).join(" ");
 				}
-				if (!tid || !reason)
+				if (!tid)
 					return message.SyntaxError();
+				if (!reason)
+					return message.reply(getLang("missingReason"));
 				reason = reason.replace(/\s+/g, ' ');
 				const threadData = await threadsData.get(tid);
 				const name = threadData.threadName;
