@@ -209,9 +209,9 @@ const utils = {
 	message(api, event) {
 		async function sendMessageError(err) {
 			if (typeof err === "object" && !err.stack)
-				err = this.removeHomeDir(JSON.stringify(err, null, 2));
+				err = utils.removeHomeDir(JSON.stringify(err, null, 2));
 			else
-				err = this.removeHomeDir(`${err.name || err.error}: ${err.message}`);
+				err = utils.removeHomeDir(`${err.name || err.error}: ${err.message}`);
 			return await api.sendMessage(`❌ Đã xảy ra lỗi:\n${err}`, event.threadID, event.messageID);
 		}
 		return {
