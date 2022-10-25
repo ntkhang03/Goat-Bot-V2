@@ -413,7 +413,19 @@
 			"scripts/cmds/rules.js": "language update",
 			"scripts/cmds/setalias.js": "language update",
 			"scripts/cmds/daily.js": "new command get daily coins and exp",
-			"scripts/cmds/busy.js":"language update"
+			"scripts/cmds/busy.js": "language update"
+		}
+	},
+	{
+		"version": "1.1.6",
+		"files": {
+			"scripts/cmds/busy.js": "fixes bugs",
+			"scripts/cmds/notification.js": "fixes error `TypeError: checkAndTranslate is not a function`",
+			"scripts/cmds/callad.js": "fixes error `TypeError: checkAndTranslate is not a function`",
+			"dashboard/routes/verifyfbid.js": "fixes error `TypeError: checkAndTranslate is not a function`",
+			"languages/vi.lang": "language update",
+			"languages/en.lang": "language update",
+			"scripts/events/leave.js":"language update"
 		}
 	}
 ]
