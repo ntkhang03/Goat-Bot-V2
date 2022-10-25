@@ -4,10 +4,10 @@ module.exports = {
 	config: {
 		name: "loadconfig",
 		aliases: ["loadcf"],
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
-		role: 0,
+		role: 2,
 		shortDescription: {
 			vi: "Load lại config",
 			en: "Reload config"
@@ -20,9 +20,18 @@ module.exports = {
 		guide: "{pn}"
 	},
 
-	onStart: async function ({ message }) {
+	langs: {
+		vi: {
+			success: "Config đã được load lại thành công"
+		},
+		en: {
+			success: "Config has been reloaded successfully"
+		}
+	},
+
+	onStart: async function ({ message, getLang }) {
 		global.GoatBot.config = fs.readJsonSync(global.client.dirConfig);
 		global.GoatBot.configCommands = fs.readJsonSync(global.client.dirConfigCommands);
-		message.reply("Config đã được load lại thành công");
+		message.reply(getLang("success"));
 	}
 };

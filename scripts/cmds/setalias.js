@@ -1,7 +1,7 @@
 module.exports = {
 	config: {
 		name: "setalias",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -54,7 +54,24 @@ module.exports = {
 			noAliasInSystem: "⚠️ Hiện tại không có tên gọi nào trong hệ thống",
 			notExistAliasInGroup: "⚠️ Nhóm bạn chưa cài đặt tên gọi khác cho lệnh nào cả",
 			aliasListInGroup: "📜 Danh sách tên gọi khác của các lệnh trong nhóm chat của bạn:\n%1"
-
+		},
+		en: {
+			commandNotExist: "❌ Command \"%1\" does not exist",
+			aliasExist: "❌ Alias \"%1\" already exists for command \"%2\" in the system",
+			addAliasSuccess: "✅ Added alias \"%1\" for command \"%2\" in the system",
+			noPermissionAdd: "❌ You do not have permission to add alias \"%1\" for command \"%2\" in the system",
+			aliasIsCommand: "❌ Alias \"%1\" is the same as another command in the system",
+			aliasExistInGroup: "❌ Alias \"%1\" already exists for command \"%2\" in this group",
+			addAliasToGroupSuccess: "✅ Added alias \"%1\" for command \"%2\" in your group chat",
+			aliasNotExist: "❌ Alias \"%1\" does not exist for command \"%2\"",
+			removeAliasSuccess: "✅ Removed alias \"%1\" for command \"%2\" in the system",
+			noPermissionDelete: "❌ You do not have permission to remove alias \"%1\" for command \"%2\" in the system",
+			noAliasInGroup: "❌ Command \"%1\" does not have any other alias in your group",
+			removeAliasInGroupSuccess: "✅ Removed alias \"%1\" for command \"%2\" in your group chat",
+			aliasList: "📜 List of other aliases for commands in the system:\n%1",
+			noAliasInSystem: "⚠️ There are no aliases in the system",
+			notExistAliasInGroup: "⚠️ Your group has not set any other aliases for commands",
+			aliasListInGroup: "📜 List of other aliases for commands in your group chat:\n%1"
 		}
 	},
 

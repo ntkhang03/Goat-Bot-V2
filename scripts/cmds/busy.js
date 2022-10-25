@@ -4,7 +4,7 @@ if (!global.client.busyList)
 module.exports = {
 	config: {
 		name: "busy",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -44,16 +44,18 @@ module.exports = {
 		}
 	},
 
-	onStart: async function ({ args, message, event, getLang }) {
+	onStart: async function ({ args, message, event, getLang, usersData }) {
 		const { senderID } = event;
 
 		if (args[0] == "off") {
-			delete global.client.busyList[senderID];
-			return message.reply("✅ | Đã tắt chế độ không làm phiền");
+			const { data } = await usersData.get(senderID);
+			data.busy = false;
+			await usersData.set(senderID, { data });
+			return message.reply(getLang("turnedOff"));
 		}
 
-		const reason = args.join(" ") || null;
-		global.client.busyList[senderID] = reason;
+		const reason = args.join(" ") || "";
+		await usersData.set(senderID, reason, "data.busy");
 		return message.reply(
 			reason ?
 				getLang("turnedOnWithReason", reason) :
@@ -61,20 +63,19 @@ module.exports = {
 		);
 	},
 
-	onChat: async ({ event, message, getLang }) => {
-		if (!global.client.busyList) return;
+	onChat: async ({ event, message, getLang, usersData }) => {
 		const { mentions } = event;
-		const { busyList } = global.client;
 
 		if (!mentions || Object.keys(mentions).length == 0)
 			return;
 		const arrayMentions = Object.keys(mentions);
 
 		for (const userID of arrayMentions) {
-			if (global.client.busyList.hasOwnProperty(userID)) {
+			const reasonBusy = await usersData.get(userID, "data.busy", false);
+			if (reasonBusy != false || reasonBusy == '') {
 				return message.reply(
-					busyList[userID] ?
-						getLang("alreadyOnWithReason", mentions[userID].replace("@", ""), busyList[userID]) :
+					reasonBusy ?
+						getLang("alreadyOnWithReason", mentions[userID].replace("@", ""), reasonBusy) :
 						getLang("alreadyOn", mentions[userID].replace("@", "")));
 			}
 		}

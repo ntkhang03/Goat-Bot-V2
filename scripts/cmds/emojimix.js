@@ -3,7 +3,7 @@ const axios = require("axios");
 module.exports = {
 	config: {
 		name: "emojimix",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -21,7 +21,7 @@ module.exports = {
 		category: "fun"
 	},
 
-	lang: {
+	langs: {
 		vi: {
 			error: "Rất tiếc, emoji %1 và %2 không mix được",
 			success: "Emoji %1 và %2 mix được %3 ảnh"
