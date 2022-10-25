@@ -25,6 +25,11 @@ login.runBot=Launch bot successfully, start receiving messages from users
 login.notLoggedIn=An error occurred, please check your account again
 login.callBackError=An error occurred when callback listenMqtt
 login.userBanned=You've been banned from using a bot!!
+login.checkGbanError=An error occurred while checking GBAN
+login.gbanMessage=Bạn đã bị ban khỏi project GOAT-BOT vào ngày %1 với lý do: %2
+login.gbanMessage=You have been banned from the Goat-Bot project on %1 for the reason: %2
+login.gbanAdminMessage=Người dùng %1 đã bị ban khỏi project GOAT-BOT vào ngày %2 với lý do: %3
+login.gbanAdminMessage=User %1 has been banned from the Goat-Bot project on %2 for the reason: %3
 login.openServerUptimeSuccess=🚀 Opened uptime server: %1
 login.openServerUptimeError=An error has occurred, cannot open server uptime
 login.restartListenMessage=ListenMQTT restart enabled every %1ms (%2 minutes)
@@ -78,3 +83,8 @@ indexController.connectMongoDBError=An error occurred when connecting the Mongod
 indexController.connectingMySQL=Connecting a SQLITE database
 indexController.connectMySQLSuccess=Successfully connected SQLITE database!
 indexController.connectMySQLError=An error occurred while connecting to a SQLITE database:
+
+# updater.js
+updater.latestVersion=You are using the latest version
+updater.newVersions=There are %1 new versions to update, starting to update...
+updater.updateSuccess=Update successfully ✓

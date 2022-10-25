@@ -16,7 +16,6 @@ login.loginSuccess=Đăng nhập thành công
 login.loginError=Đã xảy ra lỗi khi đăng nhập
 login.openDashboardSuccess=Đã mở trang quản lý bot thành công
 login.openDashboardError=Đã xảy ra lỗi khi mở trang quản lý bot
-login.checkGbanError=Đang mở trang quản lý bot
 login.changeGbanData=DỮ LIỆU ĐÃ BỊ THAY ĐỔI, HIỆN TẠI KHÔNG THỂ KHỞI CHẠY BOT
 login.errorNoti=Đã xảy ra lỗi khi lấy thông báo
 login.refreshFbstateSuccess=Đã làm mới file %1
@@ -26,6 +25,9 @@ login.runBot=Khởi chạy bot thành công, bắt đầu nhận tin nhắn từ
 login.notLoggedIn=Đã xảy ra lỗi không thể đăng nhập, vui lòng kiểm tra lại tài khoản của bạn
 login.callBackError=Đã xảy ra lỗi khi callback listenMqtt
 login.userBanned=Bạn đã bị global ban không thể sử dụng bot!!
+login.checkGbanError=Đã xảy ra lỗi trong quá trình kiểm tra GBAN
+login.gbanMessage=Bạn đã bị ban khỏi project GOAT-BOT vào ngày %1 với lý do: %2
+login.gbanAdminMessage=Người dùng %1 đã bị ban khỏi project GOAT-BOT vào ngày %2 với lý do: %3
 login.openServerUptimeSuccess=🚀 Đã mở sever uptime: %1
 login.openServerUptimeError=Đã xảy ra lỗi, không thể mở server uptime
 login.restartListenMessage=Đã bật khởi động lại ListenMQTT sau mỗi %1ms (%2 minutes)
@@ -79,3 +81,8 @@ indexController.connectMongoDBError=Đã xảy ra lỗi khi kết nối cơ sở
 indexController.connectingMySQL=Đang kết nối cơ sở dữ liệu SQLITE
 indexController.connectMySQLSuccess=Đã kết nối cơ sở dữ liệu SQLITE thành công!
 indexController.connectMySQLError=Đã xảy ra lỗi khi kết nối cơ sở dữ liệu SQLITE:
+
+# updater.js
+updater.latestVersion=Bạn đang sử dụng phiên bản mới nhất
+updater.newVersions=Có %1 phiên bản cần cập nhật mới, bất đầu tiến hành cập nhật...
+updater.updateSuccess=Cập nhật thành công ✓
