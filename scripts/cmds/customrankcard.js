@@ -6,7 +6,7 @@ const hexColorRegex = /^#([0-9a-f]{6})$/i;
 module.exports = {
 	config: {
 		name: "customrankcard",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -20,40 +20,38 @@ module.exports = {
 		},
 		category: "rank",
 		guide: {
-			body: {
-				vi: {
-					body: "   {pn} [maincolor | subcolor | expcolor | expnextlevelcolor | alphasubcolor | textcolor | reset] <value>"
-						+ "\n   Trong đó: "
-						+ "\n  + maincolor | background: background chính của thẻ rank (hex color or rgba or url image)"
-						+ "\n  + subcolor: background phụ (hex color or rgba or url image)"
-						+ "\n  + expcolor: màu của thanh exp hiện tại"
-						+ "\n  + expnextlevelcolor: màu của thanh exp full"
-						+ "\n  + alphasubcolor: độ mờ của background phụ (từ 0 -> 1)"
-						+ "\n  + textcolor: màu của chữ (hex color or rgba)"
-						+ "\n Reset: reset về mặc định"
-						+ "\n\n   Ví dụ:"
-						+ "\n    {pn} maincolor #fff000"
-						+ "\n    {pn} subcolor rgba(255,136,86,0.4)"
-						+ "\n    {pn} reset",
-					attachment: [__dirname + "/assets/guide/customrankcard/guide1.jpg"]
-				},
-				en: {
-					body: "   {pn} [maincolor | subcolor | expcolor | expnextlevelcolor | alphasubcolor | textcolor | reset] <value>"
-						+ "\n   In which: "
-						+ "\n  + maincolor | background: main background of rank card (hex color or rgba or url image)"
-						+ "\n  + subcolor: sub background (hex color or rgba or url image)"
-						+ "\n  + expcolor: color of current exp bar"
-						+ "\n  + expnextlevelcolor: color of full exp bar"
-						+ "\n  + alphasubcolor: alpha of sub background (from 0 -> 1)"
-						+ "\n  + textcolor: color of text (hex color or rgba)"
-						+ "\n  + reset: reset to default"
-						+ "\n\n   Example:"
-						+ "\n    {pn} maincolor #fff000"
-						+ "\n    {pn} subcolor rgba(255,136,86,0.4)"
-						+ "\n    {pn} reset",
-					attachment: {
-						[__dirname + "/assets/guide/customrankcard/guide1.jpg"] : "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/customrankcard/guide1.jpg"
-					}
+			vi: {
+				body: "   {pn} [maincolor | subcolor | expcolor | expnextlevelcolor | alphasubcolor | textcolor | reset] <value>"
+					+ "\n   Trong đó: "
+					+ "\n  + maincolor | background: background chính của thẻ rank (hex color or rgba or url image)"
+					+ "\n  + subcolor: background phụ (hex color or rgba or url image)"
+					+ "\n  + expcolor: màu của thanh exp hiện tại"
+					+ "\n  + expnextlevelcolor: màu của thanh exp full"
+					+ "\n  + alphasubcolor: độ mờ của background phụ (từ 0 -> 1)"
+					+ "\n  + textcolor: màu của chữ (hex color or rgba)"
+					+ "\n Reset: reset về mặc định"
+					+ "\n   Ví dụ:"
+					+ "\n    {pn} maincolor #fff000"
+					+ "\n    {pn} subcolor rgba(255,136,86,0.4)"
+					+ "\n    {pn} reset",
+				attachment: [__dirname + "/assets/guide/customrankcard/guide1.jpg"]
+			},
+			en: {
+				body: "   {pn} [maincolor | subcolor | expcolor | expnextlevelcolor | alphasubcolor | textcolor | reset] <value>"
+					+ "\n   In which: "
+					+ "\n  + maincolor | background: main background of rank card (hex color or rgba or url image)"
+					+ "\n  + subcolor: sub background (hex color or rgba or url image)"
+					+ "\n  + expcolor: color of current exp bar"
+					+ "\n  + expnextlevelcolor: color of full exp bar"
+					+ "\n  + alphasubcolor: alpha of sub background (from 0 -> 1)"
+					+ "\n  + textcolor: color of text (hex color or rgba)"
+					+ "\n  + reset: reset to default"
+					+ "\n   Example:"
+					+ "\n    {pn} maincolor #fff000"
+					+ "\n    {pn} subcolor rgba(255,136,86,0.4)"
+					+ "\n    {pn} reset",
+				attachment: {
+					[__dirname + "/assets/guide/customrankcard/guide1.jpg"]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/customrankcard/guide1.jpg"
 				}
 			}
 		}
