@@ -1,10 +1,10 @@
-const { getTime, checkAndTranslate } = global.utils;
+const { getTime } = global.utils;
 
 module.exports = {
 	config: {
 		name: "logsbot",
 		isBot: true,
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		envConfig: {
@@ -61,7 +61,7 @@ module.exports = {
 			msg += getLang("footer", author, threadName, threadID, time);
 
 			for (const adminID of config.adminBot)
-				api.sendMessage(await checkAndTranslate(msg), adminID);
+				api.sendMessage(msg, adminID);
 		};
 	}
 };
