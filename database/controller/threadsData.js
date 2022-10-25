@@ -73,7 +73,11 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 				if (Array.isArray(path) && Array.isArray(threadData))
 					dataWillChange = path.forEach((p, i) => _.set(dataWillChange, p, threadData[i]));
 				else
-					dataWillChange = path ? _.set(dataWillChange, path, threadData) : { ...dataWillChange, ...threadData };
+					if (path)
+						dataWillChange = _.set(dataWillChange, path, threadData);
+					else
+						for (const key in threadData)
+							dataWillChange[key] = threadData[key];
 
 				switch (databaseType) {
 					case "mongodb": {

@@ -61,7 +61,11 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 				if (Array.isArray(path) && Array.isArray(data))
 					dataWillChange = path.forEach((p, i) => _.set(dataWillChange, p, data[i]));
 				else
-					dataWillChange = path ? _.set(dataWillChange, path, data) : { ...dataWillChange, ...data };
+					if (path)
+						dataWillChange = _.set(dataWillChange, path, data);
+					else
+						for (const key in data)
+							dataWillChange[key] = data[key];
 
 				switch (databaseType) {
 					case "mongodb": {

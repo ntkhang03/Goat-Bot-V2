@@ -61,7 +61,11 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 				if (Array.isArray(path) && Array.isArray(userData))
 					dataWillChange = path.forEach((p, i) => _.set(dataWillChange, p, userData[i]));
 				else
-					dataWillChange = path ? _.set(dataWillChange, path, userData) : { ...dataWillChange, ...userData };
+					if (path)
+						dataWillChange = _.set(dataWillChange, path, userData);
+					else
+						for (const key in userData)
+							dataWillChange[key] = userData[key];
 
 				switch (databaseType) {
 					case "mongodb": {
