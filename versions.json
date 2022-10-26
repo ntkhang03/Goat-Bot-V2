@@ -419,13 +419,34 @@
 	{
 		"version": "1.1.6",
 		"files": {
-			"scripts/cmds/busy.js": "fixes bugs",
+			"scripts/cmds/busy.js": "fixes bugs auto activated for all member",
 			"scripts/cmds/notification.js": "fixes error `TypeError: checkAndTranslate is not a function`",
 			"scripts/cmds/callad.js": "fixes error `TypeError: checkAndTranslate is not a function`",
 			"dashboard/routes/verifyfbid.js": "fixes error `TypeError: checkAndTranslate is not a function`",
 			"languages/vi.lang": "language update",
 			"languages/en.lang": "language update",
 			"scripts/events/leave.js":"language update"
+		}
+	},
+	{
+		"version": "1.1.7",
+		"files": {
+			"bot/source/invalid_domain_for_site_key.jpg": "add image",
+			"bot/source/invalid_grant1.jpg": "add image",
+			"bot/source/invalid_grant2.jpg": "add image",
+			"bot/source/redirect_uri_mismatch.jpg": "add image",
+			"scripts/cmds/assets/guide/customrankcard/guide2.png": "add image",
+			"bot/login/checkLiveCookie.js": "",
+			"bot/handler/handlerEvents.js": "language update",
+			"scripts/cmds/callad.js": "language update",
+			"scripts/cmds/help.js": "language update",
+			"scripts/cmds/rankup.js": "support custome message rankup",
+			"scripts/cmds/setalias.js": "fixes error `TypeError: Cannot read property 'has' of undefined`",
+			"scripts/cmds/setrankup.js": "a new command to set custom message rankup",
+			"scripts/cmds/antichangeinfobox.js": "language update",
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update",
+			"utils.js": "language update"
 		}
 	}
 ]
