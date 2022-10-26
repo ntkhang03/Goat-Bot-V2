@@ -1,7 +1,7 @@
 module.exports = {
 	config: {
 		name: "setalias",
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -101,8 +101,8 @@ module.exports = {
 						const globalAliasesExist = globalAliasesData.find(item => item.aliases.includes(alias));
 						if (globalAliasesExist)
 							return message.reply(getLang("aliasExist", alias, globalAliasesExist.command));
-						if (global.GoatBot.alias.has(alias))
-							return message.reply(getLang("aliasExist", alias, global.GoatBot.alias.get(alias)));
+						if (global.GoatBot.aliases.has(alias))
+							return message.reply(getLang("aliasExist", alias, global.GoatBot.aliases.get(alias)));
 						const globalAliasesThisCommand = globalAliasesData.find(aliasData => aliasData.commandName == commandName);
 						if (globalAliasesThisCommand)
 							globalAliasesData.aliases.push(alias);
