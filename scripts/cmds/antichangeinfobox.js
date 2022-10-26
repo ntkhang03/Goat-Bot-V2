@@ -3,7 +3,7 @@ const { getStreamFromURL } = global.utils;
 module.exports = {
 	config: {
 		name: "antichangeinfobox",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -69,7 +69,7 @@ module.exports = {
 		async function checkAndSaveData(key, data) {
 			dataAntiChangeInfoBox[key] = args[1] === "on" ? data : false;
 			await threadsData.set(threadID, dataAntiChangeInfoBox, "data.antiChangeInfoBox");
-			message.send(getLang(key.slice(0, 1).toUpperCase() + key.slice(1) + args[1].slice(0, 1).toUpperCase() + args[1].slice(1)));
+			message.send(getLang(`antiChange${key.slice(0, 1).toUpperCase()}${key.slice(1)}${args[1].slice(0, 1).toUpperCase()}${args[1].slice(1)}`));
 		}
 		switch (args[0]) {
 			case "avt":
