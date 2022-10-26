@@ -1,10 +1,11 @@
 const deltaNext = global.GoatBot.configCommands.envCommands.rank.deltaNext;
 const expToLevel = exp => Math.floor((1 + Math.sqrt(1 + 8 * exp / deltaNext)) / 2);
+const { drive } = global.utils;
 
 module.exports = {
 	config: {
 		name: "rankup",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -48,12 +49,27 @@ module.exports = {
 	},
 
 	onChat: async function ({ threadsData, usersData, event, message, getLang }) {
-		const sendRankupMessage = await threadsData.get(event.threadID, "settings.sendRankupMessage");
+		const threadData = await threadsData.get(event.threadID);
+		const sendRankupMessage = threadData.settings.sendRankupMessage;
 		if (!sendRankupMessage)
 			return;
 		const { exp } = await usersData.get(event.senderID);
 		const currentLevel = expToLevel(exp);
-		if (currentLevel > expToLevel(exp - 1))
-			message.reply(getLang("notiMessage", currentLevel));
+		if (currentLevel > expToLevel(exp - 1)) {
+			const forMessage = {
+				body: getLang("notiMessage", currentLevel)
+			};
+			if (threadData.data?.rankup.attachments?.length > 0) {
+				const files = threadData.data.rankup.attachments;
+				const attachments = files.reduce((acc, file) => {
+					acc.push(drive.getFile(file, "stream"));
+					return acc;
+				}, []);
+				forMessage.attachment = (await Promise.allSettled(attachments))
+					.filter(({ status }) => status == "fulfilled")
+					.map(({ value }) => value);
+			}
+			message.reply(forMessage);
+		}
 	}
 };
