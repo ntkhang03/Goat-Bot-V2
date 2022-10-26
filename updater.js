@@ -1,13 +1,14 @@
 const axios = require('axios');
 const fs = require('fs-extra');
+const _ = require('lodash');
 const log = require('./logger/log.js');
 const chalk = require('chalk');
 const langCode = require('./config.json').language;
 
-let pathLanguageFile = `${__dirname}/languages/${langCode}.lang`;
+let pathLanguageFile = `${process.cwd()}/languages/${langCode}.lang`;
 if (!fs.existsSync(pathLanguageFile)) {
-	log.warn("LANGUAGE", `Can't find language file ${langCode}.lang, using default language file "${__dirname}/languages/en.lang"`);
-	pathLanguageFile = `${__dirname}/languages/en.lang`;
+	log.warn("LANGUAGE", `Can't find language file ${langCode}.lang, using default language file "${process.cwd()}/languages/en.lang"`);
+	pathLanguageFile = `${process.cwd()}/languages/en.lang`;
 }
 const readLanguage = fs.readFileSync(pathLanguageFile, "utf-8");
 const languageData = readLanguage
@@ -43,7 +44,7 @@ function getText(head, key, ...args) {
 	if (versionsNeedToUpdate.length === 0)
 		return log.info("SUCCESS", getText("updater", "latestVersion"));
 
-	fs.writeFileSync(`${__dirname}/versions.json`, JSON.stringify(versions, null, 2));
+	fs.writeFileSync(`${process.cwd()}/versions.json`, JSON.stringify(versions, null, 2));
 	log.info("UPDATE", getText("updater", "newVersions", chalk.yellow(versionsNeedToUpdate.length)));
 
 	for (const version of versionsNeedToUpdate) {
@@ -52,14 +53,27 @@ function getText(head, key, ...args) {
 
 		for (const filePath in files) {
 			const description = files[filePath];
-			const fullPath = `${__dirname}/${filePath}`;
+			const fullPath = `${process.cwd()}/${filePath}`;
 			const { data: getFile } = await axios.get(`https://github.com/ntkhang03/Goat-Bot-V2/raw/main/${filePath}`, {
 				responseType: 'arraybuffer'
 			});
+
 			if (filePath === "config.json") {
-				fs.copyFileSync(`${__dirname}/config.json`, `${__dirname}/config.backup.json`);
-				fs.writeFileSync(fullPath, getFile);
-				console.log(chalk.bold.blue('[↑]'), `${filePath}:`, chalk.hex('#858585')(description));
+				const currentConfig = require('./config.json');
+				for (const key in files[filePath])
+					_.set(currentConfig, key, files[filePath][key]);
+
+				if (fs.existsSync(`${process.cwd()}/config.backup.json`)) {
+					let backupConfig = 1;
+					while (fs.existsSync(`${fullPath}_${backupConfig}.backup.json`))
+						backupConfig++;
+					fs.copyFileSync(fullPath, `${fullPath}_${backupConfig}.backup.json`);
+				}
+				else {
+					fs.copyFileSync(fullPath, `${process.cwd()}/config.backup.json`);
+				}
+				fs.writeFileSync(fullPath, JSON.stringify(currentConfig, null, 2));
+				console.log(chalk.bold.blue('[↑]'), `${filePath}`);
 			}
 			else if (fs.existsSync(fullPath)) {
 				fs.writeFileSync(fullPath, Buffer.from(getFile));
@@ -69,7 +83,7 @@ function getText(head, key, ...args) {
 				const cutFullPath = filePath.split('/');
 				cutFullPath.pop();
 				for (let i = 0; i < cutFullPath.length; i++) {
-					const path = `${__dirname}/${cutFullPath.slice(0, i + 1).join('/')}`;
+					const path = `${process.cwd()}/${cutFullPath.slice(0, i + 1).join('/')}`;
 					if (!fs.existsSync(path))
 						fs.mkdirSync(path);
 				}
@@ -80,7 +94,7 @@ function getText(head, key, ...args) {
 
 		for (const filePath in deleteFiles) {
 			const description = deleteFiles[filePath];
-			const fullPath = `${__dirname}/${filePath}`;
+			const fullPath = `${process.cwd()}/${filePath}`;
 			if (fs.existsSync(fullPath)) {
 				fs.unlinkSync(fullPath);
 				console.log(chalk.bold.red('[-]'), `${filePath}:`, chalk.hex('#858585')(description));
@@ -89,7 +103,6 @@ function getText(head, key, ...args) {
 	}
 
 	const { data: packageJson } = await axios.get("https://github.com/ntkhang03/Goat-Bot-V2/raw/main/package.json");
-	fs.writeFileSync(__dirname + "/package.json", JSON.stringify(packageJson, null, 2));
+	fs.writeFileSync(`${process.cwd()}/package.json`, JSON.stringify(packageJson, null, 2));
 	log.info("UPDATE", getText("updater", "updateSuccess"));
-
 })();
