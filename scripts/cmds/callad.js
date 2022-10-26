@@ -3,7 +3,7 @@ const { getStreamsFromAttachment } = global.utils;
 module.exports = {
 	config: {
 		name: "callad",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -28,22 +28,26 @@ module.exports = {
 			sendByGroup: "\n- Được gửi từ nhóm: %1\n- Thread ID: %2",
 			sendByUser: "\n- Được gửi từ người dùng",
 			content: "\n\nNội dung:\n─────────────────\n%1\n─────────────────\nPhản hồi tin nhắn này để gửi tin nhắn về người dùng",
-			success: "Đã gửi tin nhắn của bạn về admin thành công!",
+			success: "Đã gửi tin nhắn của bạn về %1 admin thành công!\n%2",
+			failed: "Đã có lỗi xảy ra khi gửi tin nhắn của bạn về %1 admin\n%2",
 			reply: "📍 Phản hồi từ admin %1:\n%2\n─────────────────\nPhản hồi tin nhắn này để tiếp tục gửi tin nhắn về admin",
 			replySuccess: "Đã gửi phản hồi của bạn về admin thành công!",
 			feedback: "📝 Phản hồi từ người dùng %1:\n- User ID: %2\n- Nội dung:\n%3\n─────────────────\nPhản hồi tin nhắn này để gửi tin nhắn về người dùng",
-			replyUserSuccess: "Đã gửi phản hồi của bạn về người dùng thành công!"
+			replyUserSuccess: "Đã gửi phản hồi của bạn về người dùng thành công!",
+			noAdmin: "Hiện tại bot chưa có admin nào"
 		},
 		en: {
 			missingMessage: "Please enter the message you want to send to admin",
 			sendByGroup: "\n- Sent from group: %1\n- Thread ID: %2",
 			sendByUser: "\n- Sent from user",
 			content: "\n\nContent:\n─────────────────\n%1\n─────────────────\nReply this message to send message to user",
-			success: "Sent your message to admin successfully!",
+			success: "Sent your message to %1 admin successfully!\n%2",
+			failed: "An error occurred while sending your message to %1 admin\n%2",
 			reply: "📍 Reply from admin %1:\n%2\n─────────────────\nReply this message to continue send message to admin",
 			replySuccess: "Sent your reply to admin successfully!",
 			feedback: "📝 Feedback from user %1:\n- User ID: %2\n- Content:\n%3\n─────────────────\nReply this message to send message to user",
-			replyUserSuccess: "Sent your reply to user successfully!"
+			replyUserSuccess: "Sent your reply to user successfully!",
+			noAdmin: "Bot has no admin at the moment"
 		}
 	},
 
@@ -52,32 +56,49 @@ module.exports = {
 		if (!args[0])
 			return message.reply(getLang("missingMessage"));
 		const { senderID, threadID, isGroup } = event;
-
+		if (config.adminBot.length == 0)
+			return message.reply(getLang("noAdmin"));
 		const senderName = await usersData.getName(senderID);
 		const msg = "==📨️ CALL ADMIN 📨️=="
 			+ `\n- User Name: ${senderName}`
 			+ `\n- User ID: ${senderID}`
 			+ (isGroup ? getLang("sendByGroup", (await threadsData.get(threadID)).threadName, threadID) : getLang("sendByUser"));
 
-		api.sendMessage({
+		const formMessage = {
 			body: msg + getLang("content", args.join(" ")),
 			mentions: [{
 				id: senderID,
 				tag: senderName
 			}],
 			attachment: await getStreamsFromAttachment([...event.attachments, ...(event.messageReply?.attachments || [])])
-		}, config.adminBot[0], (err, info) => {
-			if (err)
-				return message.err(err);
-			message.reply(getLang("success"));
-			global.GoatBot.onReply.set(info.messageID, {
-				commandName,
-				messageID: info.messageID,
-				threadID,
-				messageIDSender: event.messageID,
-				type: "userCallAdmin"
-			});
-		});
+		};
+
+		const successIDs = [];
+		const failedIDs = [];
+
+		for (const uid of config.adminBot) {
+			try {
+				const messageSend = await api.sendMessage(formMessage, uid);
+				successIDs.push(uid);
+				global.GoatBot.onReply.set(messageSend.messageID, {
+					commandName,
+					messageID: messageSend.messageID,
+					threadID,
+					messageIDSender: event.messageID,
+					type: "userCallAdmin"
+				});
+			}
+			catch (err) {
+				failedIDs.push(uid);
+			}
+		}
+
+		let msg2 = "";
+		if (successIDs.length > 0)
+			msg2 += getLang("success", successIDs.length, successIDs.reduce((a, b) => a + `\n + ${b}`, "")) + "\n";
+		if (failedIDs.length > 0)
+			msg2 += getLang("failed", failedIDs.length, failedIDs.reduce((a, b) => a + `\n + ${b}`, ""));
+		return message.reply(msg2);
 	},
 
 	onReply: async ({ args, event, api, message, Reply, usersData, commandName, getLang }) => {
