@@ -23,6 +23,44 @@
 - https://www.facebook.com/groups/goatbot
 - https://www.facebook.com/groups/goatbot/permalink/493150412403231
 
+## 📚 Support Languages
+
+- [x] `en: English`
+- [x] `vi: Vietnamese`
+
+- Change language in `config.json` file
+- You can customize the language in the folder `languages/`, `languages/cmds/` and `languages/events/`
+
+## 📌 Common Problems
+<details>
+	<summary>
+		📌 Error 400: redirect_uri_mismatch
+		<p><img src="./bot/source/redirect_uri_mismatch.jpg" width="150px"></p> 
+	</summary>
+	<p>1. Enable Google Drive API: <a href="https://youtu.be/nTIT8OQeRnY?t=347">Tutorial</a></p>
+	<p>2. Add uri <a href="https://developers.google.com/oauthplayground">https://developers.google.com/oauthplayground</a> (not <a href="https://developers.google.com/oauthplayground/">https://developers.google.com/oauthplayground/</a>) to <b>Authorized redirect URIs</b> in <b>OAuth consent screen</b> <a href="https://youtu.be/nTIT8OQeRnY?t=491">Tutorial</a></p>  
+	<p>3. Choose <b>https://www.googleapis.com/auth/drive</b> and <b>https://mail.google.com/</b> in <b>OAuth 2.0 Playground</b>: <a href="https://youtu.be/nTIT8OQeRnY?t=615">Tutorial</a></p>
+</details>
+
+<details>
+	<summary>
+		📌 Error for site owners: Invalid domain for site key
+		<p><img src="./bot/source/invalid_domain_for_site_key.jpg" width="150px"></p>
+	</summary>
+		<p>1. Go to <a href="https://www.google.com/recaptcha/admin">https://www.google.com/recaptcha/admin</a></p>
+		<p>2. Add domain <b>repl.co</b> (not <b>repl.com</b>) to <b>Domains</b> in <b>reCAPTCHA v2</b> <a href="https://youtu.be/nTIT8OQeRnY?t=698">Tutorial</a></p>
+</details>
+
+<details>
+	<summary>
+		📌 GaxiosError: invalid_grant
+		<p><img src="./bot/source/invalid_grant1.jpg" width="150px"></p>
+		<p><img src="./bot/source/invalid_grant2.jpg" width="150px"></p>
+	</summary>
+		<p>- if you don't publish the project in google console, the refresh token will expire after 1 week and you need to get it back. <a href="https://youtu.be/nTIT8OQeRnY?t=445">Tuatorial</a></p>
+</details>
+
+
 ## 📸 Screenshots
 ### Bot
 #### Rank system
