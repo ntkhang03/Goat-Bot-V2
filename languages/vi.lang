@@ -89,3 +89,6 @@ updater.updateSuccess=Cập nhật thành công ✓
 
 # dashboard/routes/verifyfbid.js
 verifyfbid.sendCode=Mã xác nhận của bạn là:\n%1\nMã xác nhận có hiệu lực trong vòng %2 phút
+
+# utils.js
+utils.errorOccurred=❌ Đã xảy ra lỗi:\n\n%1

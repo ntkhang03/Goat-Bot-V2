@@ -212,7 +212,7 @@ const utils = {
 				err = utils.removeHomeDir(JSON.stringify(err, null, 2));
 			else
 				err = utils.removeHomeDir(`${err.name || err.error}: ${err.message}`);
-			return await api.sendMessage(`❌ Đã xảy ra lỗi:\n${err}`, event.threadID, event.messageID);
+			return await api.sendMessage(utils.getLang("utils", "errorOccurred", err, event.threadID, event.messageID));
 		}
 		return {
 			send: async (form, callback) => {

@@ -91,3 +91,6 @@ updater.updateSuccess=Update successfully ✓
 
 # dashboard/routes/verifyfbid.js
 verifyfbid.sendCode=Your verification code is:\n%1\nThe verification code is valid for %2 minutes
+
+# utils.js
+utils.errorOccurred=❌ An error occurred:\n\n%1
