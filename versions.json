@@ -448,5 +448,15 @@
 			"languages/vi.lang": "language update",
 			"utils.js": "language update"
 		}
+	},
+	{
+		"version": "1.1.8",
+		"files": {
+			"scripts/cmds/admin.js": "language update",
+			"scripts/cmds/help.js": "language update",
+			"scripts/cmds/setrole.js": "language update",
+			"scripts/cmds/shortcut.js": "language update",
+			"languages/cmds/en.js": "language update"
+		}
 	}
 ]
