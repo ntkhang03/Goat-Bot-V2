@@ -14,7 +14,7 @@ const characters = "━━━━━━━━━━━━━";
 module.exports = {
 	config: {
 		name: "help",
-		version: "1.5",
+		version: "1.6",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -43,7 +43,9 @@ module.exports = {
 			doNotHave: "Không có",
 			roleText0: "0 (Tất cả người dùng)",
 			roleText1: "1 (Quản trị viên nhóm)",
-			roleText2: "2 (Admin bot)"
+			roleText2: "2 (Admin bot)",
+			roleText0setRole: "0 (set role, tất cả người dùng)",
+			roleText1setRole: "1 (set role, quản trị viên nhóm)"
 		},
 		en: {
 			help: "%1\n%2\n%1\nPage [ %3/%4 ]\nCurrently, the bot has %5 commands that can be used\n» Type %6help to view the command list\n» Type %6help to view the details of how to use that command\n%1\n%7",
@@ -53,7 +55,9 @@ module.exports = {
 			doNotHave: "Do not have",
 			roleText0: "0 (All users)",
 			roleText1: "1 (Group administrators)",
-			roleText2: "2 (Admin bot)"
+			roleText2: "2 (Admin bot)",
+			roleText0setRole: "0 (set role, all users)",
+			roleText1setRole: "1 (set role, group administrators)"
 		}
 	},
 
@@ -146,10 +150,17 @@ module.exports = {
 				description = checkLangObject(configCommand.description, langCode);
 			const aliasesString = configCommand.aliases ? configCommand.aliases.join(", ") : getLang("doNotHave");
 			const aliasesThisGroup = threadData.data.aliases ? (threadData.data.aliases[configCommand.name] || []).join(", ") : getLang("doNotHave");
-			const roleText = configCommand.role == 0 ?
-				getLang("roleText0") :
-				configCommand.role == 1 ?
-					getLang("roleText1") :
+			let roleOfCommand = configCommand.role;
+			let roleIsSet = false;
+			if (threadData.data.setRole?.[configCommand.name]) {
+				roleOfCommand = threadData.data.setRole[configCommand.name];
+				roleIsSet = true;
+			}
+
+			const roleText = roleOfCommand == 0 ?
+				(roleIsSet ? getLang("roleText0setRole") : getLang("roleText0")) :
+				roleOfCommand == 1 ?
+					(roleIsSet ? getLang("roleText1setRole") : getLang("roleText1")) :
 					getLang("roleText2");
 
 			let guide;

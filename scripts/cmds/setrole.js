@@ -1,7 +1,7 @@
 module.exports = {
 	config: {
 		name: "setrole",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 1,
@@ -96,12 +96,14 @@ module.exports = {
 			Default = true;
 			newRole = command.config.role;
 		}
-		newRole = parseInt(newRole);
+		else {
+			newRole = parseInt(newRole);
+		}
 
 		setRole[commandName] = newRole;
 		if (Default)
 			delete setRole[commandName];
-		await threadsData.get(event.threadID, setRole, "data.setRole");
+		await threadsData.set(event.threadID, setRole, "data.setRole");
 		message.reply("✅ " + (Default === true ? getLang("resetRole", commandName) : getLang("changedRole", commandName, newRole)));
 	}
 };

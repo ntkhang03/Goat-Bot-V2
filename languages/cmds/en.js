@@ -343,7 +343,9 @@ module.exports = {
 			doNotHave: "Do not have",
 			roleText0: "0 (All users)",
 			roleText1: "1 (Group administrators)",
-			roleText2: "2 (Admin bot)"
+			roleText2: "2 (Admin bot)",
+			roleText0setRole: "0 (set role, all users)",
+			roleText1setRole: "1 (set role, group administrators)"
 		}
 	},
 	kick: {
@@ -543,21 +545,21 @@ module.exports = {
 		shortDescription: "Add a shortcut for you",
 		longDescription: "Add a shortcut for your message in group chat",
 		text: {
-			missingContent: "Please enter the message content",
-			shortcutExists: "This shortcut already exists",
-			added: "Added shortcut ${key} => ${content}",
-			addedAttachment: " with %1 attachment(s)",
-			missingKey: "Please enter the keyword of the shortcut you want to delete",
-			notFound: "No shortcut found for keyword ${key} in your group chat",
-			onlyAdmin: "Only administrators can delete other people's shortcuts",
-			deleted: "Deleted shortcut ${key}",
-			empty: "Your group chat has not added any shortcuts",
-			message: "Message",
-			attachment: "Attachment",
-			list: "Your shortcuts list",
-			onlyAdminRemoveAll: "Only administrators can remove all shortcuts in the group chat",
-			confirmRemoveAll: "Are you sure you want to remove all shortcuts in this group chat? (react to this message to confirm)",
-			removedAll: "Removed all shortcuts in your group chat"
+			missingContent: 'Please enter the message content',
+			shortcutExists: 'This shortcut already exists',
+			added: 'Added shortcut %1 => %2',
+			addedAttachment: ' with %1 attachment(s)',
+			missingKey: 'Please enter the keyword of the shortcut you want to delete',
+			notFound: 'No shortcut found for keyword %1 in your group chat',
+			onlyAdmin: 'Only administrators can delete other people\'s shortcuts',
+			deleted: 'Deleted shortcut %1',
+			empty: 'Your group chat has not added any shortcuts',
+			message: 'Message',
+			attachment: 'Attachment',
+			list: 'Your shortcuts list',
+			onlyAdminRemoveAll: 'Only administrators can remove all shortcuts in the group chat',
+			confirmRemoveAll: 'Are you sure you want to remove all shortcuts in this group chat? (react to this message to confirm)',
+			removedAll: 'Removed all shortcuts in your group chat'
 		}
 	},
 	simsimi: {
