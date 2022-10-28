@@ -59,7 +59,7 @@ module.exports = {
 			const forMessage = {
 				body: getLang("notiMessage", currentLevel)
 			};
-			if (threadData.data?.rankup.attachments?.length > 0) {
+			if (threadData.data.rankup?.attachments?.length > 0) {
 				const files = threadData.data.rankup.attachments;
 				const attachments = files.reduce((acc, file) => {
 					acc.push(drive.getFile(file, "stream"));
