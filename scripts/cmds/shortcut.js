@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: 'shortcut',
 		aliases: ['short'],
-		version: '1.4',
+		version: '1.5',
 		author: 'NTKhang',
 		countDown: 5,
 		role: 0,
@@ -111,7 +111,8 @@ module.exports = {
 				message.reply(msg);
 				break;
 			}
-			case 'del': {
+			case 'del':
+			case 'delete': {
 				const key = args.slice(1).join(' ');
 				if (!key)
 					return message.reply(getLang('missingKey'));
@@ -128,18 +129,20 @@ module.exports = {
 			case 'list': {
 				if (dataShortcut.length === 0)
 					return message.reply(getLang('empty'));
-				const list = (await Promise.all(dataShortcut.map(async x => `[+] ${x.key} => ${x.content ? 1 : 0} ${getLang("message")}, ${x.attachments.length} ${getLang('attachment')} (${await usersData.getName(x.author)})`))).join('\n');
+				const list = (await Promise.all(dataShortcut.map(async (x, index) => `[${index + 1}] ${x.key} => ${x.content ? 1 : 0} ${getLang("message")}, ${x.attachments.length} ${getLang('attachment')} (${await usersData.getName(x.author)})`))).join('\n');
 				message.reply(getLang('list') + '\n' + list);
 				break;
 			}
-			case 'remove': {
+			case 'remove':
+			case '-rm':
+			case 'rm': {
 				if (threadID != senderID && role < 1)
 					return message.reply(getLang('onlyAdminRemoveAll'));
 				message.reply(getLang('confirmRemoveAll'), (err, info) => {
 					if (err)
 						return;
-					global.client.handleReaction.push({
-						name: commandName,
+					global.GoatBot.onReaction.set(info.messageID, {
+						commandName,
 						messageID: info.messageID,
 						author: senderID
 					});
@@ -154,10 +157,10 @@ module.exports = {
 
 	onReaction: async function ({ event, message, threadsData, getLang, Reaction }) {
 		const { author } = Reaction;
-		const { threadID, senderID } = event;
-		if (author != senderID)
+		const { threadID, userID } = event;
+		if (author != userID)
 			return;
-		await threadsData.set(threadID, 'data.shortcut', []);
+		await threadsData.set(threadID, [], "data.shortcut");
 		return message.reply(getLang('removedAll'));
 	},
 
