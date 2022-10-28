@@ -1,7 +1,7 @@
 module.exports = {
 	config: {
 		name: "setrole",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 1,
@@ -71,7 +71,7 @@ module.exports = {
 
 		if (["view", "viewrole", "show"].includes(args[0])) {
 			if (!setRole || Object.keys(setRole).length === 0)
-				return message.reply(getLang("noEditedCommands"));
+				return message.reply(getLang("noEditedCommand"));
 			let msg = getLang("editedCommand");
 			for (const cmd in setRole) msg += `- ${cmd} => ${setRole[cmd]}\n`;
 			return message.reply(msg);
