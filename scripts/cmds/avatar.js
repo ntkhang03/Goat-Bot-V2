@@ -5,7 +5,7 @@ module.exports = {
 	config: {
 		name: "avatar",
 		author: "NTKhang",
-		version: "1.1",
+		version: "1.2",
 		cooldowns: 5,
 		role: 0,
 		shortDescription: {
@@ -18,10 +18,10 @@ module.exports = {
 		},
 		category: "image",
 		guide: {
-			vi: "{p}{n} <mã số nhân vật hoặc tên nhân vật> | <chữ nền> | <chữ ký> | <tên màu tiếng anh hoặc mã màu nền (hex color)>"
-				+ "\n{p}{n} help: xem cách dùng lệnh",
-			en: "{p}{n} <character id or character name> | <background text> | <signature> | <background color name or hex color>"
-				+ "\n{p}{n} help: view how to use this command"
+			vi: "   {p}{n} <mã số nhân vật hoặc tên nhân vật> | <chữ nền> | <chữ ký> | <tên màu tiếng anh hoặc mã màu nền (hex color)>"
+				+ "\n   {p}{n} help: xem cách dùng lệnh",
+			en: "   {p}{n} <character id or character name> | <background text> | <signature> | <background color name or hex color>"
+				+ "\n   {p}{n} help: view how to use this command"
 		}
 	},
 
@@ -53,6 +53,8 @@ module.exports = {
 		const chu_Nen = content[1];
 		const chu_Ky = content[2];
 		const colorBg = content[3];
+		if (!args[0])
+			return message.SyntaxError();
 		try {
 			const dataChracter = (await axios.get("https://goatbot.me/taoanhdep/listavataranime?apikey=ntkhang")).data.data;
 			if (!isNaN(content[0])) {
