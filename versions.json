@@ -479,5 +479,14 @@
 			"scripts/cmds/setalias.js": "fixes bugs",
 			"bot/handler/handlerEvents.js": "language update"
 		}		
+	},
+	{
+		"version": "1.1.12",
+		"files": {
+			"scripts/cmds/setrole.js": "language update"
+		},
+		"deleteFiles": {
+			"scripts/cmds/simsimi.js": "delete command"
+		}
 	}
 ]
