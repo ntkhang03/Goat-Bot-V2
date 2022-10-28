@@ -472,5 +472,12 @@
 			"scripts/cmds/shortcut.js": "fixes cannot delete/remove shortcut",
 			"scripts/cmds/avatar.js": "language udpate"
 		}
+	},
+	{
+		"version": "1.1.11",
+		"files": {
+			"scripts/cmds/setalias.js": "fixes bugs",
+			"bot/handler/handlerEvents.js": "language update"
+		}		
 	}
 ]
