@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: 'shortcut',
 		aliases: ['short'],
-		version: '1.3',
+		version: '1.4',
 		author: 'NTKhang',
 		countDown: 5,
 		role: 0,
@@ -92,7 +92,7 @@ module.exports = {
 					return message.reply(getLang('shortcutExists'));
 				let attachmentIDs = [];
 				if (attachments.length > 0)
-					attachmentIDs = attachments.map(async attachment => new Promise(async (resolve) => {
+					attachmentIDs = attachments.map(attachment => new Promise(async (resolve) => {
 						const ext = getExtFromUrl(attachment.url);
 						const fileName = `${Date.now()}.${ext}`;
 						const infoFile = await drive.uploadFile(`shortcut_${threadID}_${senderID}_${fileName}`, await getStreamFromURL(attachment.url));
@@ -101,7 +101,7 @@ module.exports = {
 				dataShortcut.push({
 					key: key.trim().toLowerCase(),
 					content,
-					attachments: attachmentIDs,
+					attachments: await Promise.all(attachmentIDs),
 					author: senderID
 				});
 				await threadsData.set(threadID, dataShortcut, 'data.shortcut');
