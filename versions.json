@@ -458,5 +458,11 @@
 			"scripts/cmds/shortcut.js": "language update",
 			"languages/cmds/en.js": "language update"
 		}
+	},
+	{
+		"version": "1.1.9",
+		"files":{
+			"scripts/cmds/shortcut.js": "fixes with attachment giving error"
+		}
 	}
 ]
