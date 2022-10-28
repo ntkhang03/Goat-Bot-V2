@@ -464,5 +464,13 @@
 		"files":{
 			"scripts/cmds/shortcut.js": "fixes with attachment giving error"
 		}
+	},
+	{
+		"version": "1.1.10",
+		"files":{
+			"scripts/cmds/rankup.js": "fixes `TypeError: Cannot read property of undefined (reading 'attachments')`",
+			"scripts/cmds/shortcut.js": "fixes cannot delete/remove shortcut",
+			"scripts/cmds/avatar.js": "language udpate"
+		}
 	}
 ]
