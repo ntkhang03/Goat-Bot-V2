@@ -10,6 +10,15 @@
   <img alt="size" src="https://img.shields.io/badge/license-MIT-green?style=flat-square">
 </p>
 
+* [`Prerequisites`](#-prerequisites)
+* [`Tutorial`](#-tutorial)
+* [`Support`](#-support)
+* [`Support Languages`](#-support-languages)
+* [`Common Problems`](#-common-problems)
+* [`Screenshots`](#-screenshots)
+* [`Copyright (C)`](#-copyright-c)
+* [`License`](#-license)
+
 ## 🚧 Prerequisites
 - [Node.js 16.x](https://nodejs.org/en/download/)
 
@@ -101,3 +110,8 @@
 
 ## ✨ Copyright (C)
 ### [NTKhang (NTKhang03)](https://github.com/ntkhang03)
+
+## 📜 License
+### If you violate any rules, you will be banned from using my project
+- Don't sell my source code
+- Don't remove/edit my credits
