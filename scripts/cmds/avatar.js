@@ -5,7 +5,7 @@ module.exports = {
 	config: {
 		name: "avatar",
 		author: "NTKhang",
-		version: "1.2",
+		version: "1.3",
 		cooldowns: 5,
 		role: 0,
 		shortDescription: {
@@ -47,7 +47,6 @@ module.exports = {
 	},
 
 	onStart: async function ({ args, message, getLang }) {
-		message.reply(getLang("initImage"));
 		const content = args.join(" ").split("|").map(item => item = item.trim());
 		let idNhanVat, tenNhanvat;
 		const chu_Nen = content[1];
@@ -55,6 +54,7 @@ module.exports = {
 		const colorBg = content[3];
 		if (!args[0])
 			return message.SyntaxError();
+		message.reply(getLang("initImage"));
 		try {
 			const dataChracter = (await axios.get("https://goatbot.me/taoanhdep/listavataranime?apikey=ntkhang")).data.data;
 			if (!isNaN(content[0])) {

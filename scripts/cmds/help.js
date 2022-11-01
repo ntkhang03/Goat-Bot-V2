@@ -14,7 +14,7 @@ const characters = "━━━━━━━━━━━━━";
 module.exports = {
 	config: {
 		name: "help",
-		version: "1.6",
+		version: "1.7",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -62,12 +62,11 @@ module.exports = {
 	},
 
 	onStart: async function ({ message, args, event, threadsData, getLang, role }) {
-		const langCode = await threadsData.get(event.threadID, "data.lang") || global.GoatBot.config.languege;
-		let customLang;
-		if (fs.existsSync(`${path.join(__dirname, "..", "..", "languages", "cmds", `${langCode}.js`)}`))
-			customLang = require(`${path.join(__dirname, "..", "..", "languages", "cmds", `${langCode}.js`)}`);
-		else
-			customLang = {};
+		const langCode = await threadsData.get(event.threadID, "data.lang") || global.GoatBot.config.language;
+		let customLang = {};
+		const pathCustomLang = path.join(__dirname, "..", "..", "languages", "cmds", `${langCode}.js`);
+		if (fs.existsSync(pathCustomLang))
+			customLang = require(pathCustomLang);
 		const { threadID } = event;
 		const threadData = await threadsData.get(threadID);
 		const prefix = getPrefix(threadID);
