@@ -488,5 +488,15 @@
 		"deleteFiles": {
 			"scripts/cmds/simsimi.js": "delete command"
 		}
+	},
+	{
+		"version": "1.1.13",
+		"files": {
+			"bot/handler/handlerEvents.js": "language update",
+			"scripts/cmds/avatar.js": "language update",
+			"scripts/cmds/help.js": "language update",
+			"scripts/cmds/hubble.js": "new command: get image from hubble telescope",
+			"scripts/cmds/translate.js": "new command: translate text"
+		}
 	}
 ]
