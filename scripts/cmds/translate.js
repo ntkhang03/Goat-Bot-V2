@@ -31,21 +31,32 @@ module.exports = {
 
 	langs: {
 		vi: {
-			error: "❌ Đã có lỗi xảy ra:"
+			translateTo: "🌐 Dịch từ %1 sang %2"
 		},
 		en: {
-			error: "❌ An error occurred:"
+			translateTo: "🌐 Translate from %1 to %2"
 		}
 	},
 
-	onStart: async function ({ api, args, message, event, threadsData, usersData, dashBoardData, globalData, threadModel, userModel, dashBoardModel, globalModel, role, commandName, getLang }) {
+	onStart: async function ({ message, event, threadsData, getLang }) {
 		const content = event.messageReply ? event.messageReply.body : event.body;
 		if (!content)
 			return message.SyntaxError();
+		let langCodeTrans;
+		const langCode = await threadsData.get(event.threadID, "data.lang") || global.GoatBot.config.language
+		if (content.indexOf(" -> ") != -1)
+			langCodeTrans = content.slice(content.lastIndexOf(" -> ") + 4);
+		else
+			langCodeTrans = langCode;
+		const { text, lang } = await translate(content, langCodeTrans);
+		return message.reply(text + '\n\n' + getLang("translateTo", langCodeTrans, lang));
 	}
 };
 
 async function translate(text, langCode) {
 	const res = await axios.get(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${langCode}&dt=t&q=${encodeURIComponent(text)}`);
-	return res.data[0].map(item => item[0]).join('');
+	return {
+		text: res.data[0].map(item => item[0]).join(''),
+		lang: res.data[2]
+	};
 }
