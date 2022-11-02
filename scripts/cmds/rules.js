@@ -3,7 +3,7 @@ const { getPrefix } = global.utils;
 module.exports = {
 	config: {
 		name: "rules",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -183,7 +183,7 @@ module.exports = {
 			if (role < 1)
 				return message.reply(getLang("noPermissionRemove"));
 			message.reply(getLang("confirmRemove"), (err, info) => {
-				global.GoatBot.onReaction.push({
+				global.GoatBot.onReaction.set(info.messageID, {
 					commandName: "rules",
 					messageID: info.messageID,
 					author: senderID
