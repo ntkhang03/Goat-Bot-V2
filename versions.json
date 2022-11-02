@@ -505,5 +505,11 @@
 			"scripts/cmds/translate.js": "can translate any message by reaction \"🌐\" or custom by you to message",
 			"scripts/cmds/rules.js": "fixes bugs"
 		}
+	},
+	{
+		"version": "1.1.15",
+		"files": {
+			"scripts/cmds/rank.js": "remove rank card creation with api"
+		}
 	}
 ]
