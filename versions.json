@@ -511,5 +511,12 @@
 		"files": {
 			"scripts/cmds/rank.js": "remove rank card creation with api"
 		}
+	},
+	{
+		"version": "1.1.16",
+		"files": {
+			"scripts/cmds/hubble.js": "update hubble data url",
+			"scripts/cmds/assets/font/BeVietnamPro-Bold.ttf": "add font"
+		}
 	}
 ]
