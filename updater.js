@@ -65,9 +65,9 @@ function getText(head, key, ...args) {
 
 				if (fs.existsSync(`${process.cwd()}/config.backup.json`)) {
 					let backupConfig = 1;
-					while (fs.existsSync(`${fullPath}_${backupConfig}.backup.json`))
+					while (fs.existsSync(`${fullPath.slice(0, -5)}_${backupConfig}.backup.json`))
 						backupConfig++;
-					fs.copyFileSync(fullPath, `${fullPath}_${backupConfig}.backup.json`);
+					fs.copyFileSync(fullPath, `${fullPath.slice(0, -5)}_${backupConfig}.backup.json`);
 				}
 				else {
 					fs.copyFileSync(fullPath, `${process.cwd()}/config.backup.json`);
