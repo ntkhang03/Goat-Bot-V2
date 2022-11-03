@@ -85,7 +85,7 @@ module.exports = async function (api) {
 			catch (err) {
 				process.stderr.clearLine = defaultClearLine;
 				spin.stop();
-				log.info("SQLITE", getText("indexController", "connectMySQLError"), err);
+				log.err("SQLITE", getText("indexController", "connectMySQLError"), err);
 				process.exit();
 			}
 			break;
