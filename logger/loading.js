@@ -8,7 +8,7 @@ function logError(prefix, message) {
 		message = prefix;
 		prefix = "ERROR";
 	}
-	process.stderr.write(`\r${chalk`{redBright [} ${getCurrentTime()} {redBright ]} ${chalk.redBright(`${characters} ${prefix}:`)} ${message}`}`);
+	process.stderr.write(`\r${`${getCurrentTime()} ${chalk.redBright(`${characters} ${prefix}:`)} ${message}`}`);
 }
 
 module.exports = {
@@ -19,20 +19,20 @@ module.exports = {
 			message = prefix;
 			prefix = "WARN";
 		}
-		process.stderr.write(`\r${chalk`{yellowBright [} ${getCurrentTime()} {yellowBright ]} ${chalk.yellowBright(`${characters} ${prefix}:`)} ${message}`}`);
+		process.stderr.write(`\r${`${getCurrentTime()} ${chalk.yellowBright(`${characters} ${prefix}:`)} ${message}`}`);
 	},
 	info: function (prefix, message) {
 		if (message === undefined) {
 			message = prefix;
 			prefix = "INFO";
 		}
-		process.stderr.write(`\r${chalk`{greenBright [} ${getCurrentTime()} {greenBright ]} ${chalk.greenBright(`${characters} ${prefix}:`)} ${message}`}`);
+		process.stderr.write(`\r${`${getCurrentTime()} ${chalk.greenBright(`${characters} ${prefix}:`)} ${message}`}`);
 	},
 	master: function (prefix, message) {
 		if (message === undefined) {
 			message = prefix;
 			prefix = "MASTER";
 		}
-		process.stderr.write(`\r${chalk`{magentaBright [} ${getCurrentTime()} {magentaBright ]} ${chalk.magentaBright(`${characters} ${prefix}:`)} ${message}`}`);
+		process.stderr.write(`\r${`${getCurrentTime()} ${chalk.magentaBright(`${characters} ${prefix}:`)} ${message}`}`);
 	}
 };
