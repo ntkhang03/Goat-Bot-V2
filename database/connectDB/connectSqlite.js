@@ -9,7 +9,7 @@ module.exports = async function () {
 
 	const threadModel = require("../models/sqlite/thread.js")(sequelize);
 	const userModel = require("../models/sqlite/user.js")(sequelize);
-	const dashBoardModel = require("../models/sqlite/userDashBoard")(sequelize);
+	const dashBoardModel = require("../models/sqlite/userDashBoard.js")(sequelize);
 	const globalModel = require("../models/sqlite/global.js")(sequelize);
 
 	await sequelize.sync({ force: false });
