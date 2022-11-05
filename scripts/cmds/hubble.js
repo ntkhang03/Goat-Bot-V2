@@ -12,7 +12,7 @@ let hubbleData;
 module.exports = {
 	config: {
 		name: "hubble",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -50,7 +50,7 @@ module.exports = {
 	},
 
 	onStart: async function ({ message, args, getLang }) {
-		const date = args[0];
+		const date = args[0] || "";
 		const dateText = checkValidDate(date);
 		if (!date || !dateText)
 			return message.reply(getLang('invalidDate'));

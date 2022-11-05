@@ -6,7 +6,7 @@ const hexColorRegex = /^#([0-9a-f]{6})$/i;
 module.exports = {
 	config: {
 		name: "customrankcard",
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -34,7 +34,9 @@ module.exports = {
 					+ "\n    {pn} maincolor #fff000"
 					+ "\n    {pn} subcolor rgba(255,136,86,0.4)"
 					+ "\n    {pn} reset",
-				attachment: [__dirname + "/assets/guide/customrankcard/guide1.jpg"]
+					attachment: {
+						[__dirname + "/assets/guide/customrankcard/guide1.jpg"]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/customrankcard/guide1.jpg"
+					}
 			},
 			en: {
 				body: "   {pn} [maincolor | subcolor | expcolor | expnextlevelcolor | alphasubcolor | textcolor | reset] <value>"
