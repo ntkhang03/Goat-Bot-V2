@@ -50,9 +50,13 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 				switch (databaseType) {
 					case "mongodb":
 					case "sqlite": {
-						const dataCreated = await threadModel.create(threadData);
+						let dataCreated = await threadModel.create(threadData);
+						if (databaseType == "mongodb")
+							dataCreated = dataCreated.toObject();
+						else
+							dataCreated = dataCreated.get({ plain: true });
 						Threads.push(dataCreated);
-						return databaseType == "mongodb" ? dataCreated : dataCreated.get({ plain: true });
+						return dataCreated;
 					}
 					case "json": {
 						threadData.createdAt = moment.tz().format();
