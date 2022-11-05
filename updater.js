@@ -66,9 +66,8 @@ function getText(head, key, ...args) {
 						const keyOfDefault = value.replace("DEFAULT_", "");
 						_.set(currentConfig, key, _.get(currentConfig, keyOfDefault));
 					}
-					else {
+					else
 						_.set(currentConfig, key, files[filePath][key]);
-					}
 				}
 
 				if (fs.existsSync(`${process.cwd()}/config.backup.json`)) {
