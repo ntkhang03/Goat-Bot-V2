@@ -3,7 +3,7 @@ const fs = require("fs-extra");
 module.exports = {
 	config: {
 		name: "setlang",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -20,13 +20,11 @@ module.exports = {
 			vi: "   {pn} <language code ISO 639-1"
 				+ "\n   Ví dụ:"
 				+ "\n    {pn} en"
-				+ "\n    {pn} vi"
-				+ "\n    {pn} ja",
+				+ "\n    {pn} vi",
 			en: "\n   {pn} <language code ISO 639-1"
 				+ "\n   Example:"
 				+ "\n    {pn} en"
 				+ "\n    {pn} vi"
-				+ "\n    {pn} ja"
 		}
 	},
 
@@ -49,8 +47,13 @@ module.exports = {
 		if (!args[0])
 			return message.SyntaxError;
 		let langCode = args[0].toLowerCase();
-		if (langCode == "default" || langCode == "reset")
+		const threadData = await threadsData.get(event.threadID, "data");
+		let isDefault = false;
+		if (langCode == "default" || langCode == "reset") {
+			isDefault = true;
 			langCode = global.GoatBot.config.language;
+		}
+
 		if (["-g", "-global", "all"].includes(args[1]?.toLowerCase())) {
 			if (role < 2)
 				return message.reply(getLang("noPermission"));
@@ -78,7 +81,10 @@ module.exports = {
 			fs.writeFileSync(global.client.dirConfig, JSON.stringify(global.GoatBot.config, null, 2));
 			return message.reply(getLang("setLangForAll", langCode));
 		}
-		await threadsData.set(event.threadID, langCode, "data.lang");
-		return message.reply(getLang("setLangForCurrent", langCode));
+
+		threadData.lang = langCode;
+		if (isDefault)
+			delete threadData.lang;
+		return message.reply((global.GoatBot.commands.get("setlang")?.langs[langCode]?.setLangForCurrent || "Set default language for current chat: %1").replace("%1", langCode));
 	}
 };

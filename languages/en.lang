@@ -88,6 +88,7 @@ indexController.connectMySQLError=An error occurred while connecting to a SQLITE
 updater.latestVersion=You are using the latest version
 updater.newVersions=There are %1 new versions to update, starting to update...
 updater.updateSuccess=Update successfully ✓
+updater.configChanged=The config.json file has been changed, please check your config.json file again
 
 # dashboard/routes/verifyfbid.js
 verifyfbid.sendCode=Your verification code is:\n%1\nThe verification code is valid for %2 minutes
