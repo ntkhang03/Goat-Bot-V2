@@ -60,8 +60,16 @@ function getText(head, key, ...args) {
 
 			if (filePath === "config.json") {
 				const currentConfig = require('./config.json');
-				for (const key in files[filePath])
-					_.set(currentConfig, key, files[filePath][key]);
+				for (const key in files[filePath]) {
+					const value = files[filePath][key];
+					if (value.startsWith("DEFAULT_")) {
+						const keyOfDefault = value.replace("DEFAULT_", "");
+						_.set(currentConfig, key, _.get(currentConfig, keyOfDefault));
+					}
+					else {
+						_.set(currentConfig, key, files[filePath][key]);
+					}
+				}
 
 				if (fs.existsSync(`${process.cwd()}/config.backup.json`)) {
 					let backupConfig = 1;
@@ -74,6 +82,8 @@ function getText(head, key, ...args) {
 				}
 				fs.writeFileSync(fullPath, JSON.stringify(currentConfig, null, 2));
 				console.log(chalk.bold.blue('[↑]'), `${filePath}`);
+				// warning config.json is changed
+				console.log(chalk.bold.yellow('[!]'), getText("updater", "configChanged"));
 			}
 			else if (fs.existsSync(fullPath)) {
 				fs.writeFileSync(fullPath, Buffer.from(getFile));
