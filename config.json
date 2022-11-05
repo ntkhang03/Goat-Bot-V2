@@ -7,12 +7,16 @@
 		"userAgent": ""
 	},
 	"language": "vi",
-	"adminOnly": false,
+	"adminOnly": {
+		"enable": false,
+		"ignoreCommand": []
+	},
+	"commandIgnoreAdminOnly": [],
 	"adminBot": [],
 	"nickNameBot": "GoatBot",
 	"prefix": "-",
 	"database": {
-		"type": "sqlite",
+		"type": "sqlite", 
 		"uriMongodb": "",
 		"autoSyncWhenStart": true,
 		"notes": "type selects 'json' or 'sqlite' or 'mongodb'. If you choose mongodb, enter uri connect mongodb in the uriMongodb section, instructions to get uri connect mongodb at: https://youtu.be/z1f9urHW5xY. I recommend using 'mongodb' or 'sqlite', json is not recommended because it is not stable."
