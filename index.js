@@ -9,7 +9,6 @@ const fs = require("fs-extra");
 const { NODE_ENV } = process.env;
 process.on('unhandledRejection', error => console.log(error));
 process.on('uncaughtException', error => console.log(error));
-
 const dirConfig = `${__dirname}/config${['test', 'development'].includes(NODE_ENV) ? '.dev.json' : '.json'}`;
 const dirConfigCommands = `${__dirname}/configCommands${['test', 'development'].includes(NODE_ENV) ? '.dev.json' : '.json'}`;
 const dirAccount = `${__dirname}/account${['test', 'development'].includes(NODE_ENV) ? '.dev.txt' : '.txt'}`;
@@ -41,7 +40,7 @@ global.db = {
 	threadsData: null,
 	usersData: null,
 	dashBoardData: null,
-	globalData: null,
+	globalData: null
 };
 
 global.client = {
@@ -84,23 +83,44 @@ const languageData = readLanguage
 	.split(/\r?\n|\r/)
 	.filter(line => line && !line.trim().startsWith("#") && !line.trim().startsWith("//") && line != "");
 
-global.language = {};
-for (const sentence of languageData) {
-	const getSeparator = sentence.indexOf('=');
-	const itemKey = sentence.slice(0, getSeparator).trim();
-	const itemValue = sentence.slice(getSeparator + 1, sentence.length).trim();
-	const head = itemKey.slice(0, itemKey.indexOf('.'));
-	const key = itemKey.replace(head + '.', '');
-	const value = itemValue.replace(/\\n/gi, '\n');
-	if (!global.language[head])
-		global.language[head] = {};
-	global.language[head][key] = value;
+global.language = convertLangObj(languageData);
+function convertLangObj(languageData) {
+	const obj = {};
+	for (const sentence of languageData) {
+		const getSeparator = sentence.indexOf('=');
+		const itemKey = sentence.slice(0, getSeparator).trim();
+		const itemValue = sentence.slice(getSeparator + 1, sentence.length).trim();
+		const head = itemKey.slice(0, itemKey.indexOf('.'));
+		const key = itemKey.replace(head + '.', '');
+		const value = itemValue.replace(/\\n/gi, '\n');
+		if (!obj[head])
+			obj[head] = {};
+		obj[head][key] = value;
+	}
+	return obj;
 }
 
 function getText(head, key, ...args) {
-	if (!global.language[head]?.[key])
+	let langObj;
+	if (typeof head == "object") {
+		let pathLanguageFile = `${__dirname}/languages/${head.lang}.lang`;
+		head = head.head;
+		if (!fs.existsSync(pathLanguageFile)) {
+			utils.log.warn("LANGUAGE", `Can't find language file ${pathLanguageFile}, using default language file "${__dirname}/languages/en.lang"`);
+			pathLanguageFile = `${__dirname}/languages/en.lang`;
+		}
+		const readLanguage = fs.readFileSync(pathLanguageFile, "utf-8");
+		const languageData = readLanguage
+			.split(/\r?\n|\r/)
+			.filter(line => line && !line.trim().startsWith("#") && !line.trim().startsWith("//") && line != "");
+		langObj = convertLangObj(languageData);
+	}
+	else {
+		langObj = global.language;
+	}
+	if (!langObj[head]?.hasOwnProperty(key))
 		return `Can't find text: "${head}.${key}"`;
-	let text = global.language[head][key];
+	let text = langObj[head][key];
 	for (let i = args.length - 1; i >= 0; i--)
 		text = text.replace(new RegExp(`%${i + 1}`, 'g'), args[i]);
 	return text;
