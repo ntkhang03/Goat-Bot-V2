@@ -6,7 +6,7 @@ module.exports = {
 	config: {
 		name: "adminonly",
 		aliases: ["adonly", "onlyad", "onlyadmin"],
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -39,12 +39,12 @@ module.exports = {
 
 	onStart: function ({ args, message, getLang  }) {
 		if (args[0] == "on") {
-			config.adminOnly = true;
+			config.adminOnly.enable = true;
 			message.reply(getLang("turnedOn"));
 			fs.writeFileSync(client.dirConfig, JSON.stringify(config, null, 2));
 		}
 		else if (args[0] == "off") {
-			config.adminOnly = false;
+			config.adminOnly.enable = false;
 			message.reply(getLang("turnedOff"));
 			fs.writeFileSync(client.dirConfig, JSON.stringify(config, null, 2));
 		}
