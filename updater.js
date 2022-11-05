@@ -62,7 +62,7 @@ function getText(head, key, ...args) {
 				const currentConfig = require('./config.json');
 				for (const key in files[filePath]) {
 					const value = files[filePath][key];
-					if (value.startsWith("DEFAULT_")) {
+					if (typeof value == "string" && value.startsWith("DEFAULT_")) {
 						const keyOfDefault = value.replace("DEFAULT_", "");
 						_.set(currentConfig, key, _.get(currentConfig, keyOfDefault));
 					}
