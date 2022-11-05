@@ -425,7 +425,7 @@
 			"dashboard/routes/verifyfbid.js": "fixes error `TypeError: checkAndTranslate is not a function`",
 			"languages/vi.lang": "language update",
 			"languages/en.lang": "language update",
-			"scripts/events/leave.js":"language update"
+			"scripts/events/leave.js": "language update"
 		}
 	},
 	{
@@ -461,13 +461,13 @@
 	},
 	{
 		"version": "1.1.9",
-		"files":{
+		"files": {
 			"scripts/cmds/shortcut.js": "fixes with attachment giving error"
 		}
 	},
 	{
 		"version": "1.1.10",
-		"files":{
+		"files": {
 			"scripts/cmds/rankup.js": "fixes `TypeError: Cannot read property of undefined (reading 'attachments')`",
 			"scripts/cmds/shortcut.js": "fixes cannot delete/remove shortcut",
 			"scripts/cmds/avatar.js": "language udpate"
@@ -478,7 +478,7 @@
 		"files": {
 			"scripts/cmds/setalias.js": "fixes bugs",
 			"bot/handler/handlerEvents.js": "language update"
-		}		
+		}
 	},
 	{
 		"version": "1.1.12",
@@ -533,6 +533,26 @@
 			},
 			"logger/loading.js": "",
 			"logger/log.js": ""
+		}
+	},
+	{
+		"version": "1.1.18",
+		"files": {
+			"scripts/cmds/ignoreonlyad.js": "add new command",
+			"scripts/cmds/ignoreonlyadbox.js": "add new command",
+			"scripts/cmds/jsontomongodb.js": "add new command",
+			"scripts/cmds/jsontosqlite.js": "add new command",
+			"bot/handler/handlerEvents.js": "language update",
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update",
+			"scripts/cmds/setlang.js": "language update",
+			"config.json": {
+				"adminOnly.enable": "DEFAULT_adminOnly",
+				"adminOnly.ignoreCommand": []
+			},
+			"database/controller/threadsData.js": "fixes bugs",
+			"index.js": "language update",
+			"scripts/cmds/adminonly.js": ""
 		}
 	}
 ]
