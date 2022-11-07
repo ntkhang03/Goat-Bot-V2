@@ -14,7 +14,7 @@ const characters = "━━━━━━━━━━━━━";
 module.exports = {
 	config: {
 		name: "help",
-		version: "1.7",
+		version: "1.8",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -146,7 +146,7 @@ module.exports = {
 			if (descriptionCustomLang != undefined)
 				description = checkLangObject(descriptionCustomLang, langCode);
 			else if (configCommand.longDescription)
-				description = checkLangObject(configCommand.description, langCode);
+				description = checkLangObject(configCommand.longDescription, langCode);
 			const aliasesString = configCommand.aliases ? configCommand.aliases.join(", ") : getLang("doNotHave");
 			const aliasesThisGroup = threadData.data.aliases ? (threadData.data.aliases[configCommand.name] || []).join(", ") : getLang("doNotHave");
 			let roleOfCommand = configCommand.role;
