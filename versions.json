@@ -554,5 +554,19 @@
 			"index.js": "language update",
 			"scripts/cmds/adminonly.js": ""
 		}
+	},
+	{
+		"version": "1.1.19",
+		"files": {
+			"scripts/cmds/customrankcard.js": "language update",
+			"scripts/cmds/hubble.js": "language update",
+			"scripts/cmds/thread.js": "more precise search feature",
+			"scripts/cmds/user.js": "more precise search feature",
+			"scripts/cmds/help.js": "fix not showing description when viewing command info",
+			"bot/login/login.js": "can enable/disable auto-relogin when account.txt file changes in config.json/autoReloginWhenChangeAccount",
+			"config.json": {
+				"autoReloginWhenChangeAccount": false
+			}
+		}
 	}
 ]
