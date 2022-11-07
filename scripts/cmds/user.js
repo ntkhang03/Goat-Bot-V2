@@ -3,7 +3,7 @@ const { getTime } = global.utils;
 module.exports = {
 	config: {
 		name: "user",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -64,7 +64,7 @@ module.exports = {
 			case "-s": {
 				const allUser = await usersData.getAll();
 				const keyWord = args.slice(1).join(" ");
-				const result = allUser.filter(item => item.name.toLowerCase().includes(keyWord.toLowerCase()));
+				const result = allUser.filter(item => (item.name || "").toLowerCase().includes(keyWord.toLowerCase()));
 				const msg = result.reduce((i, user) => i += `\n╭Name: ${user.name}\n╰ID: ${user.userID}`, "");
 				message.reply(result.length == 0 ? getLang("noUserFound", keyWord) : getLang("userFound", result.length, keyWord, msg));
 				break;

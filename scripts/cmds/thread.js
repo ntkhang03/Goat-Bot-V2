@@ -3,7 +3,7 @@ const { getTime } = global.utils;
 module.exports = {
 	config: {
 		name: "thread",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -41,7 +41,7 @@ module.exports = {
 	langs: {
 		vi: {
 			noPermission: "Bạn không có quyền sử dụng tính năng này",
-			found: "🔎 Tìm thấy %1 nhóm trùng với từ khóa \"%3\" trong dữ liệu của bot:\n%3",
+			found: "🔎 Tìm thấy %1 nhóm trùng với từ khóa \"%2\" trong dữ liệu của bot:\n%3",
 			notFound: "❌ Không tìm thấy nhóm nào có tên khớp với từ khoá: \"%1\" trong dữ liệu của bot",
 			hasBanned: "Nhóm mang id [%1 | %2] đã bị cấm từ trước:\n» Lý do: %3\n» Thời gian: %4",
 			banned: "Đã cấm nhóm mang id [%1 | %2] sử dụng bot.\n» Lý do: %3\n» Thời gian: %4",
@@ -52,7 +52,7 @@ module.exports = {
 		},
 		en: {
 			noPermission: "You don't have permission to use this feature",
-			found: "🔎 Found %1 group matching the keyword \"%3\" in bot data:\n%3",
+			found: "🔎 Found %1 group matching the keyword \"%2\" in bot data:\n%3",
 			notFound: "❌ No group found matching the keyword: \"%1\" in bot data",
 			hasBanned: "Group with id [%1 | %2] has been banned before:\n» Reason: %3\n» Time: %4",
 			banned: "Banned group with id [%1 | %2] using bot.\n» Reason: %3\n» Time: %4",
@@ -76,11 +76,11 @@ module.exports = {
 					return message.reply(getLang("noPermission"));
 				const allThread = await threadsData.getAll();
 				const keyword = args.slice(1).join(" ");
-				const result = allThread.filter(item => item.threadName.toLowerCase().includes(keyword.toLowerCase()));
+				const result = allThread.filter(item => item.threadID.length > 15 && (item.threadName || "").toLowerCase().includes(keyword.toLowerCase()));
 				const resultText = result.reduce((i, thread) => i += `\n╭Name: ${thread.threadName}\n╰ID: ${thread.threadID}`, "");
 				let msg = "";
 				if (result.length > 0)
-					msg += getLang("found", keyword, resultText);
+					msg += getLang("found", result.length, keyword, resultText);
 				else
 					msg += getLang("notFound", keyword);
 				message.reply(msg);
