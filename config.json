@@ -55,6 +55,7 @@
 		"notes": "the value of timeInterval is seconds, url is the url you want to send the request to (automatically detected for hosting glitch or replit)"
 	},
 	"autoRefreshFbstate": true,
+	"autoReloginWhenChangeAccount": false,
 	"restartListenMqtt": {
 		"enable": true,
 		"timeRestart": 3600000,
