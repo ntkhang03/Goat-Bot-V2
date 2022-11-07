@@ -4,7 +4,7 @@ const { writeFileSync } = require("fs-extra");
 module.exports = {
 	config: {
 		name: "admin",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -56,7 +56,7 @@ module.exports = {
 				if (args[1]) {
 					let uids = [];
 					if (Object.keys(event.mentions).length > 0)
-						uids = Object.keys(event.mentions)[0];
+						uids = Object.keys(event.mentions);
 					else
 						uids = args.filter(arg => !isNaN(arg));
 					const notAdminIds = [];
