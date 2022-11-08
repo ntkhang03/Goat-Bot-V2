@@ -568,5 +568,15 @@
 				"autoReloginWhenChangeAccount": false
 			}
 		}
+	},
+	{
+		"version": "1.1.20",
+		"files": {
+			"scripts/cmds/filteruser.js": "fixes bugs bot listening members reaction message and kick members",
+			"config.json": {
+				"language": "en",
+				"notesLanguage": "change to your language with ISO 639-1 code, available languages: vi (Vietnamese), en (English)"
+			}
+		}
 	}
 ]
