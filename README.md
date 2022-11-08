@@ -16,6 +16,7 @@
 * [`Support Languages`](#-support-languages)
 * [`Common Problems`](#-common-problems)
 * [`Screenshots`](#-screenshots)
+* [`Note`](#-note)
 * [`Copyright (C)`](#-copyright-c)
 * [`License`](#-license)
 
@@ -107,6 +108,9 @@
 
 - #### Custom welcome message (similar with leave, rankup (coming soon), custom command (coming soon))
 <p><img src="./bot/source/dbCustomWelcome.png" width="399px"></p>
+
+## 📝 Note
+- This is a messenger chat bot using a personal account, using an unofficial api and this may lead to facebook account being locked due to spam or other reasons. I am not responsible for any problems that may arise from using this bot.
 
 ## ✨ Copyright (C)
 ### [NTKhang (NTKhang03)](https://github.com/ntkhang03)
