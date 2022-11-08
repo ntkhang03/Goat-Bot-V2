@@ -1,7 +1,11 @@
+function sleep(time) {
+	return new Promise((resolve) => setTimeout(resolve, time));
+}
+
 module.exports = {
 	config: {
 		name: "filteruser",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 1,
@@ -71,6 +75,7 @@ module.exports = {
 						errors.push(user.name);
 					}
 				}
+				await sleep(700);
 			}
 
 			let msg = "";
@@ -87,7 +92,9 @@ module.exports = {
 	},
 
 	onReaction: async function ({ api, Reaction, event, threadsData, message, getLang }) {
-		const { minimum = 1 } = Reaction;
+		const { minimum = 1, author } = Reaction;
+		if (event.userID != author)
+			return;
 		const threadData = await threadsData.get(event.threadID);
 		const botID = api.getCurrentUserID();
 		const membersCountLess = threadData.members.filter(member => member.count < minimum && member.inGroup == true && member.userID != botID);
@@ -101,6 +108,7 @@ module.exports = {
 			catch (e) {
 				errors.push(member.name);
 			}
+			await sleep(700);
 		}
 
 		let msg = "";
