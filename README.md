@@ -32,6 +32,9 @@
 #### If you have major coding issues with this bot, please join and ask for help.
 - https://www.facebook.com/groups/goatbot
 - https://www.facebook.com/groups/goatbot/permalink/493150412403231
+- https://m.me/j/AbYrIGusyc0M402z
+- https://discord.com/invite/DbyGwmkpVY
+- ***Please do not inbox me, I do not respond to private messages, any questions please join the chat group for answers. ThankThanks!***
 
 ## 📚 Support Languages
 
