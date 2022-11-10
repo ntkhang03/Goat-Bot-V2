@@ -578,5 +578,18 @@
 				"notesLanguage": "change to your language with ISO 639-1 code, available languages: vi (Vietnamese), en (English)"
 			}
 		}
+	},
+	{
+		"version": "1.1.21",
+		"files": {
+			"configCommands.json": "youtube api key not used",
+			"database/controller/dashBoardData.js": "Bug fixes & code optimization",
+			"database/controller/globalData.js": "Bug fixes & code optimization",
+			"database/controller/threadsData.js": "Bug fixes & code optimization",
+			"database/controller/usersData.js": "Bug fixes & code optimization",
+			"scripts/cmds/busy.js": "Bug fixes & code optimization",
+			"scripts/cmds/help.js": "language update",
+			"scripts/cmds/setlang.js": "fix not saving data when changing language of chat group"
+		}
 	}
 ]
