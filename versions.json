@@ -591,5 +591,16 @@
 			"scripts/cmds/help.js": "language update",
 			"scripts/cmds/setlang.js": "fix not saving data when changing language of chat group"
 		}
+	},
+	{
+		"version": "1.1.22",
+		"files": {
+			"database/controller/dashBoardData.js": "bug fixes & code optimization",
+			"database/controller/globalData.js": "bug fixes & code optimization",
+			"database/controller/threadsData.js": "bug fixes & code optimization",
+			"database/controller/usersData.js": "bug fixes & code optimization",
+			"scripts/cmds/busy.js": "bug fixes & code optimization",
+			"scripts/cmds/rules.js": "respond with the order number to see that rule"
+		}
 	}
 ]
