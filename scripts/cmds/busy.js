@@ -4,7 +4,7 @@ if (!global.client.busyList)
 module.exports = {
 	config: {
 		name: "busy",
-		version: "1.4",
+		version: "1.5",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -49,8 +49,8 @@ module.exports = {
 
 		if (args[0] == "off") {
 			const { data } = await usersData.get(senderID);
-			data.busy = false;
-			await usersData.set(senderID, { data });
+			delete data.busy;
+			await usersData.set(senderID, data, "data");
 			return message.reply(getLang("turnedOff"));
 		}
 

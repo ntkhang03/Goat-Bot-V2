@@ -1,6 +1,7 @@
 const { existsSync, writeJsonSync, readJSONSync } = require("fs-extra");
 const moment = require("moment-timezone");
 const path = require("path");
+
 const _ = require("lodash");
 const optionsWriteJSON = {
 	spaces: 2,
@@ -14,10 +15,11 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 
 	switch (databaseType) {
 		case "mongodb":
-			Dashboard = await dashBoardModel.find().lean();
+			// delete keys '_id' and '__v' in all dashboard data
+			Dashboard = (await dashBoardModel.find({}).lean()).map(item => _.omit(item, ["_id", "__v"]));
 			break;
 		case "sqlite":
-			Dashboard = (await dashBoardModel.findAll()).map(u => u.get({ plain: true }));
+			Dashboard = (await dashBoardModel.findAll()).map(item => item.get({ plain: true }));
 			break;
 		case "json":
 			if (!existsSync(pathDashBoardData))
@@ -42,7 +44,9 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 					case "sqlite": {
 						const dataCreated = await dashBoardModel.create(userData);
 						Dashboard.push(dataCreated);
-						return databaseType == "mongodb" ? dataCreated : dataCreated.get({ plain: true });
+						return databaseType == "mongodb" ?
+							_.omit(dataCreated._doc, ["_id", "__v"]) :
+							dataCreated.get({ plain: true });
 					}
 					case "json": {
 						const timeCreate = moment.tz().format();
@@ -56,20 +60,30 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 				break;
 			}
 			case "update": {
-				let dataWillChange = Dashboard[index];
+				const oldUserData = Dashboard[index];
+				const dataWillChange = {};
 
-				if (Array.isArray(path) && Array.isArray(userData))
-					dataWillChange = path.forEach((p, i) => _.set(dataWillChange, p, userData[i]));
+				if (Array.isArray(path) && Array.isArray(userData)) {
+					path.forEach((p, index) => {
+						const key = p.split(".")[0];
+						dataWillChange[key] = oldUserData[key];
+						_.set(dataWillChange, p, userData[index]);
+					});
+				}
 				else
-					if (path)
-						dataWillChange = _.set(dataWillChange, path, userData);
+					if (path && typeof path === "string" || Array.isArray(path)) {
+						const key = Array.isArray(path) ? path[0] : path.split(".")[0];
+						dataWillChange[key] = oldUserData[key];
+						_.set(dataWillChange, path, userData);
+					}
 					else
 						for (const key in userData)
 							dataWillChange[key] = userData[key];
 
 				switch (databaseType) {
 					case "mongodb": {
-						const dataUpdated = await dashBoardModel.findOneAndUpdate({ email }, dataWillChange, { returnDocument: 'after' });
+						let dataUpdated = await dashBoardModel.findOneAndUpdate({ email }, dataWillChange, { returnDocument: 'after' });
+						dataUpdated = _.omit(dataUpdated._doc, ["_id", "__v"]);
 						Dashboard[index] = dataUpdated;
 						return dataUpdated;
 					}
@@ -84,7 +98,7 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 						dataWillChange.updatedAt = moment.tz().format();
 						Dashboard[index] = dataWillChange;
 						writeJsonSync(pathDashBoardData, Dashboard, optionsWriteJSON);
-						return dataWillChange;
+						return Dashboard[index];
 					}
 				}
 				break;

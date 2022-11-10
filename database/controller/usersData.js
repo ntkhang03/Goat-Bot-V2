@@ -15,11 +15,12 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 
 	switch (databaseType) {
 		case "mongodb": {
-			Users = await userModel.find().lean();
+			// delete keys '_id' and '__v' in all users
+			Users = (await userModel.find({}).lean()).map(user => _.omit(user, ["_id", "__v"]));
 			break;
 		}
 		case "sqlite": {
-			Users = (await userModel.findAll()).map(u => u.get({ plain: true }));
+			Users = (await userModel.findAll()).map(user => user.get({ plain: true }));
 			break;
 		}
 		case "json": {
@@ -50,9 +51,12 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 				switch (databaseType) {
 					case "mongodb":
 					case "sqlite": {
-						const dataCreated = await userModel.create(userData);
+						let dataCreated = await userModel.create(userData);
+						dataCreated = databaseType === "mongodb" ?
+							_.omit(dataCreated._doc, ["_id", "__v"]) :
+							dataCreated.get({ plain: true });
 						Users.push(dataCreated);
-						return databaseType == "mongodb" ? dataCreated : dataCreated.get({ plain: true });
+						return dataCreated;
 					}
 					case "json": {
 						const timeCreate = moment.tz().format();
@@ -69,20 +73,30 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 				break;
 			}
 			case "update": {
-				let dataWillChange = Users[index];
+				const oldUserData = Users[index];
+				const dataWillChange = {};
 
-				if (Array.isArray(path) && Array.isArray(userData))
-					dataWillChange = path.forEach((p, i) => _.set(dataWillChange, p, userData[i]));
+				if (Array.isArray(path) && Array.isArray(userData)) {
+					path.forEach((p, index) => {
+						const key = p.split(".")[0];
+						dataWillChange[key] = oldUserData[key];
+						_.set(dataWillChange, p, userData[index]);
+					});
+				}
 				else
-					if (path)
-						dataWillChange = _.set(dataWillChange, path, userData);
+					if (path && typeof path === "string" || Array.isArray(path)) {
+						const key = Array.isArray(path) ? path[0] : path.split(".")[0];
+						dataWillChange[key] = oldUserData[key];
+						_.set(dataWillChange, path, userData);
+					}
 					else
 						for (const key in userData)
 							dataWillChange[key] = userData[key];
 
 				switch (databaseType) {
 					case "mongodb": {
-						const dataUpdated = await userModel.findOneAndUpdate({ userID }, dataWillChange, { returnDocument: 'after' });
+						let dataUpdated = await userModel.findOneAndUpdate({ userID }, dataWillChange, { returnDocument: 'after' });
+						dataUpdated = _.omit(dataUpdated._doc, ["_id", "__v"]);
 						Users[index] = dataUpdated;
 						return dataUpdated;
 					}
@@ -97,7 +111,7 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 						dataWillChange.updatedAt = moment.tz().format();
 						Users[index] = dataWillChange;
 						writeJsonSync(pathUsersData, Users, optionsWriteJSON);
-						return dataWillChange;
+						return Users[index];
 					}
 				}
 				break;

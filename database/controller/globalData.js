@@ -1,6 +1,7 @@
 const { existsSync, writeJsonSync, readJSONSync } = require("fs-extra");
 const moment = require("moment-timezone");
 const path = require("path");
+
 const _ = require("lodash");
 const optionsWriteJSON = {
 	spaces: 2,
@@ -14,10 +15,11 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 
 	switch (databaseType) {
 		case "mongodb":
-			GlobalData = await globalModel.find().lean();
+			// delete keys '_id' and '__v' in all global data
+			GlobalData = (await globalModel.find({}).lean()).map(item => _.omit(item, ["_id", "__v"]));
 			break;
 		case "sqlite":
-			GlobalData = (await globalModel.findAll()).map(u => u.get({ plain: true }));
+			GlobalData = (await globalModel.findAll()).map(item => item.get({ plain: true }));
 			break;
 		case "json":
 			if (!existsSync(pathGlobalData))
@@ -40,9 +42,12 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 				switch (databaseType) {
 					case "mongodb":
 					case "sqlite": {
-						const dataCreated = await globalModel.create(data);
+						let dataCreated = await globalModel.create(data);
+						dataCreated = databaseType == "mongodb" ?
+							_.omit(dataCreated._doc, ["_id", "__v"]) :
+							dataCreated.get({ plain: true });
 						GlobalData.push(dataCreated);
-						return databaseType == "mongodb" ? dataCreated : dataCreated.get({ plain: true });
+						return databaseType;
 					}
 					case "json": {
 						const timeCreate = moment.tz().format();
@@ -56,20 +61,30 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 				break;
 			}
 			case "update": {
-				let dataWillChange = GlobalData[index];
+				const oldGlobalData = GlobalData[index];
+				const dataWillChange = {};
 
-				if (Array.isArray(path) && Array.isArray(data))
-					dataWillChange = path.forEach((p, i) => _.set(dataWillChange, p, data[i]));
+				if (Array.isArray(path) && Array.isArray(data)) {
+					path.forEach((p, index) => {
+						const _key = p.split(".")[0];
+						dataWillChange[_key] = oldGlobalData[_key];
+						_.set(oldGlobalData, p, data[index]);
+					});
+				}
 				else
-					if (path)
-						dataWillChange = _.set(dataWillChange, path, data);
+					if (path && typeof path === "string" || Array.isArray(path)) {
+						const _key = Array.isArray(path) ? path[0] : path.split(".")[0];
+						dataWillChange[_key] = oldGlobalData[_key];
+						_.set(dataWillChange, path, data);
+					}
 					else
 						for (const key in data)
 							dataWillChange[key] = data[key];
 
 				switch (databaseType) {
 					case "mongodb": {
-						const dataUpdated = await globalModel.findOneAndUpdate({ key }, dataWillChange, { returnDocument: 'after' });
+						let dataUpdated = await globalModel.findOneAndUpdate({ key }, dataWillChange, { returnDocument: 'after' });
+						dataUpdated = _.omit(dataUpdated._doc, ["_id", "__v"]);
 						GlobalData[index] = dataUpdated;
 						return dataUpdated;
 					}
@@ -84,7 +99,7 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 						dataWillChange.updatedAt = moment.tz().format();
 						GlobalData[index] = dataWillChange;
 						writeJsonSync(pathGlobalData, GlobalData, optionsWriteJSON);
-						return dataWillChange;
+						return GlobalData[index];
 					}
 				}
 				break;
