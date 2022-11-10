@@ -1,7 +1,6 @@
 const { existsSync, writeJsonSync, readJSONSync } = require("fs-extra");
-const moment = require("moment-timezone");
 const path = require("path");
-
+const moment = require("moment-timezone");
 const _ = require("lodash");
 const optionsWriteJSON = {
 	spaces: 2,
@@ -15,12 +14,11 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 
 	switch (databaseType) {
 		case "mongodb": {
-			// delete keys '_id' and '__v' in all threads
-			Threads = (await threadModel.find({}).lean()).map(thread => _.omit(thread, ["_id", "__v"]));
+			Threads = await threadModel.find().lean();
 			break;
 		}
 		case "sqlite": {
-			Threads = (await threadModel.findAll()).map(thread => thread.get({ plain: true }));
+			Threads = (await threadModel.findAll()).map(item => item.get({ plain: true }));
 			break;
 		}
 		case "json": {
@@ -53,16 +51,16 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 					case "mongodb":
 					case "sqlite": {
 						let dataCreated = await threadModel.create(threadData);
-						dataCreated = databaseType == "mongodb" ?
-							_.omit(dataCreated._doc, ["_id", "__v"]) :
-							dataCreated.get({ plain: true });
+						if (databaseType == "mongodb")
+							dataCreated = dataCreated.toObject();
+						else
+							dataCreated = dataCreated.get({ plain: true });
 						Threads.push(dataCreated);
 						return dataCreated;
 					}
 					case "json": {
-						const timeCreate = moment.tz().format();
-						threadData.createdAt = timeCreate;
-						threadData.updatedAt = timeCreate;
+						threadData.createdAt = moment.tz().format();
+						threadData.updatedAt = moment.tz().format();
 						Threads.push(threadData);
 						writeJsonSync(pathThreadsData, Threads, optionsWriteJSON);
 						return threadData;
@@ -74,30 +72,20 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 				break;
 			}
 			case "update": {
-				const oldThreadData = Threads[index];
-				const dataWillChange = {};
+				let dataWillChange = Threads[index];
 
-				if (Array.isArray(path) && Array.isArray(threadData)) {
-					path.forEach((p, index) => {
-						const key = p.split(".")[0];
-						dataWillChange[key] = oldThreadData[key];
-						_.set(dataWillChange, p, threadData[index]);
-					});
-				}
+				if (Array.isArray(path) && Array.isArray(threadData))
+					dataWillChange = path.forEach((p, i) => _.set(dataWillChange, p, threadData[i]));
 				else
-					if (path && typeof path === "string" || Array.isArray(path)) {
-						const key = Array.isArray(path) ? path[0] : path.split(".")[0];
-						dataWillChange[key] = oldThreadData[key];
-						_.set(dataWillChange, path, threadData);
-					}
+					if (path)
+						dataWillChange = _.set(dataWillChange, path, threadData);
 					else
 						for (const key in threadData)
 							dataWillChange[key] = threadData[key];
 
 				switch (databaseType) {
 					case "mongodb": {
-						let dataUpdated = await threadModel.findOneAndUpdate({ threadID }, dataWillChange, { returnDocument: 'after' });
-						dataUpdated = _.omit(dataUpdated._doc, ["_id", "__v"]);
+						const dataUpdated = await threadModel.findOneAndUpdate({ threadID }, dataWillChange, { returnDocument: 'after' });
 						Threads[index] = dataUpdated;
 						return dataUpdated;
 					}
@@ -112,7 +100,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 						dataWillChange.updatedAt = moment.tz().format();
 						Threads[index] = dataWillChange;
 						writeJsonSync(pathThreadsData, Threads, optionsWriteJSON);
-						return Threads[index];
+						return dataWillChange;
 					}
 					default:
 						break;
