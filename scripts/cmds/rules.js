@@ -3,7 +3,7 @@ const { getPrefix } = global.utils;
 module.exports = {
 	config: {
 		name: "rules",
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -54,7 +54,7 @@ module.exports = {
 			noPermissionEdit: "Chỉ quản trị viên mới có thể chỉnh sửa nội quy nhóm",
 			invalidNumber: "Vui lòng nhập số thứ tự của quy định bạn muốn chỉnh sửa",
 			rulesNotExist: "Không tồn tại nội quy thứ %1",
-			numberRules: "hiện tại nhóm bạn chỉ có %1 nội quy được đặt ra",
+			numberRules: "Hiện tại nhóm bạn chỉ có %1 nội quy được đặt ra",
 			noContentEdit: "Vui lòng nhập nội dung bạn muốn thay đổi cho nội quy thứ %1",
 			successEdit: "Đã chỉnh sửa nội quy thứ %1 thành: %2",
 			noPermissionMove: "Chỉ quản trị viên mới có thể đổi vị trí nội quy của nhóm",
@@ -67,7 +67,8 @@ module.exports = {
 			successDelete: "Đã xóa nội quy thứ %1 của nhóm, nội dung: %2",
 			noPermissionRemove: "Chỉ có quản trị viên nhóm mới có thể xoá bỏ tất cả nội quy của nhóm",
 			confirmRemove: "⚠️ Thả cảm xúc bất kỳ vào tin nhắn này để xác nhận xóa toàn bộ nội quy của nhóm",
-			successRemove: "Đã xóa toàn bộ nội quy của nhóm thành công"
+			successRemove: "Đã xóa toàn bộ nội quy của nhóm thành công",
+			invalidNumberView: "Vui lòng nhập số thứ tự của nội quy bạn muốn xem"
 		},
 		en: {
 			yourRules: "Your group rules\n%1",
@@ -91,11 +92,12 @@ module.exports = {
 			successDelete: "Deleted rule number %1 of group, content: %2",
 			noPermissionRemove: "Only group admins can remove all group rules",
 			confirmRemove: "⚠️ React to this message with any emoji to confirm remove all group rules",
-			successRemove: "Removed all group rules successfully"
+			successRemove: "Removed all group rules successfully",
+			invalidNumberView: "Please enter the number of the rule you want to view"
 		}
 	},
 
-	onStart: async function ({ role, args, message, event, threadsData, getLang }) {
+	onStart: async function ({ role, args, message, event, threadsData, getLang, commandName }) {
 		const { threadID, senderID } = event;
 
 		const type = args[0];
@@ -105,7 +107,14 @@ module.exports = {
 		if (!type) {
 			let i = 1;
 			const msg = rulesOfThread.reduce((text, rules) => text += `${i++}. ${rules}\n`, "");
-			message.reply(msg ? getLang("yourRules", msg) : getLang("noRules", getPrefix(threadID)));
+			message.reply(msg ? getLang("yourRules", msg) : getLang("noRules", getPrefix(threadID)), (err, info) => {
+				global.GoatBot.onReply.set(info.messageID, {
+					commandName,
+					author: senderID,
+					rulesOfThread,
+					messageID: info.messageID
+				});
+			});
 		}
 		else if (["add", "-a"].includes(type)) {
 			if (role < 1)
@@ -174,7 +183,7 @@ module.exports = {
 				return message.reply(getLang("invalidNumberDelete"));
 			const rulesDel = rulesOfThread[parseInt(args[1]) - 1];
 			if (!rulesDel)
-				return message.reply(getLang("rulesNotExistDelete", args[1]) + ", " + totalRules == 0 ? getLang("noRules") : getLang("numberRules", totalRules));
+				return message.reply(`${getLang("rulesNotExistDelete", args[1])}, ${totalRules == 0 ? getLang("noRules") : getLang("numberRules", totalRules)}`);
 			rulesOfThread.splice(parseInt(args[1]) - 1, 1);
 			await threadsData.set(threadID, rulesOfThread, "data.rules");
 			message.reply(getLang("successDelete", args[1], rulesDel));
@@ -198,12 +207,25 @@ module.exports = {
 					msg += `${stt}. ${rules}\n`;
 			}
 			if (msg == "")
-				return message.reply(getLang("rulesNotExist", type) + ", " + totalRules == 0 ? getLang("noRules") : getLang("numberRules", totalRules));
+				return message.reply(`${getLang("rulesNotExist", type)}, ${totalRules == 0 ? getLang("noRules") : getLang("numberRules", totalRules)}`);
 			message.reply(msg);
 		}
 		else {
 			message.SyntaxError();
 		}
+	},
+
+	onReply: async function ({ message, event, getLang, Reply }) {
+		const { author, rulesOfThread } = Reply;
+		if (author != event.senderID)
+			return;
+		const num = parseInt(event.body || "");
+		if (isNaN(num) || num < 1)
+			return message.reply(getLang("invalidNumberView"));
+		const totalRules = rulesOfThread.length;
+		if (num > totalRules)
+			return message.reply(`${getLang("rulesNotExist", num)}, ${totalRules == 0 ? getLang("noRules") : getLang("numberRules", totalRules)}`);
+		message.reply(`${num}. ${rulesOfThread[num - 1]}`, () => message.unsend(Reply.messageID));
 	},
 
 	onReaction: async ({ threadsData, message, Reaction, event, getLang }) => {
