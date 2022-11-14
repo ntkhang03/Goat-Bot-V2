@@ -602,5 +602,17 @@
 			"scripts/cmds/busy.js": "bug fixes & code optimization",
 			"scripts/cmds/rules.js": "respond with the order number to see that rule"
 		}
+	},
+	{
+		"version": "1.1.23",
+		"files": {
+			"scripts/cmds/adduser.js": "bugs fixes & language update",
+			"scripts/cmds/callad.js": "bugs fixes & language update",
+			"scripts/cmds/jsontomongodb.js": "bugs fixes & language update",
+			"scripts/cmds/jsontosqlite.js": "bugs fixes & language update",
+			"scripts/cmds/notification.js": "bugs fixes & language update",
+			"scripts/cmds/sendnoti.js": "bugs fixes & language update",
+			"utils.js": "bugs fixes `findUid` & language update"
+		}
 	}
 ]
