@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: "notification",
 		aliases: ["notify", "noti"],
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -48,7 +48,7 @@ module.exports = {
 			return message.reply(getLang("missingMessage"));
 		const formSend = {
 			body: `${getLang("notification")}\n────────────────\n${args.join(" ")}`,
-			attachment: await getStreamsFromAttachment([...event.attachments, ...(event.messageReply?.attachments || [])])
+			attachment: await getStreamsFromAttachment([...event.attachments, ...(event.messageReply?.attachments || [])].filter(item => ["photo", 'png', "animated_image", "video", "audio"].includes(item.type)))
 		};
 
 		const allThreadID = threadsData.getAll().filter(t => t.isGroup && t.members.find(m => m.userID == api.getCurrentUserID())?.inGroup);

@@ -3,7 +3,7 @@ const { getStreamsFromAttachment, getTime } = global.utils;
 module.exports = {
 	config: {
 		name: "sendnoti",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -183,7 +183,7 @@ module.exports = {
 				};
 
 				if (event.attachments.length || event.attachments.messageReply?.attachments.length)
-					formSend.attachment = await getStreamsFromAttachment([...event.attachments, ...(event.messageReply?.attachments || [])]);
+					formSend.attachment = await getStreamsFromAttachment([...event.attachments, ...(event.messageReply?.attachments || [])].filter(item => ["photo", 'png', "animated_image", "video", "audio"].includes(item.type)));
 
 				const success = [];
 				const failed = [];

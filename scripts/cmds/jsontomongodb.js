@@ -2,7 +2,7 @@ module.exports = {
 	config: {
 		name: "jsontomongodb",
 		aliases: ["jsontomongo"],
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -16,7 +16,7 @@ module.exports = {
 		},
 		category: "owner",
 		guide: {
-			en: "{pn} <thread|user|dashboard|global>"
+			en: "{pn} <thread | user | dashboard | global>"
 		}
 	},
 
@@ -129,6 +129,8 @@ module.exports = {
 					return message.reply(getLang("error", err.name, err.message));
 				}
 			}
+			default:
+				return message.SyntaxError();
 		}
 	}
 };

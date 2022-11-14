@@ -1,9 +1,10 @@
 const { findUid } = global.utils;
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 module.exports = {
 	config: {
 		name: "adduser",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 1,
@@ -26,13 +27,19 @@ module.exports = {
 			alreadyInGroup: "Đã có trong nhóm",
 			successAdd: "- Đã thêm thành công %1 thành viên vào nhóm",
 			failedAdd: "- Không thể thêm %1 thành viên vào nhóm",
-			approve: "- Đã thêm %1 thành viên vào danh sách phê duyệt"
+			approve: "- Đã thêm %1 thành viên vào danh sách phê duyệt",
+			invalidLink: "Vui lòng nhập link facebook hợp lệ",
+			cannotGetUid: "Không thể lấy được uid của người dùng này",
+			linkNotExist: "Profile url này không tồn tại"
 		},
 		en: {
 			alreadyInGroup: "Already in group",
 			successAdd: "- Successfully added %1 members to the group",
 			failedAdd: "- Failed to add %1 members to the group",
-			approve: "- Added %1 members to the approval list"
+			approve: "- Added %1 members to the approval list",
+			invalidLink: "Please enter a valid facebook link",
+			cannotGetUid: "Cannot get uid of this user",
+			linkNotExist: "This profile url does not exist"
 		}
 	},
 
@@ -48,6 +55,7 @@ module.exports = {
 		const failed = [];
 
 		function checkErrorAndPush(messageError, item) {
+			item = item.replace(/(?:https?:\/\/)?(?:www\.)?(?:facebook|fb|m\.facebook)\.(?:com|me)/i, '');
 			const findType = failed.find(error => error.type == messageError);
 			if (findType)
 				findType.uids.push(item);
@@ -58,21 +66,42 @@ module.exports = {
 				});
 		}
 
+		const regExMatchFB = /(?:https?:\/\/)?(?:www\.)?(?:facebook|fb|m\.facebook)\.(?:com|me)\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-\.]+)(?:\/)?/i;
 		for (const item of args) {
 			let uid;
-			if (isNaN(item)) {
-				try {
-					uid = await findUid(item);
-				}
-				catch (err) {
-					checkErrorAndPush(err.message, item);
-					continue;
+			let continueLoop = false;
+
+			if (isNaN(item) && regExMatchFB.test(item)) {
+				for (let i = 0; i < 10; i++) {
+					try {
+						uid = await findUid(item);
+						break;
+					}
+					catch (err) {
+						if (err.name == "SlowDown" || err.name == "CannotGetData") {
+							await sleep(1000);
+							continue;
+						}
+						else if (i == 9 || (err.name != "SlowDown" && err.name != "CannotGetData")) {
+							checkErrorAndPush(err.name == "InvalidLink" ? getLang('invalidLink') :
+								err.name == "CannotGetData" ? getLang('cannotGetUid') :
+									err.name == "LinkNotExist" ? getLang('linkNotExist') :
+										err.message, item);
+							continueLoop = true;
+							break;
+						}
+					}
 				}
 			}
-			else
+			else if (!isNaN(item))
 				uid = item;
+			else
+				continue;
 
-			if (members.some(m => m.userID == uid)?.inGroup) {
+			if (continueLoop == true)
+				continue;
+
+			if (members.some(m => m.userID == uid && m.inGroup)) {
 				checkErrorAndPush(getLang("alreadyInGroup"), item);
 			}
 			else {
@@ -100,7 +129,7 @@ module.exports = {
 		if (lengthUserWaitApproval)
 			msg += `${getLang("approve", lengthUserWaitApproval)}\n`;
 		if (lengthUserError)
-			msg += `${getLang("failedAdd")} ${failed.reduce((a, b) => a += `\n    + ${b.uids.join('; ')}: ${b.type}`, "")}`;
+			msg += `${getLang("failedAdd", failed.reduce((a, b) => a + b.uids.length, 0))} ${failed.reduce((a, b) => a += `\n    + ${b.uids.join('\n       ')}: ${b.type}`, "")}`;
 		await message.reply(msg);
 	}
 };

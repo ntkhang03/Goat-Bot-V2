@@ -3,7 +3,7 @@ const { getStreamsFromAttachment } = global.utils;
 module.exports = {
 	config: {
 		name: "callad",
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -70,7 +70,7 @@ module.exports = {
 				id: senderID,
 				tag: senderName
 			}],
-			attachment: await getStreamsFromAttachment([...event.attachments, ...(event.messageReply?.attachments || [])])
+			attachment: await getStreamsFromAttachment([...event.attachments, ...(event.messageReply?.attachments || [])].filter(item => ["photo", 'png', "animated_image", "video", "audio"].includes(item.type)))
 		};
 
 		const successIDs = [];
@@ -113,7 +113,7 @@ module.exports = {
 						id: event.senderID,
 						tag: senderName
 					}],
-					attachment: await getStreamsFromAttachment(event.attachments)
+					attachment: await getStreamsFromAttachment(event.attachments.filter(item => ["photo", 'png', "animated_image", "video", "audio"].includes(item.type)))
 				}, threadID, (err, info) => {
 					if (err)
 						return message.err(err);
@@ -135,7 +135,7 @@ module.exports = {
 						id: event.senderID,
 						tag: senderName
 					}],
-					attachment: await getStreamsFromAttachment(event.attachments)
+					attachment: await getStreamsFromAttachment(event.attachments.filter(item => ["photo", 'png', "animated_image", "video", "audio"].includes(item.type)))
 				}, threadID, (err, info) => {
 					if (err)
 						return message.err(err);

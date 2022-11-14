@@ -320,6 +320,18 @@ const utils = {
 			const err = new Error(response.data.error);
 			for (const key in response.data)
 				err[key] = response.data[key];
+			if (err.error == "Vui lòng thao tác chậm lại") {
+				err.name = "SlowDown";
+				err.error = "Please wait a few seconds";
+			}
+			if (err.error == "Vui lòng nhập đúng link facebook") {
+				err.name = "InvalidLink";
+				err.error = "Please enter the correct facebook link";
+			}
+			if (err.error == "Không thể lấy được dữ liệu vui lòng báo admin!!!") {
+				err.name = "CannotGetData";
+				err.error = "Unable to get data, please report to admin!!!";
+			}
 			throw err;
 		}
 		return uid;
