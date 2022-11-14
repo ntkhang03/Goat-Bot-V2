@@ -324,13 +324,17 @@ const utils = {
 				err.name = "SlowDown";
 				err.error = "Please wait a few seconds";
 			}
-			if (err.error == "Vui lòng nhập đúng link facebook") {
+			else if (err.error == "Vui lòng nhập đúng link facebook") {
 				err.name = "InvalidLink";
 				err.error = "Please enter the correct facebook link";
 			}
-			if (err.error == "Không thể lấy được dữ liệu vui lòng báo admin!!!") {
+			else if (err.error == "Không thể lấy được dữ liệu vui lòng báo admin!!!") {
 				err.name = "CannotGetData";
 				err.error = "Unable to get data, please report to admin!!!";
+			}
+			else if (err.error == "Link không tồn tại hoặc chưa để chế độ công khai!") {
+				err.name = "LinkNotExist";
+				err.error = "Link does not exist or is not set to public!";
 			}
 			throw err;
 		}
