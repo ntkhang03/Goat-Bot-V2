@@ -26,9 +26,7 @@ login.notLoggedIn=An error occurred, please check your account again
 login.callBackError=An error occurred when callback listenMqtt
 login.userBanned=You've been banned from using a bot!!
 login.checkGbanError=An error occurred while checking GBAN
-login.gbanMessage=Bạn đã bị ban khỏi project GOAT-BOT vào ngày %1 với lý do: %2
 login.gbanMessage=You have been banned from the Goat-Bot project on %1 for the reason: %2
-login.gbanAdminMessage=Người dùng %1 đã bị ban khỏi project GOAT-BOT vào ngày %2 với lý do: %3
 login.gbanAdminMessage=User %1 has been banned from the Goat-Bot project on %2 for the reason: %3
 login.openServerUptimeSuccess=🚀 Opened uptime server: %1
 login.openServerUptimeError=An error has occurred, cannot open server uptime
@@ -72,6 +70,8 @@ handlerEvents.errorOccurred3=❌ [ %1 ]\nAn error occurred when executing onRepl
 handlerEvents.errorOccurred4=❌ [ %1 ]\nAn error occurred when executing onReaction at command "%2"\n\n%3
 handlerEvents.errorOccurred5=❌ [ %1 ]\nAn error occurred when executing onEvent at command "%2"\n\n%3
 handlerEvents.errorOccurred6=❌ [ %1 ]\nAn error occurred when executing onCall at command "%2"\n\n%3
+handlerEvents.cannotFindCommandName=❌ Cannot find command name to execute this reply!
+handlerEvents.cannotFindCommand=❌ Cannot find command "%1" to execute this reply!
 
 # bot/autoUptime.js
 autoUptime.autoUptime=AutoUptime mode turned on
