@@ -135,10 +135,7 @@ module.exports = {
 				if (!status)
 					return message.reply(getLang("userNotBanned", uid, name));
 				await usersData.set(uid, {
-					banned: {
-						status: false,
-						reason: null
-					}
+					banned: {}
 				});
 				message.reply(getLang("userUnbanned", uid, name));
 				break;

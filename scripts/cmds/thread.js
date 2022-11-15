@@ -141,10 +141,7 @@ module.exports = {
 				if (!status)
 					return message.reply(getLang("notBanned", tid, name));
 				await threadsData.set(tid, {
-					banned: {
-						status: false,
-						reason: null
-					}
+					banned: {}
 				});
 				return message.reply(getLang("unbanned", tid, name));
 			}
