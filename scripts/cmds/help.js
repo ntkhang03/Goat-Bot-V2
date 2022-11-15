@@ -3,7 +3,7 @@ const axios = require("axios");
 const path = require("path");
 const { getPrefix } = global.utils;
 const { commands, aliases } = global.GoatBot;
-const doNotDelete = "[ 🐐 | Goat Bot ]";
+const doNotDelete = "[ 🐐 | Goat Bot V2 ]";
 const characters = "━━━━━━━━━━━━━";
 /** 
 * @author NTKhang
@@ -45,7 +45,8 @@ module.exports = {
 			roleText1: "1 (Quản trị viên nhóm)",
 			roleText2: "2 (Admin bot)",
 			roleText0setRole: "0 (set role, tất cả người dùng)",
-			roleText1setRole: "1 (set role, quản trị viên nhóm)"
+			roleText1setRole: "1 (set role, quản trị viên nhóm)",
+			pageNotFound: "Trang %1 không tồn tại"
 		},
 		en: {
 			help: "%1\n%2\n%1\nPage [ %3/%4 ]\nCurrently, the bot has %5 commands that can be used\n» Type %6help <page> to view the command list\n» Type %6help to view the details of how to use that command\n%1\n%7",
@@ -57,7 +58,8 @@ module.exports = {
 			roleText1: "1 (Group administrators)",
 			roleText2: "2 (Admin bot)",
 			roleText0setRole: "0 (set role, all users)",
-			roleText1setRole: "1 (set role, group administrators)"
+			roleText1setRole: "1 (set role, group administrators)",
+			pageNotFound: "Page %1 does not exist"
 		}
 	},
 
@@ -102,8 +104,11 @@ module.exports = {
 				arrayInfo.sort((a, b) => a.data - b.data);
 				arrayInfo.sort((a, b) => a.priority > b.priority ? -1 : 1);
 				const { allPage, totalPage } = global.utils.splitPage(arrayInfo, numberOfOnePage);
+				if (page < 1 || page > totalPage)
+					return message.reply(getLang("pageNotFound", page));
 				const returnArray = allPage[page - 1];
-				msg += (returnArray || []).reduce((text, item, index) => text += `${index + 1}/ ${item.data}\n`, '');
+				const startNumber = (page - 1) * numberOfOnePage + 1;
+				msg += (returnArray || []).reduce((text, item, index) => text += `${index + startNumber}/ ${item.data}\n`, '');
 				await message.reply(getLang("help", characters, msg, page, totalPage, commands.size, prefix, doNotDelete));
 			}
 			else if (sortHelp == "category") {
