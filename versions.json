@@ -614,5 +614,19 @@
 			"scripts/cmds/sendnoti.js": "bugs fixes & language update",
 			"utils.js": "bugs fixes `findUid` & language update"
 		}
+	},
+	{
+		"version": "1.1.24",
+		"files": {
+			"scripts/cmds/user.js": "code optimization",
+			"scripts/cmds/thread.js": "code optimization",
+			"scripts/cmds/moon.js": "the structure of the source web has changed, I fixed it",
+			"scripts/cmds/help.js": "continue with the next numbering for the next page",
+			"scripts/cmds/eval.js": "add function `output` & `out`: similar to message.reply() but will automatically convert input data types to strings",
+			"scripts/cmds/admin.js": "can reply to the message to select the target as the sender of that message",
+			"bot/handler/handlerEvents.js": "languages update",
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update"
+		}
 	}
 ]
