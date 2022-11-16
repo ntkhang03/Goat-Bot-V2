@@ -2,7 +2,7 @@ module.exports = {
 	config: {
 		name: "jsontomongodb",
 		aliases: ["jsontomongo"],
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -115,19 +115,14 @@ module.exports = {
 				catch (err) {
 					return message.reply(getLang("formatInvalid"));
 				}
-				try {
-					for (const global of oldGlobalData) {
-						const globalIndex = global.db.globalData.findIndex(item => item.key == global.key);
-						if (globalIndex == -1)
-							global.db.globalData.push((await globalModel.create(global)).toObject());
-						else
-							global.db.globalData[globalIndex] = await globalModel.findOneAndUpdate({ key: global.key }, global, { returnDocument: 'after' });
-					}
-					return message.reply(getLang("successGlobal"));
+				for (const global_ of oldGlobalData) {
+					const globalIndex = global.db.globalData.findIndex(item => item.key == global_.key);
+					if (globalIndex == -1)
+						global.db.globalData.push((await globalModel.create(global_)).toObject());
+					else
+						global.db.globalData[globalIndex] = await globalModel.findOneAndUpdate({ key: global_.key }, global_, { returnDocument: 'after' });
 				}
-				catch (err) {
-					return message.reply(getLang("error", err.name, err.message));
-				}
+				return message.reply(getLang("successGlobal"));
 			}
 			default:
 				return message.SyntaxError();

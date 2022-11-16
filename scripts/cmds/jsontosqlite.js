@@ -1,7 +1,7 @@
 module.exports = {
 	config: {
 		name: "jsontosqlite",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -126,23 +126,16 @@ module.exports = {
 				catch (err) {
 					return message.reply(getLang("formatInvalid"));
 				}
-				try {
-					for (const global of oldGlobalData) {
-						const globalIndex = global.db.globalData.findIndex(item => item.key == global.key);
-						if (globalIndex == -1) {
-							global.db.globalData.push((await globalModel.create(global)).get({ plain: true }));
-						}
-						else {
-							global.db.globalData[globalIndex] = (await (await globalModel.findOne({ where: { key: global.key } }))
-								.update(global))
-								.get({ plain: true });
-						}
-					}
-					return message.reply(getLang("successGlobal"));
+				for (const global_ of oldGlobalData) {
+					const globalIndex = global.db.globalData.findIndex(item => item.key == global_.key);
+					if (globalIndex == -1)
+						global.db.globalData.push((await globalModel.create(global_)).get({ plain: true }));
+					else
+						global.db.globalData[globalIndex] = (await (await globalModel.findOne({ where: { key: global_.key } }))
+							.update(global_))
+							.get({ plain: true });
 				}
-				catch (err) {
-					return message.reply(getLang("error", err.name, err.message));
-				}
+				return message.reply(getLang("successGlobal"));
 			}
 			default:
 				return message.SyntaxError();
