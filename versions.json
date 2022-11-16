@@ -628,5 +628,14 @@
 			"languages/en.lang": "language update",
 			"languages/vi.lang": "language update"
 		}
+	},
+	{
+		"version": "1.1.25",
+		"files": {
+			"bot/login/login.js": "code optimization",
+			"bot/login/getFbstate1.js": "code optimization",
+			"scripts/cmds/jsontosqlite.js": "fixed error: `TypeError: Cannot read property 'globalData' of undefined` when convert global data",
+			"scripts/cmds/jsontomongodb.js": "fixed error: `TypeError: Cannot read property 'globalData' of undefined` when convert global data"
+		}
 	}
 ]
