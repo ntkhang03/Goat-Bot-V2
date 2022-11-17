@@ -40,7 +40,8 @@ global.db = {
 	threadsData: null,
 	usersData: null,
 	dashBoardData: null,
-	globalData: null
+	globalData: null,
+	receivedTheFirstMessage: {}
 };
 
 global.client = {
