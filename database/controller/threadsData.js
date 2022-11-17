@@ -247,7 +247,10 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 				indexUser != -1 ? oldMembers[indexUser] = data : oldMembers.push(data);
 				newMembers.push(oldMembers.splice(indexUser != -1 ? indexUser : oldMembers.length - 1, 1)[0]);
 			}
-			oldMembers = oldMembers.filter(u => u.inGroup == false);
+			oldMembers = oldMembers.map(user => {
+				user.inGroup = false;
+				return user;
+			});
 			const newAdminsIDs = adminIDs.reduce(function (acc, cur) {
 				acc.push(cur.id);
 				return acc;
