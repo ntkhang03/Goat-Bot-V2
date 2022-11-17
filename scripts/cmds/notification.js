@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: "notification",
 		aliases: ["notify", "noti"],
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -31,14 +31,14 @@ module.exports = {
 			notification: "Thông báo từ admin bot đến tất cả nhóm chat (không phản hồi tin nhắn này)",
 			sendingNotification: "Bắt đầu gửi thông báo từ admin bot đến %1 nhóm chat",
 			sentNotification: "✅ Đã gửi thông báo đến %1 nhóm thành công",
-			errorSendingNotification: "Có lỗi xảy ra khi gửi đến %1 nhóm:\n %2"
+			errorSendingNotification: "Có lỗi xảy ra khi gửi đến %1 nhóm:\n%2"
 		},
 		en: {
 			missingMessage: "Please enter the message you want to send to all groups",
 			notification: "Notification from admin bot to all chat groups (do not reply to this message)",
 			sendingNotification: "Start sending notification from admin bot to %1 chat groups",
 			sentNotification: "✅ Sent notification to %1 groups successfully",
-			errorSendingNotification: "An error occurred while sending to %1 groups:\n %2"
+			errorSendingNotification: "An error occurred while sending to %1 groups:\n%2"
 		}
 	},
 
@@ -51,7 +51,7 @@ module.exports = {
 			attachment: await getStreamsFromAttachment([...event.attachments, ...(event.messageReply?.attachments || [])].filter(item => ["photo", 'png', "animated_image", "video", "audio"].includes(item.type)))
 		};
 
-		const allThreadID = threadsData.getAll().filter(t => t.isGroup && t.members.find(m => m.userID == api.getCurrentUserID())?.inGroup);
+		const allThreadID = threadsData.getAll().filter(t => t.threadID.length > 15 && t.members.find(m => m.userID == api.getCurrentUserID())?.inGroup);
 		message.reply(getLang("sendingNotification", allThreadID.length));
 
 		let sendSucces = 0;
@@ -78,7 +78,14 @@ module.exports = {
 				sendSucces++;
 			}
 			catch (e) {
-				sendError.push(sended.threadID);
+				const { errorDescription } = e;
+				if (!sendError.some(item => item.errorDescription == errorDescription))
+					sendError.push({
+						threadIDs: [sended.threadID],
+						errorDescription
+					});
+				else
+					sendError.find(item => item.errorDescription == errorDescription).threadIDs.push(sended.threadID);
 			}
 		}
 
@@ -86,7 +93,7 @@ module.exports = {
 		if (sendSucces > 0)
 			msg += getLang("sentNotification", sendSucces) + "\n";
 		if (sendError.length > 0)
-			msg += getLang("errorSendingNotification", sendError.length, sendError.join("\n "));
+			msg += getLang("errorSendingNotification", sendError.reduce((a, b) => a + b.threadIDs.length, 0), sendError.reduce((a, b) => a + `\n - ${b.errorDescription}\n  + ${b.threadIDs.join("\n  + ")}`, ""));
 		message.reply(msg);
 	}
 };
