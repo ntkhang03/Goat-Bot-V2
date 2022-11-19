@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: "notification",
 		aliases: ["notify", "noti"],
-		version: "1.4",
+		version: "1.5",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -51,7 +51,7 @@ module.exports = {
 			attachment: await getStreamsFromAttachment([...event.attachments, ...(event.messageReply?.attachments || [])].filter(item => ["photo", 'png', "animated_image", "video", "audio"].includes(item.type)))
 		};
 
-		const allThreadID = threadsData.getAll().filter(t => t.threadID.length > 15 && t.members.find(m => m.userID == api.getCurrentUserID())?.inGroup);
+		const allThreadID = threadsData.getAll().filter(t => t.isGroup && t.members.find(m => m.userID == api.getCurrentUserID())?.inGroup);
 		message.reply(getLang("sendingNotification", allThreadID.length));
 
 		let sendSucces = 0;
