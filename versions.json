@@ -651,5 +651,18 @@
 			"index.js": "",
 			"scripts/cmds/notification.js": "language update"
 		}
+	},
+	{
+		"version": "1.1.27",
+		"files": {
+			"languages/cmds/en.js":"language update",
+			"scripts/cmds/help.js":"language update",
+			"scripts/cmds/notification.js": "more precise group filtering",
+			"scripts/cmds/setleave.js": "Fix the error when sending the link",
+			"scripts/cmds/setrankup.js": "Fix the error when sending the link",
+			"scripts/cmds/setwelcome.js": "Fix the error when sending the link",
+			"scripts/cmds/shortcut.js": "Fix the error when sending the link",
+			"scripts/cmds/thread.js": "can search and filter bot groups that are still participating in the group"
+		}
 	}
 ]
