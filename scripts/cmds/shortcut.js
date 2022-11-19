@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: 'shortcut',
 		aliases: ['short'],
-		version: '1.5',
+		version: '1.6',
 		author: 'NTKhang',
 		countDown: 5,
 		role: 0,
@@ -85,7 +85,7 @@ module.exports = {
 		switch (args[0]) {
 			case 'add': {
 				const [key, content] = body.split(' ').slice(2).join(' ').split('=>');
-				const attachments = [...event.attachments, ...(event.messageReply ? event.messageReply.attachments : [])];
+				const attachments = [...event.attachments, ...(event.messageReply ? event.messageReply.attachments : [])].filter(item => ["photo", 'png', "animated_image", "video", "audio"].includes(item.type));
 				if (!key || !content && attachments.length === 0)
 					return message.reply(getLang('missingContent'));
 				if (dataShortcut.some(item => item.key == key))

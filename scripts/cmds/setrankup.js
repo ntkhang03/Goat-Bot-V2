@@ -4,7 +4,7 @@ const checkUrlRegex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[
 module.exports = {
 	config: {
 		name: "setrankup",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 0,
 		role: 0,
@@ -62,7 +62,7 @@ module.exports = {
 			case "image":
 			case "mp3":
 			case "video": {
-				const attachments = [...event.attachments, ...(event.messageReply?.attachments || [])];
+				const attachments = [...event.attachments, ...(event.messageReply?.attachments || [])].filter(item => ["photo", 'png', "animated_image", "video", "audio"].includes(item.type));
 				if (!attachments.length && !(args[1] || '').match(checkUrlRegex))
 					return message.reply(getLang("missingAttachment", attachments.length));
 				const { data } = await threadsData.get(threadID);

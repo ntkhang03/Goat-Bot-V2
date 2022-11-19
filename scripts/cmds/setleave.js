@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: "setleave",
 		aliases: ["setl"],
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -157,7 +157,7 @@ module.exports = {
 
 async function saveChanges(message, event, threadID, senderID, threadsData, getLang) {
 	const { data } = await threadsData.get(threadID);
-	const attachments = [...event.attachments, ...(event.messageReply?.attachments || [])];
+	const attachments = [...event.attachments, ...(event.messageReply?.attachments || [])].filter(item => ["photo", 'png', "animated_image", "video", "audio"].includes(item.type));
 	if (!data.leaveAttachment)
 		data.leaveAttachment = [];
 
