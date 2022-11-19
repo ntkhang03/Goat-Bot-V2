@@ -3,7 +3,7 @@ const { getTime } = global.utils;
 module.exports = {
 	config: {
 		name: "thread",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -18,6 +18,7 @@ module.exports = {
 		category: "owner",
 		guide: {
 			vi: "   {pn} [find | -f | search | -s] <tên cần tìm>: tìm kiếm nhóm chat trong dữ liệu bot bằng tên"
+				+ "\n   {pn} [find | -f | search | -s] [-j | joined] <tên cần tìm>: tìm kiếm nhóm chat trong dữ liệu mà bot còn tham gia bằng tên"
 				+ "\n   {pn} [ban | -b] [<tid> | để trống] <reason>: dùng để cấm nhóm mang id <tid> hoặc nhóm hiện tại sử dụng bot"
 				+ "\n   Ví dụ:"
 				+ "\n    {pn} ban 3950898668362484 spam bot"
@@ -27,6 +28,7 @@ module.exports = {
 				+ "\n    {pn} unban 3950898668362484"
 				+ "\n    {pn} unban",
 			en: "   {pn} [find | -f | search | -s] <name to find>: search group chat in bot data by name"
+				+ "\n   {pn} [find | -f | search | -s] [-j | joined] <name to find>: search group chat in bot data that bot still joined by name"
 				+ "\n   {pn} [ban | -b] [<tid> | leave blank] <reason>: use to ban group with id <tid> or current group using bot"
 				+ "\n   Example:"
 				+ "\n    {pn} ban 3950898668362484 spam bot"
@@ -74,8 +76,12 @@ module.exports = {
 			case "-s": {
 				if (role < 2)
 					return message.reply(getLang("noPermission"));
-				const allThread = await threadsData.getAll();
-				const keyword = args.slice(1).join(" ");
+				let allThread = await threadsData.getAll();
+				let keyword = args.slice(1).join(" ");
+				if (['-j', '-join'].includes(args[1])) {
+					allThread = allThread.filter(thread => thread.isGroup);
+					keyword = args.slice(2).join(" ");
+				}
 				const result = allThread.filter(item => item.threadID.length > 15 && (item.threadName || "").toLowerCase().includes(keyword.toLowerCase()));
 				const resultText = result.reduce((i, thread) => i += `\n╭Name: ${thread.threadName}\n╰ID: ${thread.threadID}`, "");
 				let msg = "";
