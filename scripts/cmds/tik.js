@@ -144,6 +144,6 @@ async function query(url, isMp3 = false) {
 		format.downloadUrls = url;
 		return format;
 	}
-	format.downloadUrls = $(allUrls[isMp3 ? allUrls.length - 1 : 0]).attr('href')
+	format.downloadUrls = $(allUrls[isMp3 ? allUrls.length - 1 : 0]).attr('href');
 	return format;
 }
