@@ -236,6 +236,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 				const indexUser = _.findIndex(oldMembers, { userID });
 				const oldDataUser = oldMembers[indexUser] || {};
 				const data = {
+					userID,
 					...oldDataUser,
 					name: user.name,
 					gender: user.gender,
