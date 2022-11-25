@@ -670,5 +670,17 @@
 		"files": {
 			"database/controller/threadsData.js": "bug fixes refreshInfo function: missing `userID` parameter when refreshing members information leads to huge data generation"
 		}
+	},
+	{
+		"version": "1.1.29",
+		"files": {
+			"Gaot.js": "",
+			"index.js": "",
+			"bot/handler/handlerEvents.js": "languages update",
+			"bot/login/login.js": "languages update",
+			"languages/en.lang": "languages update",
+			"languages/vi.lang": "languages update",
+			"scripts/cmds/restart.js": "a new command: restart bot"
+		}
 	}
 ]
