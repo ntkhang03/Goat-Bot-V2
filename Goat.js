@@ -138,7 +138,7 @@ if (config.autoRestart) {
 			process.exit(2);
 		}, time);
 	}
-	else if (time.match(/^((((\d+,)+\d+|(\d+(\/|-|#)\d+)|\d+L?|\*(\/\d+)?|L(-\d+)?|\?|[A-Z]{3}(-[A-Z]{3})?) ?){5,7})$/gmi)) {
+	else if (typeof time == "string" && time.match(/^((((\d+,)+\d+|(\d+(\/|-|#)\d+)|\d+L?|\*(\/\d+)?|L(-\d+)?|\?|[A-Z]{3}(-[A-Z]{3})?) ?){5,7})$/gmi)) {
 		utils.log.info("AUTO RESTART", getText("Goat", "autoRestart2", time));
 		const cron = require("node-cron");
 		cron.schedule(time, () => {
