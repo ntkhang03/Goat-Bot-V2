@@ -694,5 +694,14 @@
 		"files": {
 			"Goat.js": "fixed `TypeError: Cannot read property 'match' of null`"
 		}
+	},
+	{
+		"version": "1.1.31",
+		"files": {
+			"scripts/cmds/avatar.js": "fixes error: `TypeError: Cannot read properties of undefined (reading 'data')`",
+			"scripts/cmds/cmd.js": "",
+			"scripts/cmds/restart.js": "", 
+			"config.json": ""
+		}
 	}
 ]
