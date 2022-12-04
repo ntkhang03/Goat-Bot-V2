@@ -1,6 +1,6 @@
 const chalk = require("chalk");
 const moment = require("moment-timezone");
-const characters = '⇒ ';
+const characters = '';
 const getCurrentTime = () => chalk.gray(moment().tz('Asia/Ho_Chi_Minh').format('HH:mm:ss DD/MM/YYYY'));
 
 function logError(prefix, message) {
@@ -33,6 +33,6 @@ module.exports = {
 			message = prefix;
 			prefix = "MASTER";
 		}
-		process.stderr.write(`\r${`${getCurrentTime()} ${chalk.magentaBright(`${characters} ${prefix}:`)} ${message}`}`);
+		process.stderr.write(`\r${`${getCurrentTime()} ${chalk.hex("#eb6734")(`${characters} ${prefix}:`)} ${message}`}`);
 	}
 };
