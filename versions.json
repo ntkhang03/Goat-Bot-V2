@@ -683,7 +683,7 @@
 			"scripts/cmds/restart.js": "a new command: restart bot",
 			"config.json": {
 				"autoRestart": {
-					"time":  null,
+					"time": null,
 					"notes": "you can set time is interval with milisecond or cron time, example: 1000, 10000, 60000, 3600000, 86400000, 0 0 * * *,... docs: https://www.npmjs.com/package/node-cron. If you set time is 0 or false or null, the bot will not auto restart"
 				}
 			}
@@ -700,8 +700,28 @@
 		"files": {
 			"scripts/cmds/avatar.js": "fixes error: `TypeError: Cannot read properties of undefined (reading 'data')`",
 			"scripts/cmds/cmd.js": "",
-			"scripts/cmds/restart.js": "", 
-			"config.json": ""
+			"scripts/cmds/restart.js": "",
+			"config.json": {}
+		}
+	},
+	{
+		"version": "1.1.32",
+		"files": {
+			"bot/login/login.js": "fix facebook login problem",
+			"bot/login/getFbstate1.js": "fix facebook login problem",
+			"config.json": {
+				"facebookAccount.userAgent": "Mozilla/5.0 (Linux; Android 12; M2102J20SG) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Mobile Safari/537.36"
+			},
+			"logger/log.js": "remove the separator character",
+			"logger/loading.js": "remove the separator character",
+			"dashboard/views/dashboard-thread.eta": "code optimization",
+			"dashboard/views/dashboard.eta": "code optimization",
+			"dashboard/views/partials/footer.eta": "code optimization",
+			"dashboard/views/partials/header.eta": "code optimization",
+			"dashboard/views/partials/message.eta": "code optimization",
+			"dashboard/views/register-submit-code.eta": "code optimization",
+			"dashboard/views/verifyfbid-submit-code.eta": "code optimization",
+			"dashboard/views/verifyfbid.eta": "code optimization"
 		}
 	}
 ]
