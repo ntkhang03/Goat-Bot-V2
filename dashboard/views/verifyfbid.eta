@@ -28,7 +28,9 @@
                 <input type="text" class="form-control" name="fbid" id="fbid" placeholder="Enter your Facebook ID or url profile" value="<%=user.facebookUserID || ''%>" required>
               </div>
               <div class="g-recaptcha mt-3 d-flex justify-content-center" data-sitekey="<%=gRecaptcha_siteKey%>"></div>
-              <button type="submit" class="btn btn-primary btn-block mt-2" id="submitSend" <%=global.statusAccountBot == 'good' ? '' : 'disabled'%>>Send</button>
+							<div class="mt-3 d-flex justify-content-center">
+								<button type="submit" class="btn btn-primary btn-block mt-2 pe-4 ps-4" id="submitSend" <%=global.statusAccountBot == 'good' ? '' : 'disabled'%>>Send</button>
+							</div>
               <div class="alert alert-info mt-3">
                 <p>
                   <i class="fas fa-info-circle"></i> Chúng tôi sẽ gửi một tin nhắn kèm mã xác minh đến id facebook bạn điền vào ở phía trên để xác minh bạn là chủ của tài khoản đó

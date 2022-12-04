@@ -39,7 +39,7 @@
             <td>
               <%= threads[i].members.filter(m=> m.inGroup).length %>
             </td>
-            <td><a href='/dashboard/<%=threads[i].threadID %>' class='btn btn-primary text-white'>Custom <i class='fa fa-angle-double-right'></i></td>
+            <td><a href='/dashboard/<%=threads[i].threadID %>' class='btn btn-primary text-white'>Custom</td>
           </tr>
           <% } %>
         </tbody>

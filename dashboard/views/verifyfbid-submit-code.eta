@@ -26,7 +26,9 @@
                 </label>
                 <input type="text" class="form-control" name="code" id="fbid" placeholder="" required>
               </div>
-              <button type="submit" class="btn btn-primary btn-block mt-2" id="submitSend">Send</button>
+							<div class=" d-flex justify-content-center">
+								<button type="submit" class="btn btn-primary btn-block mt-2 pe-5 ps-5" id="submitSend">Send</button>
+							</div>
               <div class="alert alert-info mt-3">
                 <p>
                   <i class="fas fa-info-circle"></i> Nhập mã xác minh đã được gửi đến facebook
