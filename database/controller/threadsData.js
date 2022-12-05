@@ -34,11 +34,11 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 	global.db.allThreadData = Threads;
 
 	async function save(threadID, threadData, mode, path) {
-		let index = _.findIndex(Threads, { threadID });
+		let index = _.findIndex(global.db.allThreadData, { threadID });
 		if (index === -1 && mode === "update") {
 			try {
 				await create(threadID);
-				index = _.findIndex(Threads, { threadID });
+				index = _.findIndex(global.db.allThreadData, { threadID });
 			}
 			catch (err) {
 				const e = new Error(`Can't find thread with threadID: ${threadID} in database`);
@@ -56,15 +56,15 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 						dataCreated = databaseType == "mongodb" ?
 							_.omit(dataCreated._doc, ["_id", "__v"]) :
 							dataCreated.get({ plain: true });
-						Threads.push(dataCreated);
+						global.db.allThreadData.push(dataCreated);
 						return dataCreated;
 					}
 					case "json": {
 						const timeCreate = moment.tz().format();
 						threadData.createdAt = timeCreate;
 						threadData.updatedAt = timeCreate;
-						Threads.push(threadData);
-						writeJsonSync(pathThreadsData, Threads, optionsWriteJSON);
+						global.db.allThreadData.push(threadData);
+						writeJsonSync(pathThreadsData, global.db.allThreadData, optionsWriteJSON);
 						return threadData;
 					}
 					default: {
@@ -74,7 +74,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 				break;
 			}
 			case "update": {
-				const oldThreadData = Threads[index];
+				const oldThreadData = global.db.allThreadData[index];
 				const dataWillChange = {};
 
 				if (Array.isArray(path) && Array.isArray(threadData)) {
@@ -98,24 +98,24 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 					case "mongodb": {
 						let dataUpdated = await threadModel.findOneAndUpdate({ threadID }, dataWillChange, { returnDocument: 'after' });
 						dataUpdated = _.omit(dataUpdated._doc, ["_id", "__v"]);
-						Threads[index] = dataUpdated;
+						global.db.allThreadData[index] = dataUpdated;
 						return dataUpdated;
 					}
 					case "sqlite": {
 						const dataUpdated = (await (await threadModel.findOne({ where: { threadID } }))
 							.update(dataWillChange))
 							.get({ plain: true });
-						Threads[index] = dataUpdated;
+						global.db.allThreadData[index] = dataUpdated;
 						return dataUpdated;
 					}
 					case "json": {
 						dataWillChange.updatedAt = moment.tz().format();
-						Threads[index] = {
+						global.db.allThreadData[index] = {
 							...oldThreadData,
 							...dataWillChange
 						};
-						writeJsonSync(pathThreadsData, Threads, optionsWriteJSON);
-						return Threads[index];
+						writeJsonSync(pathThreadsData, global.db.allThreadData, optionsWriteJSON);
+						return global.db.allThreadData[index];
 					}
 					default:
 						break;
@@ -124,7 +124,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 			}
 			case "delete": {
 				if (index != -1) {
-					Threads.splice(index, 1);
+					global.db.allThreadData.splice(index, 1);
 					switch (databaseType) {
 						case "mongodb":
 							await threadModel.deleteOne({ threadID });
@@ -133,7 +133,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 							await threadModel.destroy({ where: { threadID } });
 							break;
 						case "json":
-							writeJsonSync(pathThreadsData, Threads, optionsWriteJSON);
+							writeJsonSync(pathThreadsData, global.db.allThreadData, optionsWriteJSON);
 							break;
 						default:
 							break;
@@ -154,7 +154,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 
 		const queue = new Promise(async function (resolve, reject) {
 			try {
-				if (Threads.some(t => t.threadID == threadID)) {
+				if (global.db.allThreadData.some(t => t.threadID == threadID)) {
 					const error = new Error(`Thread with id "${threadID}" already exists in the data`);
 					error.name = "DATA_EXISTS";
 					throw error;
@@ -279,7 +279,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 
 	function getAll(path, defaultValue, query) {
 		try {
-			let dataReturn = _.cloneDeep(Threads);
+			let dataReturn = _.cloneDeep(global.db.allThreadData);
 
 			if (query)
 				if (typeof query !== "string")
@@ -312,11 +312,11 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 			}
 			let threadData;
 
-			const index = Threads.findIndex(t => t.threadID == threadID);
+			const index = global.db.allThreadData.findIndex(t => t.threadID == threadID);
 			if (index === -1)
 				threadData = await create(threadID);
 			else
-				threadData = Threads[index];
+				threadData = global.db.allThreadData[index];
 
 			if (query)
 				if (typeof query != "string")
