@@ -723,5 +723,16 @@
 			"dashboard/views/verifyfbid-submit-code.eta": "code optimization",
 			"dashboard/views/verifyfbid.eta": "code optimization"
 		}
+	},
+	{
+		"version": "1.1.33",
+		"files": {
+			"bot/handler/handlerEvents.js": "Fixed a error that failed to generate data when adding a bot to a new chat box",
+			"database/controller/threadsData.js": "Fixed a error that failed to generate data when adding a bot to a new chat box",
+			"database/controller/dashBoardData.js": "minor bug fixes",
+			"database/controller/globalData.js": "minor bug fixes",
+			"database/controller/usersData.js": "minor bug fixes",
+			"scripts/events/logsbot.js": "Fix bot changing nickname twice when added to new chat box"
+		}
 	}
 ]
