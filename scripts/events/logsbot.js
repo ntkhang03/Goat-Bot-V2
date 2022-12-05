@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: "logsbot",
 		isBot: true,
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		envConfig: {
@@ -43,8 +43,6 @@ module.exports = {
 			if (event.logMessageType == "log:subscribe") {
 				if (!event.logMessageData.addedParticipants.some(item => item.userFbId == api.getCurrentUserID()))
 					return;
-				if (config.nickNameBot)
-					api.changeNickname(config.nickNameBot, event.threadID, api.getCurrentUserID());
 				threadName = (await api.getThreadInfo(threadID)).threadName;
 				const authorName = await usersData.getName(author);
 				msg += getLang("added", authorName);
