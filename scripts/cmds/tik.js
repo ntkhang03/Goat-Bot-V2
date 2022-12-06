@@ -1,7 +1,7 @@
 const axios = require("axios");
 const qs = require("qs");
 const cheerio = require("cheerio");
-const { getStreamFromURL } = global.utils;
+const { getStreamFromURL, shortenURL } = global.utils;
 
 module.exports = {
 	config: {
@@ -61,8 +61,7 @@ module.exports = {
 				const linksNoWatermark = data.downloadUrls;
 				if (Array.isArray(linksNoWatermark)) {
 					const allStreamImage = await Promise.all(linksNoWatermark.map(link => getStreamFromURL(link)));
-					const allImageShortUrl = await Promise.all(linksNoWatermark.map((link, index) => global.utils
-						.shortenURL(link)
+					const allImageShortUrl = await Promise.all(linksNoWatermark.map((link, index) => shortenURL(link)
 						.then(shortUrl => `${index + 1}: ${shortUrl}`)
 					));
 					message.reply({
@@ -73,7 +72,7 @@ module.exports = {
 				}
 				const streamFile = await getStreamFromURL(linksNoWatermark, 'video.mp4');
 				message.reply({
-					body: getLang("downloadedVideo", data.title, await global.utils.shortenURL(linksNoWatermark)),
+					body: getLang("downloadedVideo", data.title, await shortenURL(linksNoWatermark)),
 					attachment: streamFile
 				}, async () => message.unsend((await msgSend).messageID));
 				break;
