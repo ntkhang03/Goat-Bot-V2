@@ -468,6 +468,31 @@ const utils = {
 		}
 		return output;
 	},
+	async shortenURL(url) {
+		try {
+			// const result = await axios({
+			// 	url: "https://cutt.ly/scripts/shortenUrl.php",
+			// 	method: "POST",
+			// 	data: qs.stringify({
+			// 		url: url,
+			// 		domain: 0
+			// 	})
+			// });
+			// return result.data;
+
+			const { data } = await axios.post("https://shorten-url.onrender.com/shorten", { url });
+			if (data.result)
+				return data.result;
+			else {
+				let error = new Error('Error when shortening URL');
+				error = { ...error, ...data.error };
+				throw error;
+			}
+		}
+		catch (err) {
+			throw new Error('Error when shortening URL');
+		}
+	},
 	drive: {
 		default: drive,
 		parentID: "",
