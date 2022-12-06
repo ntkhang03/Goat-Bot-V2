@@ -1,14 +1,13 @@
 const axios = require("axios");
 const qs = require("qs");
 const cheerio = require("cheerio");
-const tinyUrl = require('tinyurl');
 const { getStreamFromURL } = global.utils;
 
 module.exports = {
 	config: {
 		name: "tik",
 		aliases: ["tiktok"],
-		version: "1.4",
+		version: "1.5",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -28,20 +27,20 @@ module.exports = {
 
 	langs: {
 		vi: {
-			invalidUrl: "Vui lòng nhập url tiktok hợp lệ",
-			downloadingVideo: "Đang tải video: %1...",
-			downloadedSlide: "Đã tải slide: %1\n%2",
-			downloadedVideo: "Đã tải video: %1\nUrl Download: %2",
-			downloadingAudio: "Đang tải audio: %1...",
-			downloadedAudio: "Đã tải audio: %1"
+			invalidUrl: "⚠️ Vui lòng nhập url tiktok hợp lệ",
+			downloadingVideo: "📥 Đang tải video: %1...",
+			downloadedSlide: "✅ Đã tải slide: %1\n%2",
+			downloadedVideo: "✅ Đã tải video: %1\n🔗 Url Download: %2",
+			downloadingAudio: "📥 Đang tải audio: %1...",
+			downloadedAudio: "✅ Đã tải audio: %1"
 		},
 		en: {
-			invalidUrl: "Please enter a valid tiktok url",
-			downloadingVideo: "Downloading video: %1...",
-			downloadedSlide: "Downloaded slide: %1\n%2",
-			downloadedVideo: "Downloaded video: %1\nDownload Url: %2",
-			downloadingAudio: "Downloading audio: %1...",
-			downloadedAudio: "Downloaded audio: %1"
+			invalidUrl: "⚠️ Please enter a valid tiktok url",
+			downloadingVideo: "📥 Downloading video: %1...",
+			downloadedSlide: "✅ Downloaded slide: %1\n%2",
+			downloadedVideo: "✅ Downloaded video: %1\n🔗 Download Url: %2",
+			downloadingAudio: "📥 Downloading audio: %1...",
+			downloadedAudio: "✅ Downloaded audio: %1"
 		}
 	},
 
@@ -62,8 +61,8 @@ module.exports = {
 				const linksNoWatermark = data.downloadUrls;
 				if (Array.isArray(linksNoWatermark)) {
 					const allStreamImage = await Promise.all(linksNoWatermark.map(link => getStreamFromURL(link)));
-					const allImageShortUrl = await Promise.all(linksNoWatermark.map((link, index) => tinyUrl
-						.shorten(link)
+					const allImageShortUrl = await Promise.all(linksNoWatermark.map((link, index) => global.utils
+						.shortenURL(link)
 						.then(shortUrl => `${index + 1}: ${shortUrl}`)
 					));
 					message.reply({
@@ -74,7 +73,7 @@ module.exports = {
 				}
 				const streamFile = await getStreamFromURL(linksNoWatermark, 'video.mp4');
 				message.reply({
-					body: getLang("downloadedVideo", data.title, await tinyUrl.shorten(linksNoWatermark)),
+					body: getLang("downloadedVideo", data.title, await global.utils.shortenURL(linksNoWatermark)),
 					attachment: streamFile
 				}, async () => message.unsend((await msgSend).messageID));
 				break;
