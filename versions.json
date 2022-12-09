@@ -741,5 +741,18 @@
 			"scripts/cmds/tik.js": "fixes error: `Error: connect ECONNREFUSED 0.0.0.0:443`",
 			"utils.js": "add `shortenURL` feature"
 		}
+	},
+	{
+		"version": "1.1.35",
+		"files": {
+			"bot/login/getFbstate1.js": "can detect using old password when logging in",
+			"bot/handler/handlerEvents.js": "language update",
+			"languages/cmds/en.js": "language update",
+			"languages/en.lang": "language update",
+			"scripts/cmds/cmd.js": "language update",
+			"scripts/cmds/tik.js": "Fix errors cannot download videos/audio",
+			"scripts/cmds/ytb.js": "Delete the ytdl-core package & Fix error `Cannot Search Video`",
+			"scripts/cmds/emojimean.js": "New command: Searching for the meaning of Emoji, the data is taken from `https://www.emojiall.com/`"
+		}
 	}
 ]
