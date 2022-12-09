@@ -196,18 +196,18 @@ module.exports = {
 		text: {
 			missingFileName: "⚠️ | Please enter the command name you want to reload",
 			loaded: "✅ | Loaded command %1 successfully",
-			loadedError: "❌ | Failed to load command $%1 with error\n%2: %3",
+			loadedError: "❌ | Failed to load command %1 with error\n%2: %3",
 			loadedSuccess: "✅ | Loaded successfully %1 command",
 			loadedFail: "❌ | Failed to load %1 command\n%2",
 			missingCommandNameUnload: "⚠️ | Please enter the command name you want to unload",
 			unloaded: "✅ | Unloaded command %1 successfully",
-			unloadedError: "❌ | Failed to unload command $%1 with error\n%2: %3",
+			unloadedError: "❌ | Failed to unload command %1 with error\n%2: %3",
 			missingUrl: "⚠️ | Please enter the url of the command file you want to install",
 			missingFileNameInstall: "⚠️ | Please enter the file name to save the command (with .js extension)",
 			invalidUrl: "⚠️ | Unable to get command code",
 			alreadExist: "⚠️ | The command file already exists, are you sure you want to overwrite the old command file?\nReact to this message to continue",
 			installed: "✅ | Installed command %1 successfully, the command file is saved at %2",
-			installedError: "❌ | Failed to install command $%1 with error\n%2: %3",
+			installedError: "❌ | Failed to install command %1 with error\n%2: %3",
 			missingFile: "⚠️ | Command file %1 not found",
 			invalidFileName: "⚠️ | Invalid command file name",
 			unloadedFile: "✅ | Unloaded command %1"
@@ -716,7 +716,8 @@ module.exports = {
 			noVideo: "Sorry, no video was found with a size less than 83MB",
 			downloadingAudio: "Downloading audio %1",
 			noAudio: "Sorry, no audio was found with a size less than 26MB",
-			info: "💠 Title: %1\n🏪 Channel: %2\n👨‍👩‍👧‍👦 Subscriber: %3\n⏱ Video duration: %4\n👀 View count: %5\n👍 Like count: %6\n👎 Dislike count: %7\n🆙 Upload date: %8\n#️⃣ ID: %9"
+			info: "💠 Title: %1\n🏪 Channel: %2\n👨‍👩‍👧‍👦 Subscriber: %3\n⏱ Video time: %4\n👀 View: %5\n👍 Like: %6\n🆙 Upload date: %7\n🔠 ID: %8\n🔗 Link: %9",
+			listChapter: "\n📖 List chapter: %1\n"
 		}
 	}
 };
