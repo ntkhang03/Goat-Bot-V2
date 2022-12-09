@@ -1,16 +1,15 @@
 const axios = require("axios");
-const ytdl = require("ytdl-core");
 const qs = require("qs");
 const https = require("https");
 const agent = new https.Agent({
 	rejectUnauthorized: false
 });
-const { getStreamFromURL, downloadFile } = global.utils;
+const { getStreamFromURL, downloadFile, convertTime } = global.utils;
 
 module.exports = {
 	config: {
 		name: "ytb",
-		version: "1.4",
+		version: "1.5",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -47,7 +46,8 @@ module.exports = {
 			noVideo: "Rất tiếc, không tìm thấy video nào có dung lượng nhỏ hơn 83MB",
 			downloadingAudio: "Đang tải xuống audio %1",
 			noAudio: "Rất tiếc, không tìm thấy audio nào có dung lượng nhỏ hơn 26MB",
-			info: "💠 Tiêu đề: %1\n🏪 Channel: %2\n👨‍👩‍👧‍👦 Subscriber: %3\n⏱ Thời gian video: %4\n👀 Lượt xem: %5\n👍 Lượt thích: %6\n👎 Không thích: %7\n🆙 Ngày tải lên: %8\n#️⃣ ID: %9"
+			info: "💠 Tiêu đề: %1\n🏪 Channel: %2\n👨‍👩‍👧‍👦 Subscriber: %3\n⏱ Thời gian video: %4\n👀 Lượt xem: %5\n👍 Lượt thích: %6\n🆙 Ngày tải lên: %7\n🔠 ID: %8\n🔗 Link: %9",
+			listChapter: "\n📖 Danh sách phân đoạn: %1\n"
 		},
 		en: {
 			error: "An error has occurred: %1",
@@ -57,7 +57,8 @@ module.exports = {
 			noVideo: "Sorry, no video was found with a size less than 83MB",
 			downloadingAudio: "Downloading audio %1",
 			noAudio: "Sorry, no audio was found with a size less than 26MB",
-			info: "💠 Title: %1\n🏪 Channel: %2\n👨‍👩‍👧‍👦 Subscriber: %3\n⏱ Video duration: %4\n👀 View count: %5\n👍 Like count: %6\n👎 Dislike count: %7\n🆙 Upload date: %8\n#️⃣ ID: %9"
+			info: "💠 Title: %1\n🏪 Channel: %2\n👨‍👩‍👧‍👦 Subscriber: %3\n⏱ Video time: %4\n👀 View: %5\n👍 Like: %6\n🆙 Upload date: %7\n🔠 ID: %8\n🔗 Link: %9",
+			listChapter: "\n📖 List chapter: %1\n"
 		}
 	},
 
@@ -86,7 +87,7 @@ module.exports = {
 		const urlYtb = checkurl.test(args[1]);
 
 		if (urlYtb) {
-			const infoVideo = await ytdl.getInfo(args[1]);
+			const infoVideo = await getVideoInfo(args[1]);
 			handle({ type, infoVideo, message, downloadFile, getLang });
 			return;
 		}
@@ -134,7 +135,7 @@ module.exports = {
 		if (!isNaN(choice) && choice <= 6) {
 			const infoChoice = result[choice - 1];
 			const idvideo = infoChoice.id;
-			const infoVideo = await ytdl.getInfo(idvideo);
+			const infoVideo = await getVideoInfo(idvideo);
 			api.unsendMessage(Reply.messageID);
 			await handle({ type, infoVideo, message, getLang });
 		}
@@ -144,56 +145,55 @@ module.exports = {
 };
 
 async function handle({ type, infoVideo, message, getLang }) {
-	const { video_url } = infoVideo.videoDetails;
+	const { video_url, title } = infoVideo;
 
 	if (type == "video") {
-		const MAX_SIZE = 87031808; // 83MB
-		const msgSend = message.reply(getLang("downloading", infoVideo.videoDetails.title));
+		const MAX_SIZE = 87031808; // 83MB (max size of video that can be sent on fb)
+		const msgSend = message.reply(getLang("downloading", title));
 		const formats = await getFormatsUrl(video_url);
 		const getFormat = (formats.find(f => f.type === "mp4").qualitys.filter(f => f.size < MAX_SIZE) || [])[0];
 		if (!getFormat)
 			return message.reply(getLang("noVideo"));
-		const stream = await getStreamFromURL(getFormat.dlink, `${infoVideo.videoDetails.title}.mp4`, { httpsAgent: agent });
+		const stream = await getStreamFromURL(getFormat.dlink, `${title}.mp4`, { httpsAgent: agent });
 		message.reply({
-			body: `${infoVideo.videoDetails.title}`,
+			body: title,
 			attachment: stream
 		}, async () => message.unsend((await msgSend).messageID));
 	}
 	else if (type == "audio") {
-		const MAX_SIZE = 26000000; // 26MB
-		const msgSend = message.reply(getLang("downloadingAudio", infoVideo.videoDetails.title));
+		const MAX_SIZE = 27262976; // 26MB (max size of audio that can be sent on fb)
+		const msgSend = message.reply(getLang("downloadingAudio", title));
 		const formats = await getFormatsUrl(video_url);
 		const getFormat = (formats.find(f => f.type === "mp3").qualitys.filter(f => f.size < MAX_SIZE) || [])[0];
 		if (!getFormat)
 			return message.reply(getLang("noAudio"));
-		const stream = await getStreamFromURL(getFormat.dlink, `${infoVideo.videoDetails.title}.mp3`, { httpsAgent: agent });
+		const stream = await getStreamFromURL(getFormat.dlink, `${title}.mp3`, { httpsAgent: agent });
 		message.reply({
-			body: `${infoVideo.videoDetails.title}`,
+			body: title,
 			attachment: stream
 		}, async () => message.unsend((await msgSend).messageID));
 	}
 	else if (type == "info") {
-		const info = infoVideo.videoDetails;
-		const { title, lengthSeconds, viewCount, videoId, uploadDate, likes, dislikes, chapters } = infoVideo.videoDetails;
+		const { title, lengthSeconds, viewCount, videoId, uploadDate, likes, channel, chapters } = infoVideo;
 
 		const hours = Math.floor(lengthSeconds / 3600);
 		const minutes = Math.floor(lengthSeconds % 3600 / 60);
 		const seconds = Math.floor(lengthSeconds % 3600 % 60);
-		const msg = getLang("info", info.author.name, (info.author.subscriber_count || 0), `${hours}:${minutes}:${seconds}`, viewCount, likes, dislikes, uploadDate, videoId);
+		let msg = getLang("info", title, channel.name, (channel.subscriberCount || 0), `${hours}:${minutes}:${seconds}`, viewCount, likes, uploadDate, videoId, `https://youtu.be/${videoId}`);
 		// if (chapters.length > 0) {
-		//     msg += "\n📋 Danh sách phân đoạn:\n"
-		//         + chapters.reduce((acc, cur) => {
-		//             const time = convertTime(cur.start_time * 1000, ':', ':', ':').slice(0, -1);
-		//             return acc + ` ${time} => ${cur.title}\n`;
-		//         }, '');
+		// 	msg += getLang("listChapter")
+		// 		+ chapters.reduce((acc, cur) => {
+		// 			const time = convertTime(cur.start_time * 1000, ':', ':', ':').slice(0, -1);
+		// 			return acc + ` ${time} => ${cur.title}\n`;
+		// 		}, '');
 		// }
 
 		message.reply({
 			body: msg,
-			attachment: [
-				await getStreamFromURL(info.thumbnail),
-				await getStreamFromURL(info.channel.thumbnail)
-			]
+			attachment: await Promise.all([
+				getStreamFromURL(infoVideo.thumbnails[infoVideo.thumbnails.length - 1].url),
+				getStreamFromURL(infoVideo.channel.thumbnails[infoVideo.channel.thumbnails.length - 1].url)
+			])
 		});
 	}
 }
@@ -274,24 +274,96 @@ async function search(keyWord) {
 	try {
 		const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(keyWord)}`;
 		const res = await axios.get(url);
-		const video = JSON.parse(res.data.split("ytInitialData = ")[1].split(";</script>")[0]);
-		return video.contents.twoColumnSearchResultsRenderer.primaryContents.sectionListRenderer.contents[0].itemSectionRenderer.contents.filter(item => item.videoRenderer).map(item => {
-			return {
-				id: item.videoRenderer.videoId,
-				title: item.videoRenderer.title.runs[0].text,
-				thumbnail: item.videoRenderer.thumbnail.thumbnails.pop().url,
-				time: item.videoRenderer.lengthText.simpleText,
-				channel: {
-					id: item.videoRenderer.ownerText.runs[0].navigationEndpoint.browseEndpoint.browseId,
-					name: item.videoRenderer.ownerText.runs[0].text,
-					thumbnail: item.videoRenderer.channelThumbnailSupportedRenderers.channelThumbnailWithLinkRenderer.thumbnail.thumbnails.pop().url.replace(/s[0-9]+\-c/g, '-c')
-				}
-			};
-		});
+		const getJson = JSON.parse(res.data.split("ytInitialData = ")[1].split(";</script>")[0]);
+		const videos = getJson.contents.twoColumnSearchResultsRenderer.primaryContents.sectionListRenderer.contents[0].itemSectionRenderer.contents;
+		const results = [];
+		for (const video of videos)
+			if (video.videoRenderer?.lengthText?.simpleText) // check is video, not playlist or channel or live
+				results.push({
+					id: video.videoRenderer.videoId,
+					title: video.videoRenderer.title.runs[0].text,
+					thumbnail: video.videoRenderer.thumbnail.thumbnails.pop().url,
+					time: video.videoRenderer.lengthText.simpleText,
+					channel: {
+						id: video.videoRenderer.ownerText.runs[0].navigationEndpoint.browseEndpoint.browseId,
+						name: video.videoRenderer.ownerText.runs[0].text,
+						thumbnail: video.videoRenderer.channelThumbnailSupportedRenderers.channelThumbnailWithLinkRenderer.thumbnail.thumbnails.pop().url.replace(/s[0-9]+\-c/g, '-c')
+					}
+				});
+		return results;
 	}
 	catch (e) {
 		const error = new Error("Cannot search video");
 		error.code = "SEARCH_VIDEO_ERROR";
 		throw error;
 	}
+}
+
+async function getVideoInfo(id) {
+	// get id from url if url
+	id = id.replace(/(>|<)/gi, '').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+	id = id[2] !== undefined ? id[2].split(/[^0-9a-z_\-]/i)[0] : id[0];
+
+	const { data: html } = await axios.get(`https://youtu.be/${id}?hl=en`, {
+		headers: {
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.101 Safari/537.36'
+		}
+	});
+	const json = JSON.parse(html.match(/var ytInitialPlayerResponse = (.*?});/)[1]);
+	const json2 = JSON.parse(html.match(/var ytInitialData = (.*?});/)[1]);
+	const { title, lengthSeconds, viewCount, videoId, thumbnail, author } = json.videoDetails;
+	let getChapters;
+	try {
+		getChapters = json2.playerOverlays.playerOverlayRenderer.decoratedPlayerBarRenderer.decoratedPlayerBarRenderer.playerBar.multiMarkersPlayerBarRenderer.markersMap.find(x => x.key == "DESCRIPTION_CHAPTERS" && x.value.chapters).value.chapters;
+	}
+	catch (e) {
+		getChapters = [];
+	}
+	const owner = json2.contents.twoColumnWatchNextResults.results.results.contents.find(x => x.videoSecondaryInfoRenderer).videoSecondaryInfoRenderer.owner;
+	const result = {
+		videoId,
+		title,
+		video_url: `https://youtu.be/${videoId}`,
+		lengthSeconds: lengthSeconds.match(/\d+/)[0],
+		viewCount: viewCount.match(/\d+/)[0],
+		uploadDate: json.microformat.playerMicroformatRenderer.uploadDate,
+		likes: json2.contents.twoColumnWatchNextResults.results.results.contents.find(x => x.videoPrimaryInfoRenderer).videoPrimaryInfoRenderer.videoActions.menuRenderer.topLevelButtons.find(x => x.segmentedLikeDislikeButtonRenderer).segmentedLikeDislikeButtonRenderer.likeButton.toggleButtonRenderer.defaultText.accessibility.accessibilityData.label.replace(/\.|,/g, '').match(/\d+/)[0],
+		chapters: getChapters.map((x, i) => {
+			const start_time = x.chapterRenderer.timeRangeStartMillis;
+			const end_time = getChapters[i + 1]?.chapterRenderer?.timeRangeStartMillis || lengthSeconds.match(/\d+/)[0] * 1000;
+
+			return {
+				title: x.chapterRenderer.title.simpleText,
+				start_time_ms: start_time,
+				start_time: start_time / 1000,
+				end_time_ms: end_time - start_time + start_time,
+				end_time: (end_time - start_time + start_time) / 1000
+			};
+		}),
+		thumbnails: thumbnail.thumbnails,
+		author: author,
+		channel: {
+			id: owner.videoOwnerRenderer.navigationEndpoint.browseEndpoint.browseId,
+			username: owner.videoOwnerRenderer.navigationEndpoint.browseEndpoint.canonicalBaseUrl,
+			name: owner.videoOwnerRenderer.title.runs[0].text,
+			thumbnails: owner.videoOwnerRenderer.thumbnail.thumbnails,
+			subscriberCount: parseAbbreviatedNumber(owner.videoOwnerRenderer.subscriberCountText.simpleText)
+		}
+	};
+
+	return result;
+}
+
+function parseAbbreviatedNumber(string) {
+	const match = string
+		.replace(',', '.')
+		.replace(' ', '')
+		.match(/([\d,.]+)([MK]?)/);
+	if (match) {
+		let [, num, multi] = match;
+		num = parseFloat(num);
+		return Math.round(multi === 'M' ? num * 1000000 :
+			multi === 'K' ? num * 1000 : num);
+	}
+	return null;
 }
