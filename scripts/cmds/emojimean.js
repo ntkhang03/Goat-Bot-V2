@@ -8,7 +8,7 @@ module.exports = {
 	config: {
 		name: "emojimean",
 		alias: ["em", "emojimeaning", "emojimean"],
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -96,8 +96,19 @@ module.exports = {
 		ctx.fillStyle = "#303342";
 		ctx.fillRect(0, 0, witdhTable, heightTable);
 
+		const resolutions = [240, 120, 60];
+
 		images = await Promise.all(images.map(async (el) => {
-			const imageLoaded = await Canvas.loadImage(`https://www.emojiall.com/${el.url}`);
+			let imageLoaded;
+			for (const resolution of resolutions) {
+				try {
+					imageLoaded = await Canvas.loadImage(`https://www.emojiall.com/${el.url.replace('/60', `/${resolution}`)}`);
+					break;
+				}
+				catch (e) {
+					continue;
+				}
+			}
 			return {
 				...el,
 				imageLoaded
