@@ -149,6 +149,8 @@ module.exports = {
 			body: getLang("meaningOfEmoji", emoji, meaning, moreMeaning, wikiText ? getLang("meaningOfWikipedia", wikiText) : "", shortcode || getLang("notHave"), source),
 			attachment: fs.createReadStream(pahtSave)
 		}, (err, info) => {
+			if (err)
+				return console.error(err);
 			fs.unlinkSync(pahtSave);
 			if (wikiText)
 				global.GoatBot.onReaction.set(info.messageID, {
@@ -170,11 +172,7 @@ module.exports = {
 
 async function getEmojiMeaning(emoji, lang) {
 	const url = `https://www.emojiall.com/${lang}/emoji/${encodeURI(emoji)}`;
-	const urlImages = `https://www.emojiall.com/${lang}/image/${encodeURI(emoji)}`;
-
 	const { data } = await axios.get(url);
-	const { data: dataImages } = await axios.get(urlImages);
-
 	const $ = cheerio.load(data);
 
 	const getElMeaning = $(".emoji_card_list.pages > div.emoji_card_content.px-4.py-3");
@@ -202,10 +200,8 @@ async function getEmojiMeaning(emoji, lang) {
 	getEl6.each((i, el) => {
 		const $el = $(el);
 		const p = $el.find("figure > p[class='capitalize'] > span[class='emoji_font line'] + a[class='text_blue']");
-		const div = $el.find("div > a");
-		let href = div.attr("href") || $el.find("figure > img").attr("data-src");
-		href = href.split("/").slice(3).join("/");
-		href = dataImages.match(new RegExp(`href="(/images/.*${href})"`))?.[1];
+		const div = $el.find("div");
+		const href = div.attr("href") || $el.find("figure > img").attr("data-src");
 		const platform = p.text().trim();
 		arr.push({
 			url: href,
