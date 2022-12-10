@@ -754,11 +754,5 @@
 			"scripts/cmds/ytb.js": "Delete the ytdl-core package & Fix error `Cannot Search Video`",
 			"scripts/cmds/emojimean.js": "New command: Searching for the meaning of Emoji, the data is taken from `https://www.emojiall.com/`"
 		}
-	},
-	{
-		"version": "1.1.36",
-		"files": {
-			"scripts/cmds/emojimean.js": "automatically select the highest resolution image"
-		}
 	}
 ]
