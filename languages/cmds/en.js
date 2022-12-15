@@ -231,10 +231,12 @@ module.exports = {
 		shortDescription: "Design rank card",
 		longDescription: "Design rank card by your own",
 		text: {
-			invalidImage: "Invalid image url, please choose a url with image as destination",
+			invalidImage: "Invalid image url, please choose an url with image destination (jpg, jpeg, png, gif), you can upload image to https://imgbb.com/ and choose \"get direct link\" to get image url",
 			invalidAttachment: "Invalid attachment, please choose an image file",
 			invalidColor: "Invalid color code, please choose a hex color code (6 digits) or rgba color code",
-			success: "Your changes have been saved",
+			notSupportImage: "Url image is not supported with option \"%1\"",
+			success: "Your changes have been saved, here is a preview",
+			reseted: "All settings have been reset to default",
 			invalidAlpha: "Please choose a number from 0 -> 1"
 		}
 	},
