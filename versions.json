@@ -384,7 +384,7 @@
 	{
 		"version": "1.1.3",
 		"files": {
-			"bot/handler/handlerEvents.js": "fix can't use bot when inbox 1-1",
+			"bot/handler/handlerEvents.js": "fixes can't use bot when inbox 1-1",
 			"scripts/events/logsbot.js": "fixes error `TypeError: checkAndTranslate is not a function`",
 			"scripts/cmds/customrankcard.js": "language update",
 			"scripts/cmds/help.js": "language update",
@@ -562,7 +562,7 @@
 			"scripts/cmds/hubble.js": "language update",
 			"scripts/cmds/thread.js": "more precise search feature",
 			"scripts/cmds/user.js": "more precise search feature",
-			"scripts/cmds/help.js": "fix not showing description when viewing command info",
+			"scripts/cmds/help.js": "fixes not showing description when viewing command info",
 			"bot/login/login.js": "can enable/disable auto-relogin when account.txt file changes in config.json/autoReloginWhenChangeAccount",
 			"config.json": {
 				"autoReloginWhenChangeAccount": false
@@ -589,7 +589,7 @@
 			"database/controller/usersData.js": "Bug fixes & code optimization",
 			"scripts/cmds/busy.js": "Bug fixes & code optimization",
 			"scripts/cmds/help.js": "language update",
-			"scripts/cmds/setlang.js": "fix not saving data when changing language of chat group"
+			"scripts/cmds/setlang.js": "fixes not saving data when changing language of chat group"
 		}
 	},
 	{
@@ -658,10 +658,10 @@
 			"languages/cmds/en.js": "language update",
 			"scripts/cmds/help.js": "language update",
 			"scripts/cmds/notification.js": "more precise group filtering",
-			"scripts/cmds/setleave.js": "Fix the error when sending the link",
-			"scripts/cmds/setrankup.js": "Fix the error when sending the link",
-			"scripts/cmds/setwelcome.js": "Fix the error when sending the link",
-			"scripts/cmds/shortcut.js": "Fix the error when sending the link",
+			"scripts/cmds/setleave.js": "fixes the error when sending the link",
+			"scripts/cmds/setrankup.js": "fixes the error when sending the link",
+			"scripts/cmds/setwelcome.js": "fixes the error when sending the link",
+			"scripts/cmds/shortcut.js": "fixes the error when sending the link",
 			"scripts/cmds/thread.js": "can search and filter bot groups that are still participating in the group"
 		}
 	},
@@ -707,8 +707,8 @@
 	{
 		"version": "1.1.32",
 		"files": {
-			"bot/login/login.js": "fix facebook login problem",
-			"bot/login/getFbstate1.js": "fix facebook login problem",
+			"bot/login/login.js": "fixes facebook login problem",
+			"bot/login/getFbstate1.js": "fixes facebook login problem",
 			"config.json": {
 				"facebookAccount.userAgent": "Mozilla/5.0 (Linux; Android 12; M2102J20SG) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Mobile Safari/537.36"
 			},
@@ -732,7 +732,7 @@
 			"database/controller/dashBoardData.js": "minor bug fixes",
 			"database/controller/globalData.js": "minor bug fixes",
 			"database/controller/usersData.js": "minor bug fixes",
-			"scripts/events/logsbot.js": "Fix bot changing nickname twice when added to new chat box"
+			"scripts/events/logsbot.js": "fixes bot changing nickname twice when added to new chat box"
 		}
 	},
 	{
@@ -750,8 +750,8 @@
 			"languages/cmds/en.js": "language update",
 			"languages/en.lang": "language update",
 			"scripts/cmds/cmd.js": "language update",
-			"scripts/cmds/tik.js": "Fix errors cannot download videos/audio",
-			"scripts/cmds/ytb.js": "Delete the ytdl-core package & Fix error `Cannot Search Video`",
+			"scripts/cmds/tik.js": "fixes errors cannot download videos/audio",
+			"scripts/cmds/ytb.js": "Delete the ytdl-core package & fixes error `Cannot Search Video`",
 			"scripts/cmds/emojimean.js": "New command: Searching for the meaning of Emoji, the data is taken from `https://www.emojiall.com/`"
 		}
 	},
@@ -759,6 +759,22 @@
 		"version": "1.1.36",
 		"files": {
 			"scripts/cmds/emojimean.js": "automatically select the highest resolution image"
+		}
+	},
+	{
+		"version": "1.1.37",
+		"files": {
+			"languages/cmds/en.js": "language update",
+			"bot/handler/handlerEvents.js": "fixes error `TypeError: Cannot read property 'config' of undefined`",
+			"bot/login/login.js": "fixes auto restart bot when calling `cmd loadAll`",
+			"scripts/cmds/cmd.js": "can load multiple commands at once",
+			"scripts/cmds/customrankcard.js": "Can be customized more",
+			"scripts/cmds/rank.js": "can be customized more",
+			"scripts/cmds/help.js": "language update",
+			"scripts/cmds/tik.js": "fixes error when download slides",
+			"scripts/cmds/ytb.js": "fixes error `TypeError: Cannot read properties of null (reading '0')`",
+			"utils.js": "",
+			"scripts/cmds/assets/guide/customrankcard/guide1.jpg": ""
 		}
 	}
 ]
