@@ -24,7 +24,7 @@
 - [Node.js 16.x](https://nodejs.org/en/download/)
 
 ## 📝 Tutorial
-#### A Tutorial has been uploaded on YouTube, Watch it by clicking on the image down below
+#### A Tutorial has been uploaded on YouTube
 - Replit.com: https://www.youtube.com/watch?v=nTIT8OQeRnY
 - VPS/Windows:
 
@@ -36,7 +36,7 @@
 - https://discord.com/invite/DbyGwmkpVY
 - ***Please do not inbox me, I do not respond to private messages, any questions please join the chat group for answers. ThankThanks!***
 
-## 📚 Support Languages
+## 📚 Support Languages in source code
 
 - [x] `en: English`
 - [x] `vi: Vietnamese`
@@ -49,9 +49,9 @@
 	<summary>
 		📌 Error 400: redirect_uri_mismatch
 	</summary>
-	<p><img src="https://i.ibb.co/4TG5Wry/redirect-uri-mismatch.jpg" width="150px"></p> 
+	<p><img src="https://i.ibb.co/7QGDPgV/Pics-Art-12-13-10-04-57.jpg" width="250px"></p> 
 	<p>1. Enable Google Drive API: <a href="https://youtu.be/nTIT8OQeRnY?t=347">Tutorial</a></p>
-	<p>2. Add uri <a href="https://developers.google.com/oauthplayground">https://developers.google.com/oauthplayground</a> (not <a href="https://developers.google.com/oauthplayground/">https://developers.google.com/oauthplayground/</a>) to <b>Authorized redirect URIs</b> in <b>OAuth consent screen</b> <a href="https://youtu.be/nTIT8OQeRnY?t=491">Tutorial</a></p>  
+	<p>2. Add uri <a href="https://developers.google.com/oauthplayground">https://developers.google.com/oauthplayground</a> (not <a href="https://developers.google.com/oauthplayground/">https://developers.google.com/oauthplayground/</a>) to <b>Authorized redirect URIs</b> in <b>OAuth consent screen:</b> <a href="https://youtu.be/nTIT8OQeRnY?t=491">Tutorial</a></p>  
 	<p>3. Choose <b>https://www.googleapis.com/auth/drive</b> and <b>https://mail.google.com/</b> in <b>OAuth 2.0 Playground</b>: <a href="https://youtu.be/nTIT8OQeRnY?t=600">Tutorial</a></p>
 </details>
 
@@ -59,7 +59,7 @@
 	<summary>
 		📌 Error for site owners: Invalid domain for site key
 	</summary>
-		<p><img src="https://i.ibb.co/BVwcxpF/invalid-domain-for-site-key.jpg" width="150px"></p>
+		<p><img src="https://i.ibb.co/b6FHxZw/Pics-Art-12-13-11-27-06.jpg" width="250px"></p>
 		<p>1. Go to <a href="https://www.google.com/recaptcha/admin">https://www.google.com/recaptcha/admin</a></p>
 		<p>2. Add domain <b>repl.co</b> (not <b>repl.com</b>) to <b>Domains</b> in <b>reCAPTCHA v2</b> <a href="https://youtu.be/nTIT8OQeRnY?t=698">Tutorial</a></p>
 </details>
@@ -68,12 +68,19 @@
 	<summary>
 		📌 GaxiosError: invalid_grant, unauthorized_client
 	</summary>
-		<p><img src="https://i.ibb.co/DLJpsz8/invalid-grant2.jpg" width="150px"></p>
-		<p><img src="https://i.ibb.co/LtHhM0L/Pics-Art-11-09-06-00-08.jpg" width="150px"></p>
-		<p><img src="https://i.ibb.co/V2H8tdB/invalid-grant1.jpg" width="150px"></p>
+		<p><img src="https://i.ibb.co/DtYPSmH/Pics-Art-12-13-11-35-21.jpg" width="250px"></p>
+		<p><img src="https://i.ibb.co/LtHhM0L/Pics-Art-11-09-06-00-08.jpg" width="250px"></p>
+		<p><img src="https://i.ibb.co/V2H8tdB/invalid-grant1.jpg" width="250px"></p>
 		<p>- if you don't publish the project in google console, the refresh token will expire after 1 week and you need to get it back. <a href="https://youtu.be/nTIT8OQeRnY?t=445">Tuatorial</a></p>
 </details>
 
+<details>
+	<summary>
+		📌 Error 403: access_denied
+	</summary>
+		<p><img src="https://i.ibb.co/qrdSFdt/error.jpg" width="250px"></p>
+		<p>- if you don't publish the project in google console only the approved accounts added to the project can use it <a href="https://youtu.be/nTIT8OQeRnY?t=438">Tuatorial</a></p>
+</details>
 
 ## 📸 Screenshots
 - ### Bot
