@@ -1,6 +1,6 @@
 {
 	"name": "goat-bot-v2",
-	"version": "1.1.36",
+	"version": "1.1.37",
 	"description": "A simple Bot chat messenger made by NTKhang",
 	"main": "index.js",
 	"engines": {
@@ -23,7 +23,7 @@
 		"express-session": "^1.17.3",
 		"fb-chat-api": "latest",
 		"form-data": "^4.0.0",
-		"fs-extra": "^10.1.0",
+		"fs-extra": "^11.1.0",
 		"googleapis": "^100.0.0",
 		"graphql-query-to-json": "^2.0.1",
 		"https": "^1.0.0",
