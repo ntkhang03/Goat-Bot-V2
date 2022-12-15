@@ -1,13 +1,13 @@
 const axios = require("axios");
 const qs = require("qs");
 const cheerio = require("cheerio");
-const { getStreamFromURL, shortenURL } = global.utils;
+const { getStreamFromURL, shortenURL, randomString } = global.utils;
 
 module.exports = {
 	config: {
 		name: "tik",
 		aliases: ["tiktok"],
-		version: "1.6",
+		version: "1.7",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -71,7 +71,8 @@ module.exports = {
 					return message.reply(getLang("tryAgain"));
 
 				if (Array.isArray(linksNoWatermark)) {
-					const allStreamImage = await Promise.all(linksNoWatermark.map(link => getStreamFromURL(link)));
+					console.log(linksNoWatermark);
+					const allStreamImage = await Promise.all(linksNoWatermark.map(link => getStreamFromURL(link, `${randomString(10)}.jpg`)));
 					const allImageShortUrl = await Promise.all(linksNoWatermark.map((link, index) => shortenURL(link)
 						.then(shortUrl => `${index + 1}: ${shortUrl}`)
 					));
