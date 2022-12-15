@@ -54,9 +54,15 @@ function getText(head, key, ...args) {
 		for (const filePath in files) {
 			const description = files[filePath];
 			const fullPath = `${process.cwd()}/${filePath}`;
-			const { data: getFile } = await axios.get(`https://github.com/ntkhang03/Goat-Bot-V2/raw/main/${filePath}`, {
-				responseType: 'arraybuffer'
-			});
+			let getFile;
+			try {
+				getFile = (await axios.get(`https://github.com/ntkhang03/Goat-Bot-V2/raw/main/${filePath}`, {
+					responseType: 'arraybuffer'
+				})).data;
+			}
+			catch (e) {
+				continue;
+			}
 
 			if (filePath === "config.json") {
 				const currentConfig = require('./config.json');
