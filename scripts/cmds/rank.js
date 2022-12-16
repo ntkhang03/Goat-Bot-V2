@@ -20,7 +20,7 @@ global.client.makeRankCard = makeRankCard;
 module.exports = {
 	config: {
 		name: "rank",
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -591,7 +591,7 @@ class RankCard {
 		*/
 
 		const alignRim = 3 * percentage(widthCard);
-		const Alpha = parseFloat(alpha_subcard || 1);
+		const Alpha = parseFloat(alpha_subcard || 0);
 
 		ctx.globalAlpha = Alpha;
 		await checkColorOrImageAndDraw(alignRim, alignRim, widthCard - alignRim * 2, heightCard - alignRim * 2, ctx, sub_color, 20, alpha_subcard);
