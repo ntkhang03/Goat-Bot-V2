@@ -1,3 +1,4 @@
+<img src="https://i.ibb.co/1mGnq1q/banner.png" alt="banner">
 <h1 align="center"><img src="./dashboard/images/logo-non-bg.png" width="22px"> Goat Bot - Bot Chat Messenger</h1>
 
 <p align="center">
@@ -10,15 +11,22 @@
   <img alt="size" src="https://img.shields.io/badge/license-MIT-green?style=flat-square">
 </p>
 
+* [`Note`](#-note)
 * [`Prerequisites`](#-prerequisites)
 * [`Tutorial`](#-tutorial)
 * [`Support`](#-support)
 * [`Support Languages`](#-support-languages)
 * [`Common Problems`](#-common-problems)
 * [`Screenshots`](#-screenshots)
-* [`Note`](#-note)
 * [`Copyright (C)`](#-copyright-c)
 * [`License`](#-license)
+
+<hr>
+
+## 📝 Note
+- This is a messenger chat bot using a personal account, using an [unofficial api](https://github.com/ntkhang03/fb-chat-api/blob/master/DOCS.md) ([Origin here](https://github.com/Schmavery/facebook-chat-api)) and this may lead to facebook account being locked due to spam or other reasons. 
+- So, I recommend using a clone account (one that you're willing to throw away at any time)
+- I am not responsible for any problems that may arise from using this bot.
 
 ## 🚧 Prerequisites
 - [Node.js 16.x](https://nodejs.org/en/download/)
@@ -158,10 +166,6 @@
 	</summary>
 	<p><img src="https://i.ibb.co/3SyfQkz/db-Custom-Welcome.png" width="399px"></p>
 </details>
-
-
-## 📝 Note
-- This is a messenger chat bot using a personal account, using an unofficial api and this may lead to facebook account being locked due to spam or other reasons. I am not responsible for any problems that may arise from using this bot.
 
 ## ✨ Copyright (C)
 ### [NTKhang (NTKhang03)](https://github.com/ntkhang03)
