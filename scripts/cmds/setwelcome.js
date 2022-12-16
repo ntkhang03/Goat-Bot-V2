@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: "setwelcome",
 		aliases: ["setwc"],
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 1,
@@ -32,7 +32,7 @@ module.exports = {
 					+ "\n\n   Ví dụ:"
 					+ "\n    {pn} file reset: xóa gửi file",
 				attachment: {
-					[__dirname + "/assets/guide/setwelcome/guide1.png"]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/setwelcome/guide1.png"
+					[__dirname + "/assets/guide/setwelcome/guide1.png"]: "https://i.ibb.co/tp16L1d/guide1.png"
 				}
 			},
 			en: {
@@ -49,7 +49,7 @@ module.exports = {
 					+ "\n\n   Example:"
 					+ "\n    {pn} file reset: delete file attachments",
 				attachment: {
-					[__dirname + "/assets/guide/setwelcome/guide1.png"]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/setwelcome/guide1.png"
+					[__dirname + "/assets/guide/setwelcome_1.png"]: "https://i.ibb.co/tp16L1d/guide1.png"
 				}
 			}
 		}

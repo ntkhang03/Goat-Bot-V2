@@ -12,7 +12,7 @@ async function checkShortCut(nickname, uid, usersData) {
 module.exports = {
 	config: {
 		name: "setname",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -35,8 +35,8 @@ module.exports = {
 					+ "\n   + {userID}: ID của thành viên"
 					+ "\n\n   Ví dụ: (xem ảnh)",
 				attachment: {
-					[__dirname + "/assets/guide/setname/guide1.png"]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/setname/guide1.png",
-					[__dirname + "/assets/guide/setname/guide2.png"]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/setname/guide2.png"
+					[`${__dirname}/assets/guide/setname_1.png`]: "https://i.ibb.co/gFh23zb/guide1.png",
+					[`${__dirname}/assets/guide/setname_2.png`]: "https://i.ibb.co/BNWHKgj/guide2.png"
 				}
 			},
 			en: {
@@ -48,8 +48,8 @@ module.exports = {
 					+ "\n   + {userID}: ID of member"
 					+ "\n\n   Example: (see image)",
 				attachment: {
-					[__dirname + "/assets/guide/setname/guide1.png"]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/setname/guide1.png",
-					[__dirname + "/assets/guide/setname/guide2.png"]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/setname/guide2.png"
+					[`${__dirname}/assets/guide/setname_1.png`]: "https://i.ibb.co/gFh23zb/guide1.png",
+					[`${__dirname}/assets/guide/setname_2.png`]: "https://i.ibb.co/BNWHKgj/guide2.png"
 				}
 			}
 		}

@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: "setleave",
 		aliases: ["setl"],
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -34,7 +34,7 @@ module.exports = {
 					+ "\n\nVí dụ:"
 					+ "\n   {pn} file reset: xóa gửi file",
 				attachment: {
-					[`${__dirname}/assets/guide/setleave/guide1.png`]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/setleave/guide1.png"
+					[`${__dirname}/assets/guide/setleave_1.png`]: "https://i.ibb.co/2FKJHJr/guide1.png"
 				}
 			},
 			en: {
@@ -53,7 +53,7 @@ module.exports = {
 					+ "\n\nExample:"
 					+ "\n   {pn} file reset: reset file",
 				attachment: {
-					[`${__dirname}/assets/guide/setleave/guide1.png`]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/setleave/guide1.png"
+					[`${__dirname}/assets/guide/setleave_1.png`]: "https://i.ibb.co/2FKJHJr/guide1.png"
 				}
 			}
 		}
