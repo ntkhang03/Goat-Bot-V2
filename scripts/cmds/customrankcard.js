@@ -6,7 +6,7 @@ module.exports = {
 	config: {
 		name: "customrankcard",
 		aliases: ["crc", "customrank"],
-		version: "1.5",
+		version: "1.6",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -43,8 +43,8 @@ module.exports = {
 					+ "\n    {pn} subcolor rgba(255,136,86,0.4)"
 					+ "\n    {pn} reset",
 				attachment: {
-					[`${__dirname}/assets/guide/customrankcard/guide1.jpg`]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/customrankcard/guide1.jpg",
-					[`${__dirname}/assets/guide/customrankcard/guide2.png`]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/customrankcard/guide2.png"
+					[`${__dirname}/assets/guide/customrankcard_1.jpg`]: "https://i.ibb.co/BZ2Qgs1/image.png",
+					[`${__dirname}/assets/guide/customrankcard_2.png`]: "https://i.ibb.co/wy1ZHHL/image.png"
 				}
 			},
 			en: {
@@ -69,8 +69,8 @@ module.exports = {
 					+ "\n    {pn} subcolor rgba(255,136,86,0.4)"
 					+ "\n    {pn} reset",
 				attachment: {
-					[`${__dirname}/assets/guide/customrankcard/guide1.jpg`]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/customrankcard/guide1.jpg",
-					[`${__dirname}/assets/guide/customrankcard/guide2.png`]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/customrankcard/guide2.png"
+					[`${__dirname}/assets/guide/customrankcard_1.jpg`]: "https://i.ibb.co/BZ2Qgs1/image.png",
+					[`${__dirname}/assets/guide/customrankcard_2.png`]: "https://i.ibb.co/wy1ZHHL/image.png"
 				}
 			}
 		}
