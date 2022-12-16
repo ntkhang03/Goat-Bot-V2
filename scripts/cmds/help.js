@@ -14,7 +14,7 @@ const characters = "━━━━━━━━━━━━━";
 module.exports = {
 	config: {
 		name: "help",
-		version: "1.10",
+		version: "1.11",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -191,7 +191,7 @@ module.exports = {
 					formSendMessage.attachment = [];
 					for (const pathFile in guide.attachment) {
 						if (!fs.existsSync(pathFile)) {
-							const cutFullPath = pathFile.split("/");
+							const cutFullPath = pathFile.split("/").filter(item => item != "");
 							cutFullPath.pop();
 							for (let i = 0; i < cutFullPath.length; i++) {
 								const path = cutFullPath.slice(0, i + 1).join('/');
