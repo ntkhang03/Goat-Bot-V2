@@ -800,5 +800,12 @@
 			"updater.js":"update updater",
 			"scripts/cmds/help.js": "fix can't automatically create new folder when it doesn't exist"
 		}
+	},
+	{
+		"version": "1.1.40",
+		"files": {
+			"scripts/cmds/customrankcard.js": "fixes can't select photo by replying to message",
+			"scripts/cmds/rank.js": "fixes not being able to optional alphaSubcolor = 0"
+		}
 	}
 ]
