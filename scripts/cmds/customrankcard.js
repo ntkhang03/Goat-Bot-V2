@@ -6,7 +6,7 @@ module.exports = {
 	config: {
 		name: "customrankcard",
 		aliases: ["crc", "customrank"],
-		version: "1.6",
+		version: "1.7",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -129,7 +129,7 @@ module.exports = {
 			}
 			else if (attachments.length > 0) {
 				// if image attachment
-				if (!["photo", "animated_image"].includes(attachments.type))
+				if (!["photo", "animated_image"].includes(attachments[0].type))
 					return message.reply(getLang("invalidAttachment"));
 				value = attachments[0].url;
 			}
