@@ -776,5 +776,22 @@
 			"utils.js": "",
 			"scripts/cmds/assets/guide/customrankcard/guide1.jpg": ""
 		}
+	},
+	{
+		"version": "1.1.38",
+		"files": {
+			"languages/cmds/en.js": "language update and change the image storage address of some commands",
+			"scripts/cmds/setwelcome.js": "change photo storage address",
+			"scripts/cmds/setleave.js": "change photo storage address",
+			"scripts/cmds/setname.js": "change photo storage address"
+		},
+		"deleteFiles": {
+			"scripts/cmds/assets/guide/customrankcard/guide1.jpg": "change photo storage address",
+			"scripts/cmds/assets/guide/customrankcard/guide2.png": "change photo storage address",
+			"scripts/cmds/assets/guide/setleave/guide1.png": "change photo storage address",
+			"scripts/cmds/assets/guide/setname/guide1.png": "change photo storage address",
+			"scripts/cmds/assets/guide/setname/guide2.png": "change photo storage address",
+			"scripts/cmds/assets/guide/setwelcome/guide1.png": "change photo storage address"
+		}
 	}
 ]
