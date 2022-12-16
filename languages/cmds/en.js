@@ -483,7 +483,7 @@ module.exports = {
 		guide: {
 			body: "   {pn} on: Turn on leave message\n   {pn} off: Turn off leave message\n   {pn} text [<content> | reset]: edit text content or reset to default, available shortcuts:\n  + {userName}: name of member who leave group\n  + {userNameTag}: name of member who leave group (tag)\n  + {boxName}: name of group chat\n  + {type}: leave/kicked by admin\n  + {session}: session in day\n\n   Example:\n    {pn} text {userName} has {type} group, see you again 🤧\n\n   Reply or send a message with file with content {pn} file: to add attachment file to leave message (image, video, audio)\n\nExample:\n   {pn} file reset: reset file",
 			attachment: {
-				[`${process.cwd()}/scripts/cmds/assets/guide/setleave/guide1.png`]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/setleave/guide1.png"
+				[`${process.cwd()}/scripts/cmds/assets/guide/setleave_1.png`]: "https://i.ibb.co/2FKJHJr/guide1.png"
 			}
 		},
 		text: {
@@ -502,8 +502,8 @@ module.exports = {
 		guide: {
 			body: "   {pn} <nick name>: change nickname of yourself\n   {pn} @tags <nick name>: change nickname of members tagged\n   {pn} all <nick name>: change nickname of all members in chat\n\nWith available shortcuts:\n   + {userName}: name of member\n   + {userID}: ID of member\n\n   Example: (see image)",
 			attachment: {
-				[`${process.cwd()}/scripts/cmds/assets/guide/setname/guide1.png`]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/setname/guide1.png",
-				[`${process.cwd()}/scripts/cmds/assets/guide/setname/guide2.png`]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/setname/guide2.png"
+				[`${process.cwd()}/scripts/cmds/assets/guide/setname_1.png`]: "https://i.ibb.co/gFh23zb/guide1.png",
+				[`${process.cwd()}/scripts/cmds/assets/guide/setname_2.png`]: "https://i.ibb.co/BNWHKgj/guide2.png"
 			}
 		},
 		text: {
@@ -530,7 +530,7 @@ module.exports = {
 		guide: {
 			body: "   {pn} text [<content> | reset]: edit text content or reset to default, with some shortcuts:\n  + {userName}: new member name\n  + {userNameTag}: new member name (tag)\n  + {boxName}:  group chat name\n  + {multiple}: you || you guys\n  + {session}:  session in day\n\n   Example:\n    {pn} text Hello {userName}, welcome to {boxName}, have a nice day {multiple}\n\n   Reply (phản hồi) or send a message with file with content {pn} file: to add file attachments to welcome message (image, video, audio)\n\n   Example:\n    {pn} file reset: delete file attachments",
 			attachment: {
-				[`${process.cwd()}/scripts/cmds/assets/guide/setwelcome/guide1.png`]: "https://github.com/ntkhang03/Goat-Bot-V2/raw/main/scripts/cmds/assets/guide/setwelcome/guide1.png"
+				[`${process.cwd()}/scripts/cmds/assets/guide/setwelcome_1.png`]: "https://i.ibb.co/tp16L1d/guide1.png"
 			}
 		},
 		text: {
