@@ -230,6 +230,32 @@ module.exports = {
 	customrankcard: {
 		shortDescription: "Design rank card",
 		longDescription: "Design rank card by your own",
+		guide: {
+			body: "   {pn} [maincolor | subcolor | linecolor | progresscolor | alphasubcolor | textcolor | namecolor | expcolor | rankcolor | levelcolor | reset] <value>"
+				+ "\n   In which: "
+				+ "\n  + maincolor | background <value>: main background of rank card"
+				+ "\n  + subcolor <value>: sub background"
+				+ "\n  + linecolor <value>: color of line between main and sub background"
+				+ "\n  + expbarcolor <value>: color of exp bar"
+				+ "\n  + progresscolor <value>: color of current exp bar"
+				+ "\n  + alphasubcolor <value>: opacity of sub background (from 0 -> 1)"
+				+ "\n  + textcolor <value>: color of text (hex color or rgba)"
+				+ "\n  + namecolor <value>: color of name"
+				+ "\n  + expcolor <value>: color of exp"
+				+ "\n  + rankcolor <value>: color of rank"
+				+ "\n  + levelcolor <value>: color of level"
+				+ "\n    • <value> can be hex color, rgb, rgba, gradient (each color is separated by space) or image url"
+				+ "\n    • If you want to use gradient, please enter many colors separated by space"
+				+ "\n   {pn} reset: reset all to default"
+				+ "\n   Example:"
+				+ "\n    {pn} maincolor #fff000"
+				+ "\n    {pn} subcolor rgba(255,136,86,0.4)"
+				+ "\n    {pn} reset",
+			attachment: {
+				[`${process.cwd()}/scripts/cmds/assets/guide/customrankcard_1.jpg`]: "https://i.ibb.co/BZ2Qgs1/image.png",
+				[`${process.cwd()}/scripts/cmds/assets/guide/customrankcard_2.png`]: "https://i.ibb.co/wy1ZHHL/image.png"
+			}
+		},
 		text: {
 			invalidImage: "Invalid image url, please choose an url with image destination (jpg, jpeg, png, gif), you can upload image to https://imgbb.com/ and choose \"get direct link\" to get image url",
 			invalidAttachment: "Invalid attachment, please choose an image file",
