@@ -95,7 +95,7 @@ function getText(head, key, ...args) {
 				console.log(chalk.bold.blue('[↑]'), `${filePath}:`, chalk.hex('#858585')(description));
 			}
 			else {
-				const cutFullPath = filePath.split('/');
+				const cutFullPath = filePath.split('/').filter(p => p);
 				cutFullPath.pop();
 				for (let i = 0; i < cutFullPath.length; i++) {
 					const path = `${process.cwd()}/${cutFullPath.slice(0, i + 1).join('/')}`;
