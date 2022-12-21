@@ -4,7 +4,7 @@ const { getStreamFromURL } = global.utils;
 module.exports = {
 	config: {
 		name: "dhbc",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -43,7 +43,7 @@ module.exports = {
 	},
 
 	onStart: async function ({ message, event, commandName, getLang }) {
-		const datagame = (await axios.get("https://goatbot.up.railway.app/api/duoihinhbatchu")).data;
+		const datagame = (await axios.get("https://goatbotserver.onrender.com/api/duoihinhbatchu")).data;
 		const { wordcomplete, casi, image1, image2 } = datagame.data;
 
 		message.reply({

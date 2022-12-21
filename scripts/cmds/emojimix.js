@@ -3,7 +3,7 @@ const axios = require("axios");
 module.exports = {
 	config: {
 		name: "emojimix",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -62,7 +62,7 @@ module.exports = {
 
 async function generateEmojimix(emoji1, emoji2) {
 	try {
-		const { data: response } = await axios.get("https://goatbot.up.railway.app/taoanhdep/emojimix", {
+		const { data: response } = await axios.get("https://goatbotserver.onrender.com/taoanhdep/emojimix", {
 			params: {
 				emoji1,
 				emoji2

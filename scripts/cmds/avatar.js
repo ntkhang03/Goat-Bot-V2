@@ -5,7 +5,7 @@ module.exports = {
 	config: {
 		name: "avatar",
 		author: "NTKhang",
-		version: "1.4",
+		version: "1.5",
 		cooldowns: 5,
 		role: 0,
 		shortDescription: {
@@ -56,7 +56,7 @@ module.exports = {
 			return message.SyntaxError();
 		message.reply(getLang("initImage"));
 		try {
-			const dataChracter = (await axios.get("https://goatbot.up.railway.app/taoanhdep/listavataranime?apikey=ntkhang")).data.data;
+			const dataChracter = (await axios.get("https://goatbotserver.onrender.com/taoanhdep/listavataranime?apikey=ntkhang")).data.data;
 			if (!isNaN(content[0])) {
 				idNhanVat = parseInt(content[0]);
 				const totalCharacter = dataChracter.length - 1;
@@ -79,7 +79,7 @@ module.exports = {
 			return message.reply(getLang("errorGetCharacter", err.error, err.message));
 		}
 
-		const endpoint = `https://goatbot.up.railway.app/taoanhdep/avataranime`;
+		const endpoint = `https://goatbotserver.onrender.com/taoanhdep/avataranime`;
 		const params = {
 			id: idNhanVat,
 			chu_Nen,

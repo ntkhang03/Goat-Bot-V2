@@ -67,16 +67,21 @@ module.exports = {
 		const { threadID } = event;
 		const dataAntiChangeInfoBox = await threadsData.get(threadID, "data.antiChangeInfoBox", {});
 		async function checkAndSaveData(key, data) {
-			dataAntiChangeInfoBox[key] = args[1] === "on" ? data : false;
+			// dataAntiChangeInfoBox[key] = args[1] === "on" ? data : false;
+			if (args[1] === "off")
+				delete dataAntiChangeInfoBox[key];
+			else
+				dataAntiChangeInfoBox[key] = data;
+
 			await threadsData.set(threadID, dataAntiChangeInfoBox, "data.antiChangeInfoBox");
-			message.send(getLang(`antiChange${key.slice(0, 1).toUpperCase()}${key.slice(1)}${args[1].slice(0, 1).toUpperCase()}${args[1].slice(1)}`));
+			message.reply(getLang(`antiChange${key.slice(0, 1).toUpperCase()}${key.slice(1)}${args[1].slice(0, 1).toUpperCase()}${args[1].slice(1)}`));
 		}
 		switch (args[0]) {
 			case "avt":
 			case "avatar": {
 				const { imageSrc } = await threadsData.get(threadID);
 				if (!imageSrc)
-					return message.send(getLang("missingAvt"));
+					return message.reply(getLang("missingAvt"));
 				await checkAndSaveData("avatar", imageSrc);
 				break;
 			}
@@ -105,13 +110,13 @@ module.exports = {
 		const { threadID, logMessageType, logMessageData, author } = event;
 		switch (logMessageType) {
 			case "log:thread-image": {
-				const imgURL = await threadsData.get(threadID, "data.antiChangeInfoBox.avatar");
-				if (!imgURL)
+				const dataAntiChange = await threadsData.get(threadID, "data.antiChangeInfoBox");
+				if (!dataAntiChange.hasOwnProperty("avatar"))
 					return;
 				return async function () {
 					if (role < 1 && api.getCurrentUserID() !== author) {
 						message.reply(getLang("antiChangeAvatarAlreadyOn"));
-						api.changeGroupImage(await getStreamFromURL(imgURL), threadID);
+						api.changeGroupImage(await getStreamFromURL(dataAntiChange.avatar), threadID);
 					}
 					else {
 						const imageSrc = logMessageData.url;
@@ -120,13 +125,15 @@ module.exports = {
 				};
 			}
 			case "log:thread-name": {
-				const name = await threadsData.get(threadID, "data.antiChangeInfoBox.name");
-				if (name == false)
+				const dataAntiChange = await threadsData.get(threadID, "data.antiChangeInfoBox");
+				// const name = await threadsData.get(threadID, "data.antiChangeInfoBox.name");
+				// if (name == false)
+				if (!dataAntiChange.hasOwnProperty("name"))
 					return;
 				return async function () {
 					if (role < 1 && api.getCurrentUserID() !== author) {
 						message.reply(getLang("antiChangeNameAlreadyOn"));
-						api.setTitle(name, threadID);
+						api.setTitle(dataAntiChange.name, threadID);
 					}
 					else {
 						const threadName = logMessageData.name;
@@ -135,13 +142,15 @@ module.exports = {
 				};
 			}
 			case "log:thread-color": {
-				const themeID = await threadsData.get(threadID, "data.antiChangeInfoBox.theme");
-				if (themeID == false)
+				const dataAntiChange = await threadsData.get(threadID, "data.antiChangeInfoBox");
+				// const themeID = await threadsData.get(threadID, "data.antiChangeInfoBox.theme");
+				// if (themeID == false)
+				if (!dataAntiChange.hasOwnProperty("theme"))
 					return;
 				return async function () {
 					if (role < 1 && api.getCurrentUserID() !== author) {
 						message.reply(getLang("antiChangeThemeAlreadyOn"));
-						api.changeThreadColor(themeID || "196241301102133", threadID); // 196241301102133 is default color
+						api.changeThreadColor(dataAntiChange.theme || "196241301102133", threadID); // 196241301102133 is default color
 					}
 					else {
 						const threadThemeID = logMessageData.theme_id;
@@ -150,13 +159,15 @@ module.exports = {
 				};
 			}
 			case "log:thread-icon": {
-				const emoji = await threadsData.get(threadID, "data.antiChangeInfoBox.emoji");
-				if (emoji == false)
+				const dataAntiChange = await threadsData.get(threadID, "data.antiChangeInfoBox");
+				// const emoji = await threadsData.get(threadID, "data.antiChangeInfoBox.emoji");
+				// if (emoji == false)
+				if (!dataAntiChange.hasOwnProperty("emoji"))
 					return;
 				return async function () {
 					if (role < 1 && api.getCurrentUserID() !== author) {
 						message.reply(getLang("antiChangeEmojiAlreadyOn"));
-						api.changeThreadEmoji(emoji, threadID);
+						api.changeThreadEmoji(dataAntiChange.emoji, threadID);
 					}
 					else {
 						const threadEmoji = logMessageData.thread_icon;
