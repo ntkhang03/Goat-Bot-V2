@@ -8,7 +8,7 @@ module.exports = {
 	config: {
 		name: "emojimean",
 		alias: ["em", "emojimeaning", "emojimean"],
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -33,6 +33,7 @@ module.exports = {
 			meaningOfEmoji: "📌 Nghĩa của emoji %1:\n\n📄 Nghĩa đầu tiên: %2\n\n📑 Nghĩa khác: %3%4\n\n📄 Shortcode: %5\n\n©️ Nguồn: %6\n\n📺 Dưới đây là hình ảnh hiện thị của emoji trên một số nền tảng:",
 			meaningOfWikipedia: "\n\n📝 Reaction tin nhắn này để xem nghĩa \"%1\" từ Wikipedia",
 			meanOfWikipedia: "📑 Nghĩa của \"%1\" trên Wikipedia:\n%2",
+			manyRequest: "⚠️ Hiện tại bot đã gửi quá nhiều yêu cầu, vui lòng thử lại sau",
 			notHave: "Không có"
 		},
 		en: {
@@ -40,6 +41,7 @@ module.exports = {
 			meaningOfEmoji: "📌 Meaning of emoji %1:\n\n📄 First meaning: %2\n\n📑 More meaning: %3%4\n\n📄 Shortcode: %5\n\n©️ Source: %6\n\n📺 Below are images of the emoji displayed on some platforms:",
 			meaningOfWikipedia: "\n\n📝 React to this message to see the meaning \"%1\" from Wikipedia",
 			meanOfWikipedia: "📑 Meaning of \"%1\" on Wikipedia:\n%2",
+			manyRequest: "⚠️ The bot has sent too many requests, please try again later",
 			notHave: "Not have"
 		}
 	},
@@ -52,7 +54,27 @@ module.exports = {
 		let myLang = threadData.data.lang ? threadData.data.lang : global.GoatBot.config.language;
 		myLang = langsSupported.includes(myLang) ? myLang : "en";
 
-		const getMeaning = await getEmojiMeaning(emoji, myLang);
+		let getMeaning;
+		try {
+			getMeaning = await getEmojiMeaning(emoji, myLang);
+		}
+		catch (e) {
+			if (e.response && e.response.status == 429) {
+				let tryNumber = 0;
+				while (tryNumber < 3) {
+					try {
+						getMeaning = await getEmojiMeaning(emoji, myLang);
+						break;
+					}
+					catch (e) {
+						tryNumber++;
+					}
+				}
+				if (tryNumber == 3)
+					return message.reply(getLang("manyRequest"));
+			}
+		}
+		
 		const {
 			meaning,
 			moreMeaning,
@@ -194,7 +216,10 @@ async function getEmojiMeaning(emoji, lang) {
 		const div = $el.find("div > a");
 		let href = div.attr("href") || $el.find("figure > img").attr("data-src");
 		href = href.split("/").slice(3).join("/");
-		href = dataImages.match(new RegExp(`href="(/images/.*${href})"`))?.[1];
+		const splitHref = href.split("/");
+		href = href.includes(".gif") && splitHref[1].match(/(60|64)(px)?/g) ?
+			dataImages.match(new RegExp(`src="(/images/.*${href.split("/")[0]}/.*${href.split("/")[2]})"`))?.[1] :
+			dataImages.match(new RegExp(`href="(/images/.*${href})"`))?.[1];
 		const platform = p.text().trim();
 		arr.push({
 			url: href,
@@ -235,8 +260,10 @@ function wrapped(text, max, font, ctx) {
 
 function drawSquareRounded(ctx, x, y, w, h, r, color) {
 	ctx.save();
-	if (w < 2 * r) r = w / 2;
-	if (h < 2 * r) r = h / 2;
+	if (w < 2 * r)
+		r = w / 2;
+	if (h < 2 * r)
+		r = h / 2;
 	ctx.beginPath();
 	ctx.moveTo(x + r, y);
 	ctx.arcTo(x + w, y, x + w, y + h, r);
