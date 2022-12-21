@@ -14,6 +14,7 @@
 * [`Note`](#-note)
 * [`Prerequisites`](#-prerequisites)
 * [`Tutorial`](#-tutorial)
+* [`How to Update`](#-how-to-update)
 * [`Support`](#-support)
 * [`Support Languages`](#-support-languages)
 * [`Common Problems`](#-common-problems)
@@ -35,6 +36,10 @@
 #### A Tutorial has been uploaded on YouTube
 - Replit.com: https://www.youtube.com/watch?v=nTIT8OQeRnY
 - VPS/Windows:
+
+## 📝 How to Update
+#### A Tutorial has been uploaded on YouTube
+- https://youtu.be/c-3P2fjNHuE
 
 ## 📙 Support
 #### If you have major coding issues with this bot, please join and ask for help.
