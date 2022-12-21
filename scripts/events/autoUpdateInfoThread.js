@@ -11,6 +11,7 @@ module.exports = {
 			return;
 		const { threadID, logMessageData, logMessageType } = event;
 		const threadInfo = await threadsData.get(event.threadID);
+		// eslint-disable-next-line prefer-const
 		let { members, adminIDs } = threadInfo;
 		switch (logMessageType) {
 			case "log:subscribe":
