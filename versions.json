@@ -807,5 +807,16 @@
 			"scripts/cmds/customrankcard.js": "fixes can't select photo by replying to message",
 			"scripts/cmds/rank.js": "fixes not being able to optional alphaSubcolor = 0"
 		}
+	},
+	{
+		"version": "1.2.0",
+		"files": {
+			"bot/login/login.js": "change my server domain",
+			"scripts/cmds/antichangeinfobox.js": "change my server domain",
+			"scripts/cmds/avatar.js": "change my server domain",
+			"scripts/cmds/dhbc.js ": "change my server domain",
+			"scripts/cmds/emojimix.js": "change my server domain",
+			"scripts/cmds/emojimean.js": "fix bug"
+		}
 	}
 ]
