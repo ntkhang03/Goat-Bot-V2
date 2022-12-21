@@ -814,7 +814,7 @@
 			"bot/login/login.js": "change my server domain",
 			"scripts/cmds/antichangeinfobox.js": "change my server domain",
 			"scripts/cmds/avatar.js": "change my server domain",
-			"scripts/cmds/dhbc.js ": "change my server domain",
+			"scripts/cmds/dhbc.js": "change my server domain",
 			"scripts/cmds/emojimix.js": "change my server domain",
 			"scripts/cmds/emojimean.js": "fix bug"
 		}
