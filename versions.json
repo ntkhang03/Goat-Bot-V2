@@ -797,7 +797,7 @@
 	{
 		"version": "1.1.39",
 		"files": {
-			"updater.js":"update updater",
+			"updater.js": "update updater",
 			"scripts/cmds/help.js": "fix can't automatically create new folder when it doesn't exist"
 		}
 	},
@@ -817,6 +817,18 @@
 			"scripts/cmds/dhbc.js": "change my server domain",
 			"scripts/cmds/emojimix.js": "change my server domain",
 			"scripts/cmds/emojimean.js": "fix bug"
+		}
+	},
+	{
+		"version": "1.2.1",
+		"files": {
+			"bot/login/login.js": "update & code optimization",
+			"database/controller/dashBoardData.js": "update & code optimization",
+			"database/controller/globalData.js": "update & code optimization",
+			"database/controller/threadsData.js": "update & code optimization",
+			"database/controller/usersData.js": "update & code optimization",
+			"bot/login/checkLiveCookie.js": "update & code optimization",
+			"scripts/cmds/art.js": "new command: Convert photos into anime drawings"
 		}
 	}
 ]
