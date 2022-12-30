@@ -88,9 +88,8 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 						return dataUpdated;
 					}
 					case "sqlite": {
-						const dataUpdated = (await (await dashBoardModel.findOne({ where: { email } }))
-							.update(dataWillChange))
-							.get({ plain: true });
+						const getData = await dashBoardModel.findOne({ where: { email } });
+						const dataUpdated = (await getData.update(dataWillChange)).get({ plain: true });
 						global.client.dashBoardData[index] = dataUpdated;
 						return dataUpdated;
 					}

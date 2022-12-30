@@ -102,9 +102,8 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 						return dataUpdated;
 					}
 					case "sqlite": {
-						const dataUpdated = (await (await threadModel.findOne({ where: { threadID } }))
-							.update(dataWillChange))
-							.get({ plain: true });
+						const thread = await threadModel.findOne({ where: { threadID } });
+						const dataUpdated = (await thread.update(dataWillChange)).get({ plain: true });
 						global.db.allThreadData[index] = dataUpdated;
 						return dataUpdated;
 					}

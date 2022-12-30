@@ -101,9 +101,8 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 						return dataUpdated;
 					}
 					case "sqlite": {
-						const dataUpdated = (await (await userModel.findOne({ where: { userID } }))
-							.update(dataWillChange))
-							.get({ plain: true });
+						const user = await userModel.findOne({ where: { userID } });
+						const dataUpdated = (await user.update(dataWillChange)).get({ plain: true });
 						global.db.allUserData[index] = dataUpdated;
 						return dataUpdated;
 					}
