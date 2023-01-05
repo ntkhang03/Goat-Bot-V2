@@ -5,7 +5,7 @@ const _ = require('lodash');
 const log = require('./logger/log.js');
 const chalk = require('chalk');
 const langCode = require('./config.json').language;
-const exec = require('child_process').exec;
+const execSync = require('child_process').execSync;
 
 let pathLanguageFile = `${process.cwd()}/languages/${langCode}.lang`;
 if (!fs.existsSync(pathLanguageFile)) {
@@ -128,12 +128,7 @@ function getText(head, key, ...args) {
 
 	// npm install
 	log.info("UPDATE", getText("updater", "installingPackages"));
-	const { stdout, stderr } = await exec('npm install');
-	if (stderr)
-		log.error("UPDATE", stderr);
-	else
-		log.info("UPDATE", stdout);
+	execSync("npm install", { stdio: 'inherit' });
 	log.info("UPDATE", getText("updater", "installSuccess"));
-	log.info("UPDATE", getText("updater", "restartBot"));
 
 })();
