@@ -3,7 +3,7 @@ const { getStreamFromURL } = global.utils;
 module.exports = {
 	config: {
 		name: "antichangeinfobox",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -110,7 +110,7 @@ module.exports = {
 		const { threadID, logMessageType, logMessageData, author } = event;
 		switch (logMessageType) {
 			case "log:thread-image": {
-				const dataAntiChange = await threadsData.get(threadID, "data.antiChangeInfoBox");
+				const dataAntiChange = await threadsData.get(threadID, "data.antiChangeInfoBox", {});
 				if (!dataAntiChange.hasOwnProperty("avatar"))
 					return;
 				return async function () {
@@ -125,7 +125,7 @@ module.exports = {
 				};
 			}
 			case "log:thread-name": {
-				const dataAntiChange = await threadsData.get(threadID, "data.antiChangeInfoBox");
+				const dataAntiChange = await threadsData.get(threadID, "data.antiChangeInfoBox", {});
 				// const name = await threadsData.get(threadID, "data.antiChangeInfoBox.name");
 				// if (name == false)
 				if (!dataAntiChange.hasOwnProperty("name"))
@@ -142,7 +142,7 @@ module.exports = {
 				};
 			}
 			case "log:thread-color": {
-				const dataAntiChange = await threadsData.get(threadID, "data.antiChangeInfoBox");
+				const dataAntiChange = await threadsData.get(threadID, "data.antiChangeInfoBox", {});
 				// const themeID = await threadsData.get(threadID, "data.antiChangeInfoBox.theme");
 				// if (themeID == false)
 				if (!dataAntiChange.hasOwnProperty("theme"))
@@ -159,7 +159,7 @@ module.exports = {
 				};
 			}
 			case "log:thread-icon": {
-				const dataAntiChange = await threadsData.get(threadID, "data.antiChangeInfoBox");
+				const dataAntiChange = await threadsData.get(threadID, "data.antiChangeInfoBox", {});
 				// const emoji = await threadsData.get(threadID, "data.antiChangeInfoBox.emoji");
 				// if (emoji == false)
 				if (!dataAntiChange.hasOwnProperty("emoji"))
