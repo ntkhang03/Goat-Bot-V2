@@ -3,7 +3,7 @@ const axios = require("axios");
 module.exports = {
 	config: {
 		name: "art",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -42,9 +42,12 @@ module.exports = {
 			imageUrlInPut = event.messageReply.attachments[0].url;
 			type = isNaN(args[0]) ? 1 : Number(args[0]);
 		}
-		else if (args[0].match(/(https?:\/\/.*\.(?:png|jpg|jpeg))/g)) {
+		else if (args[0]?.match(/(https?:\/\/.*\.(?:png|jpg|jpeg))/g)) {
 			imageUrlInPut = args[0];
 			type = isNaN(args[1]) ? 1 : Number(args[1]);
+		}
+		else {
+			return message.reply(getLang("invalidUrl"));
 		}
 		let res;
 		try {
