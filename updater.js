@@ -5,6 +5,7 @@ const _ = require('lodash');
 const log = require('./logger/log.js');
 const chalk = require('chalk');
 const langCode = require('./config.json').language;
+const exec = require('child_process').exec;
 
 let pathLanguageFile = `${process.cwd()}/languages/${langCode}.lang`;
 if (!fs.existsSync(pathLanguageFile)) {
@@ -123,6 +124,16 @@ function getText(head, key, ...args) {
 	const $ = cheerio.load(packageHTML5);
 	const content = $('td.blob-code-inner').text();
 	fs.writeFileSync(`${process.cwd()}/package.json`, JSON.stringify(JSON.parse(content), null, 2));
-	
 	log.info("UPDATE", getText("updater", "updateSuccess"));
+
+	// npm install
+	log.info("UPDATE", getText("updater", "installingPackages"));
+	const { stdout, stderr } = await exec('npm install');
+	if (stderr)
+		log.error("UPDATE", stderr);
+	else
+		log.info("UPDATE", stdout);
+	log.info("UPDATE", getText("updater", "installSuccess"));
+	log.info("UPDATE", getText("updater", "restartBot"));
+
 })();
