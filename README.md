@@ -1,4 +1,4 @@
-<img src="https://i.ibb.co/1mGnq1q/banner.png" alt="banner">
+<img src="https://i.ibb.co/RQ28H2p/banner.png" alt="banner">
 <h1 align="center"><img src="./dashboard/images/logo-non-bg.png" width="22px"> Goat Bot - Bot Chat Messenger</h1>
 
 <p align="center">
@@ -12,7 +12,7 @@
 </p>
 
 * [`Note`](#-note)
-* [`Prerequisites`](#-prerequisites)
+* [`Requirement`](#-requirement)
 * [`Tutorial`](#-tutorial)
 * [`How to Update`](#-how-to-update)
 * [`Support`](#-support)
@@ -29,8 +29,8 @@
 - So, I recommend using a clone account (one that you're willing to throw away at any time)
 - I am not responsible for any problems that may arise from using this bot.
 
-## 🚧 Prerequisites
-- [Node.js 16.x](https://nodejs.org/en/download/)
+## 🚧 Requirement
+- Node.js 16.x [Download](https://nodejs.org/dist/v16.7.0) | [Home](https://nodejs.org/en/download/)
 
 ## 📝 Tutorial
 #### A Tutorial has been uploaded on YouTube
@@ -79,12 +79,20 @@
 
 <details>
 	<summary>
-		📌 GaxiosError: invalid_grant, unauthorized_client
+		📌 GaxiosError: invalid_grant, unauthorized_client 
 	</summary>
 		<p><img src="https://i.ibb.co/n7w9TkH/image.png" width="250px"></p>
 		<p><img src="https://i.ibb.co/XFKKY9c/image.png" width="250px"></p>
 		<p><img src="https://i.ibb.co/f4mc5Dp/image.png" width="250px"></p>
-		<p>- if you don't publish the project in google console, the refresh token will expire after 1 week and you need to get it back. <a href="https://youtu.be/nTIT8OQeRnY?t=445">Tuatorial</a></p>
+		<p>- If you don't publish the project in google console, the refresh token will expire after 1 week and you need to get it back. <a href="https://youtu.be/nTIT8OQeRnY?t=445">Tuatorial</a></p>
+</details>
+
+<details>
+	<summary>
+		📌 GaxiosError: invalid_client
+	</summary>
+		<p><img src="https://i.ibb.co/st3W6v4/Pics-Art-01-01-09-10-49.jpg" width="250px"></p>
+		<p>- Check if you have entered your google project client_id correctly <a href="https://youtu.be/nTIT8OQeRnY?t=509">Tuatorial</a></p>
 </details>
 
 <details>
@@ -92,7 +100,7 @@
 		📌 Error 403: access_denied
 	</summary>
 		<p><img src="https://i.ibb.co/dtrw5x3/image.png" width="250px"></p>
-		<p>- if you don't publish the project in google console only the approved accounts added to the project can use it <a href="https://youtu.be/nTIT8OQeRnY?t=438">Tuatorial</a></p>
+		<p>- If you don't publish the project in google console only the approved accounts added to the project can use it <a href="https://youtu.be/nTIT8OQeRnY?t=438">Tuatorial</a></p>
 </details>
 
 ## 📸 Screenshots
