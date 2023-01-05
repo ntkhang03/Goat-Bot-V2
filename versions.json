@@ -830,5 +830,20 @@
 			"bot/login/checkLiveCookie.js": "update & code optimization",
 			"scripts/cmds/art.js": "new command: Convert photos into anime drawings"
 		}
+	},
+	{
+		"version": "1.2.2",
+		"files": {
+			"scripts/cmds/art.js": "fixes error when reply message no pictures attached",
+			"languages/cmds/en.js": "language update",
+			"package.json": "add gradient-string package",
+			"package-lock.json": "add gradient-string package",
+			"scripts/cmds/antichangeinfobox.js": "",
+			"scripts/cmds/warn.js": "fixes error `❌ Can't find text on language \"en\" for command \"warn\" with key \"list\"`",
+			"languages/vi.lang": "language update",
+			"languages/en.lang": "language update",
+			"updater.js": "automatically install dependencies after update",
+			"index.js": "show author information"
+		}
 	}
 ]
