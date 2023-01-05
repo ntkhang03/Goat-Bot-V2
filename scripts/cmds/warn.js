@@ -3,7 +3,7 @@ const { getTime } = global.utils;
 module.exports = {
 	config: {
 		name: "warn",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -39,8 +39,8 @@ module.exports = {
 	langs: {
 		vi: {
 			list: "Danh sách những thành viên bị cảnh cáo:\n%1\n\nĐể xem chi tiết những lần cảnh cáo hãy dùng lệnh \"%2warn info  [@tag | <uid> | để trống]\": để xem thông tin cảnh cáo của người được tag hoặc uid hoặc bản thân",
-			listEmpty: "Nhóm bạn chưa có thành viên nào bị cảnh cáo",
 			listBan: "Danh sách những thành viên bị cảnh cáo đủ 3 lần và ban khỏi box:\n%1",
+			listEmpty: "Nhóm bạn chưa có thành viên nào bị cảnh cáo",
 			listBanEmpty: "Nhóm bạn chưa có thành viên nào bị ban khỏi box",
 			invalidUid: "Vui lòng nhập uid hợp lệ của người bạn muốn xem thông tin",
 			noData: "Không có dữ liệu nào",
@@ -64,6 +64,7 @@ module.exports = {
 			failedKick: "⚠️ Đã xảy ra lỗi khi kick những thành viên sau:\n%1"
 		},
 		en: {
+			list: "List of members who have been warned:\n%1\n\nTo view the details of the warnings, use the \"%2warn info [@tag | <uid> | leave blank]\" command: to view the warning information of the tagged person or uid or yourself",
 			listBan: "List of members who have been warned 3 times and banned from the box:\n%1",
 			listBanEmpty: "Your group has no members banned from the box",
 			invalidUid: "Please enter a valid uid of the person you want to view information",
