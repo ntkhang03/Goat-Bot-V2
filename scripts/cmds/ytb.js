@@ -1,15 +1,11 @@
 const axios = require("axios");
-const qs = require("qs");
-const https = require("https");
-const agent = new https.Agent({
-	rejectUnauthorized: false
-});
-const { getStreamFromURL, downloadFile, convertTime } = global.utils;
+const ytdl = require("ytdl-core");
+const { getStreamFromURL, downloadFile } = global.utils;
 
 module.exports = {
 	config: {
 		name: "ytb",
-		version: "1.6",
+		version: "1.7",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -145,16 +141,17 @@ module.exports = {
 };
 
 async function handle({ type, infoVideo, message, getLang }) {
-	const { video_url, title } = infoVideo;
+	const { title, videoId } = infoVideo;
 
 	if (type == "video") {
 		const MAX_SIZE = 87031808; // 83MB (max size of video that can be sent on fb)
 		const msgSend = message.reply(getLang("downloading", title));
-		const formats = await getFormatsUrl(video_url);
-		const getFormat = (formats.find(f => f.type === "mp4").qualitys.filter(f => f.size < MAX_SIZE) || [])[0];
+		const { formats } = await ytdl.getInfo(videoId);
+		// const getFormat = (formats.find(f => f.type === "mp4").qualitys.filter(f => f.size < MAX_SIZE) || [])[0];
+		const getFormat = formats.filter(f => f.hasVideo && f.hasAudio).sort((a, b) => b.contentLength - a.contentLength).find(f => f.contentLength < MAX_SIZE);
 		if (!getFormat)
 			return message.reply(getLang("noVideo"));
-		const stream = await getStreamFromURL(getFormat.dlink, `${title}.mp4`, { httpsAgent: agent });
+		const stream = await getStreamFromURL(getFormat.url, `${videoId}.mp4`);
 		message.reply({
 			body: title,
 			attachment: stream
@@ -163,11 +160,11 @@ async function handle({ type, infoVideo, message, getLang }) {
 	else if (type == "audio") {
 		const MAX_SIZE = 27262976; // 26MB (max size of audio that can be sent on fb)
 		const msgSend = message.reply(getLang("downloadingAudio", title));
-		const formats = await getFormatsUrl(video_url);
-		const getFormat = (formats.find(f => f.type === "mp3").qualitys.filter(f => f.size < MAX_SIZE) || [])[0];
+		const { formats } = await ytdl.getInfo(videoId);
+		const getFormat = formats.filter(f => f.hasAudio && !f.hasVideo).sort((a, b) => b.contentLength - a.contentLength).find(f => f.contentLength < MAX_SIZE);
 		if (!getFormat)
 			return message.reply(getLang("noAudio"));
-		const stream = await getStreamFromURL(getFormat.dlink, `${title}.mp3`, { httpsAgent: agent });
+		const stream = await getStreamFromURL(getFormat.dlink, `${videoId}.mp3`);
 		message.reply({
 			body: title,
 			attachment: stream
@@ -196,78 +193,6 @@ async function handle({ type, infoVideo, message, getLang }) {
 			])
 		});
 	}
-}
-
-
-async function getFormatsUrl(url) {
-	const response = await axios.post("https://9convert.com/api/ajaxSearch/index", qs.stringify({
-		query: url,
-		vt: "home"
-	}));
-
-	const videoId = response.data.vid;
-	const { data } = response;
-	for (const key in data.links) {
-		for (const key2 in data.links[key]) {
-			data.links[key][key2] = {
-				...data.links[key][key2],
-				dataConvert: convert(videoId, data.links[key][key2].k)
-			};
-		}
-	}
-
-	for (const key in data.links) {
-		for (const key2 in data.links[key]) {
-			data.links[key][key2] = { ...data.links[key][key2], ...(await data.links[key][key2].dataConvert) };
-			delete data.links[key][key2].dataConvert;
-		}
-	}
-
-	// format data to array
-	const linksFormat = [];
-	for (const key in data.links) {
-		const qualitys = [];
-		for (const key2 in data.links[key]) {
-			const format = data.links[key][key2];
-
-			let size;
-			if (format.size.includes("KB"))
-				size = parseInt(format.size.replace("KB", "")) * 1024;
-			if (format.size.includes("MB"))
-				size = parseInt((format.size.match(/\d+/) || ['0'])[0]) * 1024 * 1024;
-			if (format.size.includes("GB"))
-				size = parseInt((format.size.match(/\d+/) || ['0'])[0]) * 1024 * 1024 * 1024;
-
-			qualitys.push({
-				size,
-				dlink: format.dlink,
-				f: format.f,
-				q: format.d,
-				ftype: format.ftype
-			});
-		}
-
-		qualitys.sort((a, b) => a.size + b.size);
-
-		linksFormat.push({
-			type: key,
-			qualitys
-		});
-	}
-
-	data.links = linksFormat.sort((a, b) => b.size - a.size);
-	return data.links;
-}
-
-function convert(videoId, k) {
-	return new Promise((resolve, reject) => {
-		axios.post("https://9convert.com/api/ajaxConvert/convert", qs.stringify({
-			vid: videoId,
-			k
-		}))
-			.then(res => resolve(res.data))
-			.catch(err => reject(err));
-	});
 }
 
 async function search(keyWord) {

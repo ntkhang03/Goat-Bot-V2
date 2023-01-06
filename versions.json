@@ -845,5 +845,11 @@
 			"updater.js": "automatically install dependencies after update",
 			"index.js": "show author information"
 		}
+	},
+	{
+		"version": "1.2.3",
+		"files":{
+			"scripts/cmds/ytb.js": "fixes error `An error occured when executing command \"ytb\"`"
+		}
 	}
 ]
