@@ -5,7 +5,7 @@ const { getStreamFromURL, downloadFile } = global.utils;
 module.exports = {
 	config: {
 		name: "ytb",
-		version: "1.7",
+		version: "1.8",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -164,7 +164,7 @@ async function handle({ type, infoVideo, message, getLang }) {
 		const getFormat = formats.filter(f => f.hasAudio && !f.hasVideo).sort((a, b) => b.contentLength - a.contentLength).find(f => f.contentLength < MAX_SIZE);
 		if (!getFormat)
 			return message.reply(getLang("noAudio"));
-		const stream = await getStreamFromURL(getFormat.dlink, `${videoId}.mp3`);
+		const stream = await getStreamFromURL(getFormat.url, `${videoId}.mp3`);
 		message.reply({
 			body: title,
 			attachment: stream
