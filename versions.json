@@ -848,8 +848,14 @@
 	},
 	{
 		"version": "1.2.3",
-		"files":{
+		"files": {
 			"scripts/cmds/ytb.js": "fixes error `An error occured when executing command \"ytb\"`"
+		}
+	},
+	{
+		"version": "1.2.4",
+		"files": {
+			"scripts/cmds/tik.js": "fixes error `❌ An error occurred, please try again later`"
 		}
 	}
 ]
