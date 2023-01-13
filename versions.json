@@ -863,5 +863,14 @@
 		"files": {
 			"scripts/cmds/ytb.js": "fixes error `An error occurred when executing onReply at command \"ytb\"`"
 		}
+	},
+	{
+		"version": "1.2.6",
+		"files": {
+			"bot/login/login.js": "easy login with terminal and auto-login again when cookie expires (if there is account configuration, password in config.json file)",
+			"config.json": "added cookie auto-refresh feature",
+			"languages/vi.lang": "language update",
+			"languages/en.lang": "language update"
+		}
 	}
 ]
