@@ -699,6 +699,7 @@ module.exports = {
 		text: {
 			list: "List of members who have been warned:\n%1\n\nTo view the details of the warnings, use the \"%2warn info [@tag | <uid> | leave blank]\" command: to view the warning information of the tagged person or uid or yourself",
 			listBan: "List of members who have been warned 3 times and banned from the box:\n%1",
+			listEmpty: "Your group has no members who have been warned",
 			listBanEmpty: "Your group has no members banned from the box",
 			invalidUid: "Please enter a valid uid of the person you want to view information",
 			noData: "No data",

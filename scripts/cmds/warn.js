@@ -3,7 +3,7 @@ const { getTime } = global.utils;
 module.exports = {
 	config: {
 		name: "warn",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -66,6 +66,7 @@ module.exports = {
 		en: {
 			list: "List of members who have been warned:\n%1\n\nTo view the details of the warnings, use the \"%2warn info [@tag | <uid> | leave blank]\" command: to view the warning information of the tagged person or uid or yourself",
 			listBan: "List of members who have been warned 3 times and banned from the box:\n%1",
+			listEmpty: "Your group has no members who have been warned",
 			listBanEmpty: "Your group has no members banned from the box",
 			invalidUid: "Please enter a valid uid of the person you want to view information",
 			noData: "No data",
@@ -98,23 +99,23 @@ module.exports = {
 
 		switch (args[0]) {
 			case "list": {
-				const msg = await warnList.reduce(async (acc, user) => {
+				const msg = await Promise.all(warnList.map(async user => {
 					const { uid, list } = user;
 					const name = await usersData.getName(uid);
-					return acc + `\n${name} (${uid}): ${list.length}`;
-				}, "");
-				message.reply(msg ? getLang("list", msg, prefix) : getLang("listEmpty"));
+					return `${name} (${uid}): ${list.length}`;
+				}));
+				message.reply(msg.length ? getLang("list", msg.join("\n"), prefix) : getLang("listEmpty"));
 				break;
 			}
 			case "listban": {
-				const msg = warnList
-					.filter(user => user.list.length >= 3)
-					.reduce(async (acc, user) => {
-						const { uid } = user;
+				const result = (await Promise.all(warnList.map(async user => {
+					const { uid, list } = user;
+					if (list.length >= 3) {
 						const name = await usersData.getName(uid);
-						return acc + `\n${name} (${uid})`;
-					}, "");
-				message.reply(msg ? getLang("listBan", msg) : getLang("listBanEmpty"));
+						return `${name} (${uid})`;
+					}
+				}))).filter(item => item);
+				message.reply(result.length ? getLang("listBan", result.join("\n")) : getLang("listBanEmpty"));
 				break;
 			}
 			case "check":
@@ -122,27 +123,32 @@ module.exports = {
 				let uids, msg = "";
 				if (Object.keys(event.mentions).length)
 					uids = Object.keys(event.mentions);
+				else if (event.messageReply && event.messageReply.senderID)
+					uids = [event.messageReply.senderID];
 				else if (args.slice(1).length)
 					uids = args.slice(1);
 				else
 					uids = [senderID];
 				if (!uids)
 					return message.reply(getLang("invalidUid"));
-				for (const uid of uids) {
+				msg += (await Promise.all(uids.map(async uid => {
+					if (isNaN(uid))
+						return null;
 					const dataWarnOfUser = warnList.find(user => user.uid == uid);
-					msg += `\nUid: ${uid}`;
+					let msg = `Uid: ${uid}`;
+					const userName = await usersData.getName(uid);
+
 					if (!dataWarnOfUser || dataWarnOfUser.list.length == 0)
-						msg += `\n  ${getLang("noData")}`;
+						msg += `\n  Name: ${userName}\n  ${getLang("noData")}`;
 					else {
-						const userName = await usersData.getName(uid);
 						msg += `\nName: ${userName}`
 							+ `\nWarn list:` + dataWarnOfUser.list.reduce((acc, warn) => {
 								const { dateTime, reason } = warn;
-								return acc + `\n  Reason: ${reason}\n  Time: ${dateTime}`;
+								return acc + `\n  - Reason: ${reason}\n    Time: ${dateTime}`;
 							}, "");
 					}
-					msg += "\n————————————";
-				}
+					return msg;
+				}))).filter(msg => msg).join("\n\n");
 				message.reply(msg);
 				break;
 			}
@@ -169,6 +175,10 @@ module.exports = {
 					uid = Object.keys(event.mentions)[0];
 					num = args[args.length - 1];
 				}
+				else if (event.messageReply && event.messageReply.senderID) {
+					uid = event.messageReply.senderID;
+					num = args[1];
+				}
 				else {
 					uid = args[1];
 					num = parseInt(args[2]) - 1;
@@ -184,6 +194,8 @@ module.exports = {
 				if (num > dataWarnOfUser.list.length)
 					return message.reply(getLang("notEnoughWarn", userName, dataWarnOfUser.list.length));
 				dataWarnOfUser.list.splice(parseInt(num), 1);
+				if (!dataWarnOfUser.list.length)
+					warnList.splice(warnList.findIndex(u => u.uid == uid), 1);
 				await threadsData.set(threadID, warnList, "data.warn");
 				message.reply(getLang("unwarnSuccess", num + 1, uid, userName));
 				break;
