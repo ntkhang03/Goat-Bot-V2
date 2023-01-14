@@ -868,7 +868,10 @@
 		"version": "1.2.6",
 		"files": {
 			"bot/login/login.js": "easy login with terminal and auto-login again when cookie expires (if there is account configuration, password in config.json file)",
-			"config.json": "added cookie auto-refresh feature",
+			"config.json": {
+				"facebookAccount.intervalGetNewCookie": 1440,
+				"facebookAccount.notes": "time the system automatically retrieves new cookies from email/password, unit is minute, if you set null, the system will not automatically retrieve new cookies, it saves you from having to manually change your cookie every time it expires. recommended set to 1440 (1day) or 4320 (3day).TO BE ABLE TO USE THIS FEATURE YOU NEED TO ENTER THE ACCOUNT PASSWORD ABOVE"
+			},
 			"languages/vi.lang": "language update",
 			"languages/en.lang": "language update"
 		}
