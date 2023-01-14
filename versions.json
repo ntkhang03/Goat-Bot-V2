@@ -877,6 +877,7 @@
 		"version": "1.2.7",
 		"files": {
 			"languages/cmds/en.js": "language update",
+			"languages/cmds/vi.js": "language update",
 			"scripts/cmds/warn.js": "language update"
 		}
 	}
