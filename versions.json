@@ -890,5 +890,15 @@
 			"scripts/cmds/callad.js": "language update",
 			"languages/cmds/en.js": "language update"
 		}
+	},
+	{
+		"version": "1.2.9",
+		"files": {
+			".vscode/GoatBot.code-snippets": "add code snippets",
+			"bot/login/login.js": "languages update",
+			"languages/cmds/en.js": "languages update",
+			"scripts/cmds/adduser.js": "language update",
+			"scripts/cmds/help.js": "language update"
+		}
 	}
 ]
