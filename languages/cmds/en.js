@@ -18,7 +18,11 @@ module.exports = {
 			alreadyInGroup: "Already in group",
 			successAdd: "- Successfully added %1 members to the group",
 			failedAdd: "- Failed to add %1 members to the group",
-			approve: "- Added %1 members to the approval list"
+			approve: "- Added %1 members to the approval list",
+			invalidLink: "Please enter a valid facebook link",
+			cannotGetUid: "Cannot get uid of this user",
+			linkNotExist: "This profile url does not exist",
+			cannotAddUser: "Bot is blocked or this user blocked strangers from adding to the group"
 		}
 	},
 	admin: {
@@ -364,16 +368,17 @@ module.exports = {
 		longDescription: "View command usage",
 		guide: "{pn} [empty | <page number> | <command name>]",
 		text: {
-			help: "%1\n%2\n%1\nPage [ %3/%4 ]\nCurrently, the bot has %5 commands that can be used\n» Type %6help to view the command list\n» Type %6help to view the details of how to use that command\n%1\n%7",
-			help2: "%1%2\n» Currently, the bot has %3 commands that can be used, type %4help <command name> to view the details of how to use that command\n%2\n%5",
+			help: "╭─────────────⭓\n%1\n├─────⭔\n│ Page [ %2/%3 ]\n│ Currently, the bot has %4 commands that can be used\n│ » Type %5help <page> to view the command list\n│ » Type %5help to view the details of how to use that command\n├────────⭔\n│ %6\n╰─────────────⭓",
+			help2: "%1├───────⭔\n│ » Currently, the bot has %2 commands that can be used\n│ » Type %3help <command name> to view the details of how to use that command\n│ %4\n╰─────────────⭓",
 			commandNotFound: "Command \"%1\" does not exist",
-			getInfoCommand: "%1\n» Description: %2\n» Other names: %3\n» Other names in your group: %4\n» Version: %5\n» Role: %6\n» Time per command: %7s\n» Author: %8\n━━━  ❖  ━━━\n» Usage guide:\n%9\n━━━  ❖  ━━━\n» Notes:\n• The content inside <XXXXX> can be changed\n• The content inside [a|b|c] is a or b or c",
+			getInfoCommand: "╭── NAME ────⭓\n│ %1\n├── INFO\n│ Description: %2\n│ Other names: %3\n│ Other names in your group: %4\n│ Version: %5\n│ Role: %6\n│ Time per command: %7s\n│ Author: %8\n├── Usage\n%9\n├── Notes\n│ The content inside <XXXXX> can be changed\n│ The content inside [a|b|c] is a or b or c\n╰──────⭔",
 			doNotHave: "Do not have",
 			roleText0: "0 (All users)",
 			roleText1: "1 (Group administrators)",
 			roleText2: "2 (Admin bot)",
 			roleText0setRole: "0 (set role, all users)",
-			roleText1setRole: "1 (set role, group administrators)"
+			roleText1setRole: "1 (set role, group administrators)",
+			pageNotFound: "Page %1 does not exist"
 		}
 	},
 	kick: {

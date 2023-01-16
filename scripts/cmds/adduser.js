@@ -4,7 +4,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 module.exports = {
 	config: {
 		name: "adduser",
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 1,
@@ -30,7 +30,8 @@ module.exports = {
 			approve: "- Đã thêm %1 thành viên vào danh sách phê duyệt",
 			invalidLink: "Vui lòng nhập link facebook hợp lệ",
 			cannotGetUid: "Không thể lấy được uid của người dùng này",
-			linkNotExist: "Profile url này không tồn tại"
+			linkNotExist: "Profile url này không tồn tại",
+			cannotAddUser: "Bot bị chặn tính năng hoặc người dùng này chặn người lạ thêm vào nhóm"
 		},
 		en: {
 			alreadyInGroup: "Already in group",
@@ -39,19 +40,25 @@ module.exports = {
 			approve: "- Added %1 members to the approval list",
 			invalidLink: "Please enter a valid facebook link",
 			cannotGetUid: "Cannot get uid of this user",
-			linkNotExist: "This profile url does not exist"
+			linkNotExist: "This profile url does not exist",
+			cannotAddUser: "Bot is blocked or this user blocked strangers from adding to the group"
 		}
 	},
 
 	onStart: async function ({ message, api, event, args, threadsData, getLang }) {
 		const { members, adminIDs, approvalMode } = await threadsData.get(event.threadID);
-		const success = [{
-			type: "success",
-			uids: []
-		}, {
-			type: "waitApproval",
-			uids: []
-		}];
+		const botID = api.getCurrentUserID();
+
+		const success = [
+			{
+				type: "success",
+				uids: []
+			},
+			{
+				type: "waitApproval",
+				uids: []
+			}
+		];
 		const failed = [];
 
 		function checkErrorAndPush(messageError, item) {
@@ -83,10 +90,13 @@ module.exports = {
 							continue;
 						}
 						else if (i == 9 || (err.name != "SlowDown" && err.name != "CannotGetData")) {
-							checkErrorAndPush(err.name == "InvalidLink" ? getLang('invalidLink') :
-								err.name == "CannotGetData" ? getLang('cannotGetUid') :
-									err.name == "LinkNotExist" ? getLang('linkNotExist') :
-										err.message, item);
+							checkErrorAndPush(
+								err.name == "InvalidLink" ? getLang('invalidLink') :
+									err.name == "CannotGetData" ? getLang('cannotGetUid') :
+										err.name == "LinkNotExist" ? getLang('linkNotExist') :
+											err.message,
+								item
+							);
 							continueLoop = true;
 							break;
 						}
@@ -107,14 +117,13 @@ module.exports = {
 			else {
 				try {
 					await api.addUserToGroup(uid, event.threadID);
-					const botID = api.getCurrentUserID();
 					if (approvalMode === true && !adminIDs.includes(botID))
 						success[1].uids.push(uid);
 					else
 						success[0].uids.push(uid);
 				}
 				catch (err) {
-					checkErrorAndPush(err.errorDescription, item);
+					checkErrorAndPush(getLang("cannotAddUser"), item);
 				}
 			}
 		}
