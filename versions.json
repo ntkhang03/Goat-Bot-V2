@@ -900,5 +900,11 @@
 			"scripts/cmds/adduser.js": "language update",
 			"scripts/cmds/help.js": "language update"
 		}
+	},
+	{
+		"version": "1.2.10",
+		"files": {
+			"utils.js": "update shorten url function"
+		}
 	}
 ]
