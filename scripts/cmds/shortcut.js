@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: 'shortcut',
 		aliases: ['short'],
-		version: '1.6',
+		version: '1.7',
 		author: 'NTKhang',
 		countDown: 5,
 		role: 0,
@@ -18,26 +18,24 @@ module.exports = {
 		},
 		category: 'custom',
 		guide: {
-			body: {
-				vi: '   {pn} add <word> => <content>: thêm một phím tắt cho bạn (có thể gửi kèm hoặc phản hồi một tin nhắn có file để thêm tệp đính kèm)'
-					+ '\n   Ví dụ:\n    {pn} add hi => Xin chào mọi người'
-					+ '\n'
-					+ '\n   {pn} del <word>: xóa một phím tắt'
-					+ '\n   Ví dụ:\n    {pn} del hi'
-					+ '\n'
-					+ '\n   {pn} reomve: xóa bỏ tất cả các phím tắt trong nhóm chat của bạn'
-					+ '\n'
-					+ '\n   {pn} list: xem danh sách các phím tắt của bạn',
-				en: '   {pn} add <word> => <content>: add a shortcut for you (you can send or reply a message with file to add attachment)'
-					+ '\n   Example:\n    {pn} add hi => Hello everyone'
-					+ '\n'
-					+ '\n   {pn} del <word>: delete a shortcut'
-					+ '\n   Example:\n    {pn} del hi'
-					+ '\n'
-					+ '\n   {pn} reomve: remove all shortcuts in your group chat'
-					+ '\n'
-					+ '\n   {pn} list: view your shortcuts list'
-			}
+			vi: '   {pn} add <word> => <content>: thêm một phím tắt cho bạn (có thể gửi kèm hoặc phản hồi một tin nhắn có file để thêm tệp đính kèm)'
+				+ '\n   Ví dụ:\n    {pn} add hi => Xin chào mọi người'
+				+ '\n'
+				+ '\n   {pn} del <word>: xóa một phím tắt'
+				+ '\n   Ví dụ:\n    {pn} del hi'
+				+ '\n'
+				+ '\n   {pn} reomve: xóa bỏ tất cả các phím tắt trong nhóm chat của bạn'
+				+ '\n'
+				+ '\n   {pn} list: xem danh sách các phím tắt của bạn',
+			en: '   {pn} add <word> => <content>: add a shortcut for you (you can send or reply a message with file to add attachment)'
+				+ '\n   Example:\n    {pn} add hi => Hello everyone'
+				+ '\n'
+				+ '\n   {pn} del <word>: delete a shortcut'
+				+ '\n   Example:\n    {pn} del hi'
+				+ '\n'
+				+ '\n   {pn} reomve: remove all shortcuts in your group chat'
+				+ '\n'
+				+ '\n   {pn} list: view your shortcuts list'
 		}
 	},
 
