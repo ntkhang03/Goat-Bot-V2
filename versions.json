@@ -906,5 +906,11 @@
 		"files": {
 			"utils.js": "update shorten url function"
 		}
+	},
+	{
+		"version": "1.2.11",
+		"files": {
+			"scripts/cmds/shortcut.js": "language update"
+		}
 	}
 ]
