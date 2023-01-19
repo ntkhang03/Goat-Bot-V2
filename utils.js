@@ -7,7 +7,6 @@ const _ = require("lodash");
 const { google } = require("googleapis");
 const ora = require("ora");
 const chalk = require("chalk");
-const tinyurl = require("tinyurl");
 const log = require("./logger/log.js");
 
 const { config } = global.GoatBot;
@@ -471,8 +470,8 @@ const utils = {
 	},
 	async shortenURL(url) {
 		try {
-			const result = await tinyurl.shorten(url);
-			return result;
+			const result = await axios.get(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(url)}`);
+			return result.data;
 		}
 		catch (err) {
 			throw new Error('Error when shortening URL');
