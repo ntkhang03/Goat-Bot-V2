@@ -51,7 +51,7 @@ module.exports = {
 		}
 		let res;
 		try {
-			res = await axios.get("https://goatbotserver.onrender.com/taoanhdep/art?", {
+			res = await axios.get("https://goatbotserver.onrender.com/taoanhdep/art", {
 				params: {
 					image: imageUrlInPut,
 					type
