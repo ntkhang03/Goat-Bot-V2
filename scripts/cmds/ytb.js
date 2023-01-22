@@ -1,11 +1,25 @@
 const axios = require("axios");
 const ytdl = require("ytdl-core");
 const { getStreamFromURL, downloadFile } = global.utils;
+async function getStreamAndSize(url, path = "") {
+	const response = await axios({
+		method: "GET",
+		url,
+		responseType: "stream"
+	});
+	if (path)
+		response.data.path = path;
+	const totalLength = response.headers["content-length"];
+	return {
+		stream: response.data,
+		size: totalLength
+	};
+}
 
 module.exports = {
 	config: {
 		name: "ytb",
-		version: "1.8",
+		version: "1.9",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -147,28 +161,46 @@ async function handle({ type, infoVideo, message, getLang }) {
 		const MAX_SIZE = 87031808; // 83MB (max size of video that can be sent on fb)
 		const msgSend = message.reply(getLang("downloading", title));
 		const { formats } = await ytdl.getInfo(videoId);
-		// const getFormat = (formats.find(f => f.type === "mp4").qualitys.filter(f => f.size < MAX_SIZE) || [])[0];
-		const getFormat = formats.filter(f => f.hasVideo && f.hasAudio).sort((a, b) => b.contentLength - a.contentLength).find(f => f.contentLength < MAX_SIZE);
+		const getFormat = formats
+			.filter(f => f.hasVideo && f.hasAudio)
+			.sort((a, b) => b.contentLength - a.contentLength)
+			.find(f => f.contentLength || 0 < MAX_SIZE);
 		if (!getFormat)
 			return message.reply(getLang("noVideo"));
-		const stream = await getStreamFromURL(getFormat.url, `${videoId}.mp4`);
+		const getStream = await getStreamAndSize(getFormat.url, `${videoId}.mp4`);
+		if (getStream.size > MAX_SIZE)
+			return message.reply(getLang("noVideo"));
+
 		message.reply({
 			body: title,
-			attachment: stream
-		}, async () => message.unsend((await msgSend).messageID));
+			attachment: getStream.stream
+		}, async (err) => {
+			if (err)
+				return message.reply(getLang("error", err.message));
+			message.unsend((await msgSend).messageID);
+		});
 	}
 	else if (type == "audio") {
 		const MAX_SIZE = 27262976; // 26MB (max size of audio that can be sent on fb)
 		const msgSend = message.reply(getLang("downloadingAudio", title));
 		const { formats } = await ytdl.getInfo(videoId);
-		const getFormat = formats.filter(f => f.hasAudio && !f.hasVideo).sort((a, b) => b.contentLength - a.contentLength).find(f => f.contentLength < MAX_SIZE);
+		const getFormat = formats
+			.filter(f => f.hasAudio && !f.hasVideo)
+			.sort((a, b) => b.contentLength - a.contentLength)
+			.find(f => f.contentLength || 0 < MAX_SIZE);
 		if (!getFormat)
 			return message.reply(getLang("noAudio"));
-		const stream = await getStreamFromURL(getFormat.url, `${videoId}.mp3`);
+		const getStream = await getStreamAndSize(getFormat.url, `${videoId}.mp3`);
+		if (getStream.size > MAX_SIZE)
+			return message.reply(getLang("noAudio"));
 		message.reply({
 			body: title,
-			attachment: stream
-		}, async () => message.unsend((await msgSend).messageID));
+			attachment: getStream.stream
+		}, async (err) => {
+			if (err)
+				return message.reply(getLang("error", err.message));
+			message.unsend((await msgSend).messageID);
+		});
 	}
 	else if (type == "info") {
 		const { title, lengthSeconds, viewCount, videoId, uploadDate, likes, channel, chapters } = infoVideo;
