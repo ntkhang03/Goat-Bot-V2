@@ -918,5 +918,14 @@
 		"files": {
 			"scripts/cmds/ytb.js": "fixes error can't download video"
 		}
+	},
+	{
+		"version": "1.2.13",
+		"files": {
+			"bot/login/login.js": "language update",
+			"scripts/cmds/badwords.js": "language update",
+			"languages/cmds/en.js": "language update",
+			"scripts/cmds/filteruser.js": "Fixed a bug that could not delete members whose account was locked & language update"
+		}
 	}
 ]
