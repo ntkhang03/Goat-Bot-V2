@@ -5,7 +5,7 @@ function sleep(time) {
 module.exports = {
 	config: {
 		name: "filteruser",
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 1,
@@ -37,8 +37,8 @@ module.exports = {
 		en: {
 			needAdmin: "⚠️ | Please add the bot as a group admin to use this command",
 			confirm: "⚠️ | Are you sure you want to delete group members with less than %1 messages?\nReact to this message to confirm",
-			kickByBlock: "✅ | Successfully deleted %1 members who are locked acc",
-			kickByMsg: "✅ | Successfully deleted %1 members with less than %2 messages",
+			kickByBlock: "✅ | Successfully removed %1 members unavailable account",
+			kickByMsg: "✅ | Successfully removed %1 members with less than %2 messages",
 			kickError: "❌ | An error occurred and could not kick %1 members:\n%2",
 			noBlock: "✅ | There are no members who are locked acc",
 			noMsg: "✅ | There are no members with less than %1 messages"
@@ -62,7 +62,7 @@ module.exports = {
 		}
 		else if (args[0] == "die") {
 			const threadData = await api.getThreadInfo(event.threadID);
-			const membersBlocked = threadData.userInfo.filter(user => user.type !== "User").map(user => user.id);
+			const membersBlocked = threadData.userInfo.filter(user => user.type !== "User");
 			const errors = [];
 			const success = [];
 			for (const user of membersBlocked) {
