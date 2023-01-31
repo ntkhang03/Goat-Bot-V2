@@ -927,5 +927,11 @@
 			"languages/cmds/en.js": "language update",
 			"scripts/cmds/filteruser.js": "Fixed a bug that could not delete members whose account was locked & language update"
 		}
+	},
+	{
+		"version": "1.2.14",
+		"files": {
+			"bot/login/login.js": "fixed error gban check"
+		}
 	}
 ]
