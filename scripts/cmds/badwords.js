@@ -2,7 +2,7 @@ module.exports = {
 	config: {
 		name: "badwords",
 		aliases: ["badword"],
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 1,
@@ -54,7 +54,8 @@ module.exports = {
 			removedWarn: "✅ | Người dùng %1 | %2 đã được xóa bỏ 1 lần cảnh báo vi phạm từ cấm",
 			warned: "⚠️ | Từ cấm \"%1\" đã được phát hiện trong tin nhắn của bạn, nếu tiếp tục vi phạm bạn sẽ bị kick khỏi nhóm.",
 			warned2: "⚠️ | Từ cấm \"%1\" đã được phát hiện trong tin nhắn của bạn, bạn đã vi phạm 2 lần và sẽ bị kick khỏi nhóm.",
-			needAdmin: "Bot cần quyền quản trị viên để kick thành viên bị ban"
+			needAdmin: "Bot cần quyền quản trị viên để kick thành viên bị ban",
+			unwarned: "✅ | Đã xóa bỏ cảnh báo vi phạm từ cấm của người dùng %1 | %2"
 		},
 		en: {
 			onText: "on",
@@ -78,7 +79,8 @@ module.exports = {
 			removedWarn: "✅ | User %1 | %2 has been removed 1 banned words warning",
 			warned: "⚠️ | Banned words \"%1\" have been detected in your message, if you continue to violate you will be kicked from the group.",
 			warned2: "⚠️ | Banned words \"%1\" have been detected in your message, you have violated 2 times and will be kicked from the group.",
-			needAdmin: "Bot needs admin privileges to kick banned members"
+			needAdmin: "Bot needs admin privileges to kick banned members",
+			unwarned: "✅ | Removed banned words warning of user %1 | %2"
 		}
 	},
 

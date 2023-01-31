@@ -146,7 +146,8 @@ module.exports = {
 			removedWarn: "✅ | User %1 | %2 has been removed 1 banned words warning",
 			warned: "⚠️ | Banned words \"%1\" have been detected in your message, if you continue to violate you will be kicked from the group.",
 			warned2: "⚠️ | Banned words \"%1\" have been detected in your message, you have violated 2 times and will be kicked from the group.",
-			needAdmin: "Bot needs admin privileges to kick banned members"
+			needAdmin: "Bot needs admin privileges to kick banned members",
+			unwarned: "✅ | Removed banned words warning of user %1 | %2"
 		}
 	},
 	balance: {
