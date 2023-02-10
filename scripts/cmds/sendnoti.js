@@ -3,7 +3,7 @@ const { getStreamsFromAttachment, getTime } = global.utils;
 module.exports = {
 	config: {
 		name: "sendnoti",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -52,6 +52,7 @@ module.exports = {
 			missingGroupNameToDelete: "Vui lòng nhập tên groupNoti bạn muốn xóa nhóm chat này khỏi danh sách",
 			notInGroup: "Hiện tại nhóm chat này chưa có trong group noti %1",
 			deleted: "Đã xóa nhóm chat hiện tại khỏi group noti: %1",
+			failed: "Đã xảy ra lỗi khi gửi thông báo đến %1 nhóm chat: \n%2",
 			missingGroupNameToRemove: "Vui lòng nhập tên groupNoti bạn muốn xóa bỏ",
 			removed: "Đã xóa bỏ group noti: %1",
 			missingGroupNameToSend: "Vui lòng nhập tên groupNoti bạn muốn gủi tin nhắn",
@@ -75,6 +76,7 @@ module.exports = {
 			missingGroupNameToDelete: "Please enter groupNoti name you want to delete this group chat from list",
 			notInGroup: "Current group chat is not in notification group %1",
 			deleted: "Deleted current group chat from notification group: %1",
+			failed: "Failed to send notification to %1 group chats: \n%2",
 			missingGroupNameToRemove: "Please enter groupNoti name you want to remove",
 			removed: "Removed notification group: %1",
 			missingGroupNameToSend: "Please enter groupNoti name you want to send message",
@@ -122,7 +124,7 @@ module.exports = {
 				if (!getGroup)
 					return message.reply(getLang('groupNameNotExists', groupName));
 
-				if (role != 1)
+				if (role < 1)
 					return message.reply(getLang('notAdmin'));
 
 				getGroup.threadIDs.push(threadID);
