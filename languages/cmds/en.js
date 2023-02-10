@@ -472,6 +472,7 @@ module.exports = {
 			missingGroupNameToDelete: "Please enter groupNoti name you want to delete this group chat from list",
 			notInGroup: "Current group chat is not in notification group %1",
 			deleted: "Deleted current group chat from notification group: %1",
+			failed: "Failed to send notification to %1 group chats: \n%2",
 			missingGroupNameToRemove: "Please enter groupNoti name you want to remove",
 			removed: "Removed notification group: %1",
 			missingGroupNameToSend: "Please enter groupNoti name you want to send message",
@@ -580,7 +581,8 @@ module.exports = {
 		longDescription: "Add a shortcut for your message in group chat",
 		text: {
 			missingContent: 'Please enter the message content',
-			shortcutExists: 'This shortcut already exists',
+			shortcutExists: 'Shortcut "%1" already exists, react to this message to replace the content of the shortcut',
+			shortcutExistsByOther: 'Shortcut %1 has been added by other member, please try another keyword',
 			added: 'Added shortcut %1 => %2',
 			addedAttachment: ' with %1 attachment(s)',
 			missingKey: 'Please enter the keyword of the shortcut you want to delete',
