@@ -1,6 +1,6 @@
 {
 	"name": "goat-bot-v2",
-	"version": "1.2.14",
+	"version": "1.2.15",
 	"description": "A simple Bot chat messenger using personal account. Made by NTKhang.",
 	"main": "index.js",
 	"engines": {
@@ -43,7 +43,6 @@
 		"sequelize": "^6.19.0",
 		"socket.io": "^4.5.1",
 		"sqlite3": "^5.0.5",
-		"streaming-cache": "^0.5.5",
 		"tinyurl": "^1.1.7",
 		"totp-generator": "^0.0.13",
 		"ytdl-core": "^4.11.2"
