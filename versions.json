@@ -933,5 +933,16 @@
 		"files": {
 			"bot/login/login.js": "fixed error gban check"
 		}
+	},
+	{
+		"version": "1.2.15",
+		"files": {
+			"config.json": {
+				"database.autoSyncWhenStart": false
+			},
+			"scripts/cmds/shortcut.js": "can overwrite existing shortcut",
+			"scripts/cmds/sendnoti.js": "fixes admin bot can't send notification",
+			"languages/cmds/en.js": "language update"
+		}
 	}
 ]
