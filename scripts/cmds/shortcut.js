@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: 'shortcut',
 		aliases: ['short'],
-		version: '1.7',
+		version: '1.8',
 		author: 'NTKhang',
 		countDown: 5,
 		role: 0,
@@ -24,7 +24,7 @@ module.exports = {
 				+ '\n   {pn} del <word>: xóa một phím tắt'
 				+ '\n   Ví dụ:\n    {pn} del hi'
 				+ '\n'
-				+ '\n   {pn} reomve: xóa bỏ tất cả các phím tắt trong nhóm chat của bạn'
+				+ '\n   {pn} [reomve | reset]: xóa bỏ tất cả các phím tắt trong nhóm chat của bạn'
 				+ '\n'
 				+ '\n   {pn} list: xem danh sách các phím tắt của bạn',
 			en: '   {pn} add <word> => <content>: add a shortcut for you (you can send or reply a message with file to add attachment)'
@@ -42,7 +42,8 @@ module.exports = {
 	langs: {
 		vi: {
 			missingContent: 'Vui lòng nhập nội dung tin nhắn',
-			shortcutExists: 'Shortcut này đã tồn tại',
+			shortcutExists: 'Shortcut %1 đã tồn tại, thả cảm xúc bất kì vào tin nhắn này để thay thế nội dung của shortcut',
+			shortcutExistsByOther: 'Shortcut %1 đã được thêm vào bởi thành viên khác, vui lòng thử từ khóa khác',
 			added: 'Đã thêm shortcut %1 => %2',
 			addedAttachment: ' với %1 tệp đính kèm',
 			missingKey: 'Vui lòng nhập từ khóa của shortcut muốn xóa',
@@ -59,7 +60,8 @@ module.exports = {
 		},
 		en: {
 			missingContent: 'Please enter the message content',
-			shortcutExists: 'This shortcut already exists',
+			shortcutExists: 'Shortcut "%1" already exists, react to this message to replace the content of the shortcut',
+			shortcutExistsByOther: 'Shortcut %1 has been added by other member, please try another keyword',
 			added: 'Added shortcut %1 => %2',
 			addedAttachment: ' with %1 attachment(s)',
 			missingKey: 'Please enter the keyword of the shortcut you want to delete',
@@ -78,34 +80,42 @@ module.exports = {
 
 	onStart: async function ({ args, threadsData, message, event, role, usersData, getLang, commandName }) {
 		const { threadID, senderID, body } = event;
-		const dataShortcut = await threadsData.get(threadID, 'data.shortcut', []);
+		const shortCutData = await threadsData.get(threadID, 'data.shortcut', []);
 
 		switch (args[0]) {
 			case 'add': {
-				const [key, content] = body.split(' ').slice(2).join(' ').split('=>');
+				let [key, content] = body.split(' ').slice(2).join(' ').split('=>');
 				const attachments = [...event.attachments, ...(event.messageReply ? event.messageReply.attachments : [])].filter(item => ["photo", 'png', "animated_image", "video", "audio"].includes(item.type));
 				if (!key || !content && attachments.length === 0)
 					return message.reply(getLang('missingContent'));
-				if (dataShortcut.some(item => item.key == key))
-					return message.reply(getLang('shortcutExists'));
-				let attachmentIDs = [];
-				if (attachments.length > 0)
-					attachmentIDs = attachments.map(attachment => new Promise(async (resolve) => {
-						const ext = getExtFromUrl(attachment.url);
-						const fileName = `${Date.now()}.${ext}`;
-						const infoFile = await drive.uploadFile(`shortcut_${threadID}_${senderID}_${fileName}`, await getStreamFromURL(attachment.url));
-						resolve(infoFile.id);
-					}));
-				dataShortcut.push({
-					key: key.trim().toLowerCase(),
-					content,
-					attachments: await Promise.all(attachmentIDs),
-					author: senderID
-				});
-				await threadsData.set(threadID, dataShortcut, 'data.shortcut');
-				let msg = getLang('added', key, content) + "\n";
-				if (attachmentIDs.length > 0)
-					msg += getLang('addedAttachment', attachmentIDs.length);
+
+				key = key.trim().toLowerCase();
+				content = content.trim();
+
+				const alreadyExists = shortCutData.find(item => item.key == key);
+				if (alreadyExists) {
+					if (alreadyExists.author == senderID)
+						return message.reply(getLang('shortcutExists', key), async (err, info) => {
+							if (err)
+								return;
+							global.GoatBot.onReaction.set(info.messageID, {
+								commandName,
+								messageID: info.messageID,
+								author: senderID,
+								type: 'replaceContent',
+								newShortcut: await createShortcut(key, content, attachments, threadID, senderID)
+							});
+						});
+					else
+						return message.reply(getLang('shortcutExistsByOther'));
+				}
+
+				const newShortcut = await createShortcut(key, content, attachments, threadID, senderID);
+				shortCutData.push(newShortcut);
+				await threadsData.set(threadID, shortCutData, 'data.shortcut');
+				let msg = `${getLang('added', key, content)}\n`;
+				if (newShortcut.attachments.length > 0)
+					msg += getLang('addedAttachment', newShortcut.attachments.length);
 				message.reply(msg);
 				break;
 			}
@@ -114,25 +124,26 @@ module.exports = {
 				const key = args.slice(1).join(' ');
 				if (!key)
 					return message.reply(getLang('missingKey'));
-				const index = dataShortcut.findIndex(x => x.key === key);
+				const index = shortCutData.findIndex(x => x.key === key);
 				if (index === -1)
 					return message.reply(getLang('notFound', key));
-				if (senderID != dataShortcut[index].author && role < 1)
+				if (senderID != shortCutData[index].author && role < 1)
 					return message.reply(getLang('onlyAdmin'));
-				dataShortcut.splice(index, 1);
-				await threadsData.set(threadID, dataShortcut, 'data.shortcut');
+				shortCutData.splice(index, 1);
+				await threadsData.set(threadID, shortCutData, 'data.shortcut');
 				message.reply(getLang('deleted', key));
 				break;
 			}
 			case 'list': {
-				if (dataShortcut.length === 0)
+				if (shortCutData.length === 0)
 					return message.reply(getLang('empty'));
-				const list = (await Promise.all(dataShortcut.map(async (x, index) => `[${index + 1}] ${x.key} => ${x.content ? 1 : 0} ${getLang("message")}, ${x.attachments.length} ${getLang('attachment')} (${await usersData.getName(x.author)})`))).join('\n');
+				const list = (await Promise.all(shortCutData.map(async (x, index) => `[${index + 1}] ${x.key} => ${x.content ? 1 : 0} ${getLang("message")}, ${x.attachments.length} ${getLang('attachment')} (${await usersData.getName(x.author)})`))).join('\n');
 				message.reply(getLang('list') + '\n' + list);
 				break;
 			}
 			case 'remove':
 			case '-rm':
+			case 'reset':
 			case 'rm': {
 				if (threadID != senderID && role < 1)
 					return message.reply(getLang('onlyAdminRemoveAll'));
@@ -142,7 +153,8 @@ module.exports = {
 					global.GoatBot.onReaction.set(info.messageID, {
 						commandName,
 						messageID: info.messageID,
-						author: senderID
+						author: senderID,
+						type: 'removeAll'
 					});
 				});
 				break;
@@ -158,8 +170,20 @@ module.exports = {
 		const { threadID, userID } = event;
 		if (author != userID)
 			return;
-		await threadsData.set(threadID, [], "data.shortcut");
-		return message.reply(getLang('removedAll'));
+		if (Reaction.type == 'removeAll') {
+			await threadsData.set(threadID, [], "data.shortcut");
+			return message.reply(getLang('removedAll'));
+		}
+		else if (Reaction.type == 'replaceContent') {
+			const shortCutData = await threadsData.get(threadID, 'data.shortcut', []);
+			const index = shortCutData.findIndex(x => x.key === Reaction.newShortcut.key);
+			if (index == -1)
+				shortCutData.push(Reaction.newShortcut);
+			else
+				shortCutData[index] = Reaction.newShortcut;
+			await threadsData.set(threadID, shortCutData, 'data.shortcut');
+			return message.reply(getLang('added', Reaction.newShortcut.key, Reaction.newShortcut.content) + (Reaction.newShortcut.attachments.length > 0 ? `\n${getLang('addedAttachment', Reaction.newShortcut.attachments.length)}` : ''));
+		}
 	},
 
 	onChat: async ({ threadsData, message, event }) => {
@@ -182,3 +206,20 @@ module.exports = {
 		}
 	}
 };
+
+async function createShortcut(key, content, attachments, threadID, senderID) {
+	let attachmentIDs = [];
+	if (attachments.length > 0)
+		attachmentIDs = attachments.map(attachment => new Promise(async (resolve) => {
+			const ext = getExtFromUrl(attachment.url);
+			const fileName = `${Date.now()}.${ext}`;
+			const infoFile = await drive.uploadFile(`shortcut_${threadID}_${senderID}_${fileName}`, await getStreamFromURL(attachment.url));
+			resolve(infoFile.id);
+		}));
+	return {
+		key: key.trim().toLowerCase(),
+		content,
+		attachments: await Promise.all(attachmentIDs),
+		author: senderID
+	};
+}
