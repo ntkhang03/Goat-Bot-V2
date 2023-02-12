@@ -1,4 +1,4 @@
-### Built-in Functions:
+### **🛠️ Built-in Functions:**
 * Translate
 * convertTime
 * enable/disable process.stderr.clearLine
@@ -9,28 +9,43 @@
 * findUid Facebook
 * getStreamsFromAttachment
 * getStreamFromURL
-* addCommas
-* Google Drive: (upload, delete, getFile, )
+* Google Drive: (upload, delete, getFile, etc...)
 * And more...<br />
 See [utils.js](https://github.com/ntkhang03/Goat-Bot-V2/blob/main/utils.js) for more details.
 
 <hr>
 
-### Database
+### **🧠 Prepare**
+- [Node.js](https://nodejs.org/en/download/) 16.x
+- IDE or Text Editor (VSCode, Sublime Text, Atom, Notepad++, ...)
+- Knowledge of Javascript, Node.js, JSON,...
+- Knowledge of [Facebook Chat API Unofficial](https://github.com/ntkhang03/fb-chat-api/blob/master/DOCS.md)
+
+<hr>
+
+### **💾 Database**
 
 #### Type: You can choose one of the following storage methods, config at [config.json](https://github.com/ntkhang03/Goat-Bot-V2/blob/main/config.json)
 * [JSON](https://www.json.org/json-en.html) or [SQLite](https://www.sqlite.org/) or [MONGODB](https://www.mongodb.com/docs/manual/core/document/)
 * Basic usages:<br />
 
-**Users (see more details at [usersData.js](https://github.com/ntkhang03/Goat-Bot-V2/blob/main/database/controller/usersData.js))**
+<details>
+	<summary>
+		<b><i>Users</i></b>
+	</summary>
+	<i>see more details at <a href="https://github.com/ntkhang03/Goat-Bot-V2/blob/main/database/controller/usersData.js">usersData.js</a></i>
+	<br />
+	<br />
+
 ```javascript
 // CREATE USER DATA
 const newUserData = await usersData.create(userID, userInfo);
-// userInfo is data get by api.getUserInfo(userID)[userID] method or undefined is auto
+// userInfo is data get by (await api.getUserInfo(userID))[userID] method or undefined is auto
 
 // GET USER DATA
 const userData = await usersData.get(userID);
 ```
+
 
 ```javascript
 // SET USER DATA
@@ -38,10 +53,10 @@ await userData.set(userID, updateData, path);
 
 
 // Example 1
-// set data with path
+//   set data with path
 await usersData.set(4, { banned: true }, "data");
 
-// set data without path
+//   set data without path
 const userData = await usersData.get(userID);
 userData.data = {
 	banned: true
@@ -86,9 +101,17 @@ await usersData.refreshInfo(userID, updateData);
 // REMOVE USER DATA
 await usersData.remove(4);
 ```
+</details>
 
 
-**Threads: (see more details at [threadsData.js](https://github.com/ntkhang03/Goat-Bot-V2/blob/main/database/controller/threadsData.js))**
+<details>
+	<summary>
+		<b><i>Threads</i></b>
+	</summary>
+	<i>see more details at <a href="https://github.com/ntkhang03/Goat-Bot-V2/blob/main/database/controller/threadsData.js">threadsData.js</a></i>
+	<br />
+	<br />
+
 ```javascript
 // CREATE THREAD DATA
 const newThreadData = await threadsData.create(threadID, threadInfo);
@@ -128,11 +151,30 @@ await threadsData.refreshInfo(threadID, threadInfo);
 // threadInfo is data get by api.getThreadInfo(threadID) method or undefined is auto 
 // refresh data threadName, threadThemeID, emoji, adminIDs, imageSrc and members of thread
 ```
-
+</details>
 <hr>
 
-### Command script
+### **📦 Create new command**
 
-* Check in [cmds](https://github.com/ntkhang03/Goat-Bot-V2/tree/main/scripts/cmds) and [events](https://github.com/ntkhang03/Goat-Bot-V2/tree/main/scripts/events)
+ **Vietnamese**
+ * Trước tiên bạn cần có kiến thức về javascript như biến, hàm, vòng lặp, mảng, object, promise, async/await,... bạn có thể tìm hiểu thêm tại đây: https://developer.mozilla.org/en-US/docs/Web/JavaScript hoặc tại đây: https://www.w3schools.com/js/
+ * Tiếp theo là kiến thức về Nodejs như require, module.exports, ... bạn có thể tìm hiểu thêm tại đây: https://nodejs.org/en/docs/
+ * Và kiến thức về api không chính thức của facebook như api.sendMessage, api.changeNickname,... bạn có thể tìm hiểu thêm tại đây: https://github.com/ntkhang03/fb-chat-api/blob/master/DOCS.md
+ * Nếu tên file kết thúc bằng `.eg.js` thì nó sẽ không được load vào bot, nếu bạn muốn load nó vào bot thì đổi phần mở rộng của file thành `.js`
 
-## 🚀 Updating...
+ **English**
+ * First you need to have knowledge of javascript such as variables, functions, loops, arrays, objects, promise, async/await, ... you can learn more at here: https://developer.mozilla.org/en-US/docs/Web/JavaScript or here: https://www.w3schools.com/js/
+ * Next is knowledge of Nodejs such as require, module.exports, ... you can learn more at here: https://nodejs.org/en/docs/
+ * And knowledge of unofficial facebook api such as api.sendMessage, api.changeNickname,... you can learn more at here: https://github.com/ntkhang03/fb-chat-api/blob/master/DOCS.md
+ * If the file name ends with `.eg.js` then it will not be loaded into the bot, if you want to load it into the bot then change the extension of the file to `.js`
+
+
+ **Start create new command**
+
+* Reference from available commands: [cmds](https://github.com/ntkhang03/Goat-Bot-V2/tree/main/scripts/cmds) and [events](https://github.com/ntkhang03/Goat-Bot-V2/tree/main/scripts/events)
+* See example at for command [here](https://github.com/ntkhang03/Goat-Bot-V2/blob/main/scripts/cmds/newcommand.eg.js), for event [here](https://github.com/ntkhang03/Goat-Bot-V2/blob/main/scripts/events/newcommandevent.eg.js)
+* Or if using vscode you can create new command with snippets `GoatBotCommandCreate` or `GoatBotEventCreate`
+  <!-- import gif image -->
+	<img src="https://i.ibb.co/5s9Rqxv/GIF-230211-200102.gif" alt="create-command" width="100%" />
+
+## 🚀 **Updating...**
