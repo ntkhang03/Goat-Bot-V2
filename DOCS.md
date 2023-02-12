@@ -173,8 +173,9 @@ await threadsData.refreshInfo(threadID, threadInfo);
 
 * Reference from available commands: [cmds](https://github.com/ntkhang03/Goat-Bot-V2/tree/main/scripts/cmds) and [events](https://github.com/ntkhang03/Goat-Bot-V2/tree/main/scripts/events)
 * See example at for command [here](https://github.com/ntkhang03/Goat-Bot-V2/blob/main/scripts/cmds/newcommand.eg.js), for event [here](https://github.com/ntkhang03/Goat-Bot-V2/blob/main/scripts/events/newcommandevent.eg.js)
-* Or if using vscode you can create new command with snippets `GoatBotCommandCreate` or `GoatBotEventCreate`
-  <!-- import gif image -->
-	<img src="https://i.ibb.co/5s9Rqxv/GIF-230211-200102.gif" alt="create-command" width="100%" />
+* Or if using vscode you can create new command with snippets 
+  `GoatBotCommandCreate` or `GoatBotEventCreate` (press <kbd>tab</kbd> to jump to next placeholder)
+
+	<img src="https://i.ibb.co/VTstrSy/Animation.gif" width="400px" />
 
 ## 🚀 **Updating...**
