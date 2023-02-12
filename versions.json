@@ -944,5 +944,18 @@
 			"scripts/cmds/sendnoti.js": "fixes admin bot can't send notification",
 			"languages/cmds/en.js": "language update"
 		}
+	},
+	{
+		"version": "1.2.16",
+		"files": {
+			"scripts/cmds/ytb.js": "fixes error: TypeError: Cannot read property 'accessibilityData' of undefined",
+			"scripts/cmds/newcommand.eg.js": "template for create new command",
+			"scripts/events/newcommandevent.eg.js": "template for create new command event",
+			"README.md": "update readme",
+			"DOCS.md": "update docs",
+			"bot/handler/handlerEvents.js": "update",
+			"bot/login/loadScripts.js": "update",
+			".vscode/GoatBot.code-snippets": "new snippets: GoatBotEventCreate"
+		}
 	}
 ]
