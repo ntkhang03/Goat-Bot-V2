@@ -109,5 +109,32 @@
 			"}"
 		],
 		"description": "Create template for Goat Bot command onStart"
+	},
+	"Goat Bot Event": {
+		"scope": "javascript,typescript",
+		"prefix": "GoatBotEventCreate",
+		"body": [
+			"module.exports = {",
+			"\tconfig: {",
+			"\t\tname: \"$1\",",
+			"\t\tversion: \"$3\",",
+			"\t\tauthor: \"$4\"",
+			"\t},",
+			"",
+			"\tlangs: {",
+			"\t\tvi: {",
+			"\t\t\t$7",
+			"\t\t},",
+			"\t\ten: {",
+			"\t\t\t$8",
+			"\t\t}",
+			"\t},",
+			"",
+			"\tonStart: async function ({ usersData, threadsData, event, api, getLang }) {",
+			"\t\t$9",
+			"\t}",
+			"};"
+		],
+		"description": "Create template for Goat Bot command event"
 	}
 }
