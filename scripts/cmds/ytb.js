@@ -19,7 +19,7 @@ async function getStreamAndSize(url, path = "") {
 module.exports = {
 	config: {
 		name: "ytb",
-		version: "1.9",
+		version: "1.10",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -284,7 +284,7 @@ async function getVideoInfo(id) {
 		lengthSeconds: lengthSeconds.match(/\d+/)[0],
 		viewCount: viewCount.match(/\d+/)[0],
 		uploadDate: json.microformat.playerMicroformatRenderer.uploadDate,
-		likes: json2.contents.twoColumnWatchNextResults.results.results.contents.find(x => x.videoPrimaryInfoRenderer).videoPrimaryInfoRenderer.videoActions.menuRenderer.topLevelButtons.find(x => x.segmentedLikeDislikeButtonRenderer).segmentedLikeDislikeButtonRenderer.likeButton.toggleButtonRenderer.defaultText.accessibility.accessibilityData.label.replace(/\.|,/g, '').match(/\d+/)?.[0] || 0,
+		likes: json2.contents.twoColumnWatchNextResults.results.results.contents.find(x => x.videoPrimaryInfoRenderer).videoPrimaryInfoRenderer.videoActions.menuRenderer.topLevelButtons.find(x => x.segmentedLikeDislikeButtonRenderer).segmentedLikeDislikeButtonRenderer.likeButton.toggleButtonRenderer.defaultText.accessibility?.accessibilityData.label.replace(/\.|,/g, '').match(/\d+/)?.[0] || 0,
 		chapters: getChapters.map((x, i) => {
 			const start_time = x.chapterRenderer.timeRangeStartMillis;
 			const end_time = getChapters[i + 1]?.chapterRenderer?.timeRangeStartMillis || lengthSeconds.match(/\d+/)[0] * 1000;
