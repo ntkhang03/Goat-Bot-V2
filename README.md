@@ -11,37 +11,41 @@
   <img alt="size" src="https://img.shields.io/badge/license-MIT-green?style=flat-square">
 </p>
 
-* [`Note`](#-note)
-* [`Requirement`](#-requirement)
-* [`Tutorial`](#-tutorial)
-* [`How to Update`](#-how-to-update)
-* [`Support`](#-support)
-* [`Support Languages`](#-support-languages)
-* [`Common Problems`](#-common-problems)
-* [`Screenshots`](#-screenshots)
-* [`Copyright (C)`](#-copyright-c)
-* [`License`](#-license)
+- [📝 Note](#-note)
+- [🚧 Requirement](#-requirement)
+- [📝 Tutorial](#-tutorial)
+- [📝 How to Update](#-how-to-update)
+- [📝 How to create new commands](#-how-to-create-new-commands)
+- [📙 Support](#-support)
+- [📚 Support Languages in source code](#-support-languages-in-source-code)
+- [📌 Common Problems](#-common-problems)
+- [📸 Screenshots](#-screenshots)
+- [✨ Copyright (C)](#-copyright-c)
+- [📜 License](#-license)
 
 <hr>
 
-## 📝 Note
+## 📝 **Note**
 - This is a messenger chat bot using a personal account, using an [unofficial api](https://github.com/ntkhang03/fb-chat-api/blob/master/DOCS.md) ([Origin here](https://github.com/Schmavery/facebook-chat-api)) and this may lead to facebook account being locked due to spam or other reasons. 
 - So, I recommend using a clone account (one that you're willing to throw away at any time)
 - I am not responsible for any problems that may arise from using this bot.
 
-## 🚧 Requirement
+## 🚧 **Requirement**
 - Node.js 16.x [Download](https://nodejs.org/dist/v16.7.0) | [Home](https://nodejs.org/en/download/)
 
-## 📝 Tutorial
+## 📝 **Tutorial**
 #### A Tutorial has been uploaded on YouTube
 - Replit.com: https://www.youtube.com/watch?v=nTIT8OQeRnY
 - VPS/Windows:
 
-## 📝 How to Update
+## 📝 **How to Update**
 #### A Tutorial has been uploaded on YouTube
 - https://youtu.be/c-3P2fjNHuE
 
-## 📙 Support
+## 📝 **How to create new commands**
+- See [here](https://github.com/ntkhang03/Goat-Bot-V2/blob/main/DOCS.md)
+
+## 📙 **Support**
 #### If you have major coding issues with this bot, please join and ask for help.
 - https://www.facebook.com/groups/goatbot
 - https://www.facebook.com/groups/goatbot/permalink/493150412403231
@@ -49,7 +53,7 @@
 - https://discord.com/invite/DbyGwmkpVY
 - ***Please do not inbox me, I do not respond to private messages, any questions please join the chat group for answers. ThankThanks!***
 
-## 📚 Support Languages in source code
+## 📚 **Support Languages in source code**
 
 - [x] `en: English`
 - [x] `vi: Vietnamese`
@@ -57,7 +61,7 @@
 - Change language in `config.json` file
 - You can customize the language in the folder `languages/`, `languages/cmds/` and `languages/events/`
 
-## 📌 Common Problems
+## 📌 **Common Problems**
 <details>
 	<summary>
 		📌 Error 400: redirect_uri_mismatch
@@ -103,7 +107,7 @@
 		<p>- If you don't publish the project in google console only the approved accounts added to the project can use it <a href="https://youtu.be/nTIT8OQeRnY?t=438">Tuatorial</a></p>
 </details>
 
-## 📸 Screenshots
+## 📸 **Screenshots**
 - ### Bot
 <details>
 	<summary>
@@ -180,10 +184,24 @@
 	<p><img src="https://i.ibb.co/3SyfQkz/db-Custom-Welcome.png" width="399px"></p>
 </details>
 
-## ✨ Copyright (C)
-### [NTKhang (NTKhang03)](https://github.com/ntkhang03)
+## ✨ **Copyright (C)**
+- **[NTKhang (NTKhang03)](https://github.com/ntkhang03)**
 
-## 📜 License
-### If you violate any rules, you will be banned from using my project
+## 📜 **License**
+
+**VIETNAMESE**
+
+- ***Nếu bạn vi phạm bất kỳ quy tắc nào, bạn sẽ bị cấm sử dụng dự án của tôi***
+- Không bán mã nguồn của tôi
+- Không tự xưng là chủ sở hữu của mã nguồn của tôi
+- Không kiếm tiền từ mã nguồn của tôi (chẳng hạn như: mua bán lệnh, mua bán/cho thuê bot, kêu gọi quyên góp, v.v.)
+- Không xóa/sửa đổi credit (tên tác giả) trong mã nguồn của tôi
+
+**ENGLISH**
+
+- ***If you violate any rules, you will be banned from using my project***
 - Don't sell my source code
-- Don't remove/edit my credits
+- Don't claim my source code as your own
+- Do not monetize my source code (such as: buy and sell commands, buy and sell bots, call for donations, etc.)
+- Don't remove/edit my credits (author name) in my source code
+
