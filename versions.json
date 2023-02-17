@@ -1025,7 +1025,8 @@
 			"fb-chat-api/src/unfriend.js": "",
 			"fb-chat-api/src/unsendMessage.js": "",
 			"fb-chat-api/index.js": "",
-			"fb-chat-api/utils.js": ""
+			"fb-chat-api/utils.js": "",
+			"bot/login/login.js": "replace package `fb-chat-api`"
 		}
 	}
 ]
