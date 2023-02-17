@@ -1,0 +1,5 @@
+
+node_modules
+test/appstate.json
+test/test-config.json
+package-lock.json
