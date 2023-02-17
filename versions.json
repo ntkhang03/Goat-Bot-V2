@@ -963,5 +963,13 @@
 		"files": {
 			"package.json": "change package `fb-chat-api` to github repo"
 		}
+	},
+	{
+		"version": "1.2.18",
+		"files": {
+			"package.json": "package `fb-chat-api` no longer exists",
+			"package-lock.json": "package `fb-chat-api` no longer exists"
+
+		}
 	}
 ]
