@@ -1,12 +1,12 @@
 /* eslint-disable no-prototype-builtins */
 "use strict";
 
-var bluebird = require("bluebird");
-var request = bluebird.promisify(require("request").defaults({ jar: true, proxy: process.env.FB_PROXY }));
-var stream = require("stream");
-var log = require("npmlog");
-var querystring = require("querystring");
-var url = require("url");
+const bluebird = require("bluebird");
+let request = bluebird.promisify(require("request").defaults({ jar: true, proxy: process.env.FB_PROXY }));
+const stream = require("stream");
+const log = require("npmlog");
+const querystring = require("querystring");
+const url = require("url");
 
 // Check latest update
 // if (!process.env.FB_CHAT_API_NO_UPDATE_CHECK) {
@@ -36,7 +36,7 @@ function setProxy(url) {
 }
 
 function getHeaders(url, options, ctx, customHeader) {
-	var headers = {
+	const headers = {
 		"Content-Type": "application/x-www-form-urlencoded",
 		Referer: "https://www.facebook.com/",
 		Host: url.replace("https://", "").split("/")[0],
@@ -67,13 +67,13 @@ function isReadableStream(obj) {
 function get(url, jar, qs, options, ctx) {
 	// I'm still confused about this
 	if (getType(qs) === "Object") {
-		for (var prop in qs) {
+		for (const prop in qs) {
 			if (qs.hasOwnProperty(prop) && getType(qs[prop]) === "Object") {
 				qs[prop] = JSON.stringify(qs[prop]);
 			}
 		}
 	}
-	var op = {
+	const op = {
 		headers: getHeaders(url, options, ctx),
 		timeout: 60000,
 		qs: qs,
@@ -84,12 +84,12 @@ function get(url, jar, qs, options, ctx) {
 	};
 
 	return request(op).then(function (res) {
-		return res;
+		return Array.isArray(res) ? res[0] : res;
 	});
 }
 
 function post(url, jar, form, options, ctx, customHeader) {
-	var op = {
+	const op = {
 		headers: getHeaders(url, options, ctx, customHeader),
 		timeout: 60000,
 		url: url,
@@ -100,14 +100,14 @@ function post(url, jar, form, options, ctx, customHeader) {
 	};
 
 	return request(op).then(function (res) {
-		return res;
+		return Array.isArray(res) ? res[0] : res;
 	});
 }
 
 function postFormData(url, jar, form, qs, options, ctx) {
-	var headers = getHeaders(url, options, ctx);
+	const headers = getHeaders(url, options, ctx);
 	headers["Content-Type"] = "multipart/form-data";
-	var op = {
+	const op = {
 		headers: headers,
 		timeout: 60000,
 		url: url,
@@ -131,18 +131,18 @@ function padZeros(val, len) {
 }
 
 function generateThreadingID(clientID) {
-	var k = Date.now();
-	var l = Math.floor(Math.random() * 4294967295);
-	var m = clientID;
+	const k = Date.now();
+	const l = Math.floor(Math.random() * 4294967295);
+	const m = clientID;
 	return "<" + k + ":" + l + "-" + m + "@mail.projektitan.com>";
 }
 
 function binaryToDecimal(data) {
-	var ret = "";
+	let ret = "";
 	while (data !== "0") {
-		var end = 0;
-		var fullName = "";
-		var i = 0;
+		let end = 0;
+		let fullName = "";
+		let i = 0;
 		for (; i < data.length; i++) {
 			end = 2 * end + parseInt(data[i], 10);
 			if (end >= 10) {
@@ -160,16 +160,16 @@ function binaryToDecimal(data) {
 }
 
 function generateOfflineThreadingID() {
-	var ret = Date.now();
-	var value = Math.floor(Math.random() * 4294967295);
-	var str = ("0000000000000000000000" + value.toString(2)).slice(-22);
-	var msgs = ret.toString(2) + str;
+	const ret = Date.now();
+	const value = Math.floor(Math.random() * 4294967295);
+	const str = ("0000000000000000000000" + value.toString(2)).slice(-22);
+	const msgs = ret.toString(2) + str;
 	return binaryToDecimal(msgs);
 }
 
-var h;
-var i = {};
-var j = {
+let h;
+const i = {};
+const j = {
 	_: "%",
 	A: "%2",
 	B: "000",
@@ -201,8 +201,8 @@ var j = {
 		"%2c%22sb%22%3a1%2c%22t%22%3a%5b%5d%2c%22f%22%3anull%2c%22uct%22%3a0%2c%22s%22%3a0%2c%22blo%22%3a0%7d%2c%22bl%22%3a%7b%22ac%22%3a"
 };
 (function () {
-	var l = [];
-	for (var m in j) {
+	const l = [];
+	for (const m in j) {
 		i[j[m]] = m;
 		l.push(j[m]);
 	}
@@ -231,7 +231,7 @@ function presenceDecode(str) {
 }
 
 function generatePresence(userID) {
-	var time = Date.now();
+	const time = Date.now();
 	return (
 		"E" +
 		presenceEncode(
@@ -257,7 +257,7 @@ function generatePresence(userID) {
 }
 
 function generateAccessiblityCookie() {
-	var time = Date.now();
+	const time = Date.now();
 	return encodeURIComponent(
 		JSON.stringify({
 			sr: 0,
@@ -274,15 +274,15 @@ function generateAccessiblityCookie() {
 
 function getGUID() {
 	/** @type {number} */
-	var sectionLength = Date.now();
+	let sectionLength = Date.now();
 	/** @type {string} */
-	var id = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+	const id = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
 		/** @type {number} */
-		var r = Math.floor((sectionLength + Math.random() * 16) % 16);
+		const r = Math.floor((sectionLength + Math.random() * 16) % 16);
 		/** @type {number} */
 		sectionLength = Math.floor(sectionLength / 16);
 		/** @type {string} */
-		var _guid = (c == "x" ? r : (r & 7) | 8).toString(16);
+		const _guid = (c == "x" ? r : (r & 7) | 8).toString(16);
 		return _guid;
 	});
 	return id;
@@ -318,8 +318,8 @@ function _formatAttachment(attachment1, attachment2) {
 
 	attachment2 = attachment2 || { id: "", image_data: {} };
 	attachment1 = attachment1.mercury || attachment1;
-	var blob = attachment1.blob_attachment || attachment1.sticker_attachment;
-	var type =
+	let blob = attachment1.blob_attachment || attachment1.sticker_attachment;
+	let type =
 		blob && blob.__typename ? blob.__typename : attachment1.attach_type;
 	if (!type && attachment1.sticker_attachment) {
 		type = "StickerAttachment";
@@ -739,19 +739,19 @@ function formatAttachment(attachments, attachmentIds, attachmentMap, shareMap) {
 }
 
 function formatDeltaMessage(m) {
-	var md = m.delta.messageMetadata;
+	const md = m.delta.messageMetadata;
 
-	var mdata =
+	const mdata =
 		m.delta.data === undefined
 			? []
 			: m.delta.data.prng === undefined
 				? []
 				: JSON.parse(m.delta.data.prng);
-	var m_id = mdata.map(u => u.i);
-	var m_offset = mdata.map(u => u.o);
-	var m_length = mdata.map(u => u.l);
-	var mentions = {};
-	for (var i = 0; i < m_id.length; i++) {
+	const m_id = mdata.map(u => u.i);
+	const m_offset = mdata.map(u => u.o);
+	const m_length = mdata.map(u => u.l);
+	const mentions = {};
+	for (let i = 0; i < m_id.length; i++) {
 		mentions[m_id[i]] = m.delta.body.substring(
 			m_offset[i],
 			m_offset[i] + m_length[i]
@@ -783,8 +783,8 @@ function formatID(id) {
 }
 
 function formatMessage(m) {
-	var originalMessage = m.message ? m.message : m;
-	var obj = {
+	const originalMessage = m.message ? m.message : m;
+	const obj = {
 		type: "message",
 		senderName: originalMessage.sender_name,
 		senderID: formatID(originalMessage.sender_fbid.toString()),
@@ -832,9 +832,9 @@ function formatMessage(m) {
 }
 
 function formatEvent(m) {
-	var originalMessage = m.message ? m.message : m;
-	var logMessageType = originalMessage.log_message_type;
-	var logMessageData;
+	const originalMessage = m.message ? m.message : m;
+	let logMessageType = originalMessage.log_message_type;
+	let logMessageData;
 	if (logMessageType === "log:generic-admin-text") {
 		logMessageData = originalMessage.log_message_data.untypedData;
 		logMessageType = getAdminTextMessageType(
@@ -886,8 +886,8 @@ function getAdminTextMessageType(type) {
 }
 
 function formatDeltaEvent(m) {
-	var logMessageType;
-	var logMessageData;
+	let logMessageType;
+	let logMessageData;
 
 	// log:thread-color => {theme_color}
 	// log:user-nickname => {participant_id, nickname}
@@ -993,11 +993,11 @@ function formatRead(event) {
 }
 
 function getFrom(str, startToken, endToken) {
-	var start = str.indexOf(startToken) + startToken.length;
+	const start = str.indexOf(startToken) + startToken.length;
 	if (start < startToken.length) return "";
 
-	var lastHalf = str.substring(start);
-	var end = lastHalf.indexOf(endToken);
+	const lastHalf = str.substring(start);
+	const end = lastHalf.indexOf(endToken);
 	if (end === -1) {
 		throw Error(
 			"Could not find endTime `" + endToken + "` in the given string."
@@ -1048,13 +1048,13 @@ function getSignatureID() {
 }
 
 function generateTimestampRelative() {
-	var d = new Date();
+	const d = new Date();
 	return d.getHours() + ":" + padZeros(d.getMinutes());
 }
 
 function makeDefaults(html, userID, ctx) {
-	var reqCounter = 1;
-	var fb_dtsg = getFrom(html, 'name="fb_dtsg" value="', '"');
+	let reqCounter = 1;
+	const fb_dtsg = getFrom(html, 'name="fb_dtsg" value="', '"');
 
 	// @Hack Ok we've done hacky things, this is definitely on top 5.
 	// We totally assume the object is flat and try parsing until a }.
@@ -1071,11 +1071,11 @@ function makeDefaults(html, userID, ctx) {
 	//   siteData = {};
 	// }
 
-	var ttstamp = "2";
-	for (var i = 0; i < fb_dtsg.length; i++) {
+	let ttstamp = "2";
+	for (let i = 0; i < fb_dtsg.length; i++) {
 		ttstamp += fb_dtsg.charCodeAt(i);
 	}
-	var revision = getFrom(html, 'revision":', ",");
+	const revision = getFrom(html, 'revision":', ",");
 
 	function mergeWithDefaults(obj) {
 		// @TODO This is missing a key called __dyn.
@@ -1088,7 +1088,7 @@ function makeDefaults(html, userID, ctx) {
 		// So far the API has been working without this.
 		//
 		//              Ben - July 15th 2017
-		var newObj = {
+		const newObj = {
 			__user: userID,
 			__req: (reqCounter++).toString(36),
 			__rev: revision,
@@ -1112,7 +1112,7 @@ function makeDefaults(html, userID, ctx) {
 
 		if (!obj) return newObj;
 
-		for (var prop in obj) {
+		for (const prop in obj) {
 			if (obj.hasOwnProperty(prop)) {
 				if (!newObj[prop]) {
 					newObj[prop] = obj[prop];
@@ -1166,7 +1166,7 @@ function parseAndCheckLogin(ctx, defaultFuncs, retryCount) {
 					};
 				}
 				retryCount++;
-				var retryTime = Math.floor(Math.random() * 5000);
+				const retryTime = Math.floor(Math.random() * 5000);
 				log.warn(
 					"parseAndCheckLogin",
 					"Got status code " +
@@ -1177,7 +1177,7 @@ function parseAndCheckLogin(ctx, defaultFuncs, retryCount) {
 					retryTime +
 					" milliseconds..."
 				);
-				var url =
+				const url =
 					data.request.uri.protocol +
 					"//" +
 					data.request.uri.hostname +
@@ -1214,7 +1214,7 @@ function parseAndCheckLogin(ctx, defaultFuncs, retryCount) {
 					". Bailing out of trying to parse response."
 				);
 
-			var res = null;
+			let res = null;
 			try {
 				res = JSON.parse(makeParsable(data.body));
 			} catch (e) {
@@ -1243,8 +1243,8 @@ function parseAndCheckLogin(ctx, defaultFuncs, retryCount) {
 					"_js_",
 					""
 				);
-				var cookie = formatCookie(res.jsmods.require[0][3], "facebook");
-				var cookie2 = formatCookie(res.jsmods.require[0][3], "messenger");
+				const cookie = formatCookie(res.jsmods.require[0][3], "facebook");
+				const cookie2 = formatCookie(res.jsmods.require[0][3], "messenger");
 				ctx.jar.setCookie(cookie, "https://www.facebook.com");
 				ctx.jar.setCookie(cookie2, "https://www.messenger.com");
 			}
@@ -1252,14 +1252,14 @@ function parseAndCheckLogin(ctx, defaultFuncs, retryCount) {
 			// On every request we check if we got a DTSG and we mutate the context so that we use the latest
 			// one for the next requests.
 			if (res.jsmods && Array.isArray(res.jsmods.require)) {
-				var arr = res.jsmods.require;
-				for (var i in arr) {
+				const arr = res.jsmods.require;
+				for (const i in arr) {
 					if (arr[i][0] === "DTSG" && arr[i][1] === "setToken") {
 						ctx.fb_dtsg = arr[i][3][0];
 
 						// Update ttstamp since that depends on fb_dtsg
 						ctx.ttstamp = "2";
-						for (var j = 0; j < ctx.fb_dtsg.length; j++) {
+						for (let j = 0; j < ctx.fb_dtsg.length; j++) {
 							ctx.ttstamp += ctx.fb_dtsg.charCodeAt(j);
 						}
 					}
@@ -1276,19 +1276,19 @@ function parseAndCheckLogin(ctx, defaultFuncs, retryCount) {
 
 function saveCookies(jar) {
 	return function (res) {
-		var cookies = res.headers["set-cookie"] || [];
+		const cookies = res.headers["set-cookie"] || [];
 		cookies.forEach(function (c) {
 			if (c.indexOf(".facebook.com") > -1) {
 				jar.setCookie(c, "https://www.facebook.com");
 			}
-			var c2 = c.replace(/domain=\.facebook\.com/, "domain=.messenger.com");
+			const c2 = c.replace(/domain=\.facebook\.com/, "domain=.messenger.com");
 			jar.setCookie(c2, "https://www.messenger.com");
 		});
 		return res;
 	};
 }
 
-var NUM_TO_MONTH = [
+const NUM_TO_MONTH = [
 	"Jan",
 	"Feb",
 	"Mar",
@@ -1302,15 +1302,15 @@ var NUM_TO_MONTH = [
 	"Nov",
 	"Dec"
 ];
-var NUM_TO_DAY = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const NUM_TO_DAY = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 function formatDate(date) {
-	var d = date.getUTCDate();
+	let d = date.getUTCDate();
 	d = d >= 10 ? d : "0" + d;
-	var h = date.getUTCHours();
+	let h = date.getUTCHours();
 	h = h >= 10 ? h : "0" + h;
-	var m = date.getUTCMinutes();
+	let m = date.getUTCMinutes();
 	m = m >= 10 ? m : "0" + m;
-	var s = date.getUTCSeconds();
+	let s = date.getUTCSeconds();
 	s = s >= 10 ? s : "0" + s;
 	return (
 		NUM_TO_DAY[date.getUTCDay()] +

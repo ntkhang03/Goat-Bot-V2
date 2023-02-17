@@ -65,8 +65,8 @@
       "no-extra-semi": 1,
       "no-async-promise-executor": 0,
       "no-unreachable": 1,
-			"valid-typeof": 0,
-			"no-case-declarations": 0
+      "valid-typeof": 0,
+      "no-case-declarations": 0
     }
   }
 }

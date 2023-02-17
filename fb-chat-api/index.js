@@ -1,12 +1,12 @@
 "use strict";
 
-var utils = require("./utils");
-var cheerio = require("cheerio");
-var log = require("npmlog");
+const utils = require("./utils");
+const cheerio = require("cheerio");
+const log = require("npmlog");
 
-var checkVerified = null;
+let checkVerified = null;
 
-var defaultLogRecordSize = 100;
+const defaultLogRecordSize = 100;
 log.maxRecordSize = defaultLogRecordSize;
 
 function setOptions(globalOptions, options) {
@@ -76,7 +76,7 @@ function setOptions(globalOptions, options) {
 }
 
 function buildAPI(globalOptions, html, jar) {
-  var maybeCookie = jar.getCookies("https://www.facebook.com").filter(function (val) {
+  const maybeCookie = jar.getCookies("https://www.facebook.com").filter(function (val) {
     return val.cookieString().split("=")[0] === "c_user";
   });
 
@@ -88,21 +88,21 @@ function buildAPI(globalOptions, html, jar) {
     log.warn("login", "Checkpoint detected. Please log in with a browser to verify.");
   }
 
-  var userID = maybeCookie[0].cookieString().split("=")[1].toString();
+  const userID = maybeCookie[0].cookieString().split("=")[1].toString();
   log.info("login", `Logged in as ${userID}`);
 
   try {
     clearInterval(checkVerified);
   } catch (_) { }
 
-  var clientID = (Math.random() * 2147483648 | 0).toString(16);
+  const clientID = (Math.random() * 2147483648 | 0).toString(16);
 
 
-  let oldFBMQTTMatch = html.match(/irisSeqID:"(.+?)",appID:219994525426954,endpoint:"(.+?)"/);
+  const oldFBMQTTMatch = html.match(/irisSeqID:"(.+?)",appID:219994525426954,endpoint:"(.+?)"/);
   let mqttEndpoint = null;
   let region = null;
   let irisSeqID = null;
-  var noMqttData = null;
+  let noMqttData = null;
 
   if (oldFBMQTTMatch) {
     irisSeqID = oldFBMQTTMatch[1];
@@ -110,14 +110,14 @@ function buildAPI(globalOptions, html, jar) {
     region = new URL(mqttEndpoint).searchParams.get("region").toUpperCase();
     log.info("login", `Got this account's message region: ${region}`);
   } else {
-    let newFBMQTTMatch = html.match(/{"app_id":"219994525426954","endpoint":"(.+?)","iris_seq_id":"(.+?)"}/);
+    const newFBMQTTMatch = html.match(/{"app_id":"219994525426954","endpoint":"(.+?)","iris_seq_id":"(.+?)"}/);
     if (newFBMQTTMatch) {
       irisSeqID = newFBMQTTMatch[2];
       mqttEndpoint = newFBMQTTMatch[1].replace(/\\\//g, "/");
       region = new URL(mqttEndpoint).searchParams.get("region").toUpperCase();
       log.info("login", `Got this account's message region: ${region}`);
     } else {
-      let legacyFBMQTTMatch = html.match(/(\["MqttWebConfig",\[\],{fbid:")(.+?)(",appID:219994525426954,endpoint:")(.+?)(",pollingEndpoint:")(.+?)(3790])/);
+      const legacyFBMQTTMatch = html.match(/(\["MqttWebConfig",\[\],{fbid:")(.+?)(",appID:219994525426954,endpoint:")(.+?)(",pollingEndpoint:")(.+?)(3790])/);
       if (legacyFBMQTTMatch) {
         mqttEndpoint = legacyFBMQTTMatch[4];
         region = new URL(mqttEndpoint).searchParams.get("region").toUpperCase();
@@ -132,7 +132,7 @@ function buildAPI(globalOptions, html, jar) {
   }
 
   // All data available to api functions
-  var ctx = {
+  const ctx = {
     userID: userID,
     jar: jar,
     clientID: clientID,
@@ -148,7 +148,7 @@ function buildAPI(globalOptions, html, jar) {
     firstListen: true
   };
 
-  var api = {
+  const api = {
     setOptions: setOptions.bind(null, globalOptions),
     getAppState: function getAppState() {
       return utils.getAppState(jar);
@@ -208,15 +208,10 @@ function buildAPI(globalOptions, html, jar) {
     // HTTP
     'httpGet',
     'httpPost',
-    'httpPostFormData',
-
-    // Deprecated features
-    "getThreadListDeprecated",
-    'getThreadHistoryDeprecated',
-    'getThreadInfoDeprecated',
+    'httpPostFormData'
   ];
 
-  var defaultFuncs = utils.makeDefaults(html, userID, ctx);
+  const defaultFuncs = utils.makeDefaults(html, userID, ctx);
 
   // Load all api functions in a loop
   apiFuncNames.map(function (v) {
@@ -232,9 +227,9 @@ function buildAPI(globalOptions, html, jar) {
 
 function makeLogin(jar, email, password, loginOptions, callback, prCallback) {
   return function (res) {
-    var html = res.body;
-    var $ = cheerio.load(html);
-    var arr = [];
+    const html = res.body;
+    const $ = cheerio.load(html);
+    let arr = [];
 
     // This will be empty, but just to be sure we leave it
     $("#login_form input").map(function (i, v) {
@@ -245,7 +240,7 @@ function makeLogin(jar, email, password, loginOptions, callback, prCallback) {
       return v.val && v.val.length;
     });
 
-    var form = utils.arrToForm(arr);
+    const form = utils.arrToForm(arr);
     form.lsd = utils.getFrom(html, "[\"LSD\",[],{\"token\":\"", "\"}");
     form.lgndim = Buffer.from("{\"w\":1440,\"h\":900,\"aw\":1440,\"ah\":834,\"c\":24}").toString('base64');
     form.email = email;
@@ -266,9 +261,9 @@ function makeLogin(jar, email, password, loginOptions, callback, prCallback) {
     // variable name.
     //
     // ---------- Very Hacky Part Starts -----------------
-    var willBeCookies = html.split("\"_js_");
+    const willBeCookies = html.split("\"_js_");
     willBeCookies.slice(1).map(function (val) {
-      var cookieData = JSON.parse("[\"" + utils.getFrom(val, "", "]") + "]");
+      const cookieData = JSON.parse("[\"" + utils.getFrom(val, "", "]") + "]");
       jar.setCookie(utils.formatCookie(cookieData, "facebook"), "https://www.facebook.com");
     });
     // ---------- Very Hacky Part Ends -----------------
@@ -278,7 +273,7 @@ function makeLogin(jar, email, password, loginOptions, callback, prCallback) {
       .post("https://www.facebook.com/login/device-based/regular/login/?login_attempt=1&lwv=110", jar, form, loginOptions)
       .then(utils.saveCookies(jar))
       .then(function (res) {
-        var headers = res.headers;
+        const headers = res.headers;
         if (!headers.location) {
           throw { error: "Wrong username/password." };
         }
@@ -286,16 +281,16 @@ function makeLogin(jar, email, password, loginOptions, callback, prCallback) {
         // This means the account has login approvals turned on.
         if (headers.location.indexOf('https://www.facebook.com/checkpoint/') > -1) {
           log.info("login", "You have login approvals turned on.");
-          var nextURL = 'https://www.facebook.com/checkpoint/?next=https%3A%2F%2Fwww.facebook.com%2Fhome.php';
+          const nextURL = 'https://www.facebook.com/checkpoint/?next=https%3A%2F%2Fwww.facebook.com%2Fhome.php';
 
           return utils
             .get(headers.location, jar, null, loginOptions)
             .then(utils.saveCookies(jar))
             .then(function (res) {
-              var html = res.body;
+              const html = res.body;
               // Make the form in advance which will contain the fb_dtsg and nh
-              var $ = cheerio.load(html);
-              var arr = [];
+              const $ = cheerio.load(html);
+              let arr = [];
               $("form input").map(function (i, v) {
                 arr.push({ val: $(v).val(), name: $(v).attr("name") });
               });
@@ -304,7 +299,7 @@ function makeLogin(jar, email, password, loginOptions, callback, prCallback) {
                 return v.val && v.val.length;
               });
 
-              var form = utils.arrToForm(arr);
+              const form = utils.arrToForm(arr);
               if (html.indexOf("checkpoint/?next") > -1) {
                 setTimeout(() => {
                   checkVerified = setInterval((_form) => {
@@ -336,9 +331,9 @@ function makeLogin(jar, email, password, loginOptions, callback, prCallback) {
                   continue: function submit2FA(code) {
                     form.approvals_code = code;
                     form['submit[Continue]'] = $("#checkpointSubmitButton").html(); //'Continue';
-                    var prResolve = null;
-                    var prReject = null;
-                    var rtPromise = new Promise(function (resolve, reject) {
+                    let prResolve = null;
+                    let prReject = null;
+                    const rtPromise = new Promise(function (resolve, reject) {
                       prResolve = resolve;
                       prReject = reject;
                     });
@@ -347,8 +342,8 @@ function makeLogin(jar, email, password, loginOptions, callback, prCallback) {
                         .post(nextURL, jar, form, loginOptions)
                         .then(utils.saveCookies(jar))
                         .then(function (res) {
-                          var $ = cheerio.load(res.body);
-                          var error = $("#approvals_code").parent().attr("data-xui-error");
+                          const $ = cheerio.load(res.body);
+                          const error = $("#approvals_code").parent().attr("data-xui-error");
                           if (error) {
                             throw {
                               error: 'login-approval',
@@ -369,12 +364,12 @@ function makeLogin(jar, email, password, loginOptions, callback, prCallback) {
                             .then(utils.saveCookies(jar));
                         })
                         .then(function (res) {
-                          var headers = res.headers;
+                          const headers = res.headers;
                           if (!headers.location && res.body.indexOf('Review Recent Login') > -1) {
                             throw { error: "Something went wrong with login approvals." };
                           }
 
-                          var appState = utils.getAppState(jar);
+                          const appState = utils.getAppState(jar);
 
                           if (callback === prCallback) {
                             callback = function (err, api) {
@@ -454,13 +449,13 @@ function makeLogin(jar, email, password, loginOptions, callback, prCallback) {
                       .then(utils.saveCookies(jar));
                   })
                   .then(function (res) {
-                    var headers = res.headers;
+                    const headers = res.headers;
 
                     if (!headers.location && res.body.indexOf('Review Recent Login') > -1) {
                       throw { error: "Something went wrong with review recent login." };
                     }
 
-                    var appState = utils.getAppState(jar);
+                    const appState = utils.getAppState(jar);
 
                     // Simply call loginHelper because all it needs is the jar
                     // and will then complete the login process
@@ -482,14 +477,14 @@ function makeLogin(jar, email, password, loginOptions, callback, prCallback) {
 
 // Helps the login
 function loginHelper(appState, email, password, globalOptions, callback, prCallback) {
-  var mainPromise = null;
-  var jar = utils.getJar();
+  let mainPromise = null;
+  const jar = utils.getJar();
 
   // If we're given an appState we loop through it and save each cookie
   // back into the jar.
   if (appState) {
     appState.map(function (c) {
-      var str = c.key + "=" + c.value + "; expires=" + c.expires + "; domain=" + c.domain + "; path=" + c.path + ";";
+      const str = c.key + "=" + c.value + "; expires=" + c.expires + "; domain=" + c.domain + "; path=" + c.path + ";";
       jar.setCookie(str, "http://" + c.domain);
     });
 
@@ -511,15 +506,15 @@ function loginHelper(appState, email, password, globalOptions, callback, prCallb
       });
   }
 
-  var ctx = null;
-  var _defaultFuncs = null;
-  var api = null;
+  let ctx = null;
+  let _defaultFuncs = null;
+  let api = null;
 
   mainPromise = mainPromise
     .then(function (res) {
       // Hacky check for the redirection that happens on some ISPs, which doesn't return statusCode 3xx
-      var reg = /<meta http-equiv="refresh" content="0;url=([^"]+)[^>]+>/;
-      var redirect = reg.exec(res.body);
+      const reg = /<meta http-equiv="refresh" content="0;url=([^"]+)[^>]+>/;
+      const redirect = reg.exec(res.body);
       if (redirect && redirect[1]) {
         return utils
           .get(redirect[1], jar, null, globalOptions)
@@ -528,8 +523,8 @@ function loginHelper(appState, email, password, globalOptions, callback, prCallb
       return res;
     })
     .then(function (res) {
-      var html = res.body;
-      var stuff = buildAPI(globalOptions, html, jar);
+      const html = res.body;
+      const stuff = buildAPI(globalOptions, html, jar);
       ctx = stuff[0];
       _defaultFuncs = stuff[1];
       api = stuff[2];
@@ -544,7 +539,7 @@ function loginHelper(appState, email, password, globalOptions, callback, prCallb
           .get('https://www.facebook.com/' + ctx.globalOptions.pageID + '/messages/?section=messages&subsection=inbox', ctx.jar, null, globalOptions);
       })
       .then(function (resData) {
-        var url = utils.getFrom(resData.body, 'window.location.replace("https:\\/\\/www.facebook.com\\', '");').split('\\').join('');
+        let url = utils.getFrom(resData.body, 'window.location.replace("https:\\/\\/www.facebook.com\\', '");').split('\\').join('');
         url = url.substring(0, url.length - 1);
 
         return utils
@@ -570,7 +565,7 @@ function login(loginData, options, callback) {
     options = {};
   }
 
-  var globalOptions = {
+  const globalOptions = {
     selfListen: false,
     selfListenEvent: false,
     listenEvents: false,
@@ -588,10 +583,10 @@ function login(loginData, options, callback) {
 
   setOptions(globalOptions, options);
 
-  var prCallback = null;
+  let prCallback = null;
   if (utils.getType(callback) !== "Function" && utils.getType(callback) !== "AsyncFunction") {
-    var rejectFunc = null;
-    var resolveFunc = null;
+    let rejectFunc = null;
+    let resolveFunc = null;
     var returnPromise = new Promise(function (resolve, reject) {
       resolveFunc = resolve;
       rejectFunc = reject;
