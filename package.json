@@ -40,8 +40,6 @@
 		"path": "^0.12.7",
 		"qrcode-reader": "^1.0.4",
 		"qs": "^6.11.0",
-		"request": "^2.53.0",
-		"request-promise": "^4.2.6",
 		"searchitunes": "^2.5.4",
 		"sequelize": "^6.19.0",
 		"socket.io": "^4.5.1",
