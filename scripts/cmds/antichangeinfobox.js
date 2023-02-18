@@ -3,7 +3,7 @@ const { getStreamFromURL } = global.utils;
 module.exports = {
 	config: {
 		name: "antichangeinfobox",
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -111,7 +111,7 @@ module.exports = {
 		switch (logMessageType) {
 			case "log:thread-image": {
 				const dataAntiChange = await threadsData.get(threadID, "data.antiChangeInfoBox", {});
-				if (!dataAntiChange.hasOwnProperty("avatar"))
+				if (!dataAntiChange.avatar)
 					return;
 				return async function () {
 					if (role < 1 && api.getCurrentUserID() !== author) {
