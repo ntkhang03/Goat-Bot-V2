@@ -108,6 +108,7 @@ updater.newVersions=There are %1 new versions to update, starting to update...
 updater.updateSuccess=Update successfully ✓
 updater.configChanged=The config.json file has been changed, please check your config.json file again
 updater.installingPackages=Installing dependencies for bot...
+updater.installSuccess=Installed dependencies successfully ✓
 
 # dashboard/routes/verifyfbid.js
 verifyfbid.sendCode=Your verification code is:\n%1\nThe verification code is valid for %2 minutes
