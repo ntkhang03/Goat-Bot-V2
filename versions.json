@@ -1028,5 +1028,16 @@
 			"fb-chat-api/utils.js": "",
 			"bot/login/login.js": "replace package `fb-chat-api`"
 		}
+	},
+	{
+		"version": "1.2.20",
+		"files": {
+			"package.json": "update package `fb-chat-api-temporary`",
+			"package-lock.json": "update package `fb-chat-api-temporary`",
+			"bot/login/login.js": "update package `fb-chat-api-temporary`"
+		},
+		"deleteFiles": {
+			"fb-chat-api": ""
+		}
 	}
 ]
