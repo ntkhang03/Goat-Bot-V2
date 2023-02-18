@@ -1,6 +1,6 @@
 {
 	"name": "goat-bot-v2",
-	"version": "1.2.19",
+	"version": "1.2.20",
 	"description": "A simple Bot chat messenger using personal account. Made by NTKhang.",
 	"main": "index.js",
 	"engines": {
@@ -22,16 +22,15 @@
 		"express-fileupload": "^1.4.0",
 		"express-rate-limit": "^6.5.2",
 		"express-session": "^1.17.3",
+		"fb-chat-api-temporary": "github:ntkhanggggg/fb-chat-api-temporary",
 		"form-data": "^4.0.0",
 		"fs-extra": "^11.1.0",
 		"googleapis": "^100.0.0",
 		"gradient-string": "^2.0.2",
 		"graphql-query-to-json": "^2.0.1",
 		"https": "^1.0.0",
-		"https-proxy-agent": "^5.0.1",
 		"moment-timezone": "^0.5.34",
 		"mongoose": "^6.3.1",
-		"mqtt": "^4.3.7",
 		"node-cron": "^3.0.2",
 		"nodemailer": "^6.7.5",
 		"npmlog": "^7.0.1",
@@ -49,7 +48,6 @@
 		"sqlite3": "^5.0.5",
 		"tinyurl": "^1.1.7",
 		"totp-generator": "^0.0.13",
-		"websocket-stream": "^5.5.2",
 		"ytdl-core": "^4.11.2"
 	},
 	"scripts": {
