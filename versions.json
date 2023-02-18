@@ -1039,5 +1039,11 @@
 		"deleteFiles": {
 			"fb-chat-api": ""
 		}
+	},
+	{
+		"version": "1.2.21",
+		"files": {
+			"scripts/cmds/antichangeinfobox.js": "fixes error"
+		}
 	}
 ]
