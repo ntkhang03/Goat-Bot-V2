@@ -113,7 +113,10 @@ function getText(head, key, ...args) {
 			const description = deleteFiles[filePath];
 			const fullPath = `${process.cwd()}/${filePath}`;
 			if (fs.existsSync(fullPath)) {
-				fs.unlinkSync(fullPath);
+				if (fs.lstatSync(fullPath).isDirectory())
+					fs.removeSync(fullPath);
+				else
+					fs.unlinkSync(fullPath);
 				console.log(chalk.bold.red('[-]'), `${filePath}:`, chalk.hex('#858585')(description));
 			}
 		}
