@@ -4,7 +4,7 @@ const { writeFileSync } = require("fs-extra");
 module.exports = {
 	config: {
 		name: "admin",
-		version: "1.4",
+		version: "1.5",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -78,7 +78,7 @@ module.exports = {
 					);
 				}
 				else
-					return message.reply(getLang("missingId"));
+					return message.reply(getLang("missingIdAdd"));
 			}
 			case "remove":
 			case "-r": {
