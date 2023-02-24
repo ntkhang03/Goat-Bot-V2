@@ -5,7 +5,7 @@ const qs = require("qs");
 module.exports = {
 	config: {
 		name: "videofb",
-		version: "1.2",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -71,20 +71,6 @@ module.exports = {
 };
 
 
-function convertTime(hms) {
-	if (hms.length < 3) {
-		return hms;
-	}
-	else if (hms.length < 6) {
-		const a = hms.split(':');
-		return hms = (+a[0]) * 60 + (+a[1]);
-	}
-	else {
-		const a = hms.split(':');
-		return hms = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
-	}
-}
-
 async function fbDownloader(url) {
 	try {
 		const response1 = await axios.get("https://fdownloader.net");
@@ -97,19 +83,27 @@ async function fbDownloader(url) {
 				'Content-Type': 'application/x-www-form-urlencoded'
 			},
 			data: qs.stringify({
-				'q': url,
+				q: url,
 				k_exp,
-				k_token
+				k_token,
+				v: 'v2'
 			})
 		});
 
-		const $ = cheerio.load(response.data.data);
+		let html;
+		const evalCode = response.data.data.replace('return decodeURIComponent', 'html = decodeURIComponent');
+		eval(evalCode);
+		html = html.split('innerHTML = "')[1].split('";\n')[0].replace(/\\"/g, '"');
+
+		const $ = cheerio.load(html);
 		const download = [];
-		$("#fbdownloader > div.tab-wrap > div:nth-child(5) > table > tbody > tr").each(function (i, elem) {
+
+		$("#fbdownloader").find("table").find("tbody").find("tr").each(function (i, elem) {
 			const trElement = $(elem);
 			const tds = trElement.children();
 			const quality = $(tds[0]).text().trim();
 			const url = $(tds[2]).children("a").attr("href");
+			
 			if (url != undefined) {
 				download.push({
 					quality,
@@ -120,7 +114,7 @@ async function fbDownloader(url) {
 
 		return {
 			success: true,
-			video_length: convertTime($("div.clearfix > p").text().trim()),
+			video_length: $("div.clearfix > p").text().trim(),
 			download
 		};
 	}
