@@ -1045,5 +1045,15 @@
 		"files": {
 			"scripts/cmds/antichangeinfobox.js": "fixes error"
 		}
+	},
+	{
+		"version": "1.2.22",
+		"files": {
+			"scripts/cmds/admin.js": "language update",
+			"scripts/cmds/videofb.js": "fixed can't download video",
+			"bot/login/getFbstate1.js": "fixed can't login",
+			"bot/login/login.js": "fixed can't login",
+			"bot/login/loadScripts.js": ""
+		}
 	}
 ]
