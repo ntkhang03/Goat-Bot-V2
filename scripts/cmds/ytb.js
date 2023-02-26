@@ -5,7 +5,10 @@ async function getStreamAndSize(url, path = "") {
 	const response = await axios({
 		method: "GET",
 		url,
-		responseType: "stream"
+		responseType: "stream",
+		headers: {
+			'Range': 'bytes=0-'
+		}
 	});
 	if (path)
 		response.data.path = path;
@@ -19,7 +22,7 @@ async function getStreamAndSize(url, path = "") {
 module.exports = {
 	config: {
 		name: "ytb",
-		version: "1.10",
+		version: "1.11",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
