@@ -1055,5 +1055,11 @@
 			"bot/login/login.js": "fixed can't login",
 			"bot/login/loadScripts.js": ""
 		}
+	},
+	{
+		"version": "1.2.23",
+		"files": {
+			"scripts/cmds/ytb.js": "fixed error `An error has occurred: ETIMEDOUT`"
+		}
 	}
 ]
