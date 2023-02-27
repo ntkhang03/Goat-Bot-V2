@@ -1061,5 +1061,12 @@
 		"files": {
 			"scripts/cmds/ytb.js": "fixed error `An error has occurred: ETIMEDOUT`"
 		}
+	},
+	{
+		"version": "1.2.24",
+		"files": {
+			"scripts/events/welcome.js": "language update",
+			"bot/handler/handlerEvents.js": "language update"
+		}
 	}
 ]
