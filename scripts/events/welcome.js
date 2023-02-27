@@ -83,7 +83,7 @@ module.exports = {
 								getLang("session4")
 					);
 
-				form.body = `${welcomeMessage}`;
+				form.body = welcomeMessage;
 
 				if (threadData.data.welcomeAttachment) {
 					const files = threadData.data.welcomeAttachment;
