@@ -1068,5 +1068,11 @@
 			"scripts/events/welcome.js": "language update",
 			"bot/handler/handlerEvents.js": "language update"
 		}
+	},
+	{
+		"version": "1.2.25",
+		"files": {
+			"scripts/cmds/update.js": "new command 'Check for and install updates for the chatbot' made by `Chat GPT`"
+		}
 	}
 ]
