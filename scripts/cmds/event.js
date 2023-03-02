@@ -5,7 +5,7 @@ const axios = require("axios");
 module.exports = {
 	config: {
 		name: "event",
-		version: "1.4",
+		version: "1.5",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -21,51 +21,55 @@ module.exports = {
 		guide: {
 			vi: "{pn} load <tên file lệnh>"
 				+ "\n{pn} loadAll"
-				+ "\n{pn} install <url> <tên file lệnh>: Tải về và load command event, url là đường dẫn tới file lệnh (raw)",
+				+ "\n{pn} install <url> <tên file lệnh>: Tải về và load command event, url là đường dẫn tới file lệnh (raw)"
+				+ "\n{pn} install <code> <tên file lệnh>: Tải về và load command event, code là mã của file lệnh (raw)",
 			en: "{pn} load <command file name>"
 				+ "\n{pn} loadAll"
 				+ "\n{pn} install <url> <command file name>: Download and load event command, url is the path to the command file (raw)"
+				+ "\n{pn} install <code> <command file name>: Download and load event command, code is the code of the command file (raw)"
 		}
 	},
 
 	langs: {
 		vi: {
 			missingFileName: "⚠️ | Vui lòng nhập vào tên lệnh bạn muốn reload",
-			loaded: "✅ | Đã load event command %1 thành công",
-			loadedError: "❌ | Load event command $%1 thất bại với lỗi\n%2: %3",
-			loadedSuccess: "✅ | Đã load thành công %1 event command",
-			loadedFail: "❌ | Load thất bại %1 event command\n%2",
+			loaded: "✅ | Đã load event command \"%1\" thành công",
+			loadedError: "❌ | Load event command \"%1\" thất bại với lỗi\n%2: %3",
+			loadedSuccess: "✅ | Đã load thành công \"%1\" event command",
+			loadedFail: "❌ | Load thất bại event command \"%1\"\n%2",
 			missingCommandNameUnload: "⚠️ | Vui lòng nhập vào tên lệnh bạn muốn unload",
-			unloaded: "✅ | Đã unload event command %1 thành công",
-			unloadedError: "❌ | Unload event command $%1 thất bại với lỗi\n%2: %3",
-			missingUrl: "⚠️ | Vui lòng nhập vào url của tệp lệnh bạn muốn cài đặt",
+			unloaded: "✅ | Đã unload event command \"%1\" thành công",
+			unloadedError: "❌ | Unload event command \"%1\" thất bại với lỗi\n%2: %3",
+			missingUrlCodeOrFileName: "⚠️ | Vui lòng nhập vào url hoặc code và tên file lệnh bạn muốn cài đặt",
+			missingUrlOrCode: "⚠️ | Vui lòng nhập vào url hoặc code của tệp lệnh bạn muốn cài đặt",
 			missingFileNameInstall: "⚠️ | Vui lòng nhập vào tên file để lưu lệnh (đuôi .js)",
-			invalidUrl: "⚠️ | Không thể lấy được mã lệnh",
+			invalidUrlOrCode: "⚠️ | Không thể lấy được mã lệnh",
 			alreadExist: "⚠️ | File lệnh đã tồn tại, bạn có chắc chắn muốn ghi đè lên file lệnh cũ không?\nThả cảm xúc bất kì vào tin nhắn này để tiếp tục",
-			installed: "✅ | Đã cài đặt event command %1 thành công, file lệnh được lưu tại %2",
-			installedError: "❌ | Cài đặt event command $%1 thất bại với lỗi\n%2: %3",
-			missingFile: "⚠️ | Không tìm thấy tệp lệnh %1",
+			installed: "✅ | Đã cài đặt event command \"%1\" thành công, file lệnh được lưu tại %2",
+			installedError: "❌ | Cài đặt event command \"%1\" thất bại với lỗi\n%2: %3",
+			missingFile: "⚠️ | Không tìm thấy tệp lệnh \"%1\"",
 			invalidFileName: "⚠️ | Tên tệp lệnh không hợp lệ",
-			unloadedFile: "✅ | Đã unload lệnh %1"
+			unloadedFile: "✅ | Đã unload lệnh \"%1\""
 		},
 		en: {
 			missingFileName: "⚠️ | Please enter the command name you want to reload",
-			loaded: "✅ | Loaded event command %1 successfully",
-			loadedError: "❌ | Loaded event command $%1 failed with error\n%2: %3",
-			loadedSuccess: "✅ | Loaded successfully %1 event command",
-			loadedFail: "❌ | Loaded failed %1 event command\n%2",
+			loaded: "✅ | Loaded event command \"%1\" successfully",
+			loadedError: "❌ | Loaded event command \"%1\" failed with error\n%2: %3",
+			loadedSuccess: "✅ | Loaded \"%1\" event command successfully",
+			loadedFail: "❌ | Loaded event command \"%1\" failed\n%2",
 			missingCommandNameUnload: "⚠️ | Please enter the command name you want to unload",
-			unloaded: "✅ | Unloaded event command %1 successfully",
-			unloadedError: "❌ | Unloaded event command $%1 failed with error\n%2: %3",
-			missingUrl: "⚠️ | Please enter the url of the command file you want to install",
+			unloaded: "✅ | Unloaded event command \"%1\" successfully",
+			unloadedError: "❌ | Unloaded event command \"%1\" failed with error\n%2: %3",
+			missingUrlCodeOrFileName: "⚠️ | Please enter the url or code and command file name you want to install",
+			missingUrlOrCode: "⚠️ | Please enter the url or code of the command file you want to install",
 			missingFileNameInstall: "⚠️ | Please enter the file name to save the command (with .js extension)",
-			invalidUrl: "⚠️ | Unable to get command code",
+			invalidUrlOrCode: "⚠️ | Unable to get command code",
 			alreadExist: "⚠️ | The command file already exists, are you sure you want to overwrite the old command file?\nReact to this message to continue",
-			installed: "✅ | Installed event command %1 successfully, the command file is saved at %2",
-			installedError: "❌ | Installed event command $%1 failed with error\n%2: %3",
-			missingFile: "⚠️ | File %1 not found",
+			installed: "✅ | Installed event command \"%1\" successfully, the command file is saved at %2",
+			installedError: "❌ | Installed event command \"%1\" failed with error\n%2: %3",
+			missingFile: "⚠️ | File \"%1\" not found",
 			invalidFileName: "⚠️ | Invalid file name",
-			unloadedFile: "✅ | Unloaded command %1"
+			unloadedFile: "✅ | Unloaded command \"%1\""
 		}
 	},
 
@@ -111,18 +115,44 @@ module.exports = {
 				message.reply(getLang("unloadedError", infoUnload.name, infoUnload.error.name, infoUnload.error.message));
 		}
 		else if (args[0] == "install") {
-			const [url, fileName] = args.slice(1);
-			if (!url || !url.match(/(https?:\/\/(?:www\.|(?!www)))/))
-				return message.reply(getLang("missingUrl"));
-			if (!fileName || !fileName.endsWith(".js"))
-				return message.reply(getLang("missingFileNameInstall"));
-			const { data: rawCode } = await axios.get(url);
+			let url = args[1];
+			let fileName = args[2];
+			let rawCode;
+
+			if (!url && !fileName)
+				return message.reply(getLang("missingUrlCodeOrFileName"));
+
+			if (url.endsWith(".js")) {
+				const tmp = fileName;
+				fileName = url;
+				url = tmp;
+			}
+
+			if (url.match(/(https?:\/\/(?:www\.|(?!www)))/)) {
+				if (!fileName || !fileName.endsWith(".js"))
+					return message.reply(getLang("missingFileNameInstall"));
+				rawCode = (await axios.get(url)).data;
+			}
+			else {
+				if (args[args.length - 1].endsWith(".js")) {
+					fileName = args[args.length - 1];
+					rawCode = event.body.slice(event.body.indexOf('install') + 7, event.body.indexOf(fileName) - 1);
+				}
+				else if (args[1].endsWith(".js")) {
+					fileName = args[1];
+					rawCode = event.body.slice(event.body.indexOf(fileName) + fileName.length + 1);
+				}
+				else
+					return message.reply(getLang("missingFileNameInstall"));
+			}
 			if (!rawCode)
-				return message.reply(getLang("invalidUrl"));
-			if (fs.existsSync(path.join(__dirname, '..', 'events', fileName)))
+				return message.reply(getLang("invalidUrlOrCode"));
+			if (fs.existsSync(path.join(__dirname, "..", "events", fileName)))
 				return message.reply(getLang("alreadExist"), (err, info) => {
 					global.GoatBot.onReaction.set(info.messageID, {
 						commandName,
+						messageID: info.messageID,
+						type: "install",
 						author: event.senderID,
 						data: {
 							fileName,
@@ -131,7 +161,7 @@ module.exports = {
 					});
 				});
 			else {
-				const infoLoad = loadScripts("cmds", fileName, log, configCommands, api, threadModel, userModel, dashBoardModel, globalModel, threadsData, usersData, dashBoardData, globalData, rawCode, getLang);
+				const infoLoad = loadScripts("events", fileName, log, configCommands, api, threadModel, userModel, dashBoardModel, globalModel, threadsData, usersData, dashBoardData, globalData, getLang, rawCode);
 				infoLoad.status == "success" ?
 					message.reply(getLang("installed", infoLoad.name, path.join(__dirname, fileName).replace(process.cwd(), ""))) :
 					message.reply(getLang("installedError", infoLoad.name, infoLoad.error.name, infoLoad.error.message));
