@@ -1074,5 +1074,14 @@
 		"files": {
 			"scripts/cmds/update.js": "new command 'Check for and install updates for the chatbot' made by `Chat GPT`"
 		}
+	},
+	{
+		"version": "1.2.26",
+		"files": {
+			"languages/cmds/en.js": "language update",
+			"scripts/cmds/cmd.js": "fixed bugs and add new feature: `cmd install <fileName> <code>`: install new command with code",
+			"scripts/cmds/event.js": "fixed bugs and add new feature: `event install <fileName> <code>`: install new event command with code",
+			"scripts/cmds/help.js": "language update"
+		}
 	}
 ]
