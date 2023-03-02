@@ -13,7 +13,7 @@ const doNotDelete = "[ 🐐 | Goat Bot V2 ]";
 module.exports = {
 	config: {
 		name: "help",
-		version: "1.12",
+		version: "1.13",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -143,11 +143,13 @@ module.exports = {
 			const author = configCommand.author;
 
 			const descriptionCustomLang = customLang[configCommand.name]?.longDescription;
-			let description;
-			if (descriptionCustomLang != undefined)
-				description = checkLangObject(descriptionCustomLang, langCode);
-			else if (configCommand.longDescription)
-				description = checkLangObject(configCommand.longDescription, langCode);
+			let description = checkLangObject(configCommand.longDescription, langCode);
+			if (description == undefined)
+				if (descriptionCustomLang != undefined)
+					description = checkLangObject(descriptionCustomLang, langCode);
+				else
+					description = getLang("doNotHave");
+
 			const aliasesString = configCommand.aliases ? configCommand.aliases.join(", ") : getLang("doNotHave");
 			const aliasesThisGroup = threadData.data.aliases ? (threadData.data.aliases[configCommand.name] || []).join(", ") : getLang("doNotHave");
 			let roleOfCommand = configCommand.role;
@@ -163,11 +165,10 @@ module.exports = {
 					(roleIsSet ? getLang("roleText1setRole") : getLang("roleText1")) :
 					getLang("roleText2");
 
-			let guide;
-			if (customLang[configCommand.name]?.guide != undefined)
-				guide = customLang[configCommand.name].guide;
-			else
-				guide = configCommand.guide[langCode] || configCommand.guide["en"];
+			let guide = configCommand.guide?.[langCode] || configCommand.guide?.["en"];
+			if (guide == undefined)
+				guide = customLang[configCommand.name]?.guide?.[langCode] || customLang[configCommand.name]?.guide?.["en"];
+
 			guide = guide || {
 				body: ""
 			};
@@ -210,6 +211,6 @@ function checkLangObject(data, langCode) {
 	if (typeof data == "string")
 		return data;
 	if (typeof data == "object" && !Array.isArray(data))
-		return data[langCode] || data.en || "";
-	return "";
+		return data[langCode] || data.en || undefined;
+	return undefined;
 }
