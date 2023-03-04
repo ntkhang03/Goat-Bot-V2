@@ -1092,5 +1092,11 @@
 			"languages/en.lang": "language update",
 			"languages/vi.lang": "language update"
 		}
+	},
+	{
+		"version": "1.2.28",
+		"files": {
+			"scripts/cmds/filteruser.js": "fix bug kick admin"
+		}
 	}
 ]
