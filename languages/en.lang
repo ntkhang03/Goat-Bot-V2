@@ -92,7 +92,7 @@ handlerEvents.cannotFindCommandName=❌ Cannot find command name to execute this
 handlerEvents.cannotFindCommand=❌ Cannot find command "%1" to execute this reply!
 
 # bot/autoUptime.js
-autoUptime.autoUptime=AutoUptime mode turned on
+autoUptime.autoUptimeTurnedOn=AutoUptime mode turned on
 
 # database/controller/index.js
 indexController.connectingMongoDB=Connecting a MONGODB database

@@ -43,4 +43,4 @@ setTimeout(async function autoUptime() {
 	}
 	global.timeOutUptime = setInterval(autoUptime, config.autoUptime.timeInterval);
 }, (config.autoUptime.timeInterval || 180) * 1000);
-log.info("AUTO UPTIME", getText("autoUptime", "sucautoUptimecess", myUrl));
+log.info("AUTO UPTIME", getText("autoUptime", "autoUptimeTurnedOn", myUrl));

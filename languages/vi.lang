@@ -92,7 +92,7 @@ handlerEvents.cannotFindCommandName=❌ Không tìm thấy tên lệnh để th�
 handlerEvents.cannotFindCommand=❌ Không tìm thấy lệnh "%1" để thực thi phản hồi này!
 
 # bot/autoUptime.js
-autoUptime.autoUptime=Đã bật chế độ autoUptime
+autoUptime.autoUptimeTurnedOn=Đã bật chế độ autoUptime
 
 # database/controller/index.js
 indexController.connectingMongoDB=Đang kết nối cơ sở dữ liệu MONGODB
