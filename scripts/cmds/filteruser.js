@@ -5,7 +5,7 @@ function sleep(time) {
 module.exports = {
 	config: {
 		name: "filteruser",
-		version: "1.4",
+		version: "1.5",
 		author: "NTKhang",
 		countDown: 5,
 		role: 1,
@@ -66,7 +66,7 @@ module.exports = {
 			const errors = [];
 			const success = [];
 			for (const user of membersBlocked) {
-				if (user.type !== "User") {
+				if (user.type !== "User" && !threadData.adminIDs.some(id => id == user.id)) {
 					try {
 						await api.removeUserFromGroup(user.id, event.threadID);
 						success.push(user.id);
@@ -74,8 +74,8 @@ module.exports = {
 					catch (e) {
 						errors.push(user.name);
 					}
+					await sleep(700);
 				}
-				await sleep(700);
 			}
 
 			let msg = "";
@@ -97,7 +97,7 @@ module.exports = {
 			return;
 		const threadData = await threadsData.get(event.threadID);
 		const botID = api.getCurrentUserID();
-		const membersCountLess = threadData.members.filter(member => member.count < minimum && member.inGroup == true && member.userID != botID);
+		const membersCountLess = threadData.members.filter(member => member.count < minimum && member.inGroup == true && member.userID != botID && !threadData.adminIDs.some(id => id == member.userID));
 		const errors = [];
 		const success = [];
 		for (const member of membersCountLess) {
