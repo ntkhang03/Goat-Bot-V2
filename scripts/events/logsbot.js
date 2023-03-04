@@ -33,7 +33,6 @@ module.exports = {
 			|| (event.logMessageType == "log:unsubscribe" && event.logMessageData.leftParticipantFbId == api.getCurrentUserID())
 		) return async function () {
 			let msg = getLang("title");
-			"====== Nhật ký bot ======";
 			const { author, threadID } = event;
 			if (author == api.getCurrentUserID())
 				return;
