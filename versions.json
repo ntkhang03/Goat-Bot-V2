@@ -1083,5 +1083,14 @@
 			"scripts/cmds/event.js": "fixed bugs and add new feature: `event install <fileName> <code>`: install new event command with code",
 			"scripts/cmds/help.js": "language update"
 		}
+	},
+	{
+		"version": "1.2.27",
+		"files": {
+			"bot/autoUptime.js": "language update",
+			"scripts/cmds/user.js": "language update",
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update"
+		}
 	}
 ]
