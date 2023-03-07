@@ -1098,5 +1098,16 @@
 		"files": {
 			"scripts/cmds/filteruser.js": "fix bug kick admin"
 		}
+	},
+	{
+		"version": "1.2.29",
+		"files": {
+			"scripts/cmds/cmd.js": "fixed bugs",
+			"scripts/cmds/event.js": "fixed bugs",
+			"scripts/cmds/translate.js": "fixed bugs"
+		},
+		"deleteFiles": {
+			"scripts/cmds/videofb.js": ""
+		}
 	}
 ]
