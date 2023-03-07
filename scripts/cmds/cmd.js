@@ -10,7 +10,7 @@ const { log, loading } = global.utils;
 module.exports = {
 	config: {
 		name: "cmd",
-		version: "1.6",
+		version: "1.7",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -96,8 +96,8 @@ module.exports = {
 				fs.readdirSync(__dirname)
 					.filter(file =>
 						file.endsWith(".js") &&
-						file != "example.js" &&
-						!file.endsWith(".dev.js") &&
+						!file.match(/(eg)\.js$/g) &&
+						(process.env.NODE_ENV == "development" ? true : !file.match(/(dev)\.js$/g)) &&
 						!configCommands.commandUnload?.includes(file)
 					)
 					.map(item => item = item.split(".")[0]) :
@@ -187,7 +187,7 @@ module.exports = {
 		const { author, data: { fileName, rawCode } } = Reaction;
 		if (event.userID != author)
 			return;
-		const infoLoad = loadScripts("cmds", fileName, log, configCommands, api, threadModel, userModel, dashBoardModel, globalModel, threadsData, usersData, dashBoardData, globalData, rawCode, getLang);
+		const infoLoad = loadScripts("cmds", fileName, log, configCommands, api, threadModel, userModel, dashBoardModel, globalModel, threadsData, usersData, dashBoardData, globalData, getLang, rawCode);
 		infoLoad.status == "success" ?
 			message.reply(getLang("installed", infoLoad.name, path.join(__dirname, fileName).replace(process.cwd(), ""))) :
 			message.reply(getLang("installedError", infoLoad.name, infoLoad.error.name, infoLoad.error.message));

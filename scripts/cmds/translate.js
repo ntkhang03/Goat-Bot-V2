@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: "translate",
 		aliases: ["trans"],
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -78,20 +78,26 @@ module.exports = {
 
 		if (event.messageReply) {
 			content = event.messageReply.body;
-			const lastIndexSeparator = body.lastIndexOf(" -> ");
-			if (lastIndexSeparator != -1 && body.length - lastIndexSeparator == 6)
-				langCodeTrans = body.slice(lastIndexSeparator + 4);
-			else if ((args[0] || "").match(/\w{2}/))
-				langCodeTrans = args[0].match(/\w{2}/)[0];
+			let lastIndexSeparator = body.lastIndexOf("->");
+			if (lastIndexSeparator == -1)
+				lastIndexSeparator = body.lastIndexOf("=>");
+
+			if (lastIndexSeparator != -1 && (body.length - lastIndexSeparator == 4 || body.length - lastIndexSeparator == 5))
+				langCodeTrans = body.slice(lastIndexSeparator + 2);
+			else if ((args[0] || "").match(/\w{2,3}/))
+				langCodeTrans = args[0].match(/\w{2,3}/)[0];
 			else
 				langCodeTrans = langOfThread;
 		}
 		else {
 			content = event.body;
-			const lastIndexSeparator = content.lastIndexOf(" -> ");
-			if (lastIndexSeparator != -1 && content.length - lastIndexSeparator == 6) {
-				langCodeTrans = content.slice(lastIndexSeparator + 4);
-				content = content.slice(0, lastIndexSeparator);
+			let lastIndexSeparator = content.lastIndexOf("->");
+			if (lastIndexSeparator == -1)
+				lastIndexSeparator = content.lastIndexOf("=>");
+
+			if (lastIndexSeparator != -1 && (content.length - lastIndexSeparator == 4 || content.length - lastIndexSeparator == 5)) {
+				langCodeTrans = content.slice(lastIndexSeparator + 2);
+				content = content.slice(content.indexOf(args[0]), lastIndexSeparator);
 			}
 			else
 				langCodeTrans = langOfThread;
@@ -146,6 +152,6 @@ async function translate(text, langCode) {
 }
 
 async function translateAndSendMessage(content, langCodeTrans, message, getLang) {
-	const { text, lang } = await translate(content, langCodeTrans);
-	return message.reply(text + '\n\n' + getLang("translateTo", lang, langCodeTrans));
+	const { text, lang } = await translate(content.trim(), langCodeTrans.trim());
+	return message.reply(`${text}\n\n${getLang("translateTo", lang, langCodeTrans)}`);
 }

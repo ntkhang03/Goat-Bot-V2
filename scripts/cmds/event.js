@@ -5,7 +5,7 @@ const axios = require("axios");
 module.exports = {
 	config: {
 		name: "event",
-		version: "1.5",
+		version: "1.6",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -85,10 +85,15 @@ module.exports = {
 				message.reply(getLang("loaded", infoLoad.name)) :
 				message.reply(getLang("loadedError", infoLoad.name, infoLoad.error, infoLoad.message));
 		}
-		else if ((args[0].toLowerCase() || "") == "loadall" || (args[0] == "load" && args.length > 2)) {
+		else if ((args[0] || "").toLowerCase() == "loadall" || (args[0] == "load" && args.length > 2)) {
 			const allFile = args[0].toLowerCase() == "loadall" ?
 				fs.readdirSync(path.join(__dirname, "..", "events"))
-					.filter(file => file.endsWith(".js") && file != "example.js" && !file.endsWith(".dev.js") && !configCommands.commandEventUnload?.includes(file))
+					.filter(file =>
+						file.endsWith(".js") &&
+						!file.match(/(eg)\.js$/g) &&
+						(process.env.NODE_ENV == "development" ? true : !file.match(/(dev)\.js$/g)) &&
+						!configCommands.commandEventUnload?.includes(file)
+					)
 					.map(item => item = item.split(".")[0]) :
 				args.slice(1);
 			const arraySucces = [];
@@ -177,7 +182,7 @@ module.exports = {
 			return;
 		const { configCommands } = global.GoatBot;
 		const { log, loadScripts } = global.utils;
-		const infoLoad = loadScripts("cmds", fileName, log, configCommands, api, threadModel, userModel, dashBoardModel, globalModel, threadsData, usersData, dashBoardData, globalData, rawCode, getLang);
+		const infoLoad = loadScripts("cmds", fileName, log, configCommands, api, threadModel, userModel, dashBoardModel, globalModel, threadsData, usersData, dashBoardData, globalData, getLang, rawCode);
 		infoLoad.status == "success" ?
 			message.reply(getLang("installed", infoLoad.name, path.join(__dirname, '..', 'events', fileName).replace(process.cwd(), ""), () => message.unsend(messageID))) :
 			message.reply(getLang("installedError", infoLoad.name, infoLoad.error.name, infoLoad.error.message, () => message.unsend(messageID)));
