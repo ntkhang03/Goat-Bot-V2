@@ -1,5 +1,6 @@
 const fileUpload = require('express-fileupload');
 const rateLimit = require('express-rate-limit');
+const fs = require('fs-extra');
 const seesion = require('express-session');
 const eta = require('eta');
 const bodyParser = require('body-parser');
@@ -175,6 +176,7 @@ module.exports = async (api) => {
 		unAuthenticated: unAuthenticated_G,
 		isWaitVerifyAccount: isWaitVerifyAccount_G,
 		isAuthenticated: isAuthenticated_G,
+		isAdmin: isAdmin_G,
 		isVeryfiUserIDFacebook: isVeryfiUserIDFacebook_G,
 		checkHasAndInThread: checkHasAndInThread_G,
 		middlewareCheckAuthConfigDashboardOfThread: middlewareCheckAuthConfigDashboardOfThread_G
@@ -248,7 +250,34 @@ module.exports = async (api) => {
 			res.redirect('/');
 		});
 	});
+	app.post('/changefbstate', isAuthenticated_P, isVeryfiUserIDFacebook_P, (req, res) => {
+		if (!global.GoatBot.config.adminBot.includes(req.user.facebookUserID))
+			return res.send({
+				status: "error",
+				message: 'Bạn không có quyền thay đổi fbstate!'
+			});
+		const { fbstate } = req.body;
+		if (!fbstate)
+			return res.send({
+				status: "error",
+				message: 'Vui lòng nhập fbstate!'
+			});
+
+		fs.writeFileSync(process.cwd() + (process.env.NODE_ENV == "production" || process.env.NODE_ENV == "development" ? '/account.dev.txt' : '/account.txt'), fbstate);
+		res.send({
+			status: "success",
+			message: 'Đã thay đổi fbstate thành công!'
+		});
+		res.on('finish', () => {
+			process.exit(2);
+		});
+	});
 	app.get('/uptime', global.responseUptimeCurrent);
+	app.get('/changefbstate', isAuthenticated_G, isVeryfiUserIDFacebook_G, isAdmin_G, (req, res) => {
+		res.render('changeFbstate', {
+			currentFbstate: fs.readFileSync(process.cwd() + (process.env.NODE_ENV == "production" || process.env.NODE_ENV == "development" ? '/account.dev.txt' : '/account.txt'), 'utf8')
+		});
+	});
 
 	app.use('/register', registerRoute);
 	app.use('/login', loginRoute);

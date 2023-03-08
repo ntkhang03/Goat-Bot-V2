@@ -1,0 +1,69 @@
+<%~ includeFile("partials/header.eta") %>
+<div class="bg-primary text-white py-3">
+  <div class="container">
+    <h6 class="text-white">
+      <a class="text-white" href="/dashboard" style="text-decoration: none;"><i class="fas fa-cog "></i>
+        Change Facebook state</a>
+    </h6>
+  </div>
+</div>
+
+<%~ includeFile("partials/message.eta"); %>
+<div class="container">
+	<p class="text-center mt-3">Change the Facebook state of the bot</p>
+	<textarea class="tinymce mt-3" id="fbstate" name="content" style="width: 100%; height: 500px;"> <%=E.currentFbstate%> </textarea>
+	<button class="btn btn-primary btn-block mt-4" id="changeFbstate">Save and restart the bot</button>
+</div>
+
+<script >
+	(function() {
+		const fbstate = $("#fbstate");
+		const btnChange = document.getElementById("changeFbstate");
+
+		changeFbstate.addEventListener("click", function() {
+			changeFbstate.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    		<span class="visually-hidden">Đang tải...</span>`;
+			changeFbstate.disabled = true;
+
+			$.ajax({
+				url: "/changefbstate",
+				type: "POST",
+				data: {
+					fbstate: fbstate.val()
+				},
+				success: function(data) {
+					if (data.status == "success") {
+						$.createToast({
+							title: "Success",
+							message: "Đã thay đổi fbstate thành công, bắt đầu khởi động lại bot",
+							type: "success",
+							time: 3000
+						})
+					} else {
+						$.createToast({
+							title: "Error",
+							message: "Đã có lỗi xảy ra, vui lòng thử lại sau",
+							type: "error",
+							time: 3000
+						})
+					}
+				},
+				error: function(err) {
+					$.createToast({
+						title: "Error",
+						message: "Đã có lỗi xảy ra, vui lòng thử lại sau",
+						type: "error",
+						time: 3000
+					})
+				},
+				complete: function() {
+					changeFbstate.innerHTML = "Save and restart the bot";
+					changeFbstate.disabled = false;
+				}
+			});
+		});
+	})();
+</script>
+
+
+<%~ includeFile("partials/footer.eta") %>
