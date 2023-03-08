@@ -177,7 +177,7 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 			return user.data.data.profile.profile_picture.uri;
 		}
 		catch (err) {
-			return null;
+			return "https://i.ibb.co/bBSpr5v/143086968-2856368904622192-1959732218791162458-n.png";
 		}
 	}
 
