@@ -51,6 +51,15 @@ module.exports = function (getThreadDataSync, checkAuthConfigDashboardOfThread) 
 				msg: '[!] Chỉ quản trị viên của nhóm chat hoặc những thành viên được cho phép mới có thể chỉnh sửa dashboard'
 			});
 			return res.redirect('/dashboard');
+		},
+
+		async isAdmin(req, res, next) {
+			const userID = req.user.facebookUserID;
+			if (!global.GoatBot.config.adminBot.includes(userID)) {
+				req.flash('errors', { msg: 'Bạn không phải là admin của bot' });
+				return res.redirect('/dashboard');
+			}
+			next();
 		}
 	};
 };
