@@ -2,7 +2,7 @@ module.exports = {
 	config: {
 		name: "grouptag",
 		aliases: ["grtag"],
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -47,7 +47,7 @@ module.exports = {
 		vi: {
 			noGroupTagName: "Vui lòng nhập tên nhóm tag",
 			noMention: "Bạn chưa tag thành viên nào để thêm vào nhóm tag",
-			addedSuccess: "Đã thêm các thành viên sau:\n%1\nvào nhóm tag \"%2\"",
+			addedSuccess: "Đã thêm các thành viên sau vào nhóm tag \"%1\":\n%2",
 			addedSuccess2: "Đã thêm nhóm tag \"%1\" với các thành viên sau:\n%2",
 			existedInGroupTag: "Các thành viên sau:\n%1\nđã có trong nhóm tag \"%2\" từ trước",
 			notExistedInGroupTag: "Các thành viên sau:\n%1\nkhông có trong nhóm tag \"%2\"",
@@ -59,12 +59,12 @@ module.exports = {
 			tagged: "Tag nhóm \"%1\":\n%2",
 			noGroupTagName2: "Vui lòng nhập tên nhóm tag cũ và tên mới, cách nhau bằng dấu \"|\"",
 			renamedSuccess: "Đã đổi tên nhóm tag \"%1\" thành \"%2\"",
-			infoGroupTag: "📑 | Tên nhóm: \"%1\"\n👥 | Số thành viên: %2\n👨‍👩‍👧‍👦 | Danh sách thành viên:\n %3"
+			infoGroupTag: "📑 | Tên nhóm: %1\n👥 | Số thành viên: %2\n👨‍👩‍👧‍👦 | Danh sách thành viên:\n %3"
 		},
 		en: {
 			noGroupTagName: "Please enter group tag name",
 			noMention: "You haven't tagged any member to add to group tag",
-			addedSuccess: "Added members:\n%1\nto group tag \"%2\"",
+			addedSuccess: "Added members to group tag \"%1\":\n%2",
 			addedSuccess2: "Added group tag \"%1\" with members:\n%2",
 			existedInGroupTag: "Members:\n%1\nalready existed in group tag \"%2\"",
 			notExistedInGroupTag: "Members:\n%1\ndoesn't exist in group tag \"%2\"",
@@ -76,7 +76,7 @@ module.exports = {
 			tagged: "Tag group \"%1\":\n%2",
 			noGroupTagName2: "Please enter old group tag name and new group tag name, separated by \"|\"",
 			renamedSuccess: "Renamed group tag \"%1\" to \"%2\"",
-			infoGroupTag: "📑 | Group name: \"%1\"\n👥 | Number of members: %2\n👨‍👩‍👧‍👦 | List of members:\n %3"
+			infoGroupTag: "📑 | Group name: %1\n👥 | Number of members: %2\n👨‍👩‍👧‍👦 | List of members:\n %3"
 		}
 	},
 
@@ -113,7 +113,7 @@ module.exports = {
 
 					let msg = "";
 					if (usersIDNotExist.length > 0)
-						msg += getLang("addedSuccess", usersIDNotExist.map(uid => mentions[uid]).join("\n")) + "\n";
+						msg += getLang("addedSuccess", oldGroupTag.name, usersIDNotExist.map(uid => mentions[uid]).join("\n")) + "\n";
 					if (usersIDExist.length > 0)
 						msg += getLang("existedInGroupTag", usersIDExist.map(uid => mentions[uid]).join("\n"));
 					message.reply(msg);
