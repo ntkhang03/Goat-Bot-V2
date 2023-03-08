@@ -1109,5 +1109,29 @@
 		"deleteFiles": {
 			"scripts/cmds/videofb.js": ""
 		}
+	},
+	{
+		"version": "1.2.30",
+		"files": {
+			"scripts/cmds/grouptag.js": "fixed bugs, language update",
+			"database/controller/usersData.js": "update function `getAvatarUrl`"
+
+		}
+	},
+	{
+		"version": "1.2.31",
+		"files": {
+			"config.json": {
+				"autoRestartWhenListenMqttError": false
+			},
+			"bot/login/handlerWhenListenHasError.js": "new feature: callback when listen has error",
+			"bot/login/login.js": "new feature: callback when listen has error",
+			"dashboard/app.js": "added feature to change fbstate directly on dashboard",
+			"dashboard/views/changeFbstate.eta": "added feature to change fbstate directly on dashboard",
+			"dashboard/middleware/get.js": "added middleware `isAdmin`",
+			"database/controller/globalData.js": "fixed bugs",
+			"database/controller/usersData.js": "",
+			"scripts/cmds/grouptag.js": "language update"
+		}
 	}
 ]
