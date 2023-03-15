@@ -40,7 +40,7 @@ login.refreshFbstateSuccess=Đã làm mới file %1
 login.refreshFbstateError=Đã xảy ra lỗi khi làm mới file %1
 login.youAreBanned=Bạn đã bị cấm khỏi project Goat-Bot
 login.runBot=Khởi chạy bot thành công, bắt đầu nhận tin nhắn từ người dùng
-login.notLoggedIn=Đã xảy ra lỗi không thể đăng nhập, vui lòng kiểm tra lại tài khoản của bạn
+login.notLoggedIn=Đã xảy ra lỗi không thể đăng nhập, vui lòng kiểm tra lại tài khoản Facebook của bạn
 login.callBackError=Đã xảy ra lỗi khi callback listenMqtt
 login.userBanned=Bạn đã bị global ban không thể sử dụng bot!!
 login.checkGbanError=Đã xảy ra lỗi trong quá trình kiểm tra GBAN
@@ -52,6 +52,8 @@ login.restartListenMessage=Đã bật khởi động lại ListenMQTT sau mỗi 
 login.stopRestartListenMessage=Đã tắt khởi động lại ListenMQTT
 login.restartListenMessageError=Đã xảy ra lỗi khi khởi động lại ListenMQTT
 login.restartListenMessage2=Đã khởi động lại ListenMQTT thành công
+login.refreshCookieAfter=Đã bật tự động làm mới cookie sau mỗi %1 phút
+login.listenMqttClose=Đã ngắt kết nối với server MQTT
 
 # bot/login/loadData.js
 loadData.loadThreadDataSuccess=Đã tải xong dữ liệu của %1 nhóm!

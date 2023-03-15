@@ -40,7 +40,7 @@ login.refreshFbstateSuccess=Refreshed %1 file
 login.refreshFbstateError=An error occurred when refreshing the %1 file
 login.youAreBanned=You have been banned from the Goat-Bot project
 login.runBot=Launch bot successfully, start receiving messages from users
-login.notLoggedIn=An error occurred, please check your account again
+login.notLoggedIn=An error occurred, please check your Facebook account again
 login.callBackError=An error occurred when callback listenMqtt
 login.userBanned=You've been banned from using a bot!!
 login.checkGbanError=An error occurred while checking GBAN
@@ -52,6 +52,8 @@ login.restartListenMessage=ListenMQTT restart enabled every %1ms (%2 minutes)
 login.stopRestartListenMessage=ListenMQTT restart disabled
 login.restartListenMessageError=An error occurred when restarting ListenMQTT
 login.restartListenMessage2=Successfully restarted ListenMQTT
+login.refreshCookieAfter=Refreshing cookie after %1 minutes
+login.listenMqttClose=ListenMQTT closed
 
 # bot/login/loadData.js
 loadData.loadThreadDataSuccess=Loaded %1 group's data successfully!
