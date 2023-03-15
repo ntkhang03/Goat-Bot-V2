@@ -1,3 +1,5 @@
+const express = require('express');
+const app = express();
 const fileUpload = require('express-fileupload');
 const rateLimit = require('express-rate-limit');
 const fs = require('fs-extra');
@@ -6,13 +8,12 @@ const eta = require('eta');
 const bodyParser = require('body-parser');
 const { google } = require('googleapis');
 const nodemailer = require('nodemailer');
+const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const Passport = require('passport');
-const express = require('express');
 const bcrypt = require('bcrypt');
 const axios = require('axios');
 const mimeDB = require('mime-db');
-const app = express();
 const http = require('http');
 const server = http.createServer(app);
 
@@ -95,14 +96,14 @@ module.exports = async (api) => {
 	app.set("view engine", "eta");
 
 	app.use(bodyParser.urlencoded({ extended: true }));
-
+	app.use(cookieParser());
 	app.use(seesion({
 		secret: randomStringApikey(10),
 		resave: false,
 		saveUninitialized: true,
 		cookie: {
 			secure: false,
-			// httpOnly: true,
+			httpOnly: true,
 			maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
 		}
 	}));
