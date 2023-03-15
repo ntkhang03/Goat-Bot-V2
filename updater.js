@@ -3,7 +3,13 @@ const fs = require('fs-extra');
 const cheerio = require('cheerio');
 const _ = require('lodash');
 const log = require('./logger/log.js');
-const { colors } = require("./func/colors.js");
+let chalk;
+try {
+	chalk = require("./func/colors.js").colors;
+}
+catch(e) {
+	chalk = require("chalk");
+}
 const langCode = require('./config.json').language;
 const execSync = require('child_process').execSync;
 
@@ -47,7 +53,7 @@ function getText(head, key, ...args) {
 		return log.info("SUCCESS", getText("updater", "latestVersion"));
 
 	fs.writeFileSync(`${process.cwd()}/versions.json`, JSON.stringify(versions, null, 2));
-	log.info("UPDATE", getText("updater", "newVersions", colors.yellow(versionsNeedToUpdate.length)));
+	log.info("UPDATE", getText("updater", "newVersions", chalk.yellow(versionsNeedToUpdate.length)));
 
 	for (const version of versionsNeedToUpdate) {
 		log.info("UPDATE", `Update version ${version.version}`);
@@ -88,13 +94,13 @@ function getText(head, key, ...args) {
 					fs.copyFileSync(fullPath, `${process.cwd()}/config.backup.json`);
 				}
 				fs.writeFileSync(fullPath, JSON.stringify(currentConfig, null, 2));
-				console.log(colors.bold.blue('[↑]'), `${filePath}`);
+				console.log(chalk.bold.blue('[↑]'), `${filePath}`);
 				// warning config.json is changed
-				console.log(colors.bold.yellow('[!]'), getText("updater", "configChanged"));
+				console.log(chalk.bold.yellow('[!]'), getText("updater", "configChanged"));
 			}
 			else if (fs.existsSync(fullPath)) {
 				fs.writeFileSync(fullPath, Buffer.from(getFile));
-				console.log(colors.bold.blue('[↑]'), `${filePath}:`, colors.hex('#858585', description));
+				console.log(chalk.bold.blue('[↑]'), `${filePath}:`, chalk.hex('#858585')(description));
 			}
 			else {
 				const cutFullPath = filePath.split('/').filter(p => p);
@@ -105,7 +111,7 @@ function getText(head, key, ...args) {
 						fs.mkdirSync(path);
 				}
 				fs.writeFileSync(fullPath, Buffer.from(getFile));
-				console.log(colors.bold.green('[+]'), `${filePath}:`, colors.hex('#858585', description));
+				console.log(chalk.bold.green('[+]'), `${filePath}:`, chalk.hex('#858585')(description));
 			}
 		}
 
@@ -117,7 +123,7 @@ function getText(head, key, ...args) {
 					fs.removeSync(fullPath);
 				else
 					fs.unlinkSync(fullPath);
-				console.log(colors.bold.red('[-]'), `${filePath}:`, colors.hex('#858585', description));
+				console.log(chalk.bold.red('[-]'), `${filePath}:`, chalk.hex('#858585')(description));
 			}
 		}
 	}
