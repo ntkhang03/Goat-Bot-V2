@@ -22,13 +22,13 @@ module.exports = async function ({ api, threadModel, userModel, dashBoardModel, 
 
 	/* ___ Example send a message to telegram when bot has error ___ */
 	// const ADMIN_ID_TELEGRAM = "123456789"; // <--- Change to your telegram id
-	// let highlightCode = error;
+	// let highlightCode_ = error;
 	// if (typeof error == "object" && !error.stack)
-	// 	highlightCode = JSON.stringify(error, null, 2);
+	// 	highlightCode_ = JSON.stringify(error, null, 2);
 	// else if (error.stack)
-	// 	highlightCode = error.stack;
+	// 	highlightCode_ = error.stack;
 	// await axios.post(`https://api.telegram.org/bot${process.env.TOKEN}/sendMessage`, {
 	// 	chat_id: ADMIN_ID_TELEGRAM,
-	// 	text: `Has error when listen message in Goat Bot:\n${highlightCode}`
+	// 	text: `Has error when listen message in Goat Bot:\n${highlightCode_}`
 	// });
 };
