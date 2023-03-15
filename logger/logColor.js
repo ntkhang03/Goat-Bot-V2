@@ -1,2 +1,2 @@
-const chalk = require("chalk");
-module.exports = (color, message) => console.log(chalk.hex(color)(message));
+const { colors } = require('../func/colors.js');
+module.exports = (color, message) => console.log(colors.hex(color, message));
