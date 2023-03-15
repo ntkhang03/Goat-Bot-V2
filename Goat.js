@@ -3,9 +3,9 @@
  * ! The source code is written by NTKhang, please don't change the author's name everywhere. Thank you for using 
  */
 const axios = require("axios");
-const chalk = require("chalk");
 const fs = require("fs-extra");
-
+const google = require("googleapis").google;
+const nodemailer = require("nodemailer");
 const { NODE_ENV } = process.env;
 process.on('unhandledRejection', error => console.log(error));
 process.on('uncaughtException', error => console.log(error));
@@ -27,7 +27,8 @@ global.GoatBot = {
 	configCommands,
 	envCommands: {},
 	envEvents: {},
-	envGlobal: {}
+	envGlobal: {},
+	reLoginBot: function () { }
 };
 
 global.db = {
@@ -61,6 +62,7 @@ global.client = {
 
 const utils = require("./utils.js");
 global.utils = utils;
+const { colors } = utils;
 
 global.temp = {
 	createThreadData: [],
@@ -149,11 +151,65 @@ if (config.autoRestart) {
 }
 
 (async () => {
+	// ———————————————— SETUP MAIL ———————————————— //
+	const { gmailAccount } = config.credentials;
+	const { email, clientId, clientSecret, refreshToken, apiKey: googleApiKey } = gmailAccount;
+	const OAuth2 = google.auth.OAuth2;
+	const OAuth2_client = new OAuth2(clientId, clientSecret);
+	OAuth2_client.setCredentials({ refresh_token: refreshToken });
+	let accessToken;
+	try {
+		accessToken = await OAuth2_client.getAccessToken();
+	}
+	catch (err) {
+		throw new Error('refresh token google api đã hết hạn hoặc bị thu hồi, vui lòng lấy lại token mới tại https://developers.google.com/oauthplayground/');
+	}
+	const transporter = nodemailer.createTransport({
+		host: 'smtp.gmail.com',
+		service: 'Gmail',
+		auth: {
+			type: 'OAuth2',
+			user: email,
+			clientId,
+			clientSecret,
+			refreshToken,
+			accessToken
+		}
+	});
+
+	async function sendMail({ to, subject, text, html, attachments }) {
+		const transporter = nodemailer.createTransport({
+			host: 'smtp.gmail.com',
+			service: 'Gmail',
+			auth: {
+				type: 'OAuth2',
+				user: email,
+				clientId,
+				clientSecret,
+				refreshToken,
+				accessToken
+			}
+		});
+		const mailOptions = {
+			from: email,
+			to,
+			subject,
+			text,
+			html,
+			attachments
+		};
+		const info = await transporter.sendMail(mailOptions);
+		return info;
+	}
+
+	global.utils.sendMail = sendMail;
+	global.utils.transporter = transporter;
+
 	// ———————————————— CHECK VERSION ———————————————— //
 	const { data: { version } } = await axios.get("https://raw.githubusercontent.com/ntkhang03/Goat-Bot-V2/main/package.json");
 	const currentVersion = require("./package.json").version;
 	if (compareVersion(version, currentVersion) === 1)
-		utils.log.master("NEW VERSION", getText("Goat", "newVersionDetected", chalk.grey(currentVersion), chalk.hex("#eb6a07")(version)));
+		utils.log.master("NEW VERSION", getText("Goat", "newVersionDetected", colors.gray(currentVersion), colors.hex("#eb6a07", version)));
 	// —————————— CHECK FOLDER GOOGLE DRIVE —————————— //
 	const parentIdGoogleDrive = await utils.drive.checkAndCreateParentFolder("GoatBot");
 	utils.drive.parentID = parentIdGoogleDrive;
@@ -165,8 +221,10 @@ function compareVersion(version1, version2) {
 	const v1 = version1.split(".");
 	const v2 = version2.split(".");
 	for (let i = 0; i < 3; i++) {
-		if (parseInt(v1[i]) > parseInt(v2[i])) return 1;
-		if (parseInt(v1[i]) < parseInt(v2[i])) return -1;
+		if (parseInt(v1[i]) > parseInt(v2[i]))
+			return 1;
+		if (parseInt(v1[i]) < parseInt(v2[i]))
+			return -1;
 	}
 	return 0;
 }
