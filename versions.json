@@ -1125,5 +1125,26 @@
 			"database/controller/globalData.js": "fixed bugs",
 			"database/controller/usersData.js": ""
 		}
+	},
+	{
+		"version": "1.2.31",
+		"files": {
+			"bot/login/getFbstate1.js": "detect and notify if the facebook account is checkpointed",
+			"bot/login/login.js": "detect and notify if the facebook account is checkpointed",
+			"func/colors.js": "added new func",
+			"func/prism.js": "added new func",
+			"logger/loading.js": "changed package `chalk` to `colors` function",
+			"logger/log.js": "changed package `chalk` to `colors` function",
+			"logger/logColor.js": "changed package `chalk` to `colors` function",
+			"languages/vi.lang": "languages update",
+			"languages/en.lang": "languages update",
+			"Goat.js": "changed package `chalk` to `colors` function, added function `sendMail` to utils",
+			"package-lock.json": "remove the chalk package",
+			"package.json": "remove the chalk package",
+			"utils.js": "changed package `chalk` to `colors` function, beauty code",
+			"scripts/cmds/videofb.js": "add command to download public facebook video",
+			"dashboard/app.js": "",
+			"bot/login/handlerWhenListenHasError.js": "added example how to use handlerWhenListenHasError"
+		}
 	}
 ]
