@@ -2,6 +2,7 @@
 Goat.newVersionDetected=Bạn đang dùng phiên bản %1, phiên bản mới nhất là %2. Vui lòng cập nhật để sử dụng bot tốt hơn bằng cách gõ vào console/cmd lệnh: node update
 Goat.autoRestart1=Bot sẽ tự động khởi động lại sau %1 giây
 Goat.autoRestart2=Bot sẽ tự động khởi động lại theo cron job: %1
+Goat.googleApiTokenExpired=refresh token google api đã hết hạn hoặc bị thu hồi, vui lòng lấy lại token mới tại https://developers.google.com/oauthplayground/
 
 # bot/login/login.js
 login.currentlyLogged=Đang tiến hành đăng nhập

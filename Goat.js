@@ -6,6 +6,7 @@ const axios = require("axios");
 const fs = require("fs-extra");
 const google = require("googleapis").google;
 const nodemailer = require("nodemailer");
+
 const { NODE_ENV } = process.env;
 process.on('unhandledRejection', error => console.log(error));
 process.on('uncaughtException', error => console.log(error));
@@ -162,7 +163,7 @@ if (config.autoRestart) {
 		accessToken = await OAuth2_client.getAccessToken();
 	}
 	catch (err) {
-		throw new Error('refresh token google api đã hết hạn hoặc bị thu hồi, vui lòng lấy lại token mới tại https://developers.google.com/oauthplayground/');
+		throw new Error(getText("Goat", "googleApiTokenExpired"));
 	}
 	const transporter = nodemailer.createTransport({
 		host: 'smtp.gmail.com',
