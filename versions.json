@@ -1146,5 +1146,19 @@
 			"dashboard/app.js": "",
 			"bot/login/handlerWhenListenHasError.js": "added example how to use handlerWhenListenHasError"
 		}
+	},
+	{
+		"version": "1.2.32",
+		"files": {
+			"bot/login/handlerWhenListenHasError.js": "",
+			"bot/login/login.js": "code optimization",
+			"utils.js": "code optimization",
+			"func/prism.js": "code optimization",
+			"Goat.js": "language update",
+			"languages/vi.lang": "language update",
+			"languages/en.lang": "language update",
+			"scripts/cmds/cmd.js": "support install command from `savetext.net` and `pastebin.com`",
+			"scripts/cmds/shortcut.js": "add filter when exporting list (use `help shortcut` command to see details)"
+		}
 	}
 ]
