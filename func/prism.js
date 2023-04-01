@@ -276,7 +276,8 @@ function Token(type, content, alias, matchedStr) {
 }
 
 
-Token.stringify = function stringify(o, language) {
+Token.stringify = function stringify(o, language, options) {
+	const stylesCss = options.styles || styles;
 	if (typeof o == 'string') {
 		return o;
 	}
@@ -313,7 +314,7 @@ Token.stringify = function stringify(o, language) {
 		attributes += ' ' + name + '="' + (env.attributes[name] || '').replace(/"/g, '&quot;') + '"';
 	}
 
-	return `<${env.tag} class="${env.classes.join(' ')}"${attributes} style="${env.classes.map(c => styles[c] || '').filter(i => i).join(';')}">${env.content}</${env.tag}>`;
+	return `<${env.tag} class="${env.classes.join(' ')}"${attributes} style="${env.classes.map(c => stylesCss[c] || '').filter(i => i).join(';')}">${env.content}</${env.tag}>`;
 };
 
 const _ = {
@@ -367,7 +368,7 @@ const _ = {
 };
 
 const Prism = {
-	highlight: function (text, grammar, language) {
+	highlight: function (text, grammar, language, options = {}) {
 		const env = {
 			code: text,
 			grammar: grammar,
@@ -379,7 +380,7 @@ const Prism = {
 		}
 		env.tokens = _.tokenize(env.code, env.grammar);
 		_.hooks.run('after-tokenize', env);
-		return Token.stringify(_.util.encode(env.tokens), env.language);
+		return Token.stringify(_.util.encode(env.tokens), env.language, options);
 	}
 };
 
