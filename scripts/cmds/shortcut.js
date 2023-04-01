@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: 'shortcut',
 		aliases: ['short'],
-		version: '1.8',
+		version: '1.9',
 		author: 'NTKhang',
 		countDown: 5,
 		role: 0,
@@ -26,7 +26,10 @@ module.exports = {
 				+ '\n'
 				+ '\n   {pn} [reomve | reset]: xóa bỏ tất cả các phím tắt trong nhóm chat của bạn'
 				+ '\n'
-				+ '\n   {pn} list: xem danh sách các phím tắt của bạn',
+				+ '\n   {pn} list: xem danh sách tất cả các phím tắt của bạn'
+				+ '\n   {pn} list start <keyword>: xem danh sách các phím tắt của bạn bắt đầu bằng từ khóa <keyword>'
+				+ '\n   {pn} list end <keyword>: xem danh sách các phím tắt của bạn kết thúc bằng từ khóa <keyword>'
+				+ '\n   {pn} list contain <keyword>: xem danh sách các phím tắt của bạn có chứa từ khóa <keyword>',
 			en: '   {pn} add <word> => <content>: add a shortcut for you (you can send or reply a message with file to add attachment)'
 				+ '\n   Example:\n    {pn} add hi => Hello everyone'
 				+ '\n'
@@ -36,6 +39,9 @@ module.exports = {
 				+ '\n   {pn} reomve: remove all shortcuts in your group chat'
 				+ '\n'
 				+ '\n   {pn} list: view your shortcuts list'
+				+ '\n   {pn} list start <keyword>: view your shortcuts list start with <keyword>'
+				+ '\n   {pn} list end <keyword>: view your shortcuts list end with <keyword>'
+				+ '\n   {pn} list contain <keyword>: view your shortcuts list contain <keyword>'
 		}
 	},
 
@@ -54,6 +60,12 @@ module.exports = {
 			message: 'Tin nhắn',
 			attachment: 'Tệp đính kèm',
 			list: 'Danh sách các shortcut của bạn',
+			listWithTypeStart: 'Danh sách các shortcut của nhóm bạn (bắt đầu bằng "%1")',
+			listWithTypeEnd: 'Danh sách các shortcut của nhóm bạn (kết thúc bằng "%1")',
+			listWithTypeContain: 'Danh sách các shortcut của nhóm bạn (chứa "%1")',
+			listWithTypeStartNot: 'Nhóm bạn không có shortcut nào bắt đầu bằng "%1"',
+			listWithTypeEndNot: 'Nhóm bạn không có shortcut nào kết thúc bằng "%1"',
+			listWithTypeContainNot: 'Nhóm bạn không có shortcut nào chứa "%1"',
 			onlyAdminRemoveAll: 'Chỉ quản trị viên mới có thể xóa tất cả các shortcut trong nhóm chat',
 			confirmRemoveAll: 'Bạn có chắc muốn xóa tất cả các shortcut trong nhóm chat này không? (thả cảm xúc vào tin nhắn này để xác nhận)',
 			removedAll: 'Đã xóa tất cả các shortcut trong nhóm chat của bạn'
@@ -72,6 +84,12 @@ module.exports = {
 			message: 'Message',
 			attachment: 'Attachment',
 			list: 'Your shortcuts list',
+			listWithTypeStart: 'List of your group\'s shortcuts (start with "%1")',
+			listWithTypeEnd: 'List of your group\'s shortcuts (end with "%1")',
+			listWithTypeContain: 'List of your group\'s shortcuts (contain "%1")',
+			listWithTypeStartNot: 'Your group has no shortcuts start with "%1"',
+			listWithTypeEndNot: 'Your group has no shortcuts end with "%1"',
+			listWithTypeContainNot: 'Your group has no shortcuts contain "%1"',
 			onlyAdminRemoveAll: 'Only administrators can remove all shortcuts in the group chat',
 			confirmRemoveAll: 'Are you sure you want to remove all shortcuts in this group chat? (react to this message to confirm)',
 			removedAll: 'Removed all shortcuts in your group chat'
@@ -90,7 +108,7 @@ module.exports = {
 					return message.reply(getLang('missingContent'));
 
 				key = key.trim().toLowerCase();
-				content = content.trim();
+				content = (content || "").trim();
 
 				const alreadyExists = shortCutData.find(item => item.key == key);
 				if (alreadyExists) {
@@ -137,8 +155,48 @@ module.exports = {
 			case 'list': {
 				if (shortCutData.length === 0)
 					return message.reply(getLang('empty'));
-				const list = (await Promise.all(shortCutData.map(async (x, index) => `[${index + 1}] ${x.key} => ${x.content ? 1 : 0} ${getLang("message")}, ${x.attachments.length} ${getLang('attachment')} (${await usersData.getName(x.author)})`))).join('\n');
-				message.reply(getLang('list') + '\n' + list);
+				let shortCutList = shortCutData;
+				let stringType = getLang('list');
+
+				if (args[1]) {
+					const type = args[1];
+					const keyword = args.slice(2).join(' ');
+
+					if (type == "start") {
+						shortCutList = shortCutData;
+						stringType = getLang('listWithTypeStart', keyword);
+					}
+					else if (type == "end") {
+						shortCutList = shortCutData.filter(x => x.key.endsWith(keyword));
+						stringType = getLang('listWithTypeEnd', keyword);
+					}
+					else if (["contain", "has", "have", "include", "in"].includes(type)) {
+						shortCutList = shortCutData.filter(x => x.key.includes(keyword));
+						stringType = getLang('listWithTypeContain', keyword);
+					}
+					else {
+						shortCutList = shortCutData.filter(x => x.key.startsWith(type));
+						stringType = getLang('listWithTypeStart', type);
+					}
+
+					if (shortCutList.length === 0) {
+						if (type == "start")
+							return message.reply(getLang('listWithTypeStartNot', keyword));
+						else if (type == "end")
+							return message.reply(getLang('listWithTypeEndNot', keyword));
+						else
+							return message.reply(getLang('listWithTypeContainNot', keyword));
+					}
+				}
+
+				const list = (
+					await Promise.all(
+						shortCutList.map(async (x, index) =>
+							`[${index + 1}] ${x.key} => ${x.content ? 1 : 0} ${getLang("message")}, ${x.attachments.length} ${getLang('attachment')} (${await usersData.getName(x.author)})`
+						)
+					)
+				).join('\n');
+				message.reply(stringType + '\n' + list);
 				break;
 			}
 			case 'remove':
