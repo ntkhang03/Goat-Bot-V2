@@ -1160,5 +1160,21 @@
 			"scripts/cmds/cmd.js": "support install command from `savetext.net` and `pastebin.com`",
 			"scripts/cmds/shortcut.js": "add filter when exporting list (use `help shortcut` command to see details)"
 		}
+	},
+	{
+		"version": "1.2.33",
+		"files":{
+			"scripts/cmds/shortcut.js": "fix `shortcut start xxx` not work",
+			"bot/handler/handlerEvents.js": "code optimization",
+			"bot/login/loadScripts.js": "code optimization",
+			"bot/login/login.js": "code optimization",
+			"scripts/cmds/filteruser.js": "code optimization",
+			"languages/en.lang": "languages update",
+			"languages/vi.lang": "languages update",
+			"scripts/cmds/ban.js": "new command (ban user from group, beta version)",
+			"Goat.js": "new global variable",
+			"scripts/cmds/help.js": "Update new features, use command `help help` to see details",
+			"scripts/cmds/uid.js": "Update new features, use command `help help` to see details"
+		}
 	}
 ]
