@@ -1,7 +1,7 @@
 module.exports = {
 	config: {
 		name: "autoUpdateThreadInfo",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang"
 	},
 
@@ -29,7 +29,7 @@ module.exports = {
 						const newData = {
 							userID: user.userFbId,
 							name: user.fullName,
-							gender: userInfo.find(u => u.id == user.userFbId).gender,
+							gender: userInfo.find(u => u.id == user.userFbId)?.gender,
 							nickname: nicknames[user.userFbId] || null,
 							inGroup: true,
 							count: oldData.count || 0
