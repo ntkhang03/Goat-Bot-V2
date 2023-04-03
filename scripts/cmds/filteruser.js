@@ -97,7 +97,13 @@ module.exports = {
 			return;
 		const threadData = await threadsData.get(event.threadID);
 		const botID = api.getCurrentUserID();
-		const membersCountLess = threadData.members.filter(member => member.count < minimum && member.inGroup == true && member.userID != botID && !threadData.adminIDs.some(id => id == member.userID));
+		const membersCountLess = threadData.members.filter(member =>
+			member.count < minimum
+			&& member.inGroup == true
+			// ignore bot and admin box
+			&& member.userID != botID
+			&& !threadData.adminIDs.some(id => id == member.userID)
+		);
 		const errors = [];
 		const success = [];
 		for (const member of membersCountLess) {
