@@ -1176,5 +1176,13 @@
 			"scripts/cmds/help.js": "Update new features, use command `help help` to see details",
 			"scripts/cmds/uid.js": "Update new features, use command `help help` to see details"
 		}
+	},
+	{
+		"version": "1.2.34",
+		"files": {
+			"scripts/events/autoUpdateInfoThread.js": "fix error `cannot read properties of undefined (reading 'gender')`",
+			"scripts/events/logsbot.js": "nothing change",
+			"scripts/cmds/ban.js": "add unban feature"
+		}
 	}
 ]
