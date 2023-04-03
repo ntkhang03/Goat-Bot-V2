@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: 'shortcut',
 		aliases: ['short'],
-		version: '1.9',
+		version: '1.10',
 		author: 'NTKhang',
 		countDown: 5,
 		role: 0,
@@ -163,7 +163,7 @@ module.exports = {
 					const keyword = args.slice(2).join(' ');
 
 					if (type == "start") {
-						shortCutList = shortCutData;
+						shortCutList = shortCutData.filter(x => x.key.startsWith(keyword));
 						stringType = getLang('listWithTypeStart', keyword);
 					}
 					else if (type == "end") {
