@@ -19,6 +19,9 @@ const configCommands = require(dirConfigCommands);
 global.GoatBot = {
 	commands: new Map(),
 	eventCommands: new Map(),
+	commandFilesPath: [],
+	// [{ filePath: "", commandName: [] }
+	eventCommandsFilesPath: [],
 	aliases: new Map(),
 	onChat: [],
 	onEvent: [],
