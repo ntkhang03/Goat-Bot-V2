@@ -4,7 +4,7 @@ const moment = require("moment-timezone");
 module.exports = {
 	config: {
 		name: "ban",
-		version: "1.0-beta",
+		version: "1.1-beta",
 		author: "NTKhang",
 		countDown: 5,
 		role: 1,
@@ -19,8 +19,10 @@ module.exports = {
 		category: "box chat",
 		guide: {
 			vi: "   {pn} [@tag|uid|link fb|reply] [<lý do cấm>|để trống nếu không có lý do]: Cấm thành viên khỏi box chat"
+				+ "\n   {pn} unban [@tag|uid|link fb|reply]: Bỏ cấm thành viên khỏi box chat"
 				+ "\n   {pn} list: Xem danh sách thành viên bị cấm",
 			en: "   {pn} [@tag|uid|fb link|reply] [<reason>|leave blank if no reason]: Ban user from box chat"
+				+ "\n   {pn} unban [@tag|uid|fb link|reply]: Unban user from box chat"
 				+ "\n   {pn} list: View the list of banned members"
 		}
 	},
@@ -28,6 +30,9 @@ module.exports = {
 	langs: {
 		vi: {
 			notFoundTarget: "⚠️ | Vui lòng tag người cần cấm hoặc nhập uid hoặc link fb hoặc phản hồi tin nhắn của người cần cấm",
+			notFoundTargetUnban: "⚠️ | Vui lòng tag người cần bỏ cấm hoặc nhập uid hoặc link fb hoặc phản hồi tin nhắn của người cần bỏ cấm",
+			userNotBanned: "⚠️ | Người mang id %1 không bị cấm khỏi box chat này",
+			unbannedSuccess: "✅ | Đã bỏ cấm %1 khỏi box chat!",
 			cantSelfBan: "⚠️ | Bạn không thể tự cấm chính mình!",
 			cantBanAdmin: "❌ | Bạn không thể cấm quản trị viên!",
 			existedBan: "❌ | Người này đã bị cấm từ trước!",
@@ -44,6 +49,9 @@ module.exports = {
 		},
 		en: {
 			notFoundTarget: "⚠️ | Please tag the person to ban or enter uid or fb link or reply to the message of the person to ban",
+			notFoundTargetUnban: "⚠️ | Please tag the person to unban or enter uid or fb link or reply to the message of the person to unban",
+			userNotBanned: "⚠️ | The person with id %1 is not banned from this box chat",
+			unbannedSuccess: "✅ | Unbanned %1 from box chat!",
 			cantSelfBan: "⚠️ | You can't ban yourself!",
 			cantBanAdmin: "❌ | You can't ban the administrator!",
 			existedBan: "❌ | This person has been banned before!",
@@ -66,6 +74,31 @@ module.exports = {
 		let target;
 		let reason;
 
+		const dataBanned = await threadsData.get(event.threadID, 'data.banned_ban', []);
+
+		if (args[0] == 'unban') {
+			if (!isNaN(args[1]))
+				target = args[1];
+			else if (args[1].startsWith('https'))
+				target = await findUid(args[1]);
+			else if (Object.keys(event.mentions || {}).length)
+				target = Object.keys(event.mentions)[0];
+			else if (event.messageReply?.senderID)
+				target = event.messageReply.senderID;
+			else
+				return api.sendMessage(getLang('notFoundTargetUnban'), event.threadID, event.messageID);
+
+			const index = dataBanned.findIndex(item => item.id == target);
+			if (index == -1)
+				return api.sendMessage(getLang('userNotBanned', target), event.threadID, event.messageID);
+
+			dataBanned.splice(index, 1);
+			await threadsData.set(event.threadID, dataBanned, 'data.banned_ban');
+			const userName = members[target]?.name || await usersData.getName(target) || getLang('noName');
+
+			return api.sendMessage(getLang('unbannedSuccess', userName), event.threadID, event.messageID);
+		}
+
 		if (event.messageReply?.senderID) {
 			target = event.messageReply.senderID;
 			reason = args.join(' ');
@@ -83,7 +116,6 @@ module.exports = {
 			reason = args.slice(1).join(' ');
 		}
 		else if (args[0] == 'list') {
-			const dataBanned = await threadsData.get(event.threadID, 'data.banned_ban', []);
 			if (!dataBanned.length)
 				return message.reply(getLang('noData'));
 			const limit = 20;
@@ -95,7 +127,7 @@ module.exports = {
 			let count = 0;
 			for (const user of data) {
 				count++;
-				const name = members[user.id]?.name || (await usersData.getName(user.id)) || getLang('noName');
+				const name = members[user.id]?.name || await usersData.getName(user.id) || getLang('noName');
 				const time = user.time;
 				msg += getLang('content', start + count, name, user.id, user.reason, time);
 			}
@@ -109,7 +141,6 @@ module.exports = {
 		if (adminIDs.includes(target))
 			return message.reply(getLang('cantBanAdmin'));
 
-		const dataBanned = await threadsData.get(event.threadID, 'data.banned_ban', []);
 		const banned = dataBanned.find(item => item.id == target);
 		if (banned)
 			return message.reply(getLang('existedBan'));
