@@ -65,6 +65,9 @@ loadData.refreshThreadDataError=Đã có lỗi xảy ra khi cập nhật thông 
 
 # bot/login/loadScripts.js
 loadScripts.loadScriptsError=Những file %1 xảy ra lỗi trong quá trình load:
+loadScripts.loadScriptsNotMatchOrigin=Những file %1 không khớp với file gốc trên github của project, hãy chắc chắn rằng những file lệnh này đáng tin cậy:
+loadScripts.NOT_FOUND=KHÔNG TÌM THẤY TRONG FILE GỐC:
+loadScripts.NOT_MATCH=KHÔNG KHỚP VỚI FILE GỐC:
 
 # bot/login/socketIO.js
 socketIO.connected=Đã khởi tạo server socket.io thành công!

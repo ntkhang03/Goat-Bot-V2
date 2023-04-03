@@ -65,6 +65,9 @@ loadData.refreshThreadDataError=Something went wrong when updating the groups in
 
 # bot/login/loadScripts.js
 loadScripts.loadScriptsError=The %1 files have an error during loading:
+loadScripts.loadScriptsNotMatchOrigin=The %1 files do not match the original files on the github project, make sure that these command files are reliable:
+loadScripts.NOT_FOUND=NOT FOUND IN THE ORIGINAL FILES:
+loadScripts.NOT_MATCH=DOES NOT MATCH THE ORIGINAL FILE:
 
 # bot/login/socketIO.js
 socketIO.connected=Connected to socket.io server
