@@ -39,10 +39,10 @@ module.exports = {
 	},
 
 	onStart: async function ({ message, event, args, getLang }) {
-		if (!args[0])
-			return message.reply(event.senderID);
 		if (event.messageReply)
 			return message.reply(event.messageReply.senderID);
+		if (!args[0])
+			return message.reply(event.senderID);
 		if (args[0].match(regExCheckURL)) {
 			let msg = '';
 			for (const link of args) {
