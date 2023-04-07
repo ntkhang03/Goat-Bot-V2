@@ -1222,5 +1222,11 @@
 			},
 			"bot/login/handlerWhenListenHasError.js": "added the function to send notifications about email, telegram,... when mqtt server stops working due to account problems"
 		}
+	},
+	{
+		"version": "1.2.36",
+		"files": {
+			"bot/login/login.js": "fix bug"
+		}
 	}
 ]

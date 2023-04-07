@@ -1,6 +1,6 @@
 {
 	"name": "goat-bot-v2",
-	"version": "1.2.35",
+	"version": "1.2.36",
 	"description": "A simple Bot chat messenger using personal account. Made by NTKhang.",
 	"main": "index.js",
 	"engines": {
