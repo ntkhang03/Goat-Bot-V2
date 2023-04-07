@@ -33,7 +33,7 @@ module.exports = {
 			en: "View your level or the level of the tagged person. You can tag many people"
 		},
 		category: "rank",
-		guide: "{pn} [để trống | @tags]",
+		guide: "   {pn} [để trống | @tags]",
 		envConfig: {
 			deltaNext: 5
 		}
