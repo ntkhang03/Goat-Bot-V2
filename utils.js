@@ -430,7 +430,7 @@ async function getStreamsFromAttachment(attachments) {
 	for (const attachment of attachments) {
 		const url = attachment.url;
 		const ext = utils.getExtFromUrl(url);
-		const fileName = utils.randomString(10) + ext;
+		const fileName = `${utils.randomString(10)}.${ext}`;
 		streams.push({
 			pending: axios({
 				url,
