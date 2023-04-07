@@ -95,6 +95,7 @@ module.exports = async (api) => {
 	app.engine("eta", eta.renderFile);
 	app.set("view engine", "eta");
 
+	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(cookieParser());
 	app.use(seesion({
