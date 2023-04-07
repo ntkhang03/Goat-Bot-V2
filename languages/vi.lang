@@ -121,3 +121,6 @@ verifyfbid.sendCode=Mã xác nhận của bạn là:\n%1\nMã xác nhận có hi
 
 # utils.js
 utils.errorOccurred=❌ Đã xảy ra lỗi:\n\n%1
+
+# for command
+command.restartedBot=Đã khởi động lại bot

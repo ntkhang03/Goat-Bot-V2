@@ -121,3 +121,6 @@ verifyfbid.sendCode=Your verification code is:\n%1\nThe verification code is val
 
 # utils.js
 utils.errorOccurred=❌ An error occurred:\n\n%1
+
+# for command
+command.restartedBot=Bot has been restarted
