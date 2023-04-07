@@ -8,7 +8,6 @@ module.exports = function (sequelize) {
 		},
 		data: {
 			type: DataTypes.JSON,
-			unique: true,
 			defaultValue: {}
 		}
 	}, {
