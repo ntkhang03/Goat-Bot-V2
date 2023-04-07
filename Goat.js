@@ -36,16 +36,24 @@ global.GoatBot = {
 };
 
 global.db = {
+	// all data
 	allThreadData: [],
 	allUserData: [],
+	allDashBoardData: [],
+	allGlobalData: [],
+
+	// model
 	threadModel: null,
 	userModel: null,
 	dashboardModel: null,
 	globalModel: null,
+
+	// handle data
 	threadsData: null,
 	usersData: null,
 	dashBoardData: null,
 	globalData: null,
+
 	receivedTheFirstMessage: {}
 };
 
