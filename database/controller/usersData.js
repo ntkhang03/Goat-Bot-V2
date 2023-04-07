@@ -339,6 +339,20 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 		}
 	}
 
+	async function getMoney(userID) {
+		try {
+			if (isNaN(userID)) {
+				const error = new Error(`The first argument (userID) must be a number, not ${typeof userID}`);
+				error.name = "Invalid userID";
+				throw error;
+			}
+			return await get(userID, "money");
+		}
+		catch (err) {
+			throw err;
+		}
+	}
+
 	async function addMoney(userID, money, query) {
 		try {
 			if (isNaN(userID)) {
@@ -420,6 +434,7 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 		getAll,
 		get,
 		set,
+		getMoney,
 		addMoney,
 		subtractMoney,
 		remove
