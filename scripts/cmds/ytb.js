@@ -23,7 +23,7 @@ async function getStreamAndSize(url, path = "") {
 module.exports = {
 	config: {
 		name: "ytb",
-		version: "1.11",
+		version: "1.12",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
