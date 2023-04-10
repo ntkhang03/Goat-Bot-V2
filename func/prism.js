@@ -276,7 +276,7 @@ function Token(type, content, alias, matchedStr) {
 }
 
 
-Token.stringify = function stringify(o, language, options) {
+Token.stringify = function stringify(o, language, options = {}) {
 	const stylesCss = options.styles || styles;
 	if (typeof o == 'string') {
 		return o;
