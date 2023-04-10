@@ -32,7 +32,9 @@ global.GoatBot = {
 	envCommands: {},
 	envEvents: {},
 	envGlobal: {},
-	reLoginBot: function () { }
+	reLoginBot: function () { },
+	Listening: null,
+	oldListening: []
 };
 
 global.db = {
