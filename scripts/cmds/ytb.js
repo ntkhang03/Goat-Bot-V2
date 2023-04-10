@@ -1,5 +1,6 @@
 const axios = require("axios");
 const ytdl = require("ytdl-core");
+const fs = require("fs-extra");
 const { getStreamFromURL, downloadFile } = global.utils;
 async function getStreamAndSize(url, path = "") {
 	const response = await axios({
@@ -52,25 +53,29 @@ module.exports = {
 
 	langs: {
 		vi: {
-			error: "Đã xảy ra lỗi: %1",
-			noResult: "Không có kết quả tìm kiếm nào phù hợp với từ khóa %1",
+			error: "❌ Đã xảy ra lỗi: %1",
+			noResult: "⭕ Không có kết quả tìm kiếm nào phù hợp với từ khóa %1",
 			choose: "%1Reply tin nhắn với số để chọn hoặc nội dung bất kì để gỡ",
-			downloading: "Đang tải xuống video %1",
-			noVideo: "Rất tiếc, không tìm thấy video nào có dung lượng nhỏ hơn 83MB",
-			downloadingAudio: "Đang tải xuống audio %1",
-			noAudio: "Rất tiếc, không tìm thấy audio nào có dung lượng nhỏ hơn 26MB",
+			video: "video",
+			audio: "âm thanh",
+			downloading: "⬇️ Đang tải xuống %1 \"%2\"",
+			downloading2: "⬇️ Đang tải xuống %1 \"%2\"\n🔃 Tốc độ: %3MB/s\n⏸️ Đã tải: %4/%5MB (%6%)\n⏳ Ước tính thời gian còn lại: %7 giây",
+			noVideo: "⭕ Rất tiếc, không tìm thấy video nào có dung lượng nhỏ hơn 83MB",
+			noAudio: "⭕ Rất tiếc, không tìm thấy audio nào có dung lượng nhỏ hơn 26MB",
 			info: "💠 Tiêu đề: %1\n🏪 Channel: %2\n👨‍👩‍👧‍👦 Subscriber: %3\n⏱ Thời gian video: %4\n👀 Lượt xem: %5\n👍 Lượt thích: %6\n🆙 Ngày tải lên: %7\n🔠 ID: %8\n🔗 Link: %9",
 			listChapter: "\n📖 Danh sách phân đoạn: %1\n"
 		},
 		en: {
-			error: "An error has occurred: %1",
-			noResult: "No search results match the keyword %1",
-			choose: "%1Reply to the message with the number to choose or any content to cancel",
-			downloading: "Downloading video %1",
-			noVideo: "Sorry, no video was found with a size less than 83MB",
-			downloadingAudio: "Downloading audio %1",
-			noAudio: "Sorry, no audio was found with a size less than 26MB",
-			info: "💠 Title: %1\n🏪 Channel: %2\n👨‍👩‍👧‍👦 Subscriber: %3\n⏱ Video time: %4\n👀 View: %5\n👍 Like: %6\n🆙 Upload date: %7\n🔠 ID: %8\n🔗 Link: %9",
+			error: "❌ An error occurred: %1",
+			noResult: "⭕ No search results match the keyword %1",
+			choose: "%1Reply to the message with a number to choose or any content to cancel",
+			video: "video",
+			audio: "audio",
+			downloading: "⬇️ Downloading %1 \"%2\"",
+			downloading2: "⬇️ Downloading %1 \"%2\"\n🔃 Speed: %3MB/s\n⏸️ Downloaded: %4/%5MB (%6%)\n⏳ Estimated time remaining: %7 seconds",
+			noVideo: "⭕ Sorry, no video was found with a size less than 83MB",
+			noAudio: "⭕ Sorry, no audio was found with a size less than 26MB",
+			info: "💠 Title: %1\n🏪 Channel: %2\n👨‍👩‍👧‍👦 Subscriber: %3\n⏱ Video duration: %4\n👀 View count: %5\n👍 Like count: %6\n🆙 Upload date: %7\n🔠 ID: %8\n🔗 Link: %9",
 			listChapter: "\n📖 List chapter: %1\n"
 		}
 	},
@@ -162,7 +167,7 @@ async function handle({ type, infoVideo, message, getLang }) {
 
 	if (type == "video") {
 		const MAX_SIZE = 87031808; // 83MB (max size of video that can be sent on fb)
-		const msgSend = message.reply(getLang("downloading", title));
+		const msgSend = message.reply(getLang("downloading", getLang("video"), title));
 		const { formats } = await ytdl.getInfo(videoId);
 		const getFormat = formats
 			.filter(f => f.hasVideo && f.hasAudio)
@@ -174,18 +179,41 @@ async function handle({ type, infoVideo, message, getLang }) {
 		if (getStream.size > MAX_SIZE)
 			return message.reply(getLang("noVideo"));
 
-		message.reply({
-			body: title,
-			attachment: getStream.stream
-		}, async (err) => {
-			if (err)
-				return message.reply(getLang("error", err.message));
-			message.unsend((await msgSend).messageID);
+		const savePath = __dirname + `/tmp/${videoId}_${Date.now()}.mp4`;
+		const writeStrean = fs.createWriteStream(savePath);
+		const startTime = Date.now();
+		getStream.stream.pipe(writeStrean);
+		const contentLength = getStream.size;
+		let downloaded = 0;
+		let count = 0;
+
+		getStream.stream.on("data", (chunk) => {
+			downloaded += chunk.length;
+			count++;
+			if (count == 5) {
+				const endTime = Date.now();
+				const speed = downloaded / (endTime - startTime) * 1000;
+				const timeLeft = (contentLength / downloaded * (endTime - startTime)) / 1000;
+				const percent = downloaded / contentLength * 100;
+				if (timeLeft > 30) // if time left > 30s, send message
+					message.reply(getLang("downloading2", getLang("video"), title, Math.floor(speed / 1000) / 1000, Math.floor(downloaded / 1000) / 1000, Math.floor(contentLength / 1000) / 1000, Math.floor(percent), timeLeft.toFixed(2)));
+			}
+		});
+		writeStrean.on("finish", () => {
+			message.reply({
+				body: title,
+				attachment: fs.createReadStream(savePath)
+			}, async (err) => {
+				if (err)
+					return message.reply(getLang("error", err.message));
+				fs.unlinkSync(savePath);
+				message.unsend((await msgSend).messageID);
+			});
 		});
 	}
 	else if (type == "audio") {
 		const MAX_SIZE = 27262976; // 26MB (max size of audio that can be sent on fb)
-		const msgSend = message.reply(getLang("downloadingAudio", title));
+		const msgSend = message.reply(getLang("downloading", getLang("audio"), title));
 		const { formats } = await ytdl.getInfo(videoId);
 		const getFormat = formats
 			.filter(f => f.hasAudio && !f.hasVideo)
@@ -196,13 +224,38 @@ async function handle({ type, infoVideo, message, getLang }) {
 		const getStream = await getStreamAndSize(getFormat.url, `${videoId}.mp3`);
 		if (getStream.size > MAX_SIZE)
 			return message.reply(getLang("noAudio"));
-		message.reply({
-			body: title,
-			attachment: getStream.stream
-		}, async (err) => {
-			if (err)
-				return message.reply(getLang("error", err.message));
-			message.unsend((await msgSend).messageID);
+
+		const savePath = __dirname + `/tmp/${videoId}_${Date.now()}.mp3`;
+		const writeStrean = fs.createWriteStream(savePath);
+		const startTime = Date.now();
+		getStream.stream.pipe(writeStrean);
+		const contentLength = getStream.size;
+		let downloaded = 0;
+		let count = 0;
+
+		getStream.stream.on("data", (chunk) => {
+			downloaded += chunk.length;
+			count++;
+			if (count == 5) {
+				const endTime = Date.now();
+				const speed = downloaded / (endTime - startTime) * 1000;
+				const timeLeft = (contentLength / downloaded * (endTime - startTime)) / 1000;
+				const percent = downloaded / contentLength * 100;
+				if (timeLeft > 30) // if time left > 30s, send message
+					message.reply(getLang("downloading2", getLang("audio"), title, Math.floor(speed / 1000) / 1000, Math.floor(downloaded / 1000) / 1000, Math.floor(contentLength / 1000) / 1000, Math.floor(percent), timeLeft.toFixed(2)));
+			}
+		});
+
+		writeStrean.on("finish", () => {
+			message.reply({
+				body: title,
+				attachment: fs.createReadStream(savePath)
+			}, async (err) => {
+				if (err)
+					return message.reply(getLang("error", err.message));
+				fs.unlinkSync(savePath);
+				message.unsend((await msgSend).messageID);
+			});
 		});
 	}
 	else if (type == "info") {

@@ -1,6 +1,6 @@
 {
 	"name": "goat-bot-v2",
-	"version": "1.2.36",
+	"version": "1.2.37",
 	"description": "A simple Bot chat messenger using personal account. Made by NTKhang.",
 	"main": "index.js",
 	"engines": {
@@ -47,7 +47,7 @@
 		"sqlite3": "^5.0.5",
 		"tinyurl": "^1.1.7",
 		"totp-generator": "^0.0.13",
-		"ytdl-core": "^4.11.2"
+		"ytdl-core": "github:fent/node-ytdl-core#pull/1203/head"
 	},
 	"scripts": {
 		"start": "node index.js"
