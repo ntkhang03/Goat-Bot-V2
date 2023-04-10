@@ -1228,5 +1228,17 @@
 		"files": {
 			"bot/login/login.js": "fix bug"
 		}
+	},
+	{
+		"version": "1.2.37",
+		"files": {
+			"bot/login/login.js": "fix repeated feedback",
+			"Goat.js": "fix repeated feedback",
+			"func/prism.js": "",
+			"scripts/cmds/ytb.js": "fix can't use `ytb` command",
+			"package-lock.json": "fix can't use `ytb` command",
+			"package.json": "fix can't use `ytb` command",
+			"scripts/cmds/openjourney.js": "new command: `openjourney` - create image from text"
+		}
 	}
 ]
