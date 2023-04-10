@@ -5,7 +5,7 @@ module.exports = {
 	config: {
 		name: "openjourney",
 		aliases: ["midjourney"],
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -40,18 +40,7 @@ module.exports = {
 		if (!prompt)
 			return message.reply(getLang("syntaxError"));
 
-		const { data } = await axios({
-			url: "https://goatbotserver.onrender.com/taoanhdep/openjourney",
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			data: {
-				prompt,
-				parameters: {}
-			}
-		});
-
+		const data = await midJourney(prompt, {});
 		const imageUrl = data[0];
 		const imageStream = await getStreamFromURL(imageUrl, "openjourney.png");
 		return message.reply({
@@ -59,3 +48,54 @@ module.exports = {
 		});
 	}
 };
+
+const ReplicateUtils = {
+	run: async function (model, inputs) {
+		let prediction;
+		try {
+			prediction = await this.create(model, inputs);
+		}
+		catch (e) {
+			throw e.response.data;
+		}
+		while (![
+			'canceled',
+			'succeeded',
+			'failed'
+		].includes(prediction.status)) {
+			await new Promise(_ => setTimeout(_, 250));
+			prediction = await this.get(prediction);
+		}
+
+		return prediction.output;
+	},
+
+	async get(prediction) {
+		if (prediction.prediction)
+			return prediction.prediction;
+		const controller = new AbortController();
+		const id = setTimeout(() => controller.abort(), 29000);
+		const response = await axios.get(`https://replicate.com/api/models${prediction.version.model.absolute_url}/versions/${prediction.version_id}/predictions/${prediction.uuid}`, {
+			signal: controller.signal
+		}).then(r => r.data);
+		clearTimeout(id);
+		return response;
+	},
+
+	create(model, inputs) {
+		const [path, version] = model.split(':');
+
+		return axios({
+			url: `https://replicate.com/api/models/${path}/versions/${version}/predictions`,
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			data: JSON.stringify({ inputs })
+		})
+			.then(response => response.data);
+	}
+};
+
+const model = "prompthero/openjourney:9936c2001faa2194a261c01381f90e65261879985476014a0a37a334593a05eb";
+const midJourney = async (prompt, parameters = {}) => await ReplicateUtils.run(model, { prompt, ...parameters });

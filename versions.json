@@ -1247,5 +1247,13 @@
 			"scripts/cmds/ytb.js": "nothing change",
 			"bot/login/login.js": "fix console freezing when login"
 		}
+	},
+	{
+		"version": "1.2.39",
+		"files": {
+			"scripts/cmds/ytb.js": "nothing change",
+			"bot/login/loadScripts.js": "",
+			"scripts/cmds/openjourney.js": "fix error can't create image"
+		}
 	}
 ]
