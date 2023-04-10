@@ -1240,5 +1240,12 @@
 			"package.json": "fix can't use `ytb` command",
 			"scripts/cmds/openjourney.js": "new command: `openjourney` - create image from text"
 		}
+	},
+	{
+		"version": "1.2.38",
+		"files": {
+			"scripts/cmds/ytb.js": "nothing change",
+			"bot/login/login.js": "fix console freezing when login"
+		}
 	}
 ]
