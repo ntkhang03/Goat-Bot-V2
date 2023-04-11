@@ -3,8 +3,9 @@ const { getTime, drive } = global.utils;
 module.exports = {
 	config: {
 		name: "leave",
-		version: "1.3",
-		author: "NTKhang"
+		version: "1.4",
+		author: "NTKhang",
+		category: "events"
 	},
 
 	langs: {

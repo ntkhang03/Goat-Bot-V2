@@ -4,12 +4,12 @@ module.exports = {
 	config: {
 		name: "logsbot",
 		isBot: true,
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
-		countDown: 5,
 		envConfig: {
 			allow: true
-		}
+		},
+		category: "events"
 	},
 
 	langs: {

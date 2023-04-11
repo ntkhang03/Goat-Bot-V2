@@ -1,8 +1,9 @@
 module.exports = {
 	config: {
 		name: "autoUpdateThreadInfo",
-		version: "1.1",
-		author: "NTKhang"
+		version: "1.2",
+		author: "NTKhang",
+		category: "events"
 	},
 
 	onStart: async ({ threadsData, event, api }) => {

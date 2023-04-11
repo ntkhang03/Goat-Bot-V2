@@ -1255,5 +1255,18 @@
 			"bot/login/loadScripts.js": "",
 			"scripts/cmds/openjourney.js": "fix error can't create image"
 		}
+	},
+	{
+		"version": "1.2.40",
+		"files": {
+			"scripts/events/autoUpdateInfoThread.js": "add category",
+			"scripts/events/checkwarn.js": "add category",
+			"scripts/events/leave.js": "add category",
+			"scripts/events/logsbot.js": "add category",
+			"scripts/events/newcommandevent.eg.js": "add category",
+			"scripts/events/onEvent.js": "add category",
+			"scripts/events/welcome.js": "add category"
+			
+		}
 	}
 ]
