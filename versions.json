@@ -1274,7 +1274,8 @@
 		"files": {
 			"bot/login/checkLiveCookie.js": "update handler check live cookie",
 			"package-lock.json": "change the fca dependency package",
-			"package.json": "change the fca dependency package"
+			"package.json": "change the fca dependency package",
+			"bot/login/login.js": "fix unable to reconnect to listenMqtt"
 		}
 	}
 ]
