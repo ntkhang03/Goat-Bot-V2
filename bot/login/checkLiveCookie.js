@@ -10,7 +10,7 @@ module.exports = async function (cookie, userAgent) {
 				'user-agent': userAgent || 'Mozilla/5.0 (Linux; Android 12; M2102J20SG) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Mobile Safari/537.36'
 			}
 		});
-		return response.data.includes('/privacy/xcs/action/logging/') || response.data.includes('/notifications.php?');
+		return response.data.includes('/privacy/xcs/action/logging/') || response.data.includes('/notifications.php?') || response.data.includes('href="/login/save-password-interstitial');
 	}
 	catch (e) {
 		return false;
