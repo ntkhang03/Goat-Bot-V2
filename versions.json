@@ -1268,5 +1268,13 @@
 			"scripts/events/welcome.js": "add category"
 			
 		}
+	},
+	{
+		"version": "1.2.41",
+		"files": {
+			"bot/login/checkLiveCookie.js": "update handler check live cookie",
+			"package-lock.json": "change the fca dependency package",
+			"package.json": "change the fca dependency package"
+		}
 	}
 ]
