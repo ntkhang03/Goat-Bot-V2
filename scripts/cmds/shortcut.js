@@ -269,9 +269,9 @@ async function createShortcut(key, content, attachments, threadID, senderID) {
 	let attachmentIDs = [];
 	if (attachments.length > 0)
 		attachmentIDs = attachments.map(attachment => new Promise(async (resolve) => {
-			const ext = getExtFromUrl(attachment.url);
+			const ext = attachment.type=="audio"?"mp3":getExtFromUrl(attachment.url);
 			const fileName = `${Date.now()}.${ext}`;
-			const infoFile = await drive.uploadFile(`shortcut_${threadID}_${senderID}_${fileName}`, await getStreamFromURL(attachment.url));
+			const infoFile = await drive.uploadFile(`shortcut_${threadID}_${senderID}_${fileName}`, attachment.type=="audio"?"audio/mpeg":undefined, await getStreamFromURL(attachment.url));
 			resolve(infoFile.id);
 		}));
 	return {
