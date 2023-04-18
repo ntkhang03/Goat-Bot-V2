@@ -9,6 +9,7 @@ login.currentlyLogged=Đang tiến hành đăng nhập
 login.notFoundDirAccount=Không tìm thấy tệp tin %1
 login.loginToken=Đang đăng nhập bằng access token
 login.loginCookieString=Đang đăng nhập bằng cookie string
+login.loginCookieNetscape=Đang đăng nhập bằng cookie netscape
 login.loginCookieArray=Đang đăng nhập bằng cookie array
 login.accountError=Vui lòng nhập token full quyền dạng %1 hoặc cookie dạng string %2 hoặc cookie dạng array:\n[\n  { name: %3, value: %4 },\n  { name: %5, value: %6 }\n]\n hoặc\n[\n  { key: %3, value: %4 },\n  { key: %5, value: %6 }\n]\nvào file %7
 login.cannotFindAccount=Không tìm thấy tài khoản facebook, vui lòng chọn một trong các tùy chọn sau (nhấn số để chọn hoặc nhấn xuống và lên để chọn và nhấn enter để xác nhận):

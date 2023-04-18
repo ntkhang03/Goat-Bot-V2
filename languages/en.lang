@@ -9,6 +9,7 @@ login.currentlyLogged=Login in progress
 login.notFoundDirAccount=Cannot find file %1
 login.loginToken=Login with access token
 login.loginCookieString=Login with cookie string
+login.loginCookieNetscape=Login with cookie netscape
 login.loginCookieArray=Login with cookie array
 login.loginPassword=Login with email & password...
 login.accountError=Please enter the full permission token in the form of %1 or cookie in the form of string %2 or cookie in the form of array:\n[\n  { name: %3, value: %4 },\n  { name: %5, value: %6 }\n]\n or\n[\n  { key: %3, value: %4 },\n  { key: %5, value: %6 }\n]\ninto the file %7
