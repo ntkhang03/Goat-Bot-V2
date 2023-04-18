@@ -335,13 +335,19 @@ function message(api, event) {
 	};
 }
 
-function randomString(max) {
+function randomString(max, onlyOnce = false, possible) {
 	if (!max || isNaN(max))
 		max = 10;
 	let text = "";
-	const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-	for (let i = 0; i < max; i++)
-		text += possible.charAt(Math.floor(Math.random() * possible.length));
+	possible = possible || "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	for (let i = 0; i < max; i++) {
+		let random = Math.floor(Math.random() * possible.length);
+		if (onlyOnce) {
+			while (text.includes(possible[random]))
+				random = Math.floor(Math.random() * possible.length);
+		}
+		text += possible[random];
+	}
 	return text;
 }
 
