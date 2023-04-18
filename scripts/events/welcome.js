@@ -3,7 +3,7 @@ const { getTime, drive } = global.utils;
 module.exports = {
 	config: {
 		name: "welcome",
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		category: "events"
 	},
@@ -47,6 +47,7 @@ module.exports = {
 				}
 				// if new member:
 				const threadData = await threadsData.get(threadID);
+				const dataBanned = threadData.data.banned_ban || [];
 				if (threadData.settings.sendWelcomeMessage == false)
 					return;
 				const threadName = threadData.threadName;
@@ -56,6 +57,8 @@ module.exports = {
 				if (dataAddedParticipants.length > 1)
 					multiple = true;
 				for (const user of dataAddedParticipants) {
+					if (dataBanned.some(item => item.id == user.userFbId))
+						continue;
 					userName.push(user.fullName);
 					mentions.push({
 						tag: user.fullName,
@@ -67,6 +70,8 @@ module.exports = {
 				// {boxName}:    name of group
 				// {threadName}: name of group
 				// {session}:    session of day
+				if (userName.length == 0)
+					return;
 				let { welcomeMessage = getLang("defaultWelcomeMessage") } = threadData.data;
 				const form = {
 					mentions: welcomeMessage.match(/\{userNameTag\}/g) ? mentions : null
