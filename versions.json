@@ -1277,5 +1277,17 @@
 			"package.json": "change the fca dependency package",
 			"bot/login/login.js": "fix unable to reconnect to listenMqtt"
 		}
+	},
+	{
+		"version": "1.2.42",
+		"files": {
+			"utils.js": "update function `randomString`",
+			"scripts/events/welcome.js": "disable greetings for members banned by the `ban` command",
+			"scripts/cmds/guessnumber.js": "new command game `guessnumber`",
+			"bot/login/login.js": "can login with Netscape cookies",
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update",
+			"scripts/cmds/openjourney.js": "language update"
+		}
 	}
 ]
