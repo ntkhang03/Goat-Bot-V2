@@ -1,7 +1,7 @@
 module.exports = {
 	config: {
 		name: "setalias",
-		version: "1.5",
+		version: "1.6",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -73,14 +73,6 @@ module.exports = {
 			notExistAliasInGroup: "⚠️ Your group has not set any other aliases for commands",
 			aliasListInGroup: "📜 List of other aliases for commands in your group chat:\n%1"
 		}
-	},
-
-	onLoad: async function ({ globalData }) {
-		if (!await globalData.get('setalias'))
-			await globalData.create('setalias', {
-				key: 'setalias',
-				data: []
-			});
 	},
 
 	onStart: async function ({ message, event, args, threadsData, globalData, role, getLang }) {
