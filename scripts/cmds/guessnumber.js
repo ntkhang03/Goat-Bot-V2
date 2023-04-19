@@ -1,16 +1,28 @@
+const { randomString, getTime, convertTime } = global.utils;
 const { createCanvas } = require('canvas');
-const fs = require('fs-extra');
-const rows = {
-	4: 10,
-	5: 12,
-	6: 15
-};
+const rows = [
+	{
+		col: 4,
+		row: 10,
+		rewardPoint: 1
+	},
+	{
+		col: 5,
+		row: 12,
+		rewardPoint: 2
+	},
+	{
+		col: 6,
+		row: 15,
+		rewardPoint: 3
+	}
+];
 
 module.exports = {
 	config: {
 		name: "guessnumber",
 		aliases: ["guessnum"],
-		version: "1.0-beta",
+		version: "1.1-beta",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -24,13 +36,27 @@ module.exports = {
 		},
 		category: "game",
 		guide: {
-			vi: "  {pn} [4 | 5 | 6] [single | multi]: tạo một bàn chơi mới, với:\n    4 5 6 là số chữ số của số cần đoán, mặc định là 4.\n    single | multi là chế độ chơi, single là 1 người chơi, multi là nhiều người chơi, mặc định là single.\n   Ví dụ:\n    {pn}\n    {pn} 4 single\n\n   Cách chơi: người chơi trả lời tin nhắn của bot theo quy tắc sau:\n   Bạn có 10 lần đoán (4 số), 12 lần (5 số), 15 lần (6 số).\n   Sau mỗi lần đoán, bạn sẽ nhận được thêm gợi ý là số lượng chữ số đúng (hiển thị bên trái) và số lượng chữ số đúng vị trí (hiển thị bên phải).\n   Lưu ý: Số được hình thành với các chữ số từ 0 đến 9, mỗi chữ số xuất hiện duy nhất một lần và số có thể đứng đầu là 0.",
-			en: "   {pn} [4 | 5 | 6] [single | multi]: create a new game, with:\n    4 5 6 is the number of digits of the number to guess, default is 4.\n    single | multi is the game mode, single is 1 player, multi is multi player, default is single.\n   Example:\n    {pn}\n    {pn} 4 single\n\n   How to play: the player replies to the message of the bot with the following rules:\n   You have 10 guesses (4 numbers), 12 guesses (5 numbers), 15 guesses (6 numbers).\n   After each guess, you will get additional hints of the number of correct digits (shown on the left) and the number of correct digits (shown on the right).\n   Note: The number is formed with digits from 0 to 9, each digit appears only once and the number can start with 0."
+			vi: "  {pn} [4 | 5 | 6] [single | multi]: tạo một bàn chơi mới, với:\n    4 5 6 là số chữ số của số cần đoán, mặc định là 4.\n    single | multi là chế độ chơi, single là 1 người chơi, multi là nhiều người chơi, mặc định là single.\n   Ví dụ:\n    {pn}\n    {pn} 4 single\n\n   Cách chơi: người chơi trả lời tin nhắn của bot theo quy tắc sau:\n   Bạn có 10 lần đoán (4 số), 12 lần (5 số), 15 lần (6 số).\n   Sau mỗi lần đoán, bạn sẽ nhận được thêm gợi ý là số lượng chữ số đúng (hiển thị bên trái) và số lượng chữ số đúng vị trí (hiển thị bên phải).\n   Lưu ý: Số được hình thành với các chữ số từ 0 đến 9, mỗi chữ số xuất hiện duy nhất một lần và số có thể đứng đầu là 0."
+				+ "\n\n   {pn} rank <trang>: xem bảng xếp hạng."
+				+ "\n   {pn} info [<uid> | <@tag> | <reply> | <để trống>]: xem thông tin xếp hạng của bạn hoặc người khác."
+				+ "\n   {pn} reset: reset bảng xếp hạng (chỉ admin bot).",
+			en: "  {pn} [4 | 5 | 6] [single | multi]: create a new game, with:\n    4 5 6 is the number of digits of the number to guess, default is 4.\n    single | multi is the game mode, single is 1 player, multi is multi player, default is single.\n   Example:\n    {pn}\n    {pn} 4 single\n\n   How to play: the player replies to the message of the bot with the following rules:\n   You have 10 guesses (4 numbers), 12 guesses (5 numbers), 15 guesses (6 numbers).\n   After each guess, you will get additional hints of the number of correct digits (shown on the left) and the number of correct digits (shown on the right).\n   Note: The number is formed with digits from 0 to 9, each digit appears only once and the number can start with 0."
+				+ "\n\n   {pn} rank <page>: view the ranking."
+				+ "\n   {pn} info [<uid> | <@tag> | <reply> | <empty>]: view your or other's ranking information."
+				+ "\n   {pn} reset: reset the ranking (only admin bot)."
 		}
 	},
 
 	langs: {
 		vi: {
+			charts: "🏆 | Bảng xếp hạng:\n%1",
+			pageInfo: "Trang %1/%2",
+			noScore: "⭕ | Hiện tại chưa có ai ghi điểm.",
+			noPermissionReset: "⚠️ | Bạn không có quyền reset bảng xếp hạng.",
+			notFoundUser: "⚠️ | Không tìm thấy người dùng có id %1 trong bảng xếp hạng.",
+			userRankInfo: "🏆 | Thông tin xếp hạng:\nTên: %1\nĐiểm: %2\nSố lần chơi: %3\nSố lần thắng: %4\n%5\nSố lần thua: %6\nTỉ lệ thắng: %7%\nTổng thời gian chơi: %8",
+			digits: "%1 chữ số: %2",
+			resetRankSuccess: "✅ | Reset bảng xếp hạng thành công.",
 			invalidCol: "⚠️ | Vui lòng nhập số chữ số của số cần đoán là 4, 5 hoặc 6",
 			invalidMode: "⚠️ | Vui lòng nhập chế độ chơi là single hoặc multi",
 			created: "✅ | Tạo bàn chơi thành công.",
@@ -39,10 +65,18 @@ module.exports = {
 			gameNote: "📄 | Lưu ý:\nSố được hình thành với các chữ số từ 0 đến 9, mỗi chữ số xuất hiện duy nhất một lần và số có thể đứng đầu là 0.",
 			replyToPlayGame: "🎮 | Phản hồi tin nhắn hình ảnh bên dưới kèm theo %1 số bạn đoán để chơi game.",
 			invalidNumbers: "⚠️ | Vui lòng nhập %1 số bạn muốn đoán",
-			win: "🎉 | Chúc mừng bạn đã đoán đúng số %1 sau %2 lần đoán.",
+			win: "🎉 | Chúc mừng bạn đã đoán đúng số %1 sau %2 lần đoán và nhận được %3 điểm thưởng.",
 			loss: "🤦‍♂️ | Bạn đã thua, số đúng là %1."
 		},
 		en: {
+			charts: "🏆 | Ranking:\n%1",
+			pageInfo: "Page %1/%2",
+			noScore: "⭕ | There is no one who has scored.",
+			noPermissionReset: "⚠️ | You do not have permission to reset the ranking.",
+			notFoundUser: "⚠️ | Could not find user with id %1 in the ranking.",
+			userRankInfo: "🏆 | Ranking information:\nName: %1\nScore: %2\nNumber of games: %3\nNumber of wins: %4\n%5\nNumber of losses: %6\nWin rate: %7%\nTotal play time: %8",
+			digits: "%1 digits: %2",
+			resetRankSuccess: "✅ | Reset the ranking successfully.",
 			invalidCol: "⚠️ | Please enter the number of digits of the number to guess is 4, 5 or 6",
 			invalidMode: "⚠️ | Please enter the game mode is single or multi",
 			created: "✅ | Create game successfully.",
@@ -51,33 +85,91 @@ module.exports = {
 			gameNote: "📄 | Note:\nThe number is formed with digits from 0 to 9, each digit appears only once and the number can start with 0.",
 			replyToPlayGame: "🎮 | Reply to the message below with the image of %1 numbers you guess to play the game.",
 			invalidNumbers: "⚠️ | Please enter %1 numbers you want to guess",
-			win: "🎉 | Congratulations you guessed the number %1 after %2 guesses.",
+			win: "🎉 | Congratulations you guessed the number %1 after %2 guesses and received %3 bonus points.",
 			loss: "🤦‍♂️ | You lost, the correct number is %1."
 		}
 	},
 
-	onStart: async function ({ message, event, getLang, commandName, args }) {
-		let [col, mode] = args;
-		if (isNaN(col))
-			col = 4;
-		if (col < 4 || col > 6)
+	onStart: async function ({ message, event, getLang, commandName, args, globalData, usersData, role }) {
+		if (args[0] == "rank") {
+			const rankGuessNumber = await globalData.get("rankGuessNumber", "data", []);
+			if (!rankGuessNumber.length)
+				return message.reply(getLang("noScore"));
+
+			const page = parseInt(args[1]) || 1;
+			const maxUserOnePage = 30;
+
+			let rankGuessNumberHandle = await Promise.all(rankGuessNumber.slice((page - 1) * maxUserOnePage, page * maxUserOnePage).map(async item => {
+				const userName = await usersData.getName(item.id);
+				return {
+					...item,
+					userName,
+					winNumber: item.wins?.length || 0,
+					lossNumber: item.losses?.length || 0
+				};
+			}));
+
+			rankGuessNumberHandle = rankGuessNumberHandle.sort((a, b) => b.winNumber - a.winNumber);
+			const medals = ["🥇", "🥈", "🥉"];
+			const rankGuessNumberText = rankGuessNumberHandle.map((item, index) => {
+				const medal = medals[index] || index + 1;
+				return `${medal} ${item.userName} - ${item.winNumber} wins - ${item.lossNumber} losses`;
+			}).join("\n");
+
+			return message.reply(getLang("charts", rankGuessNumberText || getLang("noScore")) + "\n" + getLang("pageInfo", page, Math.ceil(rankGuessNumber.length / maxUserOnePage)));
+		}
+		else if (args[0] == "info") {
+			const rankGuessNumber = await globalData.get("rankGuessNumber", "data", []);
+			let targetID;
+			if (Object.keys(event.mentions).length)
+				targetID = Object.keys(event.mentions)[0];
+			else if (event.messageReply)
+				targetID = event.messageReply.senderID;
+			else if (!isNaN(args[1]))
+				targetID = args[1];
+			else
+				targetID = event.senderID;
+
+			const userDataGuessNumber = rankGuessNumber.find(item => item.id == targetID);
+			if (!userDataGuessNumber)
+				return message.reply(getLang("notFoundUser", targetID));
+
+			// userRankInfo: "🏆 | Thông tin xếp hạng:\nTên: %1\nĐiểm: %2\nSố lần chơi: %3\nSố lần thắng: %4\n%5\nSố lần thua: %6\n%7\nTỉ lệ thắng: %8%\nThời gian chơi: %9",
+			const userName = await usersData.getName(targetID);
+			const pointsReceived = userDataGuessNumber.points;
+			const winNumber = userDataGuessNumber.wins?.length || 0;
+			const playNumber = winNumber + (userDataGuessNumber.losses?.length || 0);
+			const lossNumber = userDataGuessNumber.losses?.length || 0;
+			const winRate = (winNumber / playNumber * 100).toFixed(2);
+			const winInfo = {};
+			for (const item of userDataGuessNumber.wins || [])
+				winInfo[item.col] = winInfo[item.col] ? winInfo[item.col] + 1 : 1;
+			const playTime = convertTime(userDataGuessNumber.wins.reduce((a, b) => a + b.timeSuccess, 0) + userDataGuessNumber.losses.reduce((a, b) => a + b.timeSuccess, 0));
+			return message.reply(getLang("userRankInfo", userName, pointsReceived, playNumber, winNumber, Object.keys(winInfo).map(item => `  + ${getLang("digits", item, winInfo[item])}`).join("\n"), lossNumber, winRate, playTime));
+		}
+		else if (args[0] == "reset") {
+			if (role < 2)
+				return message.reply(getLang("noPermissionReset"));
+			await globalData.set("rankGuessNumber", [], "data");
+			return message.reply(getLang("resetRankSuccess"));
+		}
+
+		const col = parseInt(args.join(" ").match(/(\d+)/)?.[1] || 4);
+		const levelOfDifficult = rows.find(item => item.col == col);
+		if (!levelOfDifficult)
 			return message.reply(getLang("invalidCol"));
-
-		if (!mode)
-			mode = "single";
-		if (!["single", "-s", "multi", "-m"].includes(mode))
-			return message.reply(getLang("invalidMode"));
-
-		const row = rows[col];
+		const mode = args.join(" ").match(/(single|multi|-s|-m)/)?.[1] || "single";
+		const row = levelOfDifficult.row || 10;
 
 		const options = {
 			col,
 			row,
+			timeStart: parseInt(getTime("x")),
 			numbers: [],
 			tryNumber: 0,
 			ctx: null,
 			canvas: null,
-			answer: global.utils.randomString(col, true, "0123456789"),
+			answer: randomString(col, true, "0123456789"),
 			gameName: getLang("gameName"),
 			gameGuide: getLang("gameGuide", row),
 			gameNote: getLang("gameNote")
@@ -85,16 +177,13 @@ module.exports = {
 
 		const gameData = guessNumberGame(options);
 		gameData.mode = mode;
-		const pathImage = `${__dirname}/tmp/${Date.now()}_${event.senderID}.png`;
-		fs.writeFileSync(pathImage, Buffer.from(gameData.imageBuffer));
 
 		const messageData = message.reply(`${getLang("created")}\n\n${getLang("gameGuide", row)}\n\n${getLang("gameNote")}\n\n${getLang("replyToPlayGame", col)}`);
 		gameData.messageData = messageData;
 
 		message.reply({
-			attachment: fs.createReadStream(pathImage)
+			attachment: gameData.imageStream
 		}, (err, info) => {
-			fs.unlinkSync(pathImage);
 			global.GoatBot.onReply.set(info.messageID, {
 				commandName,
 				messageID: info.messageID,
@@ -104,8 +193,9 @@ module.exports = {
 		});
 	},
 
-	onReply: async ({ message, Reply, event, getLang, commandName }) => {
+	onReply: async ({ message, Reply, event, getLang, commandName, globalData }) => {
 		const { gameData: oldGameData } = Reply;
+		global.utils.log.dev(oldGameData);
 		if (event.senderID != Reply.author && oldGameData.mode == "single")
 			return;
 
@@ -114,17 +204,13 @@ module.exports = {
 			return message.reply(getLang("invalidNumbers", oldGameData.col));
 		global.GoatBot.onReply.delete(Reply.messageID);
 
-
 		oldGameData.numbers = numbers;
 		const gameData = guessNumberGame(oldGameData);
-		const pathImage = `${__dirname}/tmp/${Date.now()}_${event.senderID}.png`;
-		fs.writeFileSync(pathImage, Buffer.from(gameData.imageBuffer));
 
 		if (gameData.isWin == null) {
 			message.reply({
-				attachment: fs.createReadStream(pathImage)
+				attachment: gameData.imageStream
 			}, (err, info) => {
-				fs.unlinkSync(pathImage);
 				message.unsend(Reply.messageID);
 				global.GoatBot.onReply.set(info.messageID, {
 					commandName,
@@ -135,16 +221,54 @@ module.exports = {
 			});
 		}
 		else {
+			const rankGuessNumber = await globalData.get("rankGuessNumber", "data", []);
+			const rewardPoint = rows.find(item => item.col == gameData.col)?.rewardPoint || 0;
 			const messageText = gameData.isWin ?
-				getLang("win", gameData.answer, gameData.tryNumber - 1) :
+				getLang("win", gameData.answer, gameData.tryNumber - 1, rewardPoint) :
 				getLang("loss", gameData.answer);
 			message.unsend((await oldGameData.messageData).messageID);
+			message.unsend(Reply.messageID);
 			message.reply({
 				body: messageText,
-				attachment: fs.createReadStream(pathImage)
-			}, () => {
-				fs.unlinkSync(pathImage);
+				attachment: gameData.imageStream
 			});
+
+			if (gameData.isWin != null) {
+				const userIndex = rankGuessNumber.findIndex(item => item.id == event.senderID);
+				const data = {
+					tryNumber: gameData.tryNumber - 1,
+					timeSuccess: parseInt(getTime("x") - oldGameData.timeStart),
+					date: getTime(),
+					col: gameData.col
+				};
+
+				if (gameData.isWin == true) {
+					if (userIndex == -1)
+						rankGuessNumber.push({
+							id: event.senderID,
+							wins: [data],
+							losses: [],
+							points: rewardPoint
+						});
+					else {
+						rankGuessNumber[userIndex].wins.push(data);
+						rankGuessNumber[userIndex].points += rewardPoint;
+					}
+				}
+				else {
+					delete data.tryNumber;
+					if (userIndex == -1)
+						rankGuessNumber.push({
+							id: event.senderID,
+							wins: [],
+							losses: [data],
+							points: 0
+						});
+					else
+						rankGuessNumber[userIndex].losses.push(data);
+				}
+				await globalData.set("rankGuessNumber", rankGuessNumber, "data");
+			}
 		}
 	}
 };
@@ -294,7 +418,6 @@ function getPositionOfSquare(x, y, sizeOfOneSquare, distance, marginX, marginY, 
 }
 
 function guessNumberGame(options) {
-	console.log(options);
 	let { numbers, ctx, canvas, tryNumber, row, ctxNumbers, canvasNumbers, ctxHightLight, canvasHightLight } = options;
 	const { col, answer, gameName, gameGuide, gameNote } = options;
 	tryNumber--;
@@ -303,7 +426,8 @@ function guessNumberGame(options) {
 	if (typeof numbers == 'string')
 		numbers = numbers.split('').map(item => item.trim());
 
-	options.allGuesss ? options.allGuesss.push(numbers) : options.allGuesss = [numbers];
+	if (numbers.length)
+		options.allGuesss ? options.allGuesss.push(numbers) : options.allGuesss = [numbers];
 
 	row = row || 10;
 
@@ -321,7 +445,8 @@ function guessNumberGame(options) {
 	const fontGameName = 'bold 50px "Arial"';
 	const fontNumbers = 'bold 60px "Arial"';
 	const fontSuggest = 'bold 40px "Arial"';
-	const fontResult = 'bold 150px "Times New Roman"';
+	const fontResultWin = 'bold 150px "Times New Roman"';
+	const fontResultLose = 'bold 150px "Arial"';
 	const marginText = 2.9;
 	const lineHeightGuideText = 38;
 
@@ -360,7 +485,6 @@ function guessNumberGame(options) {
 		const yNote = drawWrappedText(ctx, gameGuide, yGuide, canvas.width - marginX, lineHeightGuideText, true, marginX, marginText);
 
 		drawWrappedText(ctx, gameNote, yNote + 10, canvas.width - marginX, lineHeightGuideText, true, marginX, marginText);
-
 
 		// draw all squares
 		for (let i = 0; i < col; i++) {
@@ -480,7 +604,7 @@ function guessNumberGame(options) {
 			ctx.drawImage(canvasHightLight, 0, 0);
 			ctx.drawImage(canvasNumbers, 0, 0);
 
-			ctx.font = fontResult;
+			ctx.font = isWin ? fontResultWin : fontResultLose;
 			ctx.fillStyle = isWin ? '#005900' : '#590000';
 			// rotate -45 degree
 			ctx.globalAlpha = 0.4;
@@ -498,9 +622,12 @@ function guessNumberGame(options) {
 
 	tryNumber++;
 
+	const imageStream = canvas.createPNGStream();
+	imageStream.path = `guessNumber${Date.now()}.png`;
+
 	return {
 		...options,
-		imageBuffer: canvas.toBuffer(),
+		imageStream,
 		ctx,
 		canvas,
 		tryNumber: tryNumber + 1,
