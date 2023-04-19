@@ -40,5 +40,18 @@ module.exports = {
 			prefix = "MASTER";
 		}
 		console.log(`${getCurrentTime()} ${colors.hex("#eb6734", `${characters} ${prefix}:`)}`, message);
+	},
+	dev: (...args) => {
+		if (["development", "production"].includes(process.env.NODE_ENV) == false)
+			return;
+		try {
+			throw new Error();
+		}
+		catch (err) {
+			const at = err.stack.split('\n')[2];
+			let position = at.slice(at.indexOf(process.cwd()) + process.cwd().length + 1);
+			position.endsWith(')') ? position = position.slice(0, -1) : null;
+			console.log(`\x1b[36m${position} =>\x1b[0m`, ...args);
+		}
 	}
 };
