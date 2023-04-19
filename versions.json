@@ -1266,7 +1266,6 @@
 			"scripts/events/newcommandevent.eg.js": "add category",
 			"scripts/events/onEvent.js": "add category",
 			"scripts/events/welcome.js": "add category"
-			
 		}
 	},
 	{
@@ -1288,6 +1287,21 @@
 			"languages/en.lang": "language update",
 			"languages/vi.lang": "language update",
 			"scripts/cmds/openjourney.js": "language update"
+		}
+	},
+	{
+		"version": "1.2.43",
+		"files": {
+			"bot/login/login.js": "code optimization",
+			"bot/handler/handlerEvents.js": "code optimization",
+			"scripts/cmds/setalias.js": "code optimization",
+			"scripts/cmds/shortcut.js": "code optimization",
+			"database/controller/globalData.js": "code optimization and fix bug",
+			"database/models/sqlite/global.js": "code optimization and fix bug",
+			"logger/log.js": "add new function `log.dev()`",
+			"scripts/cmds/eval.js": "add error log in console when there is an error",
+			"scripts/cmds/guessnumber.js": "added ranking function for game `guessnumber`",
+			"scripts/cmds/backupdata.js": "new command: `backupdata` - backup bot data to json file"
 		}
 	}
 ]
