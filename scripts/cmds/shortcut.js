@@ -103,7 +103,10 @@ module.exports = {
 		switch (args[0]) {
 			case 'add': {
 				let [key, content] = body.split(' ').slice(2).join(' ').split('=>');
-				const attachments = [...event.attachments, ...(event.messageReply ? event.messageReply.attachments : [])].filter(item => ["photo", 'png', "animated_image", "video", "audio"].includes(item.type));
+				const attachments = [
+					...event.attachments,
+					...(event.messageReply?.attachments || [])
+				].filter(item => ["photo", 'png', "animated_image", "video", "audio"].includes(item.type));
 				if (!key || !content && attachments.length === 0)
 					return message.reply(getLang('missingContent'));
 
@@ -269,9 +272,9 @@ async function createShortcut(key, content, attachments, threadID, senderID) {
 	let attachmentIDs = [];
 	if (attachments.length > 0)
 		attachmentIDs = attachments.map(attachment => new Promise(async (resolve) => {
-			const ext = attachment.type=="audio"?"mp3":getExtFromUrl(attachment.url);
+			const ext = attachment.type == "audio" ? "mp3" : getExtFromUrl(attachment.url);
 			const fileName = `${Date.now()}.${ext}`;
-			const infoFile = await drive.uploadFile(`shortcut_${threadID}_${senderID}_${fileName}`, attachment.type=="audio"?"audio/mpeg":undefined, await getStreamFromURL(attachment.url));
+			const infoFile = await drive.uploadFile(`shortcut_${threadID}_${senderID}_${fileName}`, attachment.type == "audio" ? "audio/mpeg" : undefined, await getStreamFromURL(attachment.url));
 			resolve(infoFile.id);
 		}));
 	return {
