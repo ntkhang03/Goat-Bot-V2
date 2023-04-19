@@ -47,7 +47,7 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 							_.omit(dataCreated._doc, ["_id", "__v"]) :
 							dataCreated.get({ plain: true });
 						global.db.allGlobalData.push(dataCreated);
-						return databaseType;
+						return dataCreated;
 					}
 					case "json": {
 						const timeCreate = moment.tz().format();
@@ -209,14 +209,27 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 	}
 
 
-	function get(key, path, defaultValue, query) {
+	async function get(key, path, defaultValue, query) {
 		try {
 			if (!key || typeof key != "string")
 				throw new Error(`The first argument (key) must be a string, not a ${typeof key}`);
 
 			let dataReturn = global.db.allGlobalData.find(u => u.key == key);
-			if (!dataReturn)
-				return undefined;
+			if (!dataReturn) {
+				const createData = {};
+				if (path)
+					if (!["string", "array"].includes(typeof path))
+						throw new Error(`The second argument (path) must be a string or an array, not a ${typeof path}`);
+					else
+						if (typeof path === "string")
+							_.set(createData, path, defaultValue);
+						else
+							_.times(path.length, i => _.set(createData, path[i], defaultValue[i]));
+				else
+					_.set(createData, "data", defaultValue);
+
+				dataReturn = await create(key, createData);
+			}
 
 			if (query)
 				if (typeof query !== "string")
@@ -232,6 +245,7 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 						return _.get(dataReturn, path, defaultValue);
 					else
 						return _.times(path.length, i => _.get(dataReturn, path[i], defaultValue[i]));
+
 			return dataReturn;
 		}
 		catch (err) {
@@ -264,9 +278,9 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 
 	async function remove(key) {
 		try {
-			if (typeof threadID != "string") {
+			if (typeof key != "string") {
 				const error = new Error(`The first argument (key) must be a string, not a ${typeof key}`);
-				error.name = "INVALID_THREAD_ID";
+				error.name = "INVALID_KEY";
 				throw error;
 			}
 			await save(key, { key }, "remove");
