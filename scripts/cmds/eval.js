@@ -3,7 +3,7 @@ const { removeHomeDir } = global.utils;
 module.exports = {
 	config: {
 		name: "eval",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -63,6 +63,7 @@ module.exports = {
 				${args.join(" ")}
 			}
 			catch(err) {
+				console.log(err);
 				message.send(
 					"${getLang("error")}\\n" +
 					(err.stack ?
