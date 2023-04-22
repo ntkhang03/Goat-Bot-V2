@@ -2,8 +2,8 @@ const fs = require("fs-extra");
 
 module.exports = {
 	config: {
-		name: "backupdate",
-		version: "1.0",
+		name: "backupdata",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
