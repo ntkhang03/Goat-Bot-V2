@@ -22,7 +22,6 @@
 		"express-fileupload": "^1.4.0",
 		"express-rate-limit": "^6.5.2",
 		"express-session": "^1.17.3",
-		"fb-chat-api-temp": "github:ntkhang03/fb-chat-api",
 		"form-data": "^4.0.0",
 		"fs-extra": "^11.1.0",
 		"googleapis": "^100.0.0",
@@ -31,6 +30,7 @@
 		"https": "^1.0.0",
 		"moment-timezone": "^0.5.34",
 		"mongoose": "^6.3.1",
+		"mqtt": "^4.3.7",
 		"node-cron": "^3.0.2",
 		"nodemailer": "^6.7.5",
 		"npmlog": "^7.0.1",
@@ -47,6 +47,7 @@
 		"sqlite3": "^5.0.5",
 		"tinyurl": "^1.1.7",
 		"totp-generator": "^0.0.13",
+		"websocket-stream": "^5.5.2",
 		"ytdl-core": "github:fent/node-ytdl-core#pull/1203/head"
 	},
 	"scripts": {
