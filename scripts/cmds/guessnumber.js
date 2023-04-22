@@ -134,7 +134,6 @@ module.exports = {
 			if (!userDataGuessNumber)
 				return message.reply(getLang("notFoundUser", targetID));
 
-			// userRankInfo: "🏆 | Thông tin xếp hạng:\nTên: %1\nĐiểm: %2\nSố lần chơi: %3\nSố lần thắng: %4\n%5\nSố lần thua: %6\n%7\nTỉ lệ thắng: %8%\nThời gian chơi: %9",
 			const userName = await usersData.getName(targetID);
 			const pointsReceived = userDataGuessNumber.points;
 			const winNumber = userDataGuessNumber.wins?.length || 0;

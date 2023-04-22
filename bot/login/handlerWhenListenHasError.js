@@ -61,13 +61,20 @@ module.exports = async function ({ api, threadModel, userModel, dashBoardModel, 
 	/* ___ Example send a message to webhook discord when bot has error ___ */
 	if (configNotiWhenListenMqttError.discordHook?.enable == true) {
 		let highlightCode = error;
-		if (typeof error == "object" && !error.stack)
+		const content = `**Has error when listen message in Goat Bot:**\n\`\`\`\n{highlightCode}\n\`\`\``;
+		const contentLength = content.replace("{highlightCode}").length;
+		if (typeof error == "object" && !error.stack) {
 			highlightCode = JSON.stringify(error, null, 2);
+			if (highlightCode.length + contentLength > 2000) { // 2000 is max length of message in discord webhook
+				const lastString = "\n\n... (Too long to show)";
+				highlightCode = highlightCode.slice(0, 2000 - contentLength - lastString.length) + lastString;
+			}
+		}
 		else if (error.stack)
 			highlightCode = error.stack;
 
 		const jsonHook = {
-			content: `**Has error when listen message in Goat Bot:**\n\`\`\`\n${highlightCode}\n\`\`\``,
+			content: content.replace("{highlightCode}", highlightCode),
 			embeds: null,
 			attachments: []
 		};
