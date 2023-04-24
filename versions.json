@@ -1382,5 +1382,21 @@
 				"optionsFca.autoReconnect": false
 			}
 		}
+	},
+	{
+		"version": "1.3.2",
+		"files": {
+			"config.json": {
+				"restartListenMqtt.delayAfterStopListening": 2000,
+				"optionsFca.autoReconnect": true
+			},
+			".gitignore": "Update .gitignore",
+			"Goat.js": "and fix error listenMqtt",
+			"bot/login/loadScripts.js": "code optimization",
+			"bot/login/login.js": "hiden log error and fix error listenMqtt",
+			"fb-chat-api/README.MD": "Create README.MD",
+			"fb-chat-api/src/listenMqtt.js": "and fix error listenMqtt",
+			"fb-chat-api/utils.js": "hiden log error and fix error listenMqtt"
+		}
 	}
 ]
