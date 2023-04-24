@@ -68,7 +68,7 @@
 	"restartListenMqtt": {
 		"enable": true,
 		"timeRestart": 3600000,
-		"delayAfterStopListening": 1000,
+		"delayAfterStopListening": 2000,
 		"logNoti": true,
 		"notes": "You shouldn't edit this if you don't know what it is"
 	},
@@ -111,7 +111,7 @@
 		"selfListen": false,
 		"selfListenEvent": true,
 		"autoMarkDelivery": false,
-		"autoReconnect": false,
+		"autoReconnect": true,
 		"notes": "Document here: https://github.com/ntkhang03/fb-chat-api/blob/master/DOCS.md#apisetoptionsoptions "
 	}
 }
