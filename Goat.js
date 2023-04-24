@@ -10,6 +10,10 @@ const nodemailer = require("nodemailer");
 const { NODE_ENV } = process.env;
 process.on('unhandledRejection', error => console.log(error));
 process.on('uncaughtException', error => console.log(error));
+process.on('warning', warning => {
+	if (warning.name == "Warning")
+		return;
+});
 const dirConfig = `${__dirname}/config${['production', 'development'].includes(NODE_ENV) ? '.dev.json' : '.json'}`;
 const dirConfigCommands = `${__dirname}/configCommands${['production', 'development'].includes(NODE_ENV) ? '.dev.json' : '.json'}`;
 const dirAccount = `${__dirname}/account${['production', 'development'].includes(NODE_ENV) ? '.dev.txt' : '.txt'}`;
@@ -17,6 +21,7 @@ const config = require(dirConfig);
 const configCommands = require(dirConfigCommands);
 
 global.GoatBot = {
+	startTime: Date.now(),
 	commands: new Map(),
 	eventCommands: new Map(),
 	commandFilesPath: [],
@@ -34,7 +39,8 @@ global.GoatBot = {
 	envGlobal: {},
 	reLoginBot: function () { },
 	Listening: null,
-	oldListening: []
+	oldListening: [],
+	fcaApi: null
 };
 
 global.db = {

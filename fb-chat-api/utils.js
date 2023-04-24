@@ -9,7 +9,7 @@ const querystring = require("querystring");
 const url = require("url");
 
 function setProxy(url) {
-	if (typeof url == undefined)
+	if (typeof url == "undefined")
 		return request = bluebird.promisify(require("request").defaults({
 			jar: true
 		}));
@@ -1142,12 +1142,11 @@ function parseAndCheckLogin(ctx, defaultFuncs, retryCount) {
 			log.verbose("parseAndCheckLogin", data.body);
 			if (data.statusCode >= 500 && data.statusCode < 600) {
 				if (retryCount >= 5) {
-					throw {
-						error:
-							"Request retry failed. Check the `res` and `statusCode` property on this error.",
-						statusCode: data.statusCode,
-						res: data.body
-					};
+					const err = new Error("Request retry failed. Check the `res` and `statusCode` property on this error.");
+					err.statusCode = data.statusCode;
+					err.res = data.body;
+					err.error = "Request retry failed. Check the `res` and `statusCode` property on this error.";
+					throw err;
 				}
 				retryCount++;
 				const retryTime = Math.floor(Math.random() * 5000);
@@ -1202,11 +1201,11 @@ function parseAndCheckLogin(ctx, defaultFuncs, retryCount) {
 			try {
 				res = JSON.parse(makeParsable(data.body));
 			} catch (e) {
-				throw {
-					error: "JSON.parse error. Check the `detail` property on this error.",
-					detail: e,
-					res: data.body
-				};
+				const err = new Error("JSON.parse error. Check the `detail` property on this error.");
+				err.error = "JSON.parse error. Check the `detail` property on this error.";
+				err.detail = e;
+				err.res = data.body;
+				throw err;
 			}
 
 			// In some cases the response contains only a redirect URL which should be followed
@@ -1251,7 +1250,9 @@ function parseAndCheckLogin(ctx, defaultFuncs, retryCount) {
 			}
 
 			if (res.error === 1357001) {
-				throw { error: "Not logged in." };
+				const err = new Error('Facebook blocked login. Please visit https://facebook.com and check your account.');
+				err.error = "Not logged in.";
+				throw err;
 			}
 			return res;
 		});

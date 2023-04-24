@@ -104,7 +104,7 @@ function listenMqtt(defaultFuncs, api, ctx, globalCallback) {
 	const mqttClient = ctx.mqttClient;
 
 	mqttClient.on('error', function (err) {
-		log.error("listenMqtt", err);
+		// log.error("listenMqtt", err);
 		mqttClient.end();
 		if (ctx.globalOptions.autoReconnect) {
 			getSeqID();
@@ -118,10 +118,26 @@ function listenMqtt(defaultFuncs, api, ctx, globalCallback) {
 
 	mqttClient.on('close', function () {
 		mqttClient.end();
-		if (ctx.closeConnectionByClient == true)
-			globalCallback("Connection closed.");
-		else
-			globalCallback("Not logged in");
+		defaultFuncs
+			.post("https://www.facebook.com/api/graphqlbatch/", ctx.jar, form)
+			.then(utils.parseAndCheckLogin(ctx, defaultFuncs))
+			.then((resData) => {
+				if (utils.getType(resData) != "Array") {
+					throw {
+						error: "Not logged in",
+						res: resData
+					};
+				}
+
+				globalCallback("Connection closed.");
+			})
+			.catch((err) => {
+				// log.error("listenMqtt", err);
+				if (utils.getType(err) == "Object" && (err.error === "Not logged in" || err.error === "Not logged in.")) {
+					ctx.loggedIn = false;
+				}
+				return globalCallback(err);
+			});
 	});
 
 	mqttClient.on('connect', function () {
@@ -171,27 +187,12 @@ function listenMqtt(defaultFuncs, api, ctx, globalCallback) {
 
 	mqttClient.on('message', function (topic, message, _packet) {
 		let jsonMessage = Buffer.isBuffer(message) ? Buffer.from(message).toString() : message;
-		let jsonMessage2 = Buffer.isBuffer(message) ? Buffer.from(message).toString() : message;
 		try {
 			jsonMessage = JSON.parse(jsonMessage);
-			jsonMessage2 = JSON.parse(jsonMessage2);
 		}
-		catch {
+		catch (e) {
 			jsonMessage = {};
-			jsonMessage2 = {};
 		}
-
-		if (Array.isArray(jsonMessage2.delta?.payload)) {
-			jsonMessage2.delta.payload = utils.decodeClientPayload(jsonMessage2.delta.payload);
-		}
-		if (jsonMessage2.deltas) {
-			jsonMessage2.deltas = jsonMessage2.deltas.map(delta => {
-				if (Array.isArray(delta.payload))
-					delta.payload = utils.decodeClientPayload(delta.payload);
-				return delta;
-			});
-		}
-
 
 		if (jsonMessage.type === "jewel_requests_add") {
 			globalCallback(null, {
@@ -748,15 +749,15 @@ module.exports = function (defaultFuncs, api, ctx) {
 	let globalCallback = identity;
 	getSeqID = function getSeqID() {
 		ctx.t_mqttCalled = false;
-		defaultFuncs
+		return defaultFuncs
 			.post("https://www.facebook.com/api/graphqlbatch/", ctx.jar, form)
 			.then(utils.parseAndCheckLogin(ctx, defaultFuncs))
 			.then((resData) => {
 				if (utils.getType(resData) != "Array") {
-					throw {
-						error: "Not logged in",
-						res: resData
-					};
+					const err = new Error("Not logged in");
+					err.res = resData;
+					err.error = "Not logged in";
+					throw err;
 				}
 
 				if (resData && resData[resData.length - 1].error_results > 0) {
@@ -771,22 +772,25 @@ module.exports = function (defaultFuncs, api, ctx) {
 					ctx.lastSeqId = resData[0].o0.data.viewer.message_threads.sync_sequence_id;
 					listenMqtt(defaultFuncs, api, ctx, globalCallback);
 				} else {
-					throw { error: "getSeqId: no sync_sequence_id found.", res: resData };
+					const err = new Error("No sync_sequence_id found.");
+					err.res = resData;
+					err.error = "getSeqId: no sync_sequence_id found.";
+					throw err;
 				}
 			})
 			.catch((err) => {
-				log.error("getSeqId", err);
+				// log.error("getSeqId", err);
 				if (utils.getType(err) == "Object" && (err.error === "Not logged in" || err.error === "Not logged in.")) {
 					ctx.loggedIn = false;
 				}
-				return globalCallback(err);
+				// return globalCallback(err);
+				throw err;
 			});
 	};
 
 	return function (callback) {
 		class MessageEmitter extends EventEmitter {
 			stopListening(callback) {
-				ctx.closeConnectionByClient = true;
 				callback = callback || (() => { });
 				globalCallback = identity;
 				if (ctx.mqttClient) {
@@ -795,11 +799,19 @@ module.exports = function (defaultFuncs, api, ctx) {
 					ctx.mqttClient.unsubscribe("/onevc");
 					ctx.mqttClient.publish("/browser_close", "{}");
 					ctx.mqttClient.end(false, function (...data) {
-						delete ctx.closeConnectionByClient;
 						callback(data);
+						globalCallback = () => { };
 						ctx.mqttClient = undefined;
 					});
 				}
+			}
+
+			async stopListeningSync() {
+				return new Promise((resolve) => {
+					this.stopListening((...data) => {
+						resolve(data);
+					});
+				});
 			}
 		}
 
@@ -834,12 +846,16 @@ module.exports = function (defaultFuncs, api, ctx) {
 		};
 
 		if (!ctx.firstListen || !ctx.lastSeqId) {
-			getSeqID();
+			getSeqID()
+				.catch(() => {
+					listenMqtt(defaultFuncs, api, ctx, globalCallback);
+				});
 		} else {
 			listenMqtt(defaultFuncs, api, ctx, globalCallback);
 		}
 		ctx.firstListen = false;
 		api.stopListening = msgEmitter.stopListening;
+		api.stopListeningSync = msgEmitter.stopListeningSync;
 		return msgEmitter;
 	};
 };
