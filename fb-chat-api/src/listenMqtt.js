@@ -800,7 +800,6 @@ module.exports = function (defaultFuncs, api, ctx) {
 					ctx.mqttClient.publish("/browser_close", "{}");
 					ctx.mqttClient.end(false, function (...data) {
 						callback(data);
-						globalCallback = () => { };
 						ctx.mqttClient = undefined;
 					});
 				}
