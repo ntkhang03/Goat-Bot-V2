@@ -1398,5 +1398,16 @@
 			"fb-chat-api/src/listenMqtt.js": "and fix error listenMqtt",
 			"fb-chat-api/utils.js": "hiden log error and fix error listenMqtt"
 		}
+	},
+	{
+		"version": "1.3.3",
+		"files": {
+			"bot/handler/handlerEvents.js": "fix can't use alias for ignoreadboxonly",
+			"bot/login/loadScripts.js": "fix cannot use database sqlite",
+			"bot/login/login.js": "i hope can fix listenMqtt error",
+			"dashboard/app.js": "hide log: forget to use `express-session` middleware",
+			"database/controller/globalData.js": "fix cannot use database sqlite",
+			"scripts/cmds/update.js": "command ability"
+		}
 	}
 ]
