@@ -217,18 +217,22 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 			let dataReturn = global.db.allGlobalData.find(u => u.key == key);
 			if (!dataReturn) {
 				const createData = {};
-				if (path)
-					if (!["string", "array"].includes(typeof path))
-						throw new Error(`The second argument (path) must be a string or an array, not a ${typeof path}`);
-					else
-						if (typeof path === "string")
-							_.set(createData, path, defaultValue);
+				if (defaultValue) {
+					if (path)
+						if (!["string", "array"].includes(typeof path))
+							throw new Error(`The second argument (path) must be a string or an array, not a ${typeof path}`);
 						else
-							_.times(path.length, i => _.set(createData, path[i], defaultValue[i]));
-				else
-					_.set(createData, "data", defaultValue);
+							if (typeof path === "string")
+								_.set(createData, path, defaultValue);
+							else
+								_.times(path.length, i => _.set(createData, path[i], defaultValue[i]));
+					else
+						_.set(createData, "data", defaultValue);
 
-				dataReturn = await create(key, createData);
+					dataReturn = await create(key, createData);
+				}
+				else
+					return undefined;
 			}
 
 			if (query)
