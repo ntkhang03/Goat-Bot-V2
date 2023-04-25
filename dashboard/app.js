@@ -293,6 +293,12 @@ module.exports = async (api) => {
 		res.status(404).render('404');
 	});
 
+	// catch global error	
+	app.use((err, req, res, next) => {
+		if (err.message == "Login sessions require session support. Did you forget to use `express-session` middleware?")
+			return res.status(500).send('Server an error, please try again later!');
+	});
+
 	const PORT = config.dashBoard.port || config.serverUptime.port || 3001;
 	let urlDashBoard = `https://${process.env.REPL_OWNER
 		? `${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`
