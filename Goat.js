@@ -150,7 +150,7 @@ global.utils.getText = getText;
 if (config.autoRestart) {
 	const time = config.autoRestart.time;
 	if (!isNaN(time) && time > 0) {
-		utils.log.info("AUTO RESTART", getText("Goat", "autoRestart1", time / 1000));
+		utils.log.info("AUTO RESTART", getText("Goat", "autoRestart1", utils.convertTime(time, true)));
 		setTimeout(() => {
 			utils.log.info("AUTO RESTART", "Restarting...");
 			process.exit(2);
