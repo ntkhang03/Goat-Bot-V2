@@ -97,7 +97,11 @@ function setErrorUptime() {
 const defaultStderrClearLine = process.stderr.clearLine;
 
 
-function convertTime(miliSeconds, replaceSeconds = "s", replaceMinutes = "m", replaceHours = "h", replaceDays = "d", replaceMonths = "M", replaceYears = "y") {
+function convertTime(miliSeconds, replaceSeconds = "s", replaceMinutes = "m", replaceHours = "h", replaceDays = "d", replaceMonths = "M", replaceYears = "y", notShowZero = false) {
+	if (typeof replaceSeconds == 'boolean') {
+		notShowZero = replaceSeconds;
+		replaceSeconds = "s";
+	}
 	const second = Math.floor(miliSeconds / 1000 % 60);
 	const minute = Math.floor(miliSeconds / 1000 / 60 % 60);
 	const hour = Math.floor(miliSeconds / 1000 / 60 / 60 % 24);
@@ -106,43 +110,31 @@ function convertTime(miliSeconds, replaceSeconds = "s", replaceMinutes = "m", re
 	const year = Math.floor(miliSeconds / 1000 / 60 / 60 / 24 / 30 / 12);
 	let formattedDate = '';
 
-	if (year)
-		formattedDate += year + replaceYears;
+	const dateParts = [
+		{ value: year, replace: replaceYears },
+		{ value: month, replace: replaceMonths },
+		{ value: day, replace: replaceDays },
+		{ value: hour, replace: replaceHours },
+		{ value: minute, replace: replaceMinutes },
+		{ value: second, replace: replaceSeconds }
+	];
 
-	if (month)
-		formattedDate += month + replaceMonths;
-	else if (year)
-		formattedDate += '00' + replaceMonths;
+	for (let i = 0; i < dateParts.length; i++) {
+		const datePart = dateParts[i];
+		if (datePart.value)
+			formattedDate += datePart.value + datePart.replace;
+		else if (formattedDate != '')
+			formattedDate += '00' + datePart.replace;
+		else if (i == dateParts.length - 1)
+			formattedDate += '0' + datePart.replace;
+	}
 
-	if (day)
-		formattedDate += day + replaceDays;
-	else if (month)
-		formattedDate += '00' + replaceDays;
-	else if (year)
-		formattedDate += '00' + replaceDays;
+	if (formattedDate == '')
+		formattedDate = '0' + replaceSeconds;
 
-	if (hour)
-		formattedDate += hour + replaceHours;
-	else if (day)
-		formattedDate += '00' + replaceHours;
-	else if (month)
-		formattedDate += '00' + replaceHours;
-	else if (year)
-		formattedDate += '00' + replaceHours;
-
-	if (minute)
-		formattedDate += minute + replaceMinutes;
-	else if (hour)
-		formattedDate += '00' + replaceMinutes;
-	else if (day)
-		formattedDate += '00' + replaceMinutes;
-	else if (month)
-		formattedDate += '00' + replaceMinutes;
-	else if (year)
-		formattedDate += '00' + replaceMinutes;
-
-	formattedDate += second + replaceSeconds;
-
+	if (notShowZero)
+		formattedDate = formattedDate.replace(/00\w+/g, '');
+		
 	return formattedDate;
 }
 
