@@ -4,7 +4,7 @@ const moment = require("moment-timezone");
 module.exports = {
 	config: {
 		name: "ban",
-		version: "1.1-beta",
+		version: "1.0",
 		author: "NTKhang",
 		countDown: 5,
 		role: 1,
@@ -79,7 +79,7 @@ module.exports = {
 		if (args[0] == 'unban') {
 			if (!isNaN(args[1]))
 				target = args[1];
-			else if (args[1].startsWith('https'))
+			else if (args[1]?.startsWith('https'))
 				target = await findUid(args[1]);
 			else if (Object.keys(event.mentions || {}).length)
 				target = Object.keys(event.mentions)[0];
@@ -111,7 +111,7 @@ module.exports = {
 			target = args[0];
 			reason = args.slice(1).join(' ');
 		}
-		else if (args[0].startsWith('https')) {
+		else if (args[0]?.startsWith('https')) {
 			target = await findUid(args[0]);
 			reason = args.slice(1).join(' ');
 		}
