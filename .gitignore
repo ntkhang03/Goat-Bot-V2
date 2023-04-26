@@ -2,6 +2,7 @@ node_modules
 obfcode.js
 minify.js
 backupOrigin.js
+createVersion.js
 *.zip
 *.dev.*
 *.rar
