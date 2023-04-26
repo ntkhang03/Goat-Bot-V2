@@ -1,6 +1,6 @@
 # index.js
 Goat.newVersionDetected=You are using version %1, the latest version is %2. Please update to use the bot better by typing into the console/cmd command: node update
-Goat.autoRestart1=Bot will auto restart in %1 seconds
+Goat.autoRestart1=Bot will auto restart in %1
 Goat.autoRestart2=Bot will auto restart by cron job: %1
 Goat.googleApiTokenExpired=Google API refresh token has expired or been revoked, please get a new token at https://developers.google.com/oauthplayground/
 
@@ -50,11 +50,11 @@ login.gbanMessage=You have been banned from the Goat-Bot project on %1 for the r
 login.gbanAdminMessage=User %1 has been banned from the Goat-Bot project on %2 for the reason: %3
 login.openServerUptimeSuccess=🚀 Opened uptime server: %1
 login.openServerUptimeError=An error has occurred, cannot open server uptime
-login.restartListenMessage=ListenMQTT restart enabled every %1ms (%2 minutes)
+login.restartListenMessage=ListenMQTT restart enabled every %1
 login.stopRestartListenMessage=ListenMQTT restart disabled
 login.restartListenMessageError=An error occurred when restarting ListenMQTT
 login.restartListenMessage2=Successfully restarted ListenMQTT
-login.refreshCookieAfter=Refreshing cookie after %1 minutes
+login.refreshCookieAfter=Refreshing cookie after %1
 login.listenMqttClose=ListenMQTT closed
 
 # bot/login/loadData.js
@@ -67,8 +67,8 @@ loadData.refreshThreadDataError=Something went wrong when updating the groups in
 # bot/login/loadScripts.js
 loadScripts.loadScriptsError=The %1 files have an error during loading:
 loadScripts.loadScriptsNotMatchOrigin=The %1 files do not match the original files on the github project, make sure that these command files are reliable:
-loadScripts.NOT_FOUND=NOT FOUND IN THE ORIGINAL FILES:
-loadScripts.NOT_MATCH=DOES NOT MATCH THE ORIGINAL FILE:
+loadScripts.NOT_FOUND=NOT FOUND IN THE ORIGINAL SOURCE CODE:
+loadScripts.NOT_MATCH=DOES NOT MATCH THE ORIGINAL SOURCE CODE:
 
 # bot/login/socketIO.js
 socketIO.connected=Connected to socket.io server

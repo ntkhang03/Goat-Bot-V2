@@ -1,6 +1,6 @@
 # index.js
 Goat.newVersionDetected=Bạn đang dùng phiên bản %1, phiên bản mới nhất là %2. Vui lòng cập nhật để sử dụng bot tốt hơn bằng cách gõ vào console/cmd lệnh: node update
-Goat.autoRestart1=Bot sẽ tự động khởi động lại sau %1 giây
+Goat.autoRestart1=Bot sẽ tự động khởi động lại sau %1
 Goat.autoRestart2=Bot sẽ tự động khởi động lại theo cron job: %1
 Goat.googleApiTokenExpired=refresh token google api đã hết hạn hoặc bị thu hồi, vui lòng lấy lại token mới tại https://developers.google.com/oauthplayground/
 
@@ -50,11 +50,11 @@ login.gbanMessage=Bạn đã bị ban khỏi project GOAT-BOT vào ngày %1 vớ
 login.gbanAdminMessage=Người dùng %1 đã bị ban khỏi project GOAT-BOT vào ngày %2 với lý do: %3
 login.openServerUptimeSuccess=🚀 Đã mở sever uptime: %1
 login.openServerUptimeError=Đã xảy ra lỗi, không thể mở server uptime
-login.restartListenMessage=Đã bật khởi động lại ListenMQTT sau mỗi %1ms (%2 minutes)
+login.restartListenMessage=Đã bật khởi động lại ListenMQTT sau mỗi %1
 login.stopRestartListenMessage=Đã tắt khởi động lại ListenMQTT
 login.restartListenMessageError=Đã xảy ra lỗi khi khởi động lại ListenMQTT
 login.restartListenMessage2=Đã khởi động lại ListenMQTT thành công
-login.refreshCookieAfter=Đã bật tự động làm mới cookie sau mỗi %1 phút
+login.refreshCookieAfter=Đã bật tự động làm mới cookie sau mỗi %1
 login.listenMqttClose=Đã ngắt kết nối với server MQTT
 
 # bot/login/loadData.js
@@ -67,8 +67,8 @@ loadData.refreshThreadDataError=Đã có lỗi xảy ra khi cập nhật thông 
 # bot/login/loadScripts.js
 loadScripts.loadScriptsError=Những file %1 xảy ra lỗi trong quá trình load:
 loadScripts.loadScriptsNotMatchOrigin=Những file %1 không khớp với file gốc trên github của project, hãy chắc chắn rằng những file lệnh này đáng tin cậy:
-loadScripts.NOT_FOUND=KHÔNG TÌM THẤY TRONG FILE GỐC:
-loadScripts.NOT_MATCH=KHÔNG KHỚP VỚI FILE GỐC:
+loadScripts.NOT_FOUND=KHÔNG TÌM THẤY TRONG MÃ NGUỒN CHÍNH THỨC:
+loadScripts.NOT_MATCH=KHÔNG KHỚP VỚI MÃ NGUỒN CHÍNH THỨC:
 
 # bot/login/socketIO.js
 socketIO.connected=Đã khởi tạo server socket.io thành công!
