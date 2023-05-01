@@ -1,14 +1,6 @@
 // url check image
 const checkUrlRegex = /https?:\/\/.*\.(?:png|jpg|jpeg|gif)/gi;
 const regExColor = /#([0-9a-f]{6})|rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)|rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d+\.?\d*)\)/gi;
-const { drive, getStreamFromURL } = global.utils;
-
-async function checkUrlAndDelete(url = "") {
-	if (url.startsWith("https://drive.google.com")) {
-		const id = url.match(/id=([^&]+)/i)[1];
-		return await drive.deleteFile(id);
-	}
-}
 
 module.exports = {
 	config: {
@@ -123,8 +115,8 @@ module.exports = {
 		if ([...notSupportImage, ...supportImage].includes(key)) {
 			const attachmentsReply = event.messageReply?.attachments;
 			const attachments = [
-				...event.attachments,
-				...attachmentsReply ?? []
+				...event.attachments.filter(({ type }) => ["photo", "animated_image"].includes(type)),
+				...attachmentsReply?.filter(({ type }) => ["photo", "animated_image"].includes(type)) || []
 			];
 			if (value == 'reset') {
 			}
@@ -139,8 +131,7 @@ module.exports = {
 				// if image attachment
 				if (!["photo", "animated_image"].includes(attachments[0].type))
 					return message.reply(getLang("invalidAttachment"));
-				const res = await drive.uploadFile(`rankcard_${key}_${event.senderID}_${Date.now()}.png`, undefined, await getStreamFromURL(attachments[0].url));
-				value = res.webContentLink;
+				value = attachments[0].ID;
 			}
 			else {
 				// if color
@@ -156,50 +147,35 @@ module.exports = {
 			switch (key) {
 				case "maincolor":
 				case "background":
-					checkUrlAndDelete(oldDesign.main_color);
 					value == "reset" ? delete oldDesign.main_color : oldDesign.main_color = value;
 					break;
 				case "subcolor":
-					checkUrlAndDelete(oldDesign.sub_color);
 					value == "reset" ? delete oldDesign.sub_color : oldDesign.sub_color = value;
 					break;
 				case "linecolor":
-					checkUrlAndDelete(oldDesign.line_color);
 					value == "reset" ? delete oldDesign.line_color : oldDesign.line_color = value;
 					break;
 				case "progresscolor":
-					checkUrlAndDelete(oldDesign.exp_color);
 					value == "reset" ? delete oldDesign.exp_color : oldDesign.exp_color = value;
 					break;
 				case "expbarcolor":
-					checkUrlAndDelete(oldDesign.expNextLevel_colo);
 					value == "reset" ? delete oldDesign.expNextLevel_color : oldDesign.expNextLevel_color = value;
 					break;
 				case "textcolor":
-					value == "reset" ?
-						delete oldDesign.text_color :
-						oldDesign.text_color = value;
+					value == "reset" ? delete oldDesign.text_color : oldDesign.text_color = value;
 					break;
 				case "namecolor":
-					value == "reset" ?
-						delete oldDesign.name_color :
-						oldDesign.name_color = value;
+					value == "reset" ? delete oldDesign.name_color : oldDesign.name_color = value;
 					break;
 				case "rankcolor":
-					value == "reset" ?
-						delete oldDesign.rank_color :
-						oldDesign.rank_color = value;
+					value == "reset" ? delete oldDesign.rank_color : oldDesign.rank_color = value;
 					break;
 				case "levelcolor":
 				case "lvcolor":
-					value == "reset" ?
-						delete oldDesign.level_color :
-						oldDesign.level_color = value;
+					value == "reset" ? delete oldDesign.level_color : oldDesign.level_color = value;
 					break;
 				case "expcolor":
-					value == "reset" ?
-						delete oldDesign.exp_text_color :
-						oldDesign.exp_text_color = value;
+					value == "reset" ? delete oldDesign.exp_text_color : oldDesign.exp_text_color = value;
 					break;
 			}
 			try {

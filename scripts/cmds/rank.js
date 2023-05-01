@@ -20,7 +20,7 @@ global.client.makeRankCard = makeRankCard;
 module.exports = {
 	config: {
 		name: "rank",
-		version: "1.4",
+		version: "1.5",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -39,7 +39,7 @@ module.exports = {
 		}
 	},
 
-	onStart: async function ({ message, event, usersData, threadsData, commandName, envCommands }) {
+	onStart: async function ({ message, event, usersData, threadsData, commandName, envCommands, api }) {
 		deltaNext = envCommands[commandName].deltaNext;
 		let targetUsers;
 		const arrayMentions = Object.keys(event.mentions);
@@ -50,7 +50,7 @@ module.exports = {
 			targetUsers = arrayMentions;
 
 		const rankCards = await Promise.all(targetUsers.map(async userID => {
-			const rankCard = await makeRankCard(userID, usersData, threadsData, event.threadID, deltaNext);
+			const rankCard = await makeRankCard(userID, usersData, threadsData, event.threadID, deltaNext, api);
 			rankCard.path = `${randomString(10)}.png`;
 			return rankCard;
 		}));
@@ -84,7 +84,7 @@ const defaultDesignCard = {
 	text_color: "#000000"
 };
 
-async function makeRankCard(userID, usersData, threadsData, threadID, deltaNext) {
+async function makeRankCard(userID, usersData, threadsData, threadID, deltaNext, api = global.GoatBot.fcaApi) {
 	const { exp } = await usersData.get(userID);
 	const levelUser = expToLevel(exp, deltaNext);
 
@@ -105,9 +105,26 @@ async function makeRankCard(userID, usersData, threadsData, threadID, deltaNext)
 		avatar: await usersData.getAvatarUrl(userID)
 	};
 
-	const image = new RankCard({
+	const configRankCard = {
 		...defaultDesignCard,
-		...customRankCard,
+		...customRankCard
+	};
+
+	const checkImagKey = [
+		"main_color",
+		"sub_color",
+		"line_color",
+		"exp_color",
+		"expNextLevel_color"
+	];
+
+	for (const key of checkImagKey) {
+		if (!isNaN(configRankCard[key]))
+			configRankCard[key] = await api.resolvePhotoUrl(configRankCard[key]);
+	}
+	
+	const image = new RankCard({
+		...configRankCard,
 		...dataLevel
 	});
 	return await image.buildCard();
