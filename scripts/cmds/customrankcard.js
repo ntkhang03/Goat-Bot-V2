@@ -1,12 +1,20 @@
 // url check image
 const checkUrlRegex = /https?:\/\/.*\.(?:png|jpg|jpeg|gif)/gi;
 const regExColor = /#([0-9a-f]{6})|rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)|rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d+\.?\d*)\)/gi;
+const { drive, getStreamFromURL } = global.utils;
+
+async function checkUrlAndDelete(url = "") {
+	if (url.startsWith("https://drive.google.com")) {
+		const id = url.match(/id=([^&]+)/i)[1];
+		return await drive.deleteFile(id);
+	}
+}
 
 module.exports = {
 	config: {
 		name: "customrankcard",
 		aliases: ["crc", "customrank"],
-		version: "1.7",
+		version: "1.8",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -131,7 +139,8 @@ module.exports = {
 				// if image attachment
 				if (!["photo", "animated_image"].includes(attachments[0].type))
 					return message.reply(getLang("invalidAttachment"));
-				value = attachments[0].url;
+				const res = await drive.uploadFile(`rankcard_${key}_${event.senderID}_${Date.now()}.png`, undefined, await getStreamFromURL(attachments[0].url));
+				value = res.webContentLink;
 			}
 			else {
 				// if color
@@ -147,24 +156,24 @@ module.exports = {
 			switch (key) {
 				case "maincolor":
 				case "background":
-					value == "reset" ?
-						delete oldDesign.main_color :
-						oldDesign.main_color = value;
+					checkUrlAndDelete(oldDesign.main_color);
+					value == "reset" ? delete oldDesign.main_color : oldDesign.main_color = value;
 					break;
 				case "subcolor":
-					value == "reset" ?
-						delete oldDesign.sub_color :
-						oldDesign.sub_color = value;
+					checkUrlAndDelete(oldDesign.sub_color);
+					value == "reset" ? delete oldDesign.sub_color : oldDesign.sub_color = value;
 					break;
 				case "linecolor":
-					value == "reset" ?
-						delete oldDesign.line_color :
-						oldDesign.line_color = value;
+					checkUrlAndDelete(oldDesign.line_color);
+					value == "reset" ? delete oldDesign.line_color : oldDesign.line_color = value;
 					break;
 				case "progresscolor":
-					value == "reset" ?
-						delete oldDesign.exp_color :
-						oldDesign.exp_color = value;
+					checkUrlAndDelete(oldDesign.exp_color);
+					value == "reset" ? delete oldDesign.exp_color : oldDesign.exp_color = value;
+					break;
+				case "expbarcolor":
+					checkUrlAndDelete(oldDesign.expNextLevel_colo);
+					value == "reset" ? delete oldDesign.expNextLevel_color : oldDesign.expNextLevel_color = value;
 					break;
 				case "textcolor":
 					value == "reset" ?
@@ -191,11 +200,6 @@ module.exports = {
 					value == "reset" ?
 						delete oldDesign.exp_text_color :
 						oldDesign.exp_text_color = value;
-					break;
-				case "expbarcolor":
-					value == "reset" ?
-						delete oldDesign.expNextLevel_color :
-						oldDesign.expNextLevel_color = value;
 					break;
 			}
 			try {
