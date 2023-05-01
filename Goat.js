@@ -88,6 +88,10 @@ global.temp = {
 		arraybuffer: {},
 		stream: {},
 		fileNames: {}
+	},
+	contentScripts: {
+		cmds: {},
+		events: {}
 	}
 };
 

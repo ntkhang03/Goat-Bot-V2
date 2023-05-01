@@ -5,6 +5,8 @@ module.exports = (api, threadModel, userModel, dashBoardModel, globalModel, user
 	const handlerEvents = require(process.env.NODE_ENV == 'development' ? "./handlerEvents.dev.js" : "./handlerEvents.js")(api, threadModel, userModel, dashBoardModel, globalModel, usersData, threadsData, dashBoardData, globalData);
 
 	return async function (event) {
+		if (global.GoatBot.config.antiInbox == true && (event.threadID == event.senderID || event.userID == event.senderID || event.isGroup == false))
+			return;
 		const message = createFuncMessage(api, event);
 
 		await handlerCheckDB(usersData, threadsData, event);
