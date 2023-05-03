@@ -3,6 +3,7 @@
 		"email": "",
 		"password": "",
 		"2FASecret": "",
+		"i_user": "",
 		"proxy": null,
 		"userAgent": "Mozilla/5.0 (Linux; Android 12; M2102J20SG) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Mobile Safari/537.36",
 		"intervalGetNewCookie": 1440,
@@ -13,6 +14,7 @@
 	"notesLanguage": "change to your language with ISO 639-1 code, available languages: vi (Vietnamese), en (English)",
 	"adminOnly": {
 		"enable": false,
+		"hideNotiMessage": false,
 		"ignoreCommand": []
 	},
 	"adminBot": [],
