@@ -56,6 +56,7 @@ login.restartListenMessageError=An error occurred when restarting ListenMQTT
 login.restartListenMessage2=Successfully restarted ListenMQTT
 login.refreshCookieAfter=Refreshing cookie after %1
 login.listenMqttClose=ListenMQTT closed
+login.retryCheckLiveCookie=Retrying to check cookie... %1
 
 # bot/login/loadData.js
 loadData.loadThreadDataSuccess=Loaded %1 group's data successfully!
