@@ -36,6 +36,8 @@ global.GoatBot = {
 	reLoginBot: function () { },
 	Listening: null,
 	oldListening: [],
+	callbackListenTime: {},
+	storage5Message: [],
 	fcaApi: null
 };
 
