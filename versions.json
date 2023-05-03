@@ -1444,5 +1444,36 @@
 			"scripts/cmds/customrankcard.js": "fix file url from facebook expires after some time",
 			"scripts/cmds/rank.js": "fix file url from facebook expires after some time"
 		}
+	},
+	{
+		"version": "1.3.6",
+		"files": {
+			"Goat.js": "fix listenMqtt loop issues",
+			"bot/handler/handlerAction.js": "fix events not working when `antiInbox is on`",
+			"bot/login/loadScripts.js": "code optimization",
+			"bot/login/login.js": "can use `i_user` (another profile in facebook account)",
+			"config.json": {
+				"adminOnly.hideNotiMessage": false,
+				"facebookAccount.i_user": ""
+			},
+			"fb-chat-api/index.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/changeAvatar.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/changeBio.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/changeGroupImage.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/changeThreadColor.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/createNewGroup.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/getCurrentUserID.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/getFriendsList.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/getUserID.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/handleFriendRequest.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/listenMqtt.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/sendMessage.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/setMessageReaction.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/setPostReaction.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/setTitle.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/unfriend.js": "can use `i_user` (another profile in facebook account)",
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update"
+		}
 	}
 ]
