@@ -40,18 +40,18 @@ module.exports = function (defaultFuncs, api, ctx) {
 				fbid: participantIDs[n]
 			});
 		}
-		pids.push({ fbid: ctx.userID });
+		pids.push({ fbid: ctx.i_userID || ctx.userID });
 
 		const form = {
 			fb_api_caller_class: "RelayModern",
 			fb_api_req_friendly_name: "MessengerGroupCreateMutation",
-			av: ctx.userID,
+			av: ctx.i_userID || ctx.userID,
 			//This doc_id is valid as of January 11th, 2020
 			doc_id: "577041672419534",
 			variables: JSON.stringify({
 				input: {
 					entry_point: "jewel_new_group",
-					actor_id: ctx.userID,
+					actor_id: ctx.i_userID || ctx.userID,
 					participants: pids,
 					client_mutation_id: Math.round(Math.random() * 1024).toString(),
 					thread_settings: {

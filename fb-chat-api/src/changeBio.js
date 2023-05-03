@@ -43,14 +43,14 @@ module.exports = function (defaultFuncs, api, ctx) {
 				input: {
 					bio: bio,
 					publish_bio_feed_story: publish,
-					actor_id: ctx.userID,
+					actor_id: ctx.i_userID || ctx.userID,
 					client_mutation_id: Math.round(Math.random() * 1024).toString()
 				},
 				hasProfileTileViewID: false,
 				profileTileViewID: null,
 				scale: 1
 			}),
-			av: ctx.userID
+			av: ctx.i_userID || ctx.userID
 		};
 
 		defaultFuncs

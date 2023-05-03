@@ -37,7 +37,7 @@ module.exports = function (defaultFuncs, api, ctx) {
 
 		const form = {
 			value: name.toLowerCase(),
-			viewer: ctx.userID,
+			viewer: ctx.i_userID || ctx.userID,
 			rsp: "search",
 			context: "search",
 			path: "/home.php",

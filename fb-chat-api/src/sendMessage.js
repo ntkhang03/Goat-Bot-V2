@@ -109,7 +109,7 @@ module.exports = function (defaultFuncs, api, ctx) {
 			for (let i = 0; i < threadID.length; i++) {
 				form["specific_to_list[" + i + "]"] = "fbid:" + threadID[i];
 			}
-			form["specific_to_list[" + threadID.length + "]"] = "fbid:" + ctx.userID;
+			form["specific_to_list[" + threadID.length + "]"] = "fbid:" + (ctx.i_userID || ctx.userID);
 			form["client_thread_id"] = "root:" + messageAndOTID;
 			log.info("sendMessage", "Sending message to multiple users: " + threadID);
 		} else {
@@ -117,7 +117,7 @@ module.exports = function (defaultFuncs, api, ctx) {
 			// is a single person chat
 			if (isSingleUser) {
 				form["specific_to_list[0]"] = "fbid:" + threadID;
-				form["specific_to_list[1]"] = "fbid:" + ctx.userID;
+				form["specific_to_list[1]"] = "fbid:" + (ctx.i_userID || ctx.userID);
 				form["other_user_fbid"] = threadID;
 			} else {
 				form["thread_fbid"] = threadID;
@@ -127,13 +127,13 @@ module.exports = function (defaultFuncs, api, ctx) {
 		if (ctx.globalOptions.pageID) {
 			form["author"] = "fbid:" + ctx.globalOptions.pageID;
 			form["specific_to_list[1]"] = "fbid:" + ctx.globalOptions.pageID;
-			form["creator_info[creatorID]"] = ctx.userID;
+			form["creator_info[creatorID]"] = ctx.i_userID || ctx.userID;
 			form["creator_info[creatorType]"] = "direct_admin";
 			form["creator_info[labelType]"] = "sent_message";
 			form["creator_info[pageID]"] = ctx.globalOptions.pageID;
 			form["request_user_id"] = ctx.globalOptions.pageID;
 			form["creator_info[profileURI]"] =
-				"https://www.facebook.com/profile.php?id=" + ctx.userID;
+				"https://www.facebook.com/profile.php?id=" + (ctx.i_userID || ctx.userID);
 		}
 
 		defaultFuncs
@@ -400,7 +400,7 @@ module.exports = function (defaultFuncs, api, ctx) {
 		const form = {
 			client: "mercury",
 			action_type: "ma-type:user-generated-message",
-			author: "fbid:" + ctx.userID,
+			author: "fbid:" + (ctx.i_userID || ctx.userID),
 			timestamp: Date.now(),
 			timestamp_absolute: "Today",
 			timestamp_relative: utils.generateTimestampRelative(),

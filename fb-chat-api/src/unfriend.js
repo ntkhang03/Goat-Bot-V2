@@ -25,7 +25,7 @@ module.exports = function (defaultFuncs, api, ctx) {
 			uid: userID,
 			unref: "bd_friends_tab",
 			floc: "friends_tab",
-			"nctr[_mod]": "pagelet_timeline_app_collection_" + ctx.userID + ":2356318349:2"
+			"nctr[_mod]": "pagelet_timeline_app_collection_" + (ctx.i_userID || ctx.userID) + ":2356318349:2"
 		};
 
 		defaultFuncs

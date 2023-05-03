@@ -76,7 +76,7 @@ module.exports = function (defaultFuncs, api, ctx) {
 			doc_id: "4769042373179384",
 			variables: JSON.stringify({
 				input: {
-					actor_id: ctx.userID,
+					actor_id: ctx.i_userID || ctx.userID,
 					feedback_id: (new Buffer("feedback:" + postID)).toString("base64"),
 					feedback_reaction: type,
 					feedback_source: "OBJECT",

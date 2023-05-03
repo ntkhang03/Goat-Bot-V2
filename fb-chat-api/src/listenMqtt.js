@@ -44,7 +44,7 @@ function listenMqtt(defaultFuncs, api, ctx, globalCallback) {
 
 	const sessionID = Math.floor(Math.random() * 9007199254740991) + 1;
 	const username = {
-		u: ctx.userID,
+		u: ctx.i_userID || ctx.userID,
 		s: sessionID,
 		chat_on: chatOn,
 		fg: foreground,
@@ -60,7 +60,9 @@ function listenMqtt(defaultFuncs, api, ctx, globalCallback) {
 		dc: "",
 		no_auto_fg: true,
 		gas: null,
-		pack: []
+		pack: [],
+		a: ctx.globalOptions.userAgent,
+		aids: null
 	};
 	const cookies = ctx.jar.getCookies("https://www.facebook.com").join("; ");
 
@@ -151,7 +153,7 @@ function listenMqtt(defaultFuncs, api, ctx, globalCallback) {
 			max_deltas_able_to_process: 1000,
 			delta_batch_size: 500,
 			encoding: "JSON",
-			entity_fbid: ctx.userID
+			entity_fbid: ctx.i_userID || ctx.userID
 		};
 
 		if (ctx.syncToken) {
@@ -284,7 +286,7 @@ function parseDelta(defaultFuncs, api, ctx, globalCallback, v) {
 					}
 				}
 				return !ctx.globalOptions.selfListen &&
-					fmtMsg.senderID === ctx.userID ?
+					(fmtMsg.senderID === ctx.i_userID || fmtMsg.senderID === ctx.userID) ?
 					undefined :
 					(function () { globalCallback(null, fmtMsg); })();
 			} else {
@@ -514,7 +516,7 @@ function parseDelta(defaultFuncs, api, ctx, globalCallback, v) {
 									markDelivery(ctx, api, callbackToReturn.threadID, callbackToReturn.messageID);
 								}
 								!ctx.globalOptions.selfListen &&
-									callbackToReturn.senderID === ctx.userID ?
+									(callbackToReturn.senderID === ctx.i_userID || callbackToReturn.senderID === ctx.userID) ?
 									undefined :
 									(function () { globalCallback(null, callbackToReturn); })();
 							});
@@ -527,7 +529,7 @@ function parseDelta(defaultFuncs, api, ctx, globalCallback, v) {
 					}
 
 					return !ctx.globalOptions.selfListen &&
-						callbackToReturn.senderID === ctx.userID ?
+						(callbackToReturn.senderID === ctx.i_userID || callbackToReturn.senderID === ctx.userID) ?
 						undefined :
 						(function () { globalCallback(null, callbackToReturn); })();
 				}
@@ -619,7 +621,7 @@ function parseDelta(defaultFuncs, api, ctx, globalCallback, v) {
 							log.info("forcedFetch", fetchData);
 							switch (fetchData.__typename) {
 								case "ThreadImageMessage":
-									(!ctx.globalOptions.selfListenEvent && fetchData.message_sender.id.toString() === ctx.userID) || !ctx.loggedIn ?
+									(!ctx.globalOptions.selfListenEvent && (fetchData.message_sender.id.toString() === ctx.i_userID || fetchData.message_sender.id.toString() === ctx.userID)) || !ctx.loggedIn ?
 										undefined :
 										(function () {
 											globalCallback(null, {
@@ -721,7 +723,7 @@ function parseDelta(defaultFuncs, api, ctx, globalCallback, v) {
 					type: "parse_error"
 				});
 			}
-			return (!ctx.globalOptions.selfListenEvent && formattedEvent.author.toString() === ctx.userID) || !ctx.loggedIn ?
+			return (!ctx.globalOptions.selfListenEvent && (formattedEvent.author.toString() === ctx.i_userID || formattedEvent.author.toString() === ctx.userID)) || !ctx.loggedIn ?
 				undefined :
 				(function () { globalCallback(null, formattedEvent); })();
 	}

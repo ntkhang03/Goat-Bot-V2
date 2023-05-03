@@ -28,7 +28,7 @@ module.exports = function (defaultFuncs, api, ctx) {
 		}
 
 		const form = {
-			viewer_id: ctx.userID,
+			viewer_id: ctx.i_userID || ctx.userID,
 			"frefs[0]": "jwl",
 			floc: "friend_center_requests",
 			ref: "/reqs.php",

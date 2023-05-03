@@ -33,7 +33,7 @@ module.exports = function (defaultFuncs, api, ctx) {
 		const form = {
 			client: "mercury",
 			action_type: "ma-type:log-message",
-			author: "fbid:" + ctx.userID,
+			author: "fbid:" + (ctx.i_userID || ctx.userID),
 			author_email: "",
 			coordinates: "",
 			timestamp: Date.now(),

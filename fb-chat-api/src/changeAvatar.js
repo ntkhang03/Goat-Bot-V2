@@ -9,9 +9,9 @@ module.exports = function (defaultFuncs, api, ctx) {
 		const uploads = [];
 
 		const form = {
-			profile_id: ctx.userID,
+			profile_id: ctx.i_userID || ctx.userID,
 			photo_source: 57,
-			av: ctx.userID,
+			av: ctx.i_userID || ctx.userID,
 			file: image
 		};
 
@@ -79,7 +79,7 @@ module.exports = function (defaultFuncs, api, ctx) {
 			}
 
 			const form = {
-				av: ctx.userID,
+				av: ctx.i_userID || ctx.userID,
 				fb_api_req_friendly_name: "ProfileCometProfilePictureSetMutation",
 				fb_api_caller_class: "RelayModern",
 				doc_id: "5066134240065849",
@@ -88,7 +88,7 @@ module.exports = function (defaultFuncs, api, ctx) {
 						caption,
 						existing_photo_id: payload[0].payload.fbid,
 						expiration_time: timestamp,
-						profile_id: ctx.userID,
+						profile_id: ctx.i_userID || ctx.userID,
 						profile_pic_method: "EXISTING",
 						profile_pic_source: "TIMELINE",
 						scaled_crop_rect: {
@@ -98,7 +98,7 @@ module.exports = function (defaultFuncs, api, ctx) {
 							y: 0
 						},
 						skip_cropping: true,
-						actor_id: ctx.userID,
+						actor_id: ctx.i_userID || ctx.userID,
 						client_mutation_id: Math.round(Math.random() * 19).toString()
 					},
 					isPage: false,
