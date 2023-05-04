@@ -41,7 +41,8 @@ global.GoatBot = {
 	oldListening: [], // store old listening handle
 	callbackListenTime: {}, // store callback listen 
 	storage5Message: [], // store 5 message to check listening loop
-	fcaApi: null // store fca api
+	fcaApi: null, // store fca api
+	botID: null
 };
 
 global.db = {
