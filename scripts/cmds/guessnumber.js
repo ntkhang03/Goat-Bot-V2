@@ -22,7 +22,7 @@ module.exports = {
 	config: {
 		name: "guessnumber",
 		aliases: ["guessnum"],
-		version: "1.1-beta",
+		version: "1.0",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -194,11 +194,10 @@ module.exports = {
 
 	onReply: async ({ message, Reply, event, getLang, commandName, globalData }) => {
 		const { gameData: oldGameData } = Reply;
-		global.utils.log.dev(oldGameData);
 		if (event.senderID != Reply.author && oldGameData.mode == "single")
 			return;
 
-		const numbers = (event.body || "").split("").map(item => item.trim()).filter(item => !isNaN(item));
+		const numbers = (event.body || "").split("").map(item => item.trim()).filter(item => item != "" && !isNaN(item));
 		if (numbers.length != oldGameData.col)
 			return message.reply(getLang("invalidNumbers", oldGameData.col));
 		global.GoatBot.onReply.delete(Reply.messageID);
