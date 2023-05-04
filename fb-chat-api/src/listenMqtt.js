@@ -185,6 +185,7 @@ function listenMqtt(defaultFuncs, api, ctx, globalCallback) {
 			}) : "";
 			delete ctx.tmsWait;
 		};
+
 	});
 
 	mqttClient.on('message', function (topic, message, _packet) {
@@ -781,7 +782,7 @@ module.exports = function (defaultFuncs, api, ctx) {
 				}
 			})
 			.catch((err) => {
-				// log.error("getSeqId", err);
+				log.error("getSeqId", err);
 				if (utils.getType(err) == "Object" && (err.error === "Not logged in" || err.error === "Not logged in.")) {
 					ctx.loggedIn = false;
 				}
