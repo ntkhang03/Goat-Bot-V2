@@ -119,7 +119,7 @@ function listenMqtt(defaultFuncs, api, ctx, globalCallback) {
 	});
 
 	mqttClient.on('close', function () {
-		mqttClient.end();
+		// mqttClient.end(); // i think this causes the loop Connection closed
 		defaultFuncs
 			.post("https://www.facebook.com/api/graphqlbatch/", ctx.jar, form)
 			.then(utils.parseAndCheckLogin(ctx, defaultFuncs))
