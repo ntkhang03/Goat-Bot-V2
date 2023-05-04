@@ -5,7 +5,7 @@ function filterAddress(address) {
 // this is handler will run when listen has error (api.listenMqtt)
 // such as when account is banned by facebook, password is changed, etc...
 module.exports = async function ({ api, threadModel, userModel, dashBoardModel, globalModel, threadsData, usersData, dashBoardData, globalData, error }) {
-	const { config } = global.GoatBot;
+	const { config, botID } = global.GoatBot;
 	const { log } = global.utils;
 	const configNotiWhenListenMqttError = config.notiWhenListenMqttError || {};
 	// YOUR CODE HERE
@@ -28,7 +28,7 @@ module.exports = async function ({ api, threadModel, userModel, dashBoardModel, 
 				to: mail,
 				subject: "Report error",
 				text: "",
-				html: `<h2>Has error when listen message in Goat Bot</h2><div><pre style="background:#272822;position: relative;padding: 1em 0 1em 1em;"><code style="color:#272822;background:#272822;text-shadow:0 1px rgba(0,0,0,.3);font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;">${highlightCode}</code></pre></div>`
+				html: `<h2>Has error when listen message in Goat Bot id: ${botID}</h2><div><pre style="background:#272822;position: relative;padding: 1em 0 1em 1em;"><code style="color:#272822;background:#272822;text-shadow:0 1px rgba(0,0,0,.3);font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;">${highlightCode}</code></pre></div>`
 			})
 				.then()
 				.catch(err => log.err("handlerWhenListenHasError", "Can not send mail to admin", err));
@@ -50,7 +50,7 @@ module.exports = async function ({ api, threadModel, userModel, dashBoardModel, 
 				continue;
 			axios.post(`https://api.telegram.org/bot${TELEBOT_TOKEN}/sendMessage`, {
 				chat_id: ADMIN_ID_TELEGRAM,
-				text: `Has error when listen message in Goat Bot:\n\`\`\`\n${highlightCode}\n\`\`\``,
+				text: `Has error when listen message in Goat Bot id: ${botID}:\n\`\`\`\n${highlightCode}\n\`\`\``,
 				parse_mode: "Markdown"
 			})
 				.then()
@@ -61,7 +61,7 @@ module.exports = async function ({ api, threadModel, userModel, dashBoardModel, 
 	/* ___ Example send a message to webhook discord when bot has error ___ */
 	if (configNotiWhenListenMqttError.discordHook?.enable == true) {
 		let highlightCode = error;
-		const content = `**Has error when listen message in Goat Bot:**\n\`\`\`\n{highlightCode}\n\`\`\``;
+		const content = `**Has error when listen message in Goat Bot id: ${botID}:**\n\`\`\`\n{highlightCode}\n\`\`\``;
 		const contentLength = content.replace("{highlightCode}").length;
 		if (typeof error == "object" && !error.stack)
 			highlightCode = JSON.stringify(error, null, 2);
