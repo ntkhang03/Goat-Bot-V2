@@ -15,6 +15,7 @@
 - [🚧 **Requirement**](#-requirement)
 - [📝 **Tutorial**](#-tutorial)
 		- [A Tutorial has been uploaded on YouTube](#a-tutorial-has-been-uploaded-on-youtube)
+		- [Summary instructions:](#summary-instructions)
 - [📝 **How to Update**](#-how-to-update)
 		- [A Tutorial has been uploaded on YouTube](#a-tutorial-has-been-uploaded-on-youtube-1)
 - [📝 **How to create new commands**](#-how-to-create-new-commands)
@@ -40,6 +41,8 @@
 #### A Tutorial has been uploaded on YouTube
 - Replit.com: https://www.youtube.com/watch?v=nTIT8OQeRnY
 - VPS/Windows:
+#### Summary instructions:
+- See [here](https://github.com/ntkhang03/Goat-Bot-V2/blob/main/STEP_INSTALL.md)
 
 ## 📝 **How to Update**
 #### A Tutorial has been uploaded on YouTube
