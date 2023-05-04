@@ -1480,6 +1480,7 @@
 		"version": "1.3.7",
 		"files": {
 			"Goat.js": "Update Goat.js",
+			"fb-chat-api/src/sendMessage.js": "Update sendMessage.js",
 			"package-lock.json": "Update package-lock.json",
 			"scripts/cmds/ban.js": "language update",
 			"scripts/cmds/guessnumber.js": "Official version released"
