@@ -2,14 +2,18 @@
  * @author NTKhang
  * ! The source code is written by NTKhang, please don't change the author's name everywhere. Thank you for using 
  */
+
+process.on('unhandledRejection', error => console.log(error));
+process.on('uncaughtException', error => console.log(error));
+
 const axios = require("axios");
 const fs = require("fs-extra");
 const google = require("googleapis").google;
 const nodemailer = require("nodemailer");
 
+process.env.BLUEBIRD_W_FORGOTTEN_RETURN = 0; // Disable warning: "Warning: a promise was created in a handler but was not returned from it"
+
 const { NODE_ENV } = process.env;
-process.on('unhandledRejection', error => console.log(error));
-process.on('uncaughtException', error => console.log(error));
 const dirConfig = `${__dirname}/config${['production', 'development'].includes(NODE_ENV) ? '.dev.json' : '.json'}`;
 const dirConfigCommands = `${__dirname}/configCommands${['production', 'development'].includes(NODE_ENV) ? '.dev.json' : '.json'}`;
 const dirAccount = `${__dirname}/account${['production', 'development'].includes(NODE_ENV) ? '.dev.txt' : '.txt'}`;
@@ -17,28 +21,27 @@ const config = require(dirConfig);
 const configCommands = require(dirConfigCommands);
 
 global.GoatBot = {
-	startTime: Date.now(),
-	commands: new Map(),
-	eventCommands: new Map(),
-	commandFilesPath: [],
-	// [{ filePath: "", commandName: [] }
-	eventCommandsFilesPath: [],
-	aliases: new Map(),
-	onChat: [],
-	onEvent: [],
-	onReply: new Map(),
-	onReaction: new Map(),
+	startTime: Date.now() - process.uptime() * 1000, // time start bot (ms)
+	commands: new Map(), // store all commands
+	eventCommands: new Map(), // store all event commands
+	commandFilesPath: [], // [{ filePath: "", commandName: [] }
+	eventCommandsFilesPath: [], // [{ filePath: "", commandName: [] }
+	aliases: new Map(), // store all aliases
+	onChat: [], // store all onChat
+	onEvent: [], // store all onEvent
+	onReply: new Map(), // store all onReply
+	onReaction: new Map(), // store all onReaction
 	config,
 	configCommands,
 	envCommands: {},
 	envEvents: {},
 	envGlobal: {},
-	reLoginBot: function () { },
-	Listening: null,
-	oldListening: [],
-	callbackListenTime: {},
-	storage5Message: [],
-	fcaApi: null
+	reLoginBot: function () { }, // function relogin bot, will be set in bot/login/login.js
+	Listening: null, // store current listening handle
+	oldListening: [], // store old listening handle
+	callbackListenTime: {}, // store callback listen 
+	storage5Message: [], // store 5 message to check listening loop
+	fcaApi: null // store fca api
 };
 
 global.db = {
@@ -61,6 +64,8 @@ global.db = {
 	globalData: null,
 
 	receivedTheFirstMessage: {}
+
+	// all will be set in bot/login/loadData.js
 };
 
 global.client = {
