@@ -1494,5 +1494,17 @@
 			"fb-chat-api/src/listenMqtt.js": "Update listenMqtt.js",
 			"scripts/cmds/gpt.js": "new command `gpt`: use open ai api model `gpt-3.5-turbo`"
 		}
+	},
+	{
+		"version": "1.3.9",
+		"files": {
+			"bot/login/login.js": "code optimization",
+			"fb-chat-api/index.js": "fix duplicate values in getAppState()",
+			"fb-chat-api/src/addUserToGroup.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/setPostReaction.js": "can use `i_user` (another profile in facebook account)",
+			"scripts/cmds/gpt.js": "fix `You are using gpt chat` error",
+			"scripts/cmds/prefix.js": "language update",
+			"scripts/cmds/sendnoti.js": "add new sub-command `list`: show list of notification groups you are managing, and `info`: view info of notification group"
+		}
 	}
 ]
