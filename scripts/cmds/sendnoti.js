@@ -3,7 +3,7 @@ const { getStreamsFromAttachment, getTime } = global.utils;
 module.exports = {
 	config: {
 		name: "sendnoti",
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -21,6 +21,8 @@ module.exports = {
 				+ "\n   Ví dụ:\n    {pn} create TEAM1"
 				+ "\n\n   {pn} add <groupName>: thêm box chat hiện tại vào group noti <groupName> (bạn phải là quản trị viên của box chat này)"
 				+ "\n   Ví dụ:\n    {pn} add TEAM1"
+				+ "\n\n   {pn} list: hiển thị danh sách các group noti bạn đang quản lý"
+				+ "\n\n   {pn} info <groupName>: xem thông tin của group noti <groupName>"
 				+ "\n\n   {pn} delete: xóa box chat hiện tại khỏi group noti <groupName> (bạn phải là người tạo group noti này)"
 				+ "\n   Ví dụ:\n    {pn} delete TEAM1"
 				+ "\n\n   {pn} send <groupName> | <message>: gửi thông báo tới tất cả các nhóm trong group noti <groupName> (bạn phải là quản trị viên của những box đó)"
@@ -31,6 +33,8 @@ module.exports = {
 				+ "\n   Example:\n    {pn} create TEAM1"
 				+ "\n\n   {pn} add <groupName>: add current box chat to notification group <groupName> (you must be admin of this box chat)"
 				+ "\n   Example:\n    {pn} add TEAM1"
+				+ "\n\n   {pn} list: show list of notification groups you are managing"
+				+ "\n\n   {pn} info <groupName>: view info of notification group <groupName>"
 				+ "\n\n   {pn} delete: remove current box chat from notification group <groupName> (you must be creator of this group)"
 				+ "\n   Example:\n    {pn} delete TEAM1"
 				+ "\n\n   {pn} send <groupName> | <message>: send notification to all groups in notification group <groupName> (you must be admin of those groups)"
@@ -51,6 +55,8 @@ module.exports = {
 			added: "Đã thêm nhóm chat hiện tại vào group noti: %1",
 			missingGroupNameToDelete: "Vui lòng nhập tên groupNoti bạn muốn xóa nhóm chat này khỏi danh sách",
 			notInGroup: "Hiện tại nhóm chat này chưa có trong group noti %1",
+			emptyList: "Hiện tại bạn chưa tạo/quản lý group noti nào",
+			showList: "Danh sách các group noti bạn đang quản lý:\nHiển thị theo định dạng:\n<Tên groupNoti> - <Số lượng nhóm chat trong groupNoti>\n%1",
 			deleted: "Đã xóa nhóm chat hiện tại khỏi group noti: %1",
 			failed: "Đã xảy ra lỗi khi gửi thông báo đến %1 nhóm chat: \n%2",
 			missingGroupNameToRemove: "Vui lòng nhập tên groupNoti bạn muốn xóa bỏ",
@@ -75,6 +81,8 @@ module.exports = {
 			added: "Added current group chat to notification group: %1",
 			missingGroupNameToDelete: "Please enter groupNoti name you want to delete this group chat from list",
 			notInGroup: "Current group chat is not in notification group %1",
+			emptyList: "You have not created/manage any notification group",
+			showList: "List of notification groups you are managing:\nShow in format:\n<Notification group name> - <Number of groups in notification group>\n%1",
 			deleted: "Deleted current group chat from notification group: %1",
 			failed: "Failed to send notification to %1 group chats: \n%2",
 			missingGroupNameToRemove: "Please enter groupNoti name you want to remove",
@@ -131,6 +139,18 @@ module.exports = {
 				await usersData.set(senderID, groupsSendNotiData, 'data.groupsSendNoti');
 
 				message.reply(getLang('added', groupName));
+				break;
+			}
+			case "list": {
+				if (!groupsSendNotiData.length)
+					return message.reply(getLang('noGroup'));
+
+				const msg = groupsSendNotiData.reduce((acc, item) => {
+					acc += `+ ${item.groupName} - ${item.threadIDs.length}\n`;
+					return acc;
+				}, '');
+
+				message.reply(getLang('showList', msg));
 				break;
 			}
 			case "delete": {
