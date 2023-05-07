@@ -80,11 +80,6 @@ function buildAPI(globalOptions, html, jar) {
 		return val.cookieString().split("=")[0] === "c_user";
 	});
 
-	const objCookie = jar.getCookies("https://www.facebook.com").reduce(function (obj, val) {
-		obj[val.cookieString().split("=")[0]] = val.cookieString().split("=")[1];
-		return obj;
-	}, {});
-
 	if (maybeCookie.length === 0) {
 		throw { error: "Error retrieving userID. This can be caused by a lot of things, including getting blocked by Facebook for logging in from an unknown location. Try logging in with a browser to verify." };
 	}
@@ -94,7 +89,6 @@ function buildAPI(globalOptions, html, jar) {
 	}
 
 	const userID = maybeCookie[0].cookieString().split("=")[1].toString();
-	const i_userID = objCookie.i_user || null;
 	log.info("login", `Logged in as ${userID}`);
 
 	try {
@@ -140,7 +134,6 @@ function buildAPI(globalOptions, html, jar) {
 	// All data available to api functions
 	const ctx = {
 		userID: userID,
-		i_userID: i_userID,
 		jar: jar,
 		clientID: clientID,
 		globalOptions: globalOptions,
@@ -158,9 +151,7 @@ function buildAPI(globalOptions, html, jar) {
 	const api = {
 		setOptions: setOptions.bind(null, globalOptions),
 		getAppState: function getAppState() {
-			const appState = utils.getAppState(jar);
-			// filter duplicate
-			return appState.filter((item, index, self) => self.findIndex((t) => { return t.key === item.key }) === index);
+			return utils.getAppState(jar);
 		}
 	};
 
@@ -222,7 +213,7 @@ function buildAPI(globalOptions, html, jar) {
 		'uploadAttachment'
 	];
 
-	const defaultFuncs = utils.makeDefaults(html, i_userID || userID, ctx);
+	const defaultFuncs = utils.makeDefaults(html, userID, ctx);
 
 	// Load all api functions in a loop
 	apiFuncNames.map(function (v) {
