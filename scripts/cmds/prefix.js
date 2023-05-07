@@ -4,7 +4,7 @@ const { utils } = global;
 module.exports = {
 	config: {
 		name: "prefix",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -58,7 +58,7 @@ module.exports = {
 			const threadData = await threadsData.get(event.threadID);
 			delete threadData.data.prefix;
 			await threadsData.set(event.threadID, threadData.data, "data");
-			return message.reply(getLang("success", global.GoatBot.config.prefix));
+			return message.reply(getLang("reset", global.GoatBot.config.prefix));
 		}
 
 		const newPrefix = args[0];
