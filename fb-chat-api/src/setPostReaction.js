@@ -70,7 +70,7 @@ module.exports = function (defaultFuncs, api, ctx) {
 		}
 
 		const form = {
-			av: ctx.userID,
+			av: ctx.i_userID || ctx.userID,
 			fb_api_caller_class: "RelayModern",
 			fb_api_req_friendly_name: "CometUFIFeedbackReactMutation",
 			doc_id: "4769042373179384",
