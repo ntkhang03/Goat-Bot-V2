@@ -16,7 +16,7 @@ const { openAIUsing, openAIHistory } = global.temp;
 module.exports = {
 	config: {
 		name: "gpt",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -127,7 +127,7 @@ module.exports = {
 
 	onReply: async function ({ Reply, message, event, args, getLang, commandName }) {
 		const { author } = Reply;
-		if (!author)
+		if (author != event.senderID)
 			return;
 
 		handleGpt(event, message, args, getLang, commandName);
