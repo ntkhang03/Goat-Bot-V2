@@ -1506,5 +1506,13 @@
 			"scripts/cmds/prefix.js": "language update",
 			"scripts/cmds/sendnoti.js": "add new sub-command `list`: show list of notification groups you are managing, and `info`: view info of notification group"
 		}
+	},
+	{
+		"version": "1.3.10",
+		"files": {
+			"README.md": "Update README.md",
+			"scripts/cmds/gpt.js": "Don't let others interfere with your chats and gpt",
+			"scripts/cmds/rank.js": "language update"
+		}
 	}
 ]
