@@ -33,7 +33,10 @@ module.exports = {
 			en: "View your level or the level of the tagged person. You can tag many people"
 		},
 		category: "rank",
-		guide: "   {pn} [để trống | @tags]",
+		guide: {
+			vi: "   {pn} [để trống | @tags]",
+			en: "   {pn} [empty | @tags]"
+		},
 		envConfig: {
 			deltaNext: 5
 		}
@@ -122,7 +125,7 @@ async function makeRankCard(userID, usersData, threadsData, threadID, deltaNext,
 		if (!isNaN(configRankCard[key]))
 			configRankCard[key] = await api.resolvePhotoUrl(configRankCard[key]);
 	}
-	
+
 	const image = new RankCard({
 		...configRankCard,
 		...dataLevel

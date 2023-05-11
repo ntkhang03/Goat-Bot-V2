@@ -16,7 +16,7 @@ const { openAIUsing, openAIHistory } = global.temp;
 module.exports = {
 	config: {
 		name: "gpt",
-		version: "1.0",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -30,8 +30,12 @@ module.exports = {
 		},
 		category: "box chat",
 		guide: {
-			vi: "{pn} [nội dung | để trống]",
-			en: "{pn} [content | empty]"
+			vi: "   {pn} <draw> <nội dung> - tạo hình ảnh từ nội dung"
+				+ "\n   {pn} <clear> - xóa lịch sử chat với gpt"
+				+ "\n   {pn} <nội dung> - chat với gpt",
+			en: "   {pn} <draw> <content> - create image from content"
+				+ "\n   {pn} <clear> - clear chat history with gpt"
+				+ "\n   {pn} <content> - chat with gpt"
 		}
 	},
 
@@ -40,7 +44,7 @@ module.exports = {
 			apiKeyEmpty: "Vui lòng cung cấp api key cho openai tại file scripts/cmds/gpt.js",
 			invalidContentDraw: "Vui lòng nhập nội dung bạn muốn vẽ",
 			yourAreUsing: "Bạn đang sử dụng gpt chat, vui lòng chờ quay lại sau khi yêu cầu trước kết thúc",
-			processingRequest: "Đang xử lý yêu cầu của bạn...",
+			processingRequest: "Đang xử lý yêu cầu của bạn, quá trình này có thể mất vài phút, vui lòng chờ",
 			invalidContent: "Vui lòng nhập nội dung bạn muốn chat",
 			error: "Đã có lỗi xảy ra\n%1",
 			clearHistory: "Đã xóa lịch sử chat của bạn với gpt"
@@ -49,7 +53,7 @@ module.exports = {
 			apiKeyEmpty: "Please provide api key for openai at file scripts/cmds/gpt.js",
 			invalidContentDraw: "Please enter the content you want to draw",
 			yourAreUsing: "You are using gpt chat, please wait until the previous request ends",
-			processingRequest: "Processing your request...",
+			processingRequest: "Processing your request, this process may take a few minutes, please wait",
 			invalidContent: "Please enter the content you want to chat",
 			error: "An error has occurred\n%1",
 			clearHistory: "Your chat history with gpt has been deleted"
@@ -71,8 +75,9 @@ module.exports = {
 
 				openAIUsing[event.senderID] = true;
 
+				let sending;
 				try {
-					const sending = message.reply(getLang('processingRequest'));
+					sending = message.reply(getLang('processingRequest'));
 					const responseImage = await axios({
 						url: "https://api.openai.com/v1/images/generations",
 						method: "POST",
@@ -96,16 +101,15 @@ module.exports = {
 					}));
 					return message.reply({
 						attachment: images
-					}, async () => {
-						message.unsend(await sending.messageID);
-						delete openAIUsing[event.senderID];
 					});
 				}
 				catch (err) {
 					const errorMessage = err.response?.data.error.message || err.message;
-					return message.reply(getLang('error', errorMessage || ''), () => {
-						delete openAIUsing[event.senderID];
-					});
+					return message.reply(getLang('error', errorMessage || ''));
+				}
+				finally {
+					delete openAIUsing[event.senderID];
+					message.unsend((await sending).messageID);
 				}
 			}
 			case 'clear': {
@@ -123,7 +127,7 @@ module.exports = {
 
 	onReply: async function ({ Reply, message, event, args, getLang, commandName }) {
 		const { author } = Reply;
-		if (!author)
+		if (author != event.senderID)
 			return;
 
 		handleGpt(event, message, args, getLang, commandName);
@@ -184,8 +188,9 @@ async function handleGpt(event, message, args, getLang, commandName) {
 	}
 	catch (err) {
 		const errorMessage = err.response?.data.error.message || err.message || "";
-		return message.reply(getLang('error', errorMessage), () => {
-			delete openAIUsing[event.senderID];
-		});
+		return message.reply(getLang('error', errorMessage));
+	}
+	finally {
+		delete openAIUsing[event.senderID];
 	}
 }
