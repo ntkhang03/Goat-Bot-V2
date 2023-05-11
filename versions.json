@@ -1514,5 +1514,13 @@
 			"scripts/cmds/gpt.js": "Don't let others interfere with your chats and gpt",
 			"scripts/cmds/rank.js": "language update"
 		}
+	},
+	{
+		"version": "1.3.11",
+		"files": {
+			"LICENSE": "Update LICENSE",
+			"bot/login/login.js": "Update login.js",
+			"index.js": "Update index.js"
+		}
 	}
 ]
