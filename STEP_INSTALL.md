@@ -1,9 +1,15 @@
 ## **STEP INSTALL GOAT BOT V2**
 > This is a guide to install Goat Bot V2 on mobile devices (Android, iOS) and PC (Windows, MacOS, Linux) with replit.com
 
-* Watch the detailed video tutorial: 
+* Watch the detailed video tutorial to install Goat Bot V2 on mobile devices (Android, iOS) 
+<div align="center">
+	<a href="https://www.youtube.com/watch?v=grVeZ76HlgA"><img src="https://img.youtube.com/vi/grVeZ76HlgA/maxresdefault.jpg" width="400"></a>
+</div>
 
-[![tutorial](https://img.youtube.com/vi/grVeZ76HlgA/maxresdefault.jpg)](https://www.youtube.com/watch?v=grVeZ76HlgA)
+* If you want to install Goat Bot V2 on vps/computer, please follow the guide below:
+<div align="center">
+	<a href="https://www.youtube.com/watch?v=uCbSYNQNEwY"><img src="https://img.youtube.com/vi/uCbSYNQNEwY/maxresdefault.jpg" width="400"></a>
+</div>
 
 ---
 <h1 align="center"><b>STEP BY STEP GUIDE</b></h1>
