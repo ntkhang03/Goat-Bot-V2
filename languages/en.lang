@@ -113,11 +113,12 @@ indexController.connectMySQLError=An error occurred while connecting to a SQLITE
 # updater.js
 updater.latestVersion=You are using the latest version
 updater.newVersions=There are %1 new versions to update, starting to update...
-updater.updateSuccess=Update successfully ✓
+updater.updateSuccess=Update successfully%1
 updater.configChanged=The config.json file has been changed, please check your config.json file again
 updater.installingPackages=Installing dependencies for bot...
 updater.installSuccess=Installed dependencies successfully, restart the bot to use the new version
 updater.backupSuccess=Successfully backed up changed files, see in the %1 folder
+updater.restartToApply=. Restart the bot to apply the new version
 
 # dashboard/routes/verifyfbid.js
 verifyfbid.sendCode=Your verification code is:\n%1\nThe verification code is valid for %2 minutes

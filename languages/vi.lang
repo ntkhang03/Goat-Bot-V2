@@ -113,11 +113,12 @@ indexController.connectMySQLError=Đã xảy ra lỗi khi kết nối cơ sở d
 # updater.js
 updater.latestVersion=Bạn đang sử dụng phiên bản mới nhất
 updater.newVersions=Có %1 phiên bản cần cập nhật mới, bất đầu tiến hành cập nhật...
-updater.updateSuccess=Cập nhật thành công ✓
+updater.updateSuccess=Cập nhật thành công%1
 updater.configChanged=Tệp config.json đã được thay đổi, vui lòng kiểm tra lại tệp config.json của bạn
 updater.installingPackages=Đang cài đặt các gói phụ thuộc cho bot...
 updater.installSuccess=Cài đặt các gói phụ thuộc thành công, khởi động lại bot để sử dụng phiên bản mới
 updater.backupSuccess=Đã sao lưu thành công các file bị thay đổi, xem tại thư mục %1
+updater.restartToApply=. Khởi động lại bot để sử dụng phiên bản mới
 
 # dashboard/routes/verifyfbid.js
 verifyfbid.sendCode=Mã xác nhận của bạn là:\n%1\nMã xác nhận có hiệu lực trong vòng %2 phút
