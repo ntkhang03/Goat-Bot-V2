@@ -1539,8 +1539,7 @@
 			"languages/en.lang": "language update",
 			"languages/vi.lang": "language update",
 			"replit.nix": "Update replit.nix",
-			"scripts/cmds/thread.js": "fix could not find thread joined",
-			"updater.js": "automatically back up the old version before updating"
+			"scripts/cmds/thread.js": "fix could not find thread joined"
 		}
 	}
 ]
