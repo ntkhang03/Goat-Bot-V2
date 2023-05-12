@@ -1259,6 +1259,19 @@ function parseAndCheckLogin(ctx, defaultFuncs, retryCount) {
 	};
 }
 
+function checkLiveCookie(ctx, defaultFuncs) {
+	return defaultFuncs
+		.get("https://m.facebook.com/me", ctx.jar)
+		.then(function (res) {
+			if (res.body.indexOf(ctx.i_userID || ctx.userID) === -1) {
+				const err = new Error("Not logged in.");
+				err.error = "Not logged in.";
+				throw err;
+			}
+			return true;
+		});
+}
+
 function saveCookies(jar) {
 	return function (res) {
 		const cookies = res.headers["set-cookie"] || [];
@@ -1431,6 +1444,7 @@ module.exports = {
 	decodeClientPayload,
 	getAppState,
 	getAdminTextMessageType,
-	setProxy
+	setProxy,
+	checkLiveCookie
 };
 
