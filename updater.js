@@ -1,13 +1,13 @@
 const axios = require('axios');
 const fs = require('fs-extra');
+const path = require('path');
 const cheerio = require('cheerio');
-const _ = require('lodash');
 const log = require('./logger/log.js');
 let chalk;
 try {
 	chalk = require("./func/colors.js").colors;
 }
-catch(e) {
+catch (e) {
 	chalk = require("chalk");
 }
 const langCode = require('./config.json').language;
@@ -45,6 +45,34 @@ function getText(head, key, ...args) {
 	return text;
 }
 
+const defaultWriteFileSync = fs.writeFileSync;
+const defaulCopyFileSync = fs.copyFileSync;
+
+function checkAndAutoCreateFolder(pathFolder) {
+	const splitPath = path.normalize(pathFolder).split('/');
+	let currentPath = '';
+	for (const i in splitPath) {
+		currentPath += splitPath[i] + '/';
+		if (!fs.existsSync(currentPath))
+			fs.mkdirSync(currentPath);
+	}
+}
+
+fs.writeFileSync = function (fullPath, data) {
+	fullPath = path.normalize(fullPath);
+	const pathFolder = fullPath.slice(0, fullPath.lastIndexOf('/'));
+	checkAndAutoCreateFolder(pathFolder);
+	defaultWriteFileSync(fullPath, data);
+};
+
+fs.copyFileSync = function (src, dest) {
+	src = path.normalize(src);
+	dest = path.normalize(dest);
+	const pathFolder = dest.slice(0, dest.lastIndexOf('/'));
+	checkAndAutoCreateFolder(pathFolder);
+	defaulCopyFileSync(src, dest);
+};
+
 (async () => {
 	const { data: versions } = await axios.get('https://raw.githubusercontent.com/ntkhang03/Goat-Bot-V2/main/versions.json');
 	const currentVersion = require('./package.json').version;
@@ -52,67 +80,36 @@ function getText(head, key, ...args) {
 	if (versionsNeedToUpdate.length === 0)
 		return log.info("SUCCESS", getText("updater", "latestVersion"));
 
+	let folderBackup = `${process.cwd()}/backup_${currentVersion}`;
+
 	fs.writeFileSync(`${process.cwd()}/versions.json`, JSON.stringify(versions, null, 2));
 	log.info("UPDATE", getText("updater", "newVersions", chalk.yellow(versionsNeedToUpdate.length)));
 
+	let isReinstallDependencies = false;
+
 	for (const version of versionsNeedToUpdate) {
 		log.info("UPDATE", `Update version ${version.version}`);
-		const { files, deleteFiles } = version;
+		const { files, deleteFiles, reinstallDependencies } = version;
+		if (reinstallDependencies)
+			isReinstallDependencies = true;
 
 		for (const filePath in files) {
 			const description = files[filePath];
 			const fullPath = `${process.cwd()}/${filePath}`;
 			let getFile;
 			try {
-				getFile = (await axios.get(`https://github.com/ntkhang03/Goat-Bot-V2/raw/main/${filePath}`, {
+				const response = await axios.get(`https://github.com/ntkhang03/Goat-Bot-V2/raw/main/${filePath}`, {
 					responseType: 'arraybuffer'
-				})).data;
+				});
+				getFile = response.data;
 			}
 			catch (e) {
 				continue;
 			}
 
-			if (filePath === "config.json") {
-				const currentConfig = require('./config.json');
-				for (const key in files[filePath]) {
-					const value = files[filePath][key];
-					if (typeof value == "string" && value.startsWith("DEFAULT_")) {
-						const keyOfDefault = value.replace("DEFAULT_", "");
-						_.set(currentConfig, key, _.get(currentConfig, keyOfDefault));
-					}
-					else
-						_.set(currentConfig, key, files[filePath][key]);
-				}
-
-				if (fs.existsSync(`${process.cwd()}/config.backup.json`)) {
-					let backupConfig = 1;
-					while (fs.existsSync(`${fullPath.slice(0, -5)}_${backupConfig}.backup.json`))
-						backupConfig++;
-					fs.copyFileSync(fullPath, `${fullPath.slice(0, -5)}_${backupConfig}.backup.json`);
-				}
-				else {
-					fs.copyFileSync(fullPath, `${process.cwd()}/config.backup.json`);
-				}
-				fs.writeFileSync(fullPath, JSON.stringify(currentConfig, null, 2));
-				console.log(chalk.bold.blue('[↑]'), `${filePath}`);
-				// warning config.json is changed
-				console.log(chalk.bold.yellow('[!]'), getText("updater", "configChanged"));
-			}
-			else if (fs.existsSync(fullPath)) {
-				fs.writeFileSync(fullPath, Buffer.from(getFile));
-				console.log(chalk.bold.blue('[↑]'), `${filePath}:`, chalk.hex('#858585')(description));
-			}
-			else {
-				const cutFullPath = filePath.split('/').filter(p => p);
-				cutFullPath.pop();
-				for (let i = 0; i < cutFullPath.length; i++) {
-					const path = `${process.cwd()}/${cutFullPath.slice(0, i + 1).join('/')}`;
-					if (!fs.existsSync(path))
-						fs.mkdirSync(path);
-				}
-				fs.writeFileSync(fullPath, Buffer.from(getFile));
-				console.log(chalk.bold.green('[+]'), `${filePath}:`, chalk.hex('#858585')(description));
-			}
+			fs.copyFileSync(fullPath, `${folderBackup}/${filePath}`);
+			fs.writeFileSync(fullPath, Buffer.from(getFile));
+			console.log(chalk.bold.blue('[↑]'), `${filePath}:`, chalk.hex('#858585')(description));
 		}
 
 		for (const filePath in deleteFiles) {
@@ -126,6 +123,9 @@ function getText(head, key, ...args) {
 				console.log(chalk.bold.red('[-]'), `${filePath}:`, chalk.hex('#858585')(description));
 			}
 		}
+
+		log.info("UPDATE", getText("updater", "backupSuccess", chalk.yellow(folderBackup)));
+		folderBackup = `${process.cwd()}/backup_${version.version}`;
 	}
 
 	// fixes package.json not updating content by itself
@@ -136,8 +136,10 @@ function getText(head, key, ...args) {
 	log.info("UPDATE", getText("updater", "updateSuccess"));
 
 	// npm install
-	log.info("UPDATE", getText("updater", "installingPackages"));
-	execSync("npm install", { stdio: 'inherit' });
+	if (isReinstallDependencies) {
+		log.info("UPDATE", getText("updater", "installingPackages"));
+		execSync("npm install", { stdio: 'inherit' });
+	}
 	log.info("UPDATE", getText("updater", "installSuccess"));
 
 })();
