@@ -8,8 +8,6 @@ const HttpsProxyAgent = require('https-proxy-agent');
 const EventEmitter = require('events');
 
 const identity = function () { };
-let form = {};
-let getSeqID = function () { };
 
 const topics = [
 	"/legacy_web",
@@ -109,7 +107,7 @@ function listenMqtt(defaultFuncs, api, ctx, globalCallback) {
 		// log.error("listenMqtt", err);
 		mqttClient.end();
 		if (ctx.globalOptions.autoReconnect) {
-			getSeqID();
+			listenMqtt(defaultFuncs, api, ctx, globalCallback);
 		} else {
 			globalCallback({
 				type: "stop_listen",
@@ -120,17 +118,8 @@ function listenMqtt(defaultFuncs, api, ctx, globalCallback) {
 
 	mqttClient.on('close', function () {
 		// mqttClient.end(); // i think this causes the loop Connection closed
-		defaultFuncs
-			.post("https://www.facebook.com/api/graphqlbatch/", ctx.jar, form)
-			.then(utils.parseAndCheckLogin(ctx, defaultFuncs))
-			.then((resData) => {
-				if (utils.getType(resData) != "Array") {
-					throw {
-						error: "Not logged in",
-						res: resData
-					};
-				}
-
+		utils.checkLiveCookie(ctx, defaultFuncs)
+			.then(() => {
 				globalCallback("Connection closed.");
 			})
 			.catch((err) => {
@@ -174,7 +163,7 @@ function listenMqtt(defaultFuncs, api, ctx, globalCallback) {
 
 		const rTimeout = setTimeout(function () {
 			mqttClient.end();
-			getSeqID();
+			listenMqtt(defaultFuncs, api, ctx, globalCallback);
 		}, 5000);
 
 		ctx.tmsWait = function () {
@@ -750,46 +739,6 @@ function markDelivery(ctx, api, threadID, messageID) {
 
 module.exports = function (defaultFuncs, api, ctx) {
 	let globalCallback = identity;
-	getSeqID = function getSeqID() {
-		ctx.t_mqttCalled = false;
-		return defaultFuncs
-			.post("https://www.facebook.com/api/graphqlbatch/", ctx.jar, form)
-			.then(utils.parseAndCheckLogin(ctx, defaultFuncs))
-			.then((resData) => {
-				if (utils.getType(resData) != "Array") {
-					const err = new Error("Not logged in");
-					err.res = resData;
-					err.error = "Not logged in";
-					throw err;
-				}
-
-				if (resData && resData[resData.length - 1].error_results > 0) {
-					throw resData[0].o0.errors;
-				}
-
-				if (resData[resData.length - 1].successful_results === 0) {
-					throw { error: "getSeqId: there was no successful_results", res: resData };
-				}
-
-				if (resData[0].o0.data.viewer.message_threads.sync_sequence_id) {
-					ctx.lastSeqId = resData[0].o0.data.viewer.message_threads.sync_sequence_id;
-					listenMqtt(defaultFuncs, api, ctx, globalCallback);
-				} else {
-					const err = new Error("No sync_sequence_id found.");
-					err.res = resData;
-					err.error = "getSeqId: no sync_sequence_id found.";
-					throw err;
-				}
-			})
-			.catch((err) => {
-				log.error("getSeqId", err);
-				if (utils.getType(err) == "Object" && (err.error === "Not logged in" || err.error === "Not logged in.")) {
-					ctx.loggedIn = false;
-				}
-				// return globalCallback(err);
-				throw err;
-			});
-	};
 
 	return function (callback) {
 		class MessageEmitter extends EventEmitter {
@@ -808,7 +757,7 @@ module.exports = function (defaultFuncs, api, ctx) {
 				}
 			}
 
-			async stopListeningSync() {
+			async stopListeningAsync() {
 				return new Promise((resolve) => {
 					this.stopListening((...data) => {
 						resolve(data);
@@ -826,38 +775,15 @@ module.exports = function (defaultFuncs, api, ctx) {
 		});
 
 		//Reset some stuff
-		if (!ctx.firstListen) ctx.lastSeqId = null;
+		if (!ctx.firstListen)
+			ctx.lastSeqId = null;
 		ctx.syncToken = undefined;
 		ctx.t_mqttCalled = false;
 
-		//Same request as getThreadList
-		form = {
-			"av": ctx.globalOptions.pageID,
-			"queries": JSON.stringify({
-				"o0": {
-					"doc_id": "3336396659757871",
-					"query_params": {
-						"limit": 1,
-						"before": null,
-						"tags": ["INBOX"],
-						"includeDeliveryReceipts": false,
-						"includeSeqID": true
-					}
-				}
-			})
-		};
+		listenMqtt(defaultFuncs, api, ctx, globalCallback);
 
-		if (!ctx.firstListen || !ctx.lastSeqId) {
-			getSeqID()
-				.catch(() => {
-					listenMqtt(defaultFuncs, api, ctx, globalCallback);
-				});
-		} else {
-			listenMqtt(defaultFuncs, api, ctx, globalCallback);
-		}
-		ctx.firstListen = false;
 		api.stopListening = msgEmitter.stopListening;
-		api.stopListeningSync = msgEmitter.stopListeningSync;
+		api.stopListeningAsync = msgEmitter.stopListeningAsync;
 		return msgEmitter;
 	};
 };
