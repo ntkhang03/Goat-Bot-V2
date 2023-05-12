@@ -110,14 +110,15 @@ fs.copyFileSync = function (src, dest) {
 
 			if (filePath === "config.json") {
 				const currentConfig = require('./config.json');
-				for (const key in files[filePath]) {
-					const value = files[filePath][key];
+				const configValueUpdate = files[filePath];
+				for (const key in configValueUpdate) {
+					const value = configValueUpdate[key];
 					if (typeof value == "string" && value.startsWith("DEFAULT_")) {
 						const keyOfDefault = value.replace("DEFAULT_", "");
 						_.set(currentConfig, key, _.get(currentConfig, keyOfDefault));
 					}
 					else
-						_.set(currentConfig, key, files[filePath][key]);
+						_.set(currentConfig, key, value);
 				}
 
 				fs.writeFileSync(fullPath, JSON.stringify(currentConfig, null, 2));
@@ -128,7 +129,9 @@ fs.copyFileSync = function (src, dest) {
 
 			if (fs.existsSync(fullPath))
 				fs.copyFileSync(fullPath, `${folderBackup}/${filePath}`);
-			fs.writeFileSync(fullPath, Buffer.from(getFile));
+			if (filePath != "config.json")
+				fs.writeFileSync(fullPath, Buffer.from(getFile));
+
 			console.log(chalk.bold.blue('[↑]'), `${filePath}:`, chalk.hex('#858585')(description));
 		}
 
@@ -153,7 +156,7 @@ fs.copyFileSync = function (src, dest) {
 	const $ = cheerio.load(packageHTML5);
 	const content = $('td.blob-code-inner').text();
 	fs.writeFileSync(`${process.cwd()}/package.json`, JSON.stringify(JSON.parse(content), null, 2));
-	log.info("UPDATE", getText("updater", "updateSuccess"));
+	log.info("UPDATE", getText("updater", "updateSuccess", !isReinstallDependencies ? getText("updater", "restartToApply") : ""));
 
 	// npm install
 	if (isReinstallDependencies) {
