@@ -1,5 +1,13 @@
 ## **STEP INSTALL GOAT BOT V2**
+> This is a guide to install Goat Bot V2 on mobile devices (Android, iOS) and PC (Windows, MacOS, Linux) with replit.com
+
+* Watch the detailed video tutorial: 
+
+[![tutorial](https://img.youtube.com/vi/grVeZ76HlgA/maxresdefault.jpg)](https://www.youtube.com/watch?v=grVeZ76HlgA)
+
 ---
+<h1 align="center"><b>STEP BY STEP GUIDE</b></h1>
+
 * Download kiwi browser from play store. Open kiwi browser and go to https://replit.com
 ```
 https://replit.com
@@ -15,7 +23,7 @@ npm install
 * Download extension `Cookie Editor` from chrom web store, then go to https://facebook.com, open that extension and click `Export` -> `Export as JSON`
 * Then back to replit, open file `account.txt` and paste your cookie there
 ---
-* Go to https://console.cloud.google.com/ to create a new project (don't forget to **`public`** your project), then go to https://developers.google.com/oauthplayground to create a new OAuth 2.0 Client ID with permission: `https://www.googleapis.com/auth/drive` and `https://mail.google.com` then copy your `Refresh token` `Client ID` and `Client Secret` to `config.json`
+* Go to https://console.cloud.google.com/ to create a new project (don't forget to **`public`** your project) and add Authorized redirect URIs: `https://developers.google.com/oauthplayground` (without backslash at the end), then go to https://developers.google.com/oauthplayground to create a new OAuth 2.0 Client ID with permission: `https://www.googleapis.com/auth/drive` and `https://mail.google.com` then copy your `Refresh token` `Client ID` and `Client Secret` to `config.json` in part `credentials` -> `google`
 ```
 https://console.cloud.google.com/
 ```
