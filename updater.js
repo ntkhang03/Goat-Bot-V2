@@ -1,4 +1,5 @@
 const axios = require('axios');
+const _ = require('lodash');
 const fs = require('fs-extra');
 const path = require('path');
 const cheerio = require('cheerio');
@@ -107,6 +108,24 @@ fs.copyFileSync = function (src, dest) {
 				continue;
 			}
 
+			if (filePath === "config.json") {
+				const currentConfig = require('./config.json');
+				for (const key in files[filePath]) {
+					const value = files[filePath][key];
+					if (typeof value == "string" && value.startsWith("DEFAULT_")) {
+						const keyOfDefault = value.replace("DEFAULT_", "");
+						_.set(currentConfig, key, _.get(currentConfig, keyOfDefault));
+					}
+					else
+						_.set(currentConfig, key, files[filePath][key]);
+				}
+
+				fs.writeFileSync(fullPath, JSON.stringify(currentConfig, null, 2));
+				console.log(chalk.bold.blue('[↑]'), `${filePath}`);
+				// warning config.json is changed
+				console.log(chalk.bold.yellow('[!]'), getText("updater", "configChanged"));
+			}
+
 			if (fs.existsSync(fullPath))
 				fs.copyFileSync(fullPath, `${folderBackup}/${filePath}`);
 			fs.writeFileSync(fullPath, Buffer.from(getFile));
@@ -140,7 +159,7 @@ fs.copyFileSync = function (src, dest) {
 	if (isReinstallDependencies) {
 		log.info("UPDATE", getText("updater", "installingPackages"));
 		execSync("npm install", { stdio: 'inherit' });
+		log.info("UPDATE", getText("updater", "installSuccess"));
 	}
-	log.info("UPDATE", getText("updater", "installSuccess"));
 
 })();
