@@ -107,7 +107,8 @@ fs.copyFileSync = function (src, dest) {
 				continue;
 			}
 
-			fs.copyFileSync(fullPath, `${folderBackup}/${filePath}`);
+			if (fs.existsSync(fullPath))
+				fs.copyFileSync(fullPath, `${folderBackup}/${filePath}`);
 			fs.writeFileSync(fullPath, Buffer.from(getFile));
 			console.log(chalk.bold.blue('[↑]'), `${filePath}:`, chalk.hex('#858585')(description));
 		}
