@@ -1541,5 +1541,13 @@
 			"replit.nix": "Update replit.nix",
 			"scripts/cmds/thread.js": "fix could not find thread joined"
 		}
+	},
+	{
+		"version": "1.3.13",
+		"files": {
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update",
+			"updater.js": "Update updater.js"
+		}
 	}
 ]
