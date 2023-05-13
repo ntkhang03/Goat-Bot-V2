@@ -50,7 +50,7 @@ const defaultWriteFileSync = fs.writeFileSync;
 const defaulCopyFileSync = fs.copyFileSync;
 
 function checkAndAutoCreateFolder(pathFolder) {
-	const splitPath = path.normalize(pathFolder).split('/');
+	const splitPath = path.normalize(pathFolder).replace(/\\/g, '/').split('/');
 	let currentPath = '';
 	for (const i in splitPath) {
 		currentPath += splitPath[i] + '/';
@@ -60,17 +60,21 @@ function checkAndAutoCreateFolder(pathFolder) {
 }
 
 fs.writeFileSync = function (fullPath, data) {
-	fullPath = path.normalize(fullPath);
-	const pathFolder = fullPath.slice(0, fullPath.lastIndexOf('/'));
-	checkAndAutoCreateFolder(pathFolder);
+	fullPath = path.normalize(fullPath).replace(/\\/g, '/');
+	const pathFolder = fullPath.split('/');
+	if (pathFolder.length > 1)
+		pathFolder.pop();
+	checkAndAutoCreateFolder(pathFolder.join('/'));
 	defaultWriteFileSync(fullPath, data);
 };
 
 fs.copyFileSync = function (src, dest) {
 	src = path.normalize(src);
-	dest = path.normalize(dest);
-	const pathFolder = dest.slice(0, dest.lastIndexOf('/'));
-	checkAndAutoCreateFolder(pathFolder);
+	dest = path.normalize(dest).replace(/\\/g, '/');
+	const pathFolder = dest.split('/');
+	if (pathFolder.length > 1)
+		pathFolder.pop();
+	checkAndAutoCreateFolder(pathFolder.join('/'));
 	defaulCopyFileSync(src, dest);
 };
 
