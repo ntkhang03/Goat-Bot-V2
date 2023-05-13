@@ -1549,5 +1549,16 @@
 			"languages/vi.lang": "language update",
 			"updater.js": "Update updater.js"
 		}
+	},
+	{
+		"version": "1.3.14",
+		"files": {
+			"config.json": {
+				"whiteListMode.notes": "if you enable this feature, only the ids in the whiteListIds section can use the bot"
+			},
+			"fb-chat-api/index.js": "add function `unfriend` for fca",
+			"fb-chat-api/src/unfriend.js": "add function `unfriend` for fca",
+			"updater.js": "Update updater.js"
+		}
 	}
 ]
