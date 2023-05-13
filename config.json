@@ -20,7 +20,8 @@
 	"adminBot": [],
 	"whiteListMode": {
 		"enable": false,
-		"whiteListIds": []
+		"whiteListIds": [],
+		"notes": "if you enable this feature, only the ids in the whiteListIds section can use the bot"
 	},
 	"nickNameBot": "GoatBot",
 	"prefix": "-",
