@@ -2,11 +2,24 @@ const { existsSync, writeJsonSync, readJSONSync } = require("fs-extra");
 const moment = require("moment-timezone");
 const path = require("path");
 const axios = require("axios");
+const async = require("async");
 const _ = require("lodash");
+
 const optionsWriteJSON = {
 	spaces: 2,
 	EOL: "\n"
 };
+
+const messageQueue = async.queue(async function (task, callback) {
+	try {
+		await task();
+		callback();
+	}
+	catch (err) {
+		callback(err);
+	}
+}, 1);
+
 const { creatingUserData } = global.client.database;
 
 module.exports = async function (databaseType, userModel, api, fakeGraphql) {
@@ -33,112 +46,114 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 	global.db.allUserData = Users;
 
 	async function save(userID, userData, mode, path) {
-		let index = _.findIndex(global.db.allUserData, { userID });
-		if (index === -1 && mode === "update") {
-			try {
-				await create(userID);
-				index = _.findIndex(global.db.allUserData, { userID });
-			}
-			catch (err) {
-				const e = new Error(`Can't find user with userID: ${userID} in database`);
-				e.name = "USER_NOT_FOUND";
-				throw e;
-			}
-		}
-
-		switch (mode) {
-			case "create": {
-				switch (databaseType) {
-					case "mongodb":
-					case "sqlite": {
-						let dataCreated = await userModel.create(userData);
-						dataCreated = databaseType === "mongodb" ?
-							_.omit(dataCreated._doc, ["_id", "__v"]) :
-							dataCreated.get({ plain: true });
-						global.db.allUserData.push(dataCreated);
-						return dataCreated;
-					}
-					case "json": {
-						const timeCreate = moment.tz().format();
-						userData.createdAt = timeCreate;
-						userData.updatedAt = timeCreate;
-						global.db.allUserData.push(userData);
-						writeJsonSync(pathUsersData, global.db.allUserData, optionsWriteJSON);
-						return userData;
-					}
-					default: {
-						break;
-					}
+		messageQueue.push(async function () {
+			let index = _.findIndex(global.db.allUserData, { userID });
+			if (index === -1 && mode === "update") {
+				try {
+					await create(userID);
+					index = _.findIndex(global.db.allUserData, { userID });
 				}
-				break;
-			}
-			case "update": {
-				const oldUserData = global.db.allUserData[index];
-				const dataWillChange = {};
-
-				if (Array.isArray(path) && Array.isArray(userData)) {
-					path.forEach((p, index) => {
-						const key = p.split(".")[0];
-						dataWillChange[key] = oldUserData[key];
-						_.set(dataWillChange, p, userData[index]);
-					});
+				catch (err) {
+					const e = new Error(`Can't find user with userID: ${userID} in database`);
+					e.name = "USER_NOT_FOUND";
+					throw e;
 				}
-				else
-					if (path && typeof path === "string" || Array.isArray(path)) {
-						const key = Array.isArray(path) ? path[0] : path.split(".")[0];
-						dataWillChange[key] = oldUserData[key];
-						_.set(dataWillChange, path, userData);
-					}
-					else
-						for (const key in userData)
-							dataWillChange[key] = userData[key];
-
-				switch (databaseType) {
-					case "mongodb": {
-						let dataUpdated = await userModel.findOneAndUpdate({ userID }, dataWillChange, { returnDocument: 'after' });
-						dataUpdated = _.omit(dataUpdated._doc, ["_id", "__v"]);
-						global.db.allUserData[index] = dataUpdated;
-						return dataUpdated;
-					}
-					case "sqlite": {
-						const user = await userModel.findOne({ where: { userID } });
-						const dataUpdated = (await user.update(dataWillChange)).get({ plain: true });
-						global.db.allUserData[index] = dataUpdated;
-						return dataUpdated;
-					}
-					case "json": {
-						dataWillChange.updatedAt = moment.tz().format();
-						global.db.allUserData[index] = {
-							...oldUserData,
-							...dataWillChange
-						};
-						writeJsonSync(pathUsersData, global.db.allUserData, optionsWriteJSON);
-						return global.db.allUserData[index];
-					}
-				}
-				break;
 			}
-			case "remove": {
-				if (index != -1) {
-					global.db.allUserData.splice(index, 1);
+
+			switch (mode) {
+				case "create": {
 					switch (databaseType) {
 						case "mongodb":
-							await userModel.deleteOne({ userID });
-							break;
-						case "sqlite":
-							await userModel.destroy({ where: { userID } });
-							break;
-						case "json":
+						case "sqlite": {
+							let dataCreated = await userModel.create(userData);
+							dataCreated = databaseType === "mongodb" ?
+								_.omit(dataCreated._doc, ["_id", "__v"]) :
+								dataCreated.get({ plain: true });
+							global.db.allUserData.push(dataCreated);
+							return dataCreated;
+						}
+						case "json": {
+							const timeCreate = moment.tz().format();
+							userData.createdAt = timeCreate;
+							userData.updatedAt = timeCreate;
+							global.db.allUserData.push(userData);
 							writeJsonSync(pathUsersData, global.db.allUserData, optionsWriteJSON);
+							return userData;
+						}
+						default: {
 							break;
+						}
 					}
+					break;
 				}
-				break;
+				case "update": {
+					const oldUserData = global.db.allUserData[index];
+					const dataWillChange = {};
+
+					if (Array.isArray(path) && Array.isArray(userData)) {
+						path.forEach((p, index) => {
+							const key = p.split(".")[0];
+							dataWillChange[key] = oldUserData[key];
+							_.set(dataWillChange, p, userData[index]);
+						});
+					}
+					else
+						if (path && typeof path === "string" || Array.isArray(path)) {
+							const key = Array.isArray(path) ? path[0] : path.split(".")[0];
+							dataWillChange[key] = oldUserData[key];
+							_.set(dataWillChange, path, userData);
+						}
+						else
+							for (const key in userData)
+								dataWillChange[key] = userData[key];
+
+					switch (databaseType) {
+						case "mongodb": {
+							let dataUpdated = await userModel.findOneAndUpdate({ userID }, dataWillChange, { returnDocument: 'after' });
+							dataUpdated = _.omit(dataUpdated._doc, ["_id", "__v"]);
+							global.db.allUserData[index] = dataUpdated;
+							return dataUpdated;
+						}
+						case "sqlite": {
+							const user = await userModel.findOne({ where: { userID } });
+							const dataUpdated = (await user.update(dataWillChange)).get({ plain: true });
+							global.db.allUserData[index] = dataUpdated;
+							return dataUpdated;
+						}
+						case "json": {
+							dataWillChange.updatedAt = moment.tz().format();
+							global.db.allUserData[index] = {
+								...oldUserData,
+								...dataWillChange
+							};
+							writeJsonSync(pathUsersData, global.db.allUserData, optionsWriteJSON);
+							return global.db.allUserData[index];
+						}
+					}
+					break;
+				}
+				case "remove": {
+					if (index != -1) {
+						global.db.allUserData.splice(index, 1);
+						switch (databaseType) {
+							case "mongodb":
+								await userModel.deleteOne({ userID });
+								break;
+							case "sqlite":
+								await userModel.destroy({ where: { userID } });
+								break;
+							case "json":
+								writeJsonSync(pathUsersData, global.db.allUserData, optionsWriteJSON);
+								break;
+						}
+					}
+					break;
+				}
+				default: {
+					break;
+				}
 			}
-			default: {
-				break;
-			}
-		}
+		});
 	}
 
 	async function getName(userID, checkData = true) {

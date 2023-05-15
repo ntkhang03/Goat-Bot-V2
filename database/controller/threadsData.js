@@ -1,12 +1,23 @@
 const { existsSync, writeJsonSync, readJSONSync } = require("fs-extra");
 const moment = require("moment-timezone");
 const path = require("path");
-
+const async = require("async");
 const _ = require("lodash");
 const optionsWriteJSON = {
 	spaces: 2,
 	EOL: "\n"
 };
+
+const messageQueue = async.queue(async function (task, callback) {
+	try {
+		await task();
+		callback();
+	}
+	catch (err) {
+		callback(err);
+	}
+}, 1);
+
 const { creatingThreadData } = global.client.database;
 
 module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
@@ -34,116 +45,118 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 	global.db.allThreadData = Threads;
 
 	async function save(threadID, threadData, mode, path) {
-		let index = _.findIndex(global.db.allThreadData, { threadID });
-		if (index === -1 && mode === "update") {
-			try {
-				await create(threadID);
-				index = _.findIndex(global.db.allThreadData, { threadID });
-			}
-			catch (err) {
-				const e = new Error(`Can't find thread with threadID: ${threadID} in database`);
-				e.name = "ThreadNotExist";
-				throw e;
-			}
-		}
-
-		switch (mode) {
-			case "create": {
-				switch (databaseType) {
-					case "mongodb":
-					case "sqlite": {
-						let dataCreated = await threadModel.create(threadData);
-						dataCreated = databaseType == "mongodb" ?
-							_.omit(dataCreated._doc, ["_id", "__v"]) :
-							dataCreated.get({ plain: true });
-						global.db.allThreadData.push(dataCreated);
-						return dataCreated;
-					}
-					case "json": {
-						const timeCreate = moment.tz().format();
-						threadData.createdAt = timeCreate;
-						threadData.updatedAt = timeCreate;
-						global.db.allThreadData.push(threadData);
-						writeJsonSync(pathThreadsData, global.db.allThreadData, optionsWriteJSON);
-						return threadData;
-					}
-					default: {
-						break;
-					}
+		messageQueue.push(async function () {
+			let index = _.findIndex(global.db.allThreadData, { threadID });
+			if (index === -1 && mode === "update") {
+				try {
+					await create(threadID);
+					index = _.findIndex(global.db.allThreadData, { threadID });
 				}
-				break;
-			}
-			case "update": {
-				const oldThreadData = global.db.allThreadData[index];
-				const dataWillChange = {};
-
-				if (Array.isArray(path) && Array.isArray(threadData)) {
-					path.forEach((p, index) => {
-						const key = p.split(".")[0];
-						dataWillChange[key] = oldThreadData[key];
-						_.set(dataWillChange, p, threadData[index]);
-					});
+				catch (err) {
+					const e = new Error(`Can't find thread with threadID: ${threadID} in database`);
+					e.name = "ThreadNotExist";
+					throw e;
 				}
-				else
-					if (path && typeof path === "string" || Array.isArray(path)) {
-						const key = Array.isArray(path) ? path[0] : path.split(".")[0];
-						dataWillChange[key] = oldThreadData[key];
-						_.set(dataWillChange, path, threadData);
-					}
-					else
-						for (const key in threadData)
-							dataWillChange[key] = threadData[key];
-
-				switch (databaseType) {
-					case "mongodb": {
-						let dataUpdated = await threadModel.findOneAndUpdate({ threadID }, dataWillChange, { returnDocument: 'after' });
-						dataUpdated = _.omit(dataUpdated._doc, ["_id", "__v"]);
-						global.db.allThreadData[index] = dataUpdated;
-						return dataUpdated;
-					}
-					case "sqlite": {
-						const thread = await threadModel.findOne({ where: { threadID } });
-						const dataUpdated = (await thread.update(dataWillChange)).get({ plain: true });
-						global.db.allThreadData[index] = dataUpdated;
-						return dataUpdated;
-					}
-					case "json": {
-						dataWillChange.updatedAt = moment.tz().format();
-						global.db.allThreadData[index] = {
-							...oldThreadData,
-							...dataWillChange
-						};
-						writeJsonSync(pathThreadsData, global.db.allThreadData, optionsWriteJSON);
-						return global.db.allThreadData[index];
-					}
-					default:
-						break;
-				}
-				break;
 			}
-			case "delete": {
-				if (index != -1) {
-					global.db.allThreadData.splice(index, 1);
+
+			switch (mode) {
+				case "create": {
 					switch (databaseType) {
 						case "mongodb":
-							await threadModel.deleteOne({ threadID });
-							break;
-						case "sqlite":
-							await threadModel.destroy({ where: { threadID } });
-							break;
-						case "json":
+						case "sqlite": {
+							let dataCreated = await threadModel.create(threadData);
+							dataCreated = databaseType == "mongodb" ?
+								_.omit(dataCreated._doc, ["_id", "__v"]) :
+								dataCreated.get({ plain: true });
+							global.db.allThreadData.push(dataCreated);
+							return dataCreated;
+						}
+						case "json": {
+							const timeCreate = moment.tz().format();
+							threadData.createdAt = timeCreate;
+							threadData.updatedAt = timeCreate;
+							global.db.allThreadData.push(threadData);
 							writeJsonSync(pathThreadsData, global.db.allThreadData, optionsWriteJSON);
+							return threadData;
+						}
+						default: {
 							break;
+						}
+					}
+					break;
+				}
+				case "update": {
+					const oldThreadData = global.db.allThreadData[index];
+					const dataWillChange = {};
+
+					if (Array.isArray(path) && Array.isArray(threadData)) {
+						path.forEach((p, index) => {
+							const key = p.split(".")[0];
+							dataWillChange[key] = oldThreadData[key];
+							_.set(dataWillChange, p, threadData[index]);
+						});
+					}
+					else
+						if (path && typeof path === "string" || Array.isArray(path)) {
+							const key = Array.isArray(path) ? path[0] : path.split(".")[0];
+							dataWillChange[key] = oldThreadData[key];
+							_.set(dataWillChange, path, threadData);
+						}
+						else
+							for (const key in threadData)
+								dataWillChange[key] = threadData[key];
+
+					switch (databaseType) {
+						case "mongodb": {
+							let dataUpdated = await threadModel.findOneAndUpdate({ threadID }, dataWillChange, { returnDocument: 'after' });
+							dataUpdated = _.omit(dataUpdated._doc, ["_id", "__v"]);
+							global.db.allThreadData[index] = dataUpdated;
+							return dataUpdated;
+						}
+						case "sqlite": {
+							const thread = await threadModel.findOne({ where: { threadID } });
+							const dataUpdated = (await thread.update(dataWillChange)).get({ plain: true });
+							global.db.allThreadData[index] = dataUpdated;
+							return dataUpdated;
+						}
+						case "json": {
+							dataWillChange.updatedAt = moment.tz().format();
+							global.db.allThreadData[index] = {
+								...oldThreadData,
+								...dataWillChange
+							};
+							writeJsonSync(pathThreadsData, global.db.allThreadData, optionsWriteJSON);
+							return global.db.allThreadData[index];
+						}
 						default:
 							break;
 					}
+					break;
 				}
-				break;
+				case "delete": {
+					if (index != -1) {
+						global.db.allThreadData.splice(index, 1);
+						switch (databaseType) {
+							case "mongodb":
+								await threadModel.deleteOne({ threadID });
+								break;
+							case "sqlite":
+								await threadModel.destroy({ where: { threadID } });
+								break;
+							case "json":
+								writeJsonSync(pathThreadsData, global.db.allThreadData, optionsWriteJSON);
+								break;
+							default:
+								break;
+						}
+					}
+					break;
+				}
+				default: {
+					break;
+				}
 			}
-			default: {
-				break;
-			}
-		}
+		});
 	}
 
 	async function create(threadID, threadInfo) {

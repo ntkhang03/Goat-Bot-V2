@@ -1,12 +1,23 @@
 const { existsSync, writeJsonSync, readJSONSync } = require("fs-extra");
 const moment = require("moment-timezone");
 const path = require("path");
-
+const async = require("async");
 const _ = require("lodash");
 const optionsWriteJSON = {
 	spaces: 2,
 	EOL: "\n"
 };
+
+const messageQueue = async.queue(async function (task, callback) {
+	try {
+		await task();
+		callback();
+	}
+	catch (err) {
+		callback(err);
+	}
+}, 1);
+
 const { creatingDashBoardData } = global.client.database;
 
 module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
@@ -30,94 +41,96 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 	global.db.allDashBoardData = Dashboard;
 
 	async function save(email, userData, mode, path) {
-		const index = _.findIndex(global.db.allDashBoardData, { email });
-		if (index === -1 && mode === "update") {
-			const e = new Error(`Can't find user with email: ${email} in database`);
-			e.name = "USER_NOT_FOUND";
-			throw e;
-		}
-
-		switch (mode) {
-			case "create": {
-				switch (databaseType) {
-					case "mongodb":
-					case "sqlite": {
-						const dataCreated = await dashBoardModel.create(userData);
-						global.db.allDashBoardData.push(dataCreated);
-						return databaseType == "mongodb" ?
-							_.omit(dataCreated._doc, ["_id", "__v"]) :
-							dataCreated.get({ plain: true });
-					}
-					case "json": {
-						const timeCreate = moment.tz().format();
-						userData.createdAt = timeCreate;
-						userData.updatedAt = timeCreate;
-						global.db.allDashBoardData.push(userData);
-						writeJsonSync(pathDashBoardData, global.db.allDashBoardData, optionsWriteJSON);
-						return userData;
-					}
-				}
-				break;
+		messageQueue.push(async function () {
+			const index = _.findIndex(global.db.allDashBoardData, { email });
+			if (index === -1 && mode === "update") {
+				const e = new Error(`Can't find user with email: ${email} in database`);
+				e.name = "USER_NOT_FOUND";
+				throw e;
 			}
-			case "update": {
-				const oldUserData = global.db.allDashBoardData[index];
-				const dataWillChange = {};
 
-				if (Array.isArray(path) && Array.isArray(userData)) {
-					path.forEach((p, index) => {
-						const key = p.split(".")[0];
-						dataWillChange[key] = oldUserData[key];
-						_.set(dataWillChange, p, userData[index]);
-					});
+			switch (mode) {
+				case "create": {
+					switch (databaseType) {
+						case "mongodb":
+						case "sqlite": {
+							const dataCreated = await dashBoardModel.create(userData);
+							global.db.allDashBoardData.push(dataCreated);
+							return databaseType == "mongodb" ?
+								_.omit(dataCreated._doc, ["_id", "__v"]) :
+								dataCreated.get({ plain: true });
+						}
+						case "json": {
+							const timeCreate = moment.tz().format();
+							userData.createdAt = timeCreate;
+							userData.updatedAt = timeCreate;
+							global.db.allDashBoardData.push(userData);
+							writeJsonSync(pathDashBoardData, global.db.allDashBoardData, optionsWriteJSON);
+							return userData;
+						}
+					}
+					break;
 				}
-				else
-					if (path && typeof path === "string" || Array.isArray(path)) {
-						const key = Array.isArray(path) ? path[0] : path.split(".")[0];
-						dataWillChange[key] = oldUserData[key];
-						_.set(dataWillChange, path, userData);
+				case "update": {
+					const oldUserData = global.db.allDashBoardData[index];
+					const dataWillChange = {};
+
+					if (Array.isArray(path) && Array.isArray(userData)) {
+						path.forEach((p, index) => {
+							const key = p.split(".")[0];
+							dataWillChange[key] = oldUserData[key];
+							_.set(dataWillChange, p, userData[index]);
+						});
 					}
 					else
-						for (const key in userData)
-							dataWillChange[key] = userData[key];
+						if (path && typeof path === "string" || Array.isArray(path)) {
+							const key = Array.isArray(path) ? path[0] : path.split(".")[0];
+							dataWillChange[key] = oldUserData[key];
+							_.set(dataWillChange, path, userData);
+						}
+						else
+							for (const key in userData)
+								dataWillChange[key] = userData[key];
 
-				switch (databaseType) {
-					case "mongodb": {
-						let dataUpdated = await dashBoardModel.findOneAndUpdate({ email }, dataWillChange, { returnDocument: 'after' });
-						dataUpdated = _.omit(dataUpdated._doc, ["_id", "__v"]);
-						global.db.allDashBoardData[index] = dataUpdated;
-						return dataUpdated;
+					switch (databaseType) {
+						case "mongodb": {
+							let dataUpdated = await dashBoardModel.findOneAndUpdate({ email }, dataWillChange, { returnDocument: 'after' });
+							dataUpdated = _.omit(dataUpdated._doc, ["_id", "__v"]);
+							global.db.allDashBoardData[index] = dataUpdated;
+							return dataUpdated;
+						}
+						case "sqlite": {
+							const getData = await dashBoardModel.findOne({ where: { email } });
+							const dataUpdated = (await getData.update(dataWillChange)).get({ plain: true });
+							global.db.allDashBoardData[index] = dataUpdated;
+							return dataUpdated;
+						}
+						case "json": {
+							dataWillChange.updatedAt = moment.tz().format();
+							global.db.allDashBoardData[index] = {
+								...oldUserData,
+								...dataWillChange
+							};
+							writeJsonSync(pathDashBoardData, global.db.allDashBoardData, optionsWriteJSON);
+							return global.db.allDashBoardData[index];
+						}
 					}
-					case "sqlite": {
-						const getData = await dashBoardModel.findOne({ where: { email } });
-						const dataUpdated = (await getData.update(dataWillChange)).get({ plain: true });
-						global.db.allDashBoardData[index] = dataUpdated;
-						return dataUpdated;
-					}
-					case "json": {
-						dataWillChange.updatedAt = moment.tz().format();
-						global.db.allDashBoardData[index] = {
-							...oldUserData,
-							...dataWillChange
-						};
-						writeJsonSync(pathDashBoardData, global.db.allDashBoardData, optionsWriteJSON);
-						return global.db.allDashBoardData[index];
-					}
+					break;
 				}
-				break;
-			}
-			case "remove": {
-				if (index != -1) {
-					global.db.allDashBoardData.splice(index, 1);
-					if (databaseType == "mongodb")
-						await dashBoardModel.deleteOne({ email });
-					else if (databaseType == "sqlite")
-						await dashBoardModel.destroy({ where: { email } });
-					else
-						writeJsonSync(pathDashBoardData, global.db.allDashBoardData, optionsWriteJSON);
+				case "remove": {
+					if (index != -1) {
+						global.db.allDashBoardData.splice(index, 1);
+						if (databaseType == "mongodb")
+							await dashBoardModel.deleteOne({ email });
+						else if (databaseType == "sqlite")
+							await dashBoardModel.destroy({ where: { email } });
+						else
+							writeJsonSync(pathDashBoardData, global.db.allDashBoardData, optionsWriteJSON);
+					}
+					break;
 				}
-				break;
 			}
-		}
+		});
 	}
 
 
