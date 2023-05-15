@@ -8,6 +8,7 @@ const HttpsProxyAgent = require('https-proxy-agent');
 const EventEmitter = require('events');
 
 const identity = function () { };
+let closeMqttByUser = false;
 
 const topics = [
 	"/legacy_web",
@@ -117,17 +118,24 @@ function listenMqtt(defaultFuncs, api, ctx, globalCallback) {
 	});
 
 	mqttClient.on('close', function () {
-		// mqttClient.end(); // i think this causes the loop Connection closed
+		mqttClient.end(); // i think this causes the loop Connection closed
 		utils.checkLiveCookie(ctx, defaultFuncs)
 			.then(() => {
-				globalCallback("Connection closed.");
+				if (!closeMqttByUser)
+					globalCallback("Connection closed.");
+				else {
+					closeMqttByUser = false;
+					globalCallback("Connection closed by user.");
+				}
 			})
 			.catch((err) => {
-				// log.error("listenMqtt", err);
 				if (utils.getType(err) == "Object" && (err.error === "Not logged in" || err.error === "Not logged in.")) {
 					ctx.loggedIn = false;
 				}
 				return globalCallback(err);
+			})
+			.finally(() => {
+				globalCallback = identity;
 			});
 	});
 
@@ -750,6 +758,7 @@ module.exports = function (defaultFuncs, api, ctx) {
 					ctx.mqttClient.unsubscribe("/rtc_multi");
 					ctx.mqttClient.unsubscribe("/onevc");
 					ctx.mqttClient.publish("/browser_close", "{}");
+					closeMqttByUser = true;
 					ctx.mqttClient.end(false, function (...data) {
 						callback(data);
 						ctx.mqttClient = undefined;
