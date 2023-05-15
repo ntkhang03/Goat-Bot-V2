@@ -1583,5 +1583,16 @@
 			"scripts/cmds/openjourney.js": "language update $ handle error",
 			"updater.js": "Update updater.js"
 		}
+	},
+	{
+		"version": "1.3.16",
+		"files": {
+			"database/controller/dashBoardData.js": "add message queue for save data",
+			"database/controller/globalData.js": "add message queue for save data",
+			"database/controller/threadsData.js": "add message queue for save data",
+			"database/controller/usersData.js": "add message queue for save data",
+			"scripts/cmds/help.js": "fix bug & language update"
+		},
+		"reinstallDependencies": true
 	}
 ]
