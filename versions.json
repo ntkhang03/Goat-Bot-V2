@@ -1569,7 +1569,7 @@
 			"config.json": {
 				"hideNotiMessage": {
 					"wrongCommand": false,
-					"adminOnly": "DEFAULT_adminOnly.hideNotiMessage",
+					"adminOnly": false,
 					"threadBanned": false,
 					"userBanned": false
 				}
