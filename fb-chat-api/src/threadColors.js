@@ -113,8 +113,19 @@ module.exports = function (_defaultFuncs, _api, _ctx) {
 		TaylorSwift: "769129927636836",
 		NationalComingOutDay: "788102625833584",
 		Autumn: "822549609168155",
-		Cyberpunk2077: "780962576430091"
+		Cyberpunk2077: "780962576430091",
 
-		//StarWars:       "809305022860427" Removed by Facebook.
+		/**
+		 * May 13, 2023
+		 */
+		MothersDay: "1288506208402340",
+		APAHM: "121771470870245",
+		Parenthood: "810978360551741",
+		StarWars: "1438011086532622",
+		GuardianOfTheGalaxy: "101275642962533",
+		Bloom: "158263147151440",
+		BubbleTea: "195296273246380",
+		Basketball: "6026716157422736",
+		ElephantsAndFlowers: "693996545771691"
 	};
 };

@@ -712,5 +712,85 @@ const colors = [
 		gradient: '["FFFFD600","FFFCB37B","FF9D59D2","FF282828"]',
 		should_show_icon: '',
 		theme_name_with_subtitle: 'Non-Binary'
+	},
+	{
+		theme_color: 'FF57C39C',
+		theme_id: '1288506208402340',
+		theme_emoji: '💐',
+		gradient: '["FF57C39C","FF57C39C","FF57C39C"]',
+		should_show_icon: '',
+		theme_name_with_subtitle: 'Mother\'s Day'
+	},
+	{
+		theme_color: 'FFF65900',
+		theme_id: '121771470870245',
+		theme_emoji: '💥',
+		gradient: '["FFFF8328","FFFF7014","FFFF5C00"]',
+		should_show_icon: '',
+		theme_name_with_subtitle: 'APAHM'
+	},
+	{
+		theme_color: 'FF978E21',
+		theme_id: '810978360551741',
+		theme_emoji: '🪺',
+		gradient: '["FF978E21","FF978E21","FF978E21"]',
+		should_show_icon: '',
+		theme_name_with_subtitle: 'Parenthood'
+	},
+	{
+		theme_color: 'FFDD8800',
+		theme_id: '1438011086532622',
+		theme_emoji: '✨',
+		gradient: '["FFEDAB00","FFCD6300"]',
+		should_show_icon: '',
+		theme_name_with_subtitle: 'Star Wars'
+	},
+	{
+		theme_color: 'FF7D09B9',
+		theme_id: '101275642962533',
+		theme_emoji: '🚀',
+		gradient: '["FF5C22D6","FF8F1EB5","FFC31B92"]',
+		should_show_icon: '',
+		theme_name_with_subtitle: 'Guardians of the Galaxy'
+	},
+	{
+		theme_color: 'FF61C500',
+		theme_id: '158263147151440',
+		theme_emoji: '🐝',
+		gradient: '["FF61C500","FF61C500","FF61C500"]',
+		should_show_icon: '',
+		theme_name_with_subtitle: 'Bloom'
+	},
+	{
+		theme_color: 'FF826044',
+		theme_id: '195296273246380',
+		theme_emoji: '🧋',
+		gradient: '["FF886546","FFA27F57","FFC6A26E"]',
+		should_show_icon: '',
+		theme_name_with_subtitle: 'Bubble Tea'
+	},
+	{
+		theme_color: 'FFB02501',
+		theme_id: '6026716157422736',
+		theme_emoji: '⛹️',
+		gradient: '["FFAC2503","FFB02501","FFB42400"]',
+		should_show_icon: '',
+		theme_name_with_subtitle: 'Basketball'
+	},
+	{
+		theme_color: 'FF574DC1',
+		theme_id: '693996545771691',
+		theme_emoji: '🖤',
+		gradient: '["FF4533FF","FF574AE0","FF6C64BE"]',
+		should_show_icon: '',
+		theme_name_with_subtitle: 'Elephants&Flowers'
+	},
+	{
+		theme_color: 'FFA8B8DA',
+		theme_id: '504518465021637',
+		theme_emoji: '🏳️‍⚧️',
+		gradient: '["FF55D0FF","FF7597D7","FFFF9FB3","FFFF9FB3"]',
+		should_show_icon: '',
+		theme_name_with_subtitle: 'Transgender'
 	}
 ];
