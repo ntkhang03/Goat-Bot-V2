@@ -56,6 +56,7 @@ login.restartListenMessageError=Đã xảy ra lỗi khi khởi động lại Lis
 login.restartListenMessage2=Đã khởi động lại ListenMQTT thành công
 login.refreshCookieAfter=Đã bật tự động làm mới cookie sau mỗi %1
 login.listenMqttClose=Đã ngắt kết nối với server MQTT
+login.listenMqttCloseByUser=Đã ngắt kết nối với server MQTT bởi người dùng
 login.retryCheckLiveCookie=Đang kiểm tra lại cookie... %1
 
 # bot/login/loadData.js
