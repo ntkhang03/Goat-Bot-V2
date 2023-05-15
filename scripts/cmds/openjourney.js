@@ -5,7 +5,7 @@ module.exports = {
 	config: {
 		name: "openjourney",
 		aliases: ["midjourney"],
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -27,12 +27,12 @@ module.exports = {
 	langs: {
 		vi: {
 			syntaxError: "⚠️ Vui lòng nhập prompt",
-			error: "❗ Đã có lỗi xảy ra, vui lòng thử lại sau",
+			error: "❗ Đã có lỗi xảy ra, vui lòng thử lại sau:\n%1",
 			serverError: "❗ Server đang quá tải, vui lòng thử lại sau"
 		},
 		en: {
 			syntaxError: "⚠️ Please enter prompt",
-			error: "❗ An error has occurred, please try again later",
+			error: "❗ An error has occurred, please try again later:\n%1",
 			serverError: "❗ Server is overloaded, please try again later"
 		}
 	},
@@ -53,6 +53,8 @@ module.exports = {
 		catch (err) {
 			if (err.detail == "Request was throttled. Expected available in 1 second.")
 				return message.reply(getLang("serverError"));
+			else
+				return message.reply(getLang("error", JSON.stringify(err, null, 2)));
 		}
 	}
 };
