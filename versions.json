@@ -1604,5 +1604,12 @@
 			"database/controller/usersData.js": "fix bug `cannot read property 'name' of undefined`",
 			"scripts/cmds/getfbstate.js": "add new subcommand: `cookies`, `string`"
 		}
+	},
+	{
+		"version": "1.3.18",
+		"files": {
+			"fb-chat-api/src/listenMqtt.js": "fix infinite loop Stop listenMqtt",
+			"scripts/cmds/getfbstate.js": "add new alias `getcookie`"
+		}
 	}
 ]
