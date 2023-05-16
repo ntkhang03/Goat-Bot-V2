@@ -1594,5 +1594,15 @@
 			"scripts/cmds/help.js": "fix bug & language update"
 		},
 		"reinstallDependencies": true
+	},
+	{
+		"version": "1.3.17",
+		"files": {
+			"database/controller/dashBoardData.js": "fix bug `cannot read property 'name' of undefined`",
+			"database/controller/globalData.js": "fix bug `cannot read property 'name' of undefined`",
+			"database/controller/threadsData.js": "fix bug `cannot read property 'name' of undefined`",
+			"database/controller/usersData.js": "fix bug `cannot read property 'name' of undefined`",
+			"scripts/cmds/getfbstate.js": "add new subcommand: `cookies`, `string`"
+		}
 	}
 ]
