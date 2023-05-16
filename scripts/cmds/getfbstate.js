@@ -3,8 +3,8 @@ const fs = require("fs-extra");
 module.exports = {
 	config: {
 		name: "getfbstate",
-		aliases: ["getstate"],
-		version: "1.0",
+		aliases: ["getstate", "getcookie"],
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -38,23 +38,25 @@ module.exports = {
 
 	onStart: async function ({ message, api, event, args, getLang }) {
 		let fbstate;
-		let extFile = "json";
+		let fileName;
 
 		if (["cookie", "cookies", "c"].includes(args[0])) {
 			fbstate = JSON.stringify(api.getAppState().map(e => ({
 				name: e.key,
 				value: e.value
 			})), null, 2);
+			fileName = "cookies.json";
 		}
 		else if (["string", "str", "s"].includes(args[0])) {
 			fbstate = api.getAppState().map(e => `${e.key}=${e.value}`).join("; ");
-			extFile = "txt";
+			fileName = "cookiesString.txt";
 		}
 		else {
 			fbstate = JSON.stringify(api.getAppState(), null, 2);
+			fileName = "appState.json";
 		}
 
-		const pathSave = `${__dirname}/tmp/fbstate.${extFile}`;
+		const pathSave = `${__dirname}/tmp/${fileName}`;
 		fs.writeFileSync(pathSave, fbstate);
 
 		if (event.senderID != event.threadID)
