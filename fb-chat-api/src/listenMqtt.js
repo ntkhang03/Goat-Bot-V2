@@ -118,7 +118,7 @@ function listenMqtt(defaultFuncs, api, ctx, globalCallback) {
 	});
 
 	mqttClient.on('close', function () {
-		mqttClient.end(); // i think this causes the loop Connection closed
+		// mqttClient.end(); // i think this causes the loop Connection closed
 		utils.checkLiveCookie(ctx, defaultFuncs)
 			.then(() => {
 				if (!closeMqttByUser)
