@@ -8,7 +8,6 @@ const HttpsProxyAgent = require('https-proxy-agent');
 const EventEmitter = require('events');
 
 const identity = function () { };
-let closeMqttByUser = false;
 
 const topics = [
 	"/legacy_web",
@@ -118,25 +117,7 @@ function listenMqtt(defaultFuncs, api, ctx, globalCallback) {
 	});
 
 	mqttClient.on('close', function () {
-		// mqttClient.end(); // i think this causes the loop Connection closed
-		utils.checkLiveCookie(ctx, defaultFuncs)
-			.then(() => {
-				if (!closeMqttByUser)
-					globalCallback("Connection closed.");
-				else {
-					closeMqttByUser = false;
-					globalCallback("Connection closed by user.");
-				}
-			})
-			.catch((err) => {
-				if (utils.getType(err) == "Object" && (err.error === "Not logged in" || err.error === "Not logged in.")) {
-					ctx.loggedIn = false;
-				}
-				return globalCallback(err);
-			})
-			.finally(() => {
-				globalCallback = identity;
-			});
+
 	});
 
 	mqttClient.on('connect', function () {
@@ -313,7 +294,7 @@ function parseDelta(defaultFuncs, api, ctx, globalCallback, v) {
 
 		if (clientPayload && clientPayload.deltas) {
 			for (const i in clientPayload.deltas) {
-				var delta = clientPayload.deltas[i];
+				const delta = clientPayload.deltas[i];
 				if (delta.deltaMessageReaction && !!ctx.globalOptions.listenEvents) {
 					(function () {
 						globalCallback(null, {
@@ -400,7 +381,8 @@ function parseDelta(defaultFuncs, api, ctx, globalCallback, v) {
 						body: delta.deltaMessageReply.message.body || "",
 						isGroup: !!delta.deltaMessageReply.message.messageMetadata.threadKey.threadFbId,
 						mentions: mentions,
-						timestamp: delta.deltaMessageReply.message.messageMetadata.timestamp
+						timestamp: delta.deltaMessageReply.message.messageMetadata.timestamp,
+						participantIDs: (delta.deltaMessageReply.message.participants || []).map(e => e.toString())
 					};
 
 					if (delta.deltaMessageReply.repliedToMessage) {
@@ -563,6 +545,11 @@ function parseDelta(defaultFuncs, api, ctx, globalCallback, v) {
 				case "change_thread_icon":
 				case "change_thread_admins":
 				case "group_poll":
+				case "joinable_group_link_mode_change":
+				case "magic_words":
+				case "change_thread_approval_mode":
+				case "messenger_call_log":
+				case "participant_joined_group_call":
 					var fmtMsg;
 					try {
 						fmtMsg = utils.formatDeltaEvent(v.delta);
@@ -666,6 +653,7 @@ function parseDelta(defaultFuncs, api, ctx, globalCallback, v) {
 										}],
 										mentions: {},
 										timestamp: parseInt(fetchData.timestamp_precise),
+										participantIDs: (fetchData.participants || (fetchData.messageMetadata ? fetchData.messageMetadata.cid ? fetchData.messageMetadata.cid.canonicalParticipantFbids : fetchData.messageMetadata.participantIds : []) || []),
 										isGroup: (fetchData.message_sender.id != tid.toString())
 									});
 									globalCallback(null, {
@@ -694,6 +682,7 @@ function parseDelta(defaultFuncs, api, ctx, globalCallback, v) {
 										}],
 										mentions: {},
 										timestamp: parseInt(fetchData.timestamp_precise),
+										participantIDs: (fetchData.participants || (fetchData.messageMetadata ? fetchData.messageMetadata.cid ? fetchData.messageMetadata.cid.canonicalParticipantFbids : fetchData.messageMetadata.participantIds : []) || []),
 										isGroup: (fetchData.message_sender.id != tid.toString())
 									});
 							}
@@ -745,12 +734,67 @@ function markDelivery(ctx, api, threadID, messageID) {
 	}
 }
 
+function getSeqId(defaultFuncs, api, ctx, globalCallback) {
+	const jar = ctx.jar;
+	utils
+		.get('https://www.facebook.com/', jar, null, ctx.globalOptions, { noRef: true })
+		.then(utils.saveCookies(jar))
+		.then(function (resData) {
+			const html = resData.body;
+			const oldFBMQTTMatch = html.match(/irisSeqID:"(.+?)",appID:219994525426954,endpoint:"(.+?)"/);
+			let mqttEndpoint = null;
+			let region = null;
+			let irisSeqID = null;
+			let noMqttData = null;
+
+			if (oldFBMQTTMatch) {
+				irisSeqID = oldFBMQTTMatch[1];
+				mqttEndpoint = oldFBMQTTMatch[2];
+				region = new URL(mqttEndpoint).searchParams.get("region").toUpperCase();
+				log.info("login", `Got this account's message region: ${region}`);
+			} else {
+				const newFBMQTTMatch = html.match(/{"app_id":"219994525426954","endpoint":"(.+?)","iris_seq_id":"(.+?)"}/);
+				if (newFBMQTTMatch) {
+					irisSeqID = newFBMQTTMatch[2];
+					mqttEndpoint = newFBMQTTMatch[1].replace(/\\\//g, "/");
+					region = new URL(mqttEndpoint).searchParams.get("region").toUpperCase();
+					log.info("login", `Got this account's message region: ${region}`);
+				} else {
+					const legacyFBMQTTMatch = html.match(/(\["MqttWebConfig",\[\],{fbid:")(.+?)(",appID:219994525426954,endpoint:")(.+?)(",pollingEndpoint:")(.+?)(3790])/);
+					if (legacyFBMQTTMatch) {
+						mqttEndpoint = legacyFBMQTTMatch[4];
+						region = new URL(mqttEndpoint).searchParams.get("region").toUpperCase();
+						log.warn("login", `Cannot get sequence ID with new RegExp. Fallback to old RegExp (without seqID)...`);
+						log.info("login", `Got this account's message region: ${region}`);
+						log.info("login", `[Unused] Polling endpoint: ${legacyFBMQTTMatch[6]}`);
+					} else {
+						log.warn("login", "Cannot get MQTT region & sequence ID.");
+						noMqttData = html;
+					}
+				}
+			}
+
+			ctx.lastSeqId = irisSeqID;
+			ctx.mqttEndpoint = mqttEndpoint;
+			ctx.region = region;
+			if (noMqttData) {
+				api["htmlData"] = noMqttData;
+			}
+
+			listenMqtt(defaultFuncs, api, ctx, globalCallback);
+		})
+		.catch(function (err) {
+			log.error("getSeqId", err);
+		});
+}
+
 module.exports = function (defaultFuncs, api, ctx) {
 	let globalCallback = identity;
 
 	return function (callback) {
 		class MessageEmitter extends EventEmitter {
 			stopListening(callback) {
+
 				callback = callback || (() => { });
 				globalCallback = identity;
 				if (ctx.mqttClient) {
@@ -758,7 +802,6 @@ module.exports = function (defaultFuncs, api, ctx) {
 					ctx.mqttClient.unsubscribe("/rtc_multi");
 					ctx.mqttClient.unsubscribe("/onevc");
 					ctx.mqttClient.publish("/browser_close", "{}");
-					closeMqttByUser = true;
 					ctx.mqttClient.end(false, function (...data) {
 						callback(data);
 						ctx.mqttClient = undefined;
@@ -768,9 +811,7 @@ module.exports = function (defaultFuncs, api, ctx) {
 
 			async stopListeningAsync() {
 				return new Promise((resolve) => {
-					this.stopListening((...data) => {
-						resolve(data);
-					});
+					this.stopListening(resolve);
 				});
 			}
 		}
@@ -783,13 +824,17 @@ module.exports = function (defaultFuncs, api, ctx) {
 			msgEmitter.emit("message", message);
 		});
 
-		//Reset some stuff
+		// Reset some stuff
 		if (!ctx.firstListen)
 			ctx.lastSeqId = null;
 		ctx.syncToken = undefined;
 		ctx.t_mqttCalled = false;
 
-		listenMqtt(defaultFuncs, api, ctx, globalCallback);
+		if (!ctx.firstListen || !ctx.lastSeqId) {
+			getSeqId(defaultFuncs, api, ctx, globalCallback);
+		} else {
+			listenMqtt(defaultFuncs, api, ctx, globalCallback);
+		}
 
 		api.stopListening = msgEmitter.stopListening;
 		api.stopListeningAsync = msgEmitter.stopListeningAsync;
