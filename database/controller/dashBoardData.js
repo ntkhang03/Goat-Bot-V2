@@ -149,7 +149,7 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 		const email = data.email;
 		const findInCreatingData = creatingDashBoardData.find(u => u.email == email);
 		if (findInCreatingData)
-			return findInCreatingData.data;
+			return findInCreatingData.promise;
 
 		const queue = new Promise(async function (resolve, reject) {
 			try {
@@ -169,7 +169,7 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 		});
 		creatingDashBoardData.push({
 			email,
-			data: queue
+			promise: queue
 		});
 		return queue;
 	}

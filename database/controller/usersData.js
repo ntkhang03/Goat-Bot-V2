@@ -207,7 +207,7 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 	async function create(userID, userInfo) {
 		const findInCreatingData = creatingUserData.find(u => u.userID == userID);
 		if (findInCreatingData)
-			return findInCreatingData.data;
+			return findInCreatingData.promise;
 
 		const queue = new Promise(async function (resolve, reject) {
 			try {
@@ -243,7 +243,7 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 		});
 		creatingUserData.push({
 			userID,
-			data: queue
+			promise: queue
 		});
 		return queue;
 	}

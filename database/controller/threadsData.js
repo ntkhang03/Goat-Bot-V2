@@ -170,7 +170,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 	async function create(threadID, threadInfo) {
 		const findInCreatingData = creatingThreadData.find(t => t.threadID == threadID);
 		if (findInCreatingData)
-			return findInCreatingData.data;
+			return findInCreatingData.promise;
 
 		const queue = new Promise(async function (resolve, reject) {
 			try {
@@ -234,7 +234,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 		});
 		creatingThreadData.push({
 			threadID,
-			data: queue
+			promise: queue
 		});
 		return queue;
 	}

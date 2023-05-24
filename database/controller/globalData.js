@@ -175,7 +175,7 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 
 		const findInCreatingData = creatingGlobalData.find(u => u.key == key);
 		if (findInCreatingData)
-			return findInCreatingData.data;
+			return findInCreatingData.promise;
 
 		const queue = new Promise(async function (resolve, reject) {
 			try {
@@ -198,7 +198,7 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 		});
 		creatingGlobalData.push({
 			key,
-			data: queue
+			promise: queue
 		});
 		return queue;
 	}
