@@ -246,7 +246,6 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 			data: queue
 		});
 		return queue;
-
 	}
 
 	async function refreshInfo(userID, updateInfoUser) {
