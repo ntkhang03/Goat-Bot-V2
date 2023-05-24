@@ -741,7 +741,6 @@ function formatDeltaMessage(m) {
 			m_offset[i] + m_length[i]
 		);
 	}
-
 	return {
 		type: "message",
 		senderID: formatID(md.actorFbId.toString()),
@@ -753,7 +752,8 @@ function formatDeltaMessage(m) {
 		attachments: (m.delta.attachments || []).map(v => _formatAttachment(v)),
 		mentions: mentions,
 		timestamp: md.timestamp,
-		isGroup: !!md.threadKey.threadFbId
+		isGroup: !!md.threadKey.threadFbId,
+		participantIDs: m.delta.participants || (md.cid ? md.cid.canonicalParticipantFbids : []) || []
 	};
 }
 
@@ -922,7 +922,8 @@ function formatDeltaEvent(m) {
 		logMessageData: logMessageData,
 		logMessageBody: m.messageMetadata.adminText,
 		timestamp: m.messageMetadata.timestamp,
-		author: m.messageMetadata.actorFbId
+		author: m.messageMetadata.actorFbId,
+		participants: (m.participants || []).map(p => p.toString())
 	};
 }
 
