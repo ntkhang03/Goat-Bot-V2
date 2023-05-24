@@ -1611,5 +1611,27 @@
 			"fb-chat-api/src/listenMqtt.js": "fix infinite loop Stop listenMqtt",
 			"scripts/cmds/getfbstate.js": "add new alias `getcookie`"
 		}
+	},
+	{
+		"version": "1.3.19",
+		"files": {
+			".gitignore": "Update .gitignore",
+			".vscode/GoatBot.code-snippets": "add new snippets: `GoatBotCommandSetOnReply`, `GoatBotCommandSetOnReaction`, `GoatBotCommandPushOnEvent`, `GoatBotCommandSetOnChat`",
+			"Goat.js": "add new handle: `onFirstChat`",
+			"bot/handler/handlerAction.js": "add new handle: `onFirstChat`",
+			"bot/handler/handlerCheckData.js": "code optimization",
+			"bot/handler/handlerEvents.js": "fix thread refresh when event doesn't have threadID",
+			"bot/login/login.js": "fix infinite loop Stop listenMqtt",
+			"database/controller/dashBoardData.js": "code optimization",
+			"database/controller/globalData.js": "code optimization",
+			"database/controller/threadsData.js": "code optimization",
+			"database/controller/usersData.js": "code optimization",
+			"fb-chat-api/src/listenMqtt.js": "remove mqttClient listen close message and added key ``participantIDs` to event type `message` and `message_reply`",
+			"fb-chat-api/utils.js": "added key `participantIDs` to event type `message`",
+			"package.json": "add new scripts: `dev`, `prod`",
+			"scripts/cmds/ban.js": "add sub command `check`: Check banned members and kick them out of the box chat",
+			"scripts/cmds/cmd.js": "add new handle: `onFirstChat`",
+			"utils.js": "code optimization"
+		}
 	}
 ]
