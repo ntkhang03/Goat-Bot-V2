@@ -1,8 +1,10 @@
 node_modules
+fb-chat-api.dev
 obfcode.js
 minify.js
 backupOrigin.js
 createVersion.js
+createVersionAndCommit.js
 *.zip
 *.dev.*
 *.rar
