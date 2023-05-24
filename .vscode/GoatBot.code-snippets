@@ -68,6 +68,17 @@
 		],
 		"description": "Create template for Goat Bot command onReply"
 	},
+	"Goat Bot Command Set onReply": {
+		"scope": "javascript,typescript",
+		"prefix": "GoatBotCommandSetOnReply",
+		"body": [
+			"global.GoatBot.onReply.set($1.messageID, {",
+			"\tcommandName,",
+			"\t$2",
+			"});"
+		],
+		"description": "Create template for Goat Bot command set onReply"
+	},
 	"Goat Bot Command onReaction": {
 		"scope": "javascript,typescript",
 		"prefix": "GoatBotCommandOnReaction",
@@ -79,9 +90,20 @@
 		],
 		"description": "Create template for Goat Bot command onReaction"
 	},
+	"Goat Bot Command Set onReaction": {
+		"scope": "javascript,typescript",
+		"prefix": "GoatBotCommandSetOnReaction",
+		"body": [
+			"global.GoatBot.onReaction.set($1.messageID, {",
+			"\tcommandName,",
+			"\t$2",
+			"});"
+		],
+		"description": "Create template for Goat Bot command set onReaction"
+	},
 	"Goat Bot Command onEvent": {
 		"scope": "javascript,typescript",
-		"prefix": "GoatBotCommandOnReaction",
+		"prefix": "GoatBotCommandOnEvent",
 		"body": [
 			"onReaction: async function ({ Reaction, api, args, message, event, threadsData, usersData, dashBoardData, globalData, threadModel, userModel, dashBoardModel, globalModel, role, commandName, getLang }) {",
 			"\tconst { logMessageType, logMessageData } = event;",
@@ -89,6 +111,19 @@
 			"}"
 		],
 		"description": "Create template for Goat Bot command onEvent"
+	},
+	"Goat Bot Command Push onEvent": {
+		"scope": "javascript,typescript",
+		"prefix": "GoatBotCommandPushOnEvent",
+		"body": [
+			"global.GoatBot.onEvent.push({",
+			"\tmessageID: $1,",
+			"\tonStart: ({ event }) => {",
+			"\t\t$2",
+			"\t}",
+			"});"
+		],
+		"description": "Create template for Goat Bot command push onEvent"
 	},
 	"Goat Bot Command onChat": {
 		"scope": "javascript,typescript",
@@ -99,6 +134,17 @@
 			"}"
 		],
 		"description": "Create template for Goat Bot command onChat"
+	},
+	"Goat Bot Command Set onChat": {
+		"scope": "javascript,typescript",
+		"prefix": "GoatBotCommandSetOnChat",
+		"body": [
+			"global.GoatBot.onChat.set($1.threadID, {",
+			"\tcommandName,",
+			"\t$2",
+			"});"
+		],
+		"description": "Create template for Goat Bot command set onChat"
 	},
 	"Goat Bot Command onStart": {
 		"scope": "javascript,typescript",
