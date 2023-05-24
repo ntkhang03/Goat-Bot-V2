@@ -4,7 +4,7 @@ const moment = require("moment-timezone");
 module.exports = {
 	config: {
 		name: "ban",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 1,
@@ -19,9 +19,11 @@ module.exports = {
 		category: "box chat",
 		guide: {
 			vi: "   {pn} [@tag|uid|link fb|reply] [<lý do cấm>|để trống nếu không có lý do]: Cấm thành viên khỏi box chat"
+				+ "\n   {pn} check: Kiểm tra thành viên bị cấm và kick thành viên đó ra khỏi box chat"
 				+ "\n   {pn} unban [@tag|uid|link fb|reply]: Bỏ cấm thành viên khỏi box chat"
 				+ "\n   {pn} list: Xem danh sách thành viên bị cấm",
 			en: "   {pn} [@tag|uid|fb link|reply] [<reason>|leave blank if no reason]: Ban user from box chat"
+				+ "\n   {pn} check: Check banned members and kick them out of the box chat"
 				+ "\n   {pn} unban [@tag|uid|fb link|reply]: Unban user from box chat"
 				+ "\n   {pn} list: View the list of banned members"
 		}
@@ -95,6 +97,14 @@ module.exports = {
 			const userName = members[target]?.name || await usersData.getName(target) || getLang('noName');
 
 			return api.sendMessage(getLang('unbannedSuccess', userName), event.threadID, event.messageID);
+		}
+		else if (args[0] == "check") {
+			if (!dataBanned.length)
+				return;
+			for (const user of dataBanned) {
+				if (event.participantIDs.includes(user.id))
+					api.removeUserFromGroup(user.id, event.threadID);
+			}
 		}
 
 		if (event.messageReply?.senderID) {
