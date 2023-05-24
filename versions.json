@@ -1633,5 +1633,19 @@
 			"scripts/cmds/cmd.js": "add new handle: `onFirstChat`",
 			"utils.js": "code optimization"
 		}
+	},
+	{
+		"version": "1.3.20",
+		"files": {
+			"bot/handler/handlerEvents.js": "fixes error: `TypeError: onFirstChat is not a function`"
+		}
+	},
+	{
+		"version": "1.3.21",
+		"files": {
+			"bot/handler/handlerEvents.js": "fixes error: `TypeError: onFirstChat is not a function`",
+			"bot/login/loadScripts.js": "fixes error: `TypeError: onFirstChat is not a function`",
+			"bot/login/login.js": "fixes error: `TypeError: onFirstChat is not a function`"
+		}
 	}
 ]
