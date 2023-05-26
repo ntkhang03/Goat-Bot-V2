@@ -20,6 +20,7 @@
 - [💭 **Support**](#-support)
 - [📚 **Support Languages in source code**](#-support-languages-in-source-code)
 - [📌 **Common Problems**](#-common-problems)
+- [❌ **DO NOT USE THE ORIGINAL UNDERGRADUATE VERSION**](#-do-not-use-the-original-undergraduate-version)
 - [📸 **Screenshots**](#-screenshots)
 - [✨ **Copyright (C)**](#-copyright-c)
 - [📜 **License**](#-license)
@@ -59,11 +60,11 @@ If you have major coding issues with this bot, please join and ask for help.
 - https://www.facebook.com/groups/goatbot
 - https://www.facebook.com/groups/goatbot/permalink/493150412403231
 - https://m.me/j/AbYrIGusyc0M402z
-- https://t.me/gatbottt
+- ~~https://t.me/gatbottt~~ (no longer supported)
 - ***Please do not inbox me, I do not respond to private messages, any questions please join the chat group for answers. ThankThanks!***
 
 ## 📚 **Support Languages in source code**
-
+- Currently, the bot supports 2 languages:
 - [x] `en: English`
 - [x] `vi: Vietnamese`
 
@@ -116,6 +117,10 @@ If you have major coding issues with this bot, please join and ask for help.
 		<p>- If you don't publish the project in google console only the approved accounts added to the project can use it <a href="https://youtu.be/nTIT8OQeRnY?t=438">Tuatorial</a></p>
 </details>
 
+## ❌ **DO NOT USE THE ORIGINAL UNDERGRADUATE VERSION**
+- The use of unknown source code can lead to the device being infected with viruses, malware, hacked social accounts, banks, ...
+- Goat-Bot-V2 is only published at https://github.com/ntkhang03/Goat-Bot-V2, all other sources, all forks from other github, replit,... are fake, violate policy
+- If you use from other sources (whether accidentally or intentionally) it means that you are in violation and will be banned without notice
 ## 📸 **Screenshots**
 - ### Bot
 <details>
