@@ -1647,5 +1647,14 @@
 			"bot/login/loadScripts.js": "fixes error: `TypeError: onFirstChat is not a function`",
 			"bot/login/login.js": "fixes error: `TypeError: onFirstChat is not a function`"
 		}
+	},
+	{
+		"version": "1.3.22",
+		"files": {
+			"README.md": "Update README.md",
+			"scripts/cmds/warn.js": "fix checkwarn not working",
+			"scripts/events/checkwarn.js": "fix checkwarn not working",
+			"scripts/events/welcome.js": "Update welcome.js"
+		}
 	}
 ]
