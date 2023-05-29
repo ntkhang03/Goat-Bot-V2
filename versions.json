@@ -1666,5 +1666,11 @@
 			"restoreBackup.js": "add new script `restoreBackup.js`: restore restore the previous backup version",
 			"scripts/cmds/shortcut.js": "fix bug"
 		}
+	},
+	{
+		"version": "1.4.1",
+		"files": {
+			"bot/login/login.js": "fix `Please restore the crypto.c reateCipher function to the original!`"
+		}
 	}
 ]
