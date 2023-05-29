@@ -1656,5 +1656,15 @@
 			"scripts/events/checkwarn.js": "fix checkwarn not working",
 			"scripts/events/welcome.js": "Update welcome.js"
 		}
+	},
+	{
+		"version": "1.4.0",
+		"files": {
+			"bot/login/login.js": "Update gban system",
+			"languages/en.lang": "languages update",
+			"languages/vi.lang": "languages update",
+			"restoreBackup.js": "add new script `restoreBackup.js`: restore restore the previous backup version",
+			"scripts/cmds/shortcut.js": "fix bug"
+		}
 	}
 ]
