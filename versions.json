@@ -1672,5 +1672,11 @@
 		"files": {
 			"bot/login/login.js": "fix `Please restore the crypto.c reateCipher function to the original!`"
 		}
+	},
+	{
+		"version": "1.4.2",
+		"files": {
+			"bot/login/login.js": "hide participantIDs from log"
+		}
 	}
 ]
