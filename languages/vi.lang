@@ -114,6 +114,7 @@ indexController.connectMySQLError=Đã xảy ra lỗi khi kết nối cơ sở d
 
 # updater.js
 updater.latestVersion=Bạn đang sử dụng phiên bản mới nhất
+updater.cantFindVersion=Bạn đang sử dụng phiên bản không xác định (%1), vui lòng kiểm tra lại tệp package.json của bạn
 updater.newVersions=Có %1 phiên bản cần cập nhật mới, bất đầu tiến hành cập nhật...
 updater.updateSuccess=Cập nhật thành công%1
 updater.configChanged=Tệp config.json đã được thay đổi, vui lòng kiểm tra lại tệp config.json của bạn
