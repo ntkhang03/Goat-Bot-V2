@@ -1678,5 +1678,14 @@
 		"files": {
 			"bot/login/login.js": "hide participantIDs from log"
 		}
+	},
+	{
+		"version": "1.4.3",
+		"files": {
+			"fb-chat-api/utils.js": "change key `participants` to `participantIDs` in callback `event` type in mqtt",
+			"languages/en.lang": "languages update",
+			"languages/vi.lang": "languages update",
+			"updater.js": "Update updater.js"
+		}
 	}
 ]
