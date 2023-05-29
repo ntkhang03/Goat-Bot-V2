@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: 'shortcut',
 		aliases: ['short'],
-		version: '1.10',
+		version: '1.11',
 		author: 'NTKhang',
 		countDown: 5,
 		role: 0,
@@ -142,7 +142,7 @@ module.exports = {
 			}
 			case 'del':
 			case 'delete': {
-				const key = args.slice(1).join(' ');
+				const key = args.slice(1).join(' ')?.trim()?.toLowerCase();
 				if (!key)
 					return message.reply(getLang('missingKey'));
 				const index = shortCutData.findIndex(x => x.key === key);
