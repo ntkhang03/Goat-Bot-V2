@@ -923,7 +923,7 @@ function formatDeltaEvent(m) {
 		logMessageBody: m.messageMetadata.adminText,
 		timestamp: m.messageMetadata.timestamp,
 		author: m.messageMetadata.actorFbId,
-		participants: (m.participants || []).map(p => p.toString())
+		participantIDs: (m.participants || []).map(p => p.toString())
 	};
 }
 
