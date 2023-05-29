@@ -83,7 +83,10 @@ fs.copyFileSync = function (src, dest) {
 (async () => {
 	const { data: versions } = await axios.get('https://raw.githubusercontent.com/ntkhang03/Goat-Bot-V2/main/versions.json');
 	const currentVersion = require('./package.json').version;
-	const versionsNeedToUpdate = versions.slice(versions.findIndex(v => v.version === currentVersion) + 1);
+	const indexCurrentVersion = versions.findIndex(v => v.version === currentVersion);
+	if (indexCurrentVersion === -1)
+		return log.error("ERROR", getText("updater", "cantFindVersion", chalk.yellow(currentVersion)));
+	const versionsNeedToUpdate = versions.slice(indexCurrentVersion + 1);
 	if (versionsNeedToUpdate.length === 0)
 		return log.info("SUCCESS", getText("updater", "latestVersion"));
 
