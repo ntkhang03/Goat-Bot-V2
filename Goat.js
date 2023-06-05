@@ -18,6 +18,8 @@ const dirConfig = `${__dirname}/config${['production', 'development'].includes(N
 const dirConfigCommands = `${__dirname}/configCommands${['production', 'development'].includes(NODE_ENV) ? '.dev.json' : '.json'}`;
 const dirAccount = `${__dirname}/account${['production', 'development'].includes(NODE_ENV) ? '.dev.txt' : '.txt'}`;
 const config = require(dirConfig);
+if (config.whiteListMode?.whiteListIds && Array.isArray(config.whiteListMode.whiteListIds))
+	config.whiteListMode.whiteListIds = config.whiteListMode.whiteListIds.map(id => id.toString());
 const configCommands = require(dirConfigCommands);
 
 global.GoatBot = {
