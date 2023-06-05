@@ -1687,5 +1687,25 @@
 			"languages/vi.lang": "languages update",
 			"updater.js": "Update updater.js"
 		}
+	},
+	{
+		"version": "1.4.4",
+		"files": {
+			"Goat.js": "auto convert data type uid in config to string",
+			"bot/handler/handlerEvents.js": "update option `hideNotiMessage`",
+			"bot/login/loadScripts.js": "update option `hideNotiMessage`",
+			"bot/login/login.js": "update option `hideNotiMessage`",
+			"config.json": {
+				"hideNotiMessage": {
+					"commandNotFound": false,
+					"adminOnly": false,
+					"threadBanned": false,
+					"userBanned": false,
+					"needRoleToUseCmd": false
+				}
+			},
+			"fb-chat-api/src/listenMqtt.js": "fix bug",
+			"scripts/cmds/adminonly.js": "add subcommand: `adminonly noti`: turn on/off the notification when user is not admin use bot"
+		}
 	}
 ]
