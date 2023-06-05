@@ -105,10 +105,11 @@
 		}
 	},
 	"hideNotiMessage": {
-		"wrongCommand": false,
+		"commandNotFound": false,
 		"adminOnly": false,
 		"threadBanned": false,
-		"userBanned": false
+		"userBanned": false,
+		"needRoleToUseCmd": false
 	},
 	"logEvents": {
 		"disableAll": false,
