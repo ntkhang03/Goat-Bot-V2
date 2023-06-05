@@ -247,7 +247,7 @@ function parseDelta(defaultFuncs, api, ctx, globalCallback, v) {
 			return;
 
 		(function resolveAttachmentUrl(i) {
-			if (i == v.delta.attachments.length) {
+			if (i == (v.delta.attachments || []).length) {
 				let fmtMsg;
 				try {
 					fmtMsg = utils.formatDeltaMessage(v);
@@ -382,7 +382,7 @@ function parseDelta(defaultFuncs, api, ctx, globalCallback, v) {
 						isGroup: !!delta.deltaMessageReply.message.messageMetadata.threadKey.threadFbId,
 						mentions: mentions,
 						timestamp: delta.deltaMessageReply.message.messageMetadata.timestamp,
-						participantIDs: (delta.deltaMessageReply.message.participants || []).map(e => e.toString())
+						participantIDs: (delta.deltaMessageReply.message.messageMetadata.cid.canonicalParticipantFbids || []).map(e => e.toString())
 					};
 
 					if (delta.deltaMessageReply.repliedToMessage) {
