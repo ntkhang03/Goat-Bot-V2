@@ -1707,5 +1707,18 @@
 			"fb-chat-api/src/listenMqtt.js": "fix bug",
 			"scripts/cmds/adminonly.js": "add subcommand: `adminonly noti`: turn on/off the notification when user is not admin use bot"
 		}
+	},
+	{
+		"version": "1.4.5",
+		"files": {
+			"database/controller/dashBoardData.js": "add new prototype `existsSync` for dashBoardData, globalData, threadsData and usersData",
+			"database/controller/globalData.js": "add new prototype `existsSync` for dashBoardData, globalData, threadsData and usersData",
+			"database/controller/threadsData.js": "add new prototype `existsSync` for dashBoardData, globalData, threadsData and usersData",
+			"database/controller/usersData.js": "add new prototype `existsSync` for dashBoardData, globalData, threadsData and usersData",
+			"fb-chat-api/src/sendMessage.js": "update callback when error occurs",
+			"scripts/cmds/antichangeinfobox.js": "add new subcommand `nickname`: anti change nickname in box chat",
+			"scripts/cmds/warn.js": "fix bug",
+			"scripts/events/autoUpdateInfoThread.js": "fix bug"
+		}
 	}
 ]
