@@ -1731,5 +1731,12 @@
 			"scripts/cmds/art.js": "api is no longer working",
 			"scripts/cmds/openjourney.js": "api is no longer working"
 		}
+	},
+	{
+		"version": "1.4.7",
+		"files": {
+			"bot/login/loadScripts.js": "fix console freezing",
+			"bot/login/login.js": "fix console freezing"
+		}
 	}
 ]
