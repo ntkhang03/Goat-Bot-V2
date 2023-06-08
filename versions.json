@@ -1720,5 +1720,16 @@
 			"scripts/cmds/warn.js": "fix bug",
 			"scripts/events/autoUpdateInfoThread.js": "fix bug"
 		}
+	},
+	{
+		"version": "1.4.6",
+		"files": {
+			"bot/login/loadScripts.js": "ignore the file's command extension `eg.js`",
+			"bot/login/login.js": "ignore the file's command extension `eg.js`"
+		},
+		"deleteFiles": {
+			"scripts/cmds/art.js": "api is no longer working",
+			"scripts/cmds/openjourney.js": "api is no longer working"
+		}
 	}
 ]
