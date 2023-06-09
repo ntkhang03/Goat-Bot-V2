@@ -51,7 +51,7 @@ module.exports = {
 				},
 				data: {
 					prompt,
-					styleId: 21,
+					styleId: 28,
 					aspect_ratio: "1:1"
 				},
 				responseType: "stream"
