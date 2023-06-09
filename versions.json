@@ -1744,5 +1744,11 @@
 		"files": {
 			"scripts/cmds/texttoimage.js": "new command `texttoimage`: create image with your prompt"
 		}
+	},
+	{
+		"version": "1.4.9",
+		"files": {
+			"scripts/cmds/texttoimage.js": "update styleId"
+		}
 	}
 ]
