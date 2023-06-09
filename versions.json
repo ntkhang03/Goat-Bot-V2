@@ -1738,5 +1738,11 @@
 			"bot/login/loadScripts.js": "fix console freezing",
 			"bot/login/login.js": "fix console freezing"
 		}
+	},
+	{
+		"version": "1.4.8",
+		"files": {
+			"scripts/cmds/texttoimage.js": "new command `texttoimage`: create image with your prompt"
+		}
 	}
 ]
