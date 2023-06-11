@@ -3,7 +3,7 @@ const { getTime } = global.utils;
 module.exports = {
 	config: {
 		name: "warn",
-		version: "1.5",
+		version: "1.6",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -23,7 +23,7 @@ module.exports = {
 				+ "\n   {pn} info [@tag | <uid> | để trống]: xem thông tin cảnh cáo của người được tag hoặc uid hoặc bản thân"
 				+ "\n   {pn} unban <uid>: gỡ ban thành viên bằng uid"
 				+ "\n   {pn} unwarn <uid> [<số thứ tự> | để trống]: gỡ cảnh cáo thành viên bằng uid và số thứ tự cảnh cáo"
-				+ "\n   {pn} warn reset: reset tất cả dữ liệu cảnh cáo"
+				+ "\n   {pn} reset: reset tất cả dữ liệu cảnh cáo"
 				+ "\n⚠️ Cần set quản trị viên cho bot để bot tự kick thành viên bị ban",
 			en: "   {pn} @tag <reason>: warn member"
 				+ "\n   {pn} list: view list of warned members"
@@ -31,7 +31,7 @@ module.exports = {
 				+ "\n   {pn} info [@tag | <uid> | leave blank]: view warn info of tagged member or uid or yourself"
 				+ "\n   {pn} unban <uid>: unban member by uid"
 				+ "\n   {pn} unwarn <uid> [<warn number> | leave blank]: unwarn member by uid and warn number"
-				+ "\n   {pn} warn reset: reset all warn data"
+				+ "\n   {pn} reset: reset all warn data"
 				+ "\n⚠️ You need to set admin for bot to auto kick banned members"
 		}
 	},
