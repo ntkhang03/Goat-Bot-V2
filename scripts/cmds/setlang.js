@@ -3,7 +3,7 @@ const fs = require("fs-extra");
 module.exports = {
 	config: {
 		name: "setlang",
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -47,12 +47,8 @@ module.exports = {
 		if (!args[0])
 			return message.SyntaxError;
 		let langCode = args[0].toLowerCase();
-		const threadData = await threadsData.get(event.threadID, "data");
-		let isDefault = false;
-		if (langCode == "default" || langCode == "reset") {
-			isDefault = true;
-			langCode = global.GoatBot.config.language;
-		}
+		if (langCode == "default" || langCode == "reset")
+			langCode = null;
 
 		if (["-g", "-global", "all"].includes(args[1]?.toLowerCase())) {
 			if (role < 2)
@@ -82,10 +78,7 @@ module.exports = {
 			return message.reply(getLang("setLangForAll", langCode));
 		}
 
-		threadData.lang = langCode;
-		if (isDefault)
-			delete threadData.lang;
-		await threadsData.set(event.threadID, threadData, "data");
+		await threadsData.set(event.threadID, langCode, "data.lang");
 		return message.reply((global.GoatBot.commands.get("setlang")?.langs[langCode]?.setLangForCurrent || "Set default language for current chat: %1").replace("%1", langCode));
 	}
 };

@@ -200,7 +200,8 @@ function getPrefix(threadID) {
 	threadID = String(threadID);
 	let prefix = global.GoatBot.config.prefix;
 	const threadData = global.db.allThreadData.find(t => t.threadID == threadID);
-	threadData ? prefix = threadData.data.prefix || prefix : "";
+	if (threadData)
+		prefix = threadData.data.prefix || prefix;
 	return prefix;
 }
 
