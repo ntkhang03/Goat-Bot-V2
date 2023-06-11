@@ -61,7 +61,7 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 										_.omit(dataCreated._doc, ["_id", "__v"]) :
 										dataCreated.get({ plain: true });
 									global.db.allDashBoardData.push(dataCreated);
-									return resolve(dataCreated);
+									return resolve(_.cloneDeep(dataCreated));
 								}
 								case "json": {
 									const timeCreation = moment.tz().format();
@@ -69,7 +69,7 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 									userData.updatedAt = timeCreation;
 									global.db.allDashBoardData.push(userData);
 									writeJsonSync(pathDashBoardData, global.db.allDashBoardData, optionsWriteJSON);
-									return resolve(userData);
+									return resolve(_.cloneDeep(userData));
 								}
 							}
 							break;
@@ -100,13 +100,13 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 									let dataUpdated = await dashBoardModel.findOneAndUpdate({ email }, dataWillChange, { returnDocument: 'after' });
 									dataUpdated = _.omit(dataUpdated._doc, ["_id", "__v"]);
 									global.db.allDashBoardData[index] = dataUpdated;
-									return resolve(dataUpdated);
+									return resolve(_.cloneDeep(dataUpdated));
 								}
 								case "sqlite": {
 									const getData = await dashBoardModel.findOne({ where: { email } });
 									const dataUpdated = (await getData.update(dataWillChange)).get({ plain: true });
 									global.db.allDashBoardData[index] = dataUpdated;
-									return resolve(dataUpdated);
+									return resolve(_.cloneDeep(dataUpdated));
 								}
 								case "json": {
 									dataWillChange.updatedAt = moment.tz().format();
@@ -115,7 +115,7 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 										...dataWillChange
 									};
 									writeJsonSync(pathDashBoardData, global.db.allDashBoardData, optionsWriteJSON);
-									return resolve(global.db.allDashBoardData[index]);
+									return resolve(_.cloneDeep(global.db.allDashBoardData[index]));
 								}
 							}
 							break;
@@ -160,7 +160,7 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 				}
 
 				const userData = await save(email, data, "create");
-				resolve(userData);
+				resolve(_.cloneDeep(userData));
 			}
 			catch (err) {
 				reject(err);
@@ -190,11 +190,11 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 					throw new Error(`The first argument (path) must be a string or an array, not a ${typeof path}`);
 				else
 					if (typeof path === "string")
-						return dataReturn.map(uData => _.get(uData, path, defaultValue));
+						return _.cloneDeep(dataReturn.map(uData => _.get(uData, path, defaultValue)));
 					else
-						return dataReturn.map(uData => _.times(path.length, i => _.get(uData, path[i], defaultValue[i])));
+						return _.cloneDeep(dataReturn.map(uData => _.times(path.length, i => _.get(uData, path[i], defaultValue[i]))));
 
-			return dataReturn;
+			return _.cloneDeep(dataReturn);
 		}
 		catch (err) {
 			throw err;
@@ -220,10 +220,10 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 					throw new Error(`The second argument (path) must be a string or an array, not a ${typeof path}`);
 				else
 					if (typeof path === "string")
-						return _.get(userData, path, defaultValue);
+						return _.cloneDeep(_.get(userData, path, defaultValue));
 					else
-						return _.times(path.length, i => _.get(userData, path[i], defaultValue[i]));
-			return userData;
+						return _.cloneDeep(_.times(path.length, i => _.get(userData, path[i], defaultValue[i])));
+			return _.cloneDeep(userData);
 		}
 		catch (err) {
 			throw err;
@@ -244,8 +244,8 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 				if (typeof query !== "string")
 					throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
 				else
-					return fakeGraphql(query, userData);
-			return userData;
+					return _.cloneDeep(fakeGraphql(query, userData));
+			return _.cloneDeep(userData);
 		}
 		catch (err) {
 			throw err;

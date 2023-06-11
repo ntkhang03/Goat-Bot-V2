@@ -62,7 +62,7 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 										_.omit(dataCreated._doc, ["_id", "__v"]) :
 										dataCreated.get({ plain: true });
 									global.db.allGlobalData.push(dataCreated);
-									return resolve(dataCreated);
+									return resolve(_.cloneDeep(dataCreated));
 								}
 								case "json": {
 									const timeCreate = moment.tz().format();
@@ -70,7 +70,7 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 									data.updatedAt = timeCreate;
 									global.db.allGlobalData.push(data);
 									writeJsonSync(pathGlobalData, global.db.allGlobalData, optionsWriteJSON);
-									return resolve(data);
+									return resolve(_.cloneDeep(data));
 								}
 							}
 							break;
@@ -101,13 +101,13 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 									let dataUpdated = await globalModel.findOneAndUpdate({ key }, dataWillChange, { returnDocument: 'after' });
 									dataUpdated = _.omit(dataUpdated._doc, ["_id", "__v"]);
 									global.db.allGlobalData[index] = dataUpdated;
-									return resolve(dataUpdated);
+									return resolve(_.cloneDeep(dataUpdated));
 								}
 								case "sqlite": {
 									const getData = await globalModel.findOne({ where: { key } });
 									const dataUpdated = (await getData.update(dataWillChange)).get({ plain: true });
 									global.db.allGlobalData[index] = dataUpdated;
-									return resolve(dataUpdated);
+									return resolve(_.cloneDeep(dataUpdated));
 								}
 								case "json": {
 									dataWillChange.updatedAt = moment.tz().format();
@@ -116,7 +116,7 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 										...dataWillChange
 									};
 									writeJsonSync(pathGlobalData, global.db.allGlobalData, optionsWriteJSON);
-									return resolve(global.db.allGlobalData[index]);
+									return resolve(_.cloneDeep(global.db.allGlobalData[index]));
 								}
 							}
 							break;
@@ -187,7 +187,7 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 
 				data.key = key;
 				const createData = await save(key, data, "create");
-				resolve(createData);
+				resolve(_.cloneDeep(createData));
 			}
 			catch (err) {
 				reject(err);
@@ -219,11 +219,11 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 					throw new Error(`The first argument (path) must be a string or an array, not a ${typeof path}`);
 				else
 					if (typeof path === "string")
-						return dataReturn.map(uData => _.get(uData, path, defaultValue));
+						return _.cloneDeep(dataReturn.map(uData => _.get(uData, path, defaultValue)));
 					else
-						return dataReturn.map(uData => _.times(path.length, i => _.get(uData, path[i], defaultValue[i])));
+						return _.cloneDeep(dataReturn.map(uData => _.times(path.length, i => _.get(uData, path[i], defaultValue[i]))));
 
-			return dataReturn;
+			return _.cloneDeep(dataReturn);
 		}
 		catch (err) {
 			throw err;
@@ -268,11 +268,11 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 					throw new Error(`The second argument (path) must be a string or an array, not a ${typeof path}`);
 				else
 					if (typeof path === "string")
-						return _.get(dataReturn, path, defaultValue);
+						return _.cloneDeep(_.get(dataReturn, path, defaultValue));
 					else
-						return _.times(path.length, i => _.get(dataReturn, path[i], defaultValue[i]));
+						return _.cloneDeep(_.times(path.length, i => _.get(dataReturn, path[i], defaultValue[i])));
 
-			return dataReturn;
+			return _.cloneDeep(dataReturn);
 		}
 		catch (err) {
 			throw err;
@@ -293,8 +293,8 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 				if (typeof query !== "string")
 					throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
 				else
-					return fakeGraphql(query, setData);
-			return setData;
+					return _.cloneDeep(fakeGraphql(query, setData));
+			return _.cloneDeep(setData);
 		}
 		catch (err) {
 			throw err;

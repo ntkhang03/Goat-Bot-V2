@@ -72,7 +72,7 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 										_.omit(dataCreated._doc, ["_id", "__v"]) :
 										dataCreated.get({ plain: true });
 									global.db.allUserData.push(dataCreated);
-									return resolve(dataCreated);
+									return resolve(_.cloneDeep(dataCreated));
 								}
 								case "json": {
 									const timeCreate = moment.tz().format();
@@ -80,7 +80,7 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 									userData.updatedAt = timeCreate;
 									global.db.allUserData.push(userData);
 									writeJsonSync(pathUsersData, global.db.allUserData, optionsWriteJSON);
-									return resolve(userData);
+									return resolve(_.cloneDeep(userData));
 								}
 								default: {
 									break;
@@ -114,13 +114,13 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 									let dataUpdated = await userModel.findOneAndUpdate({ userID }, dataWillChange, { returnDocument: 'after' });
 									dataUpdated = _.omit(dataUpdated._doc, ["_id", "__v"]);
 									global.db.allUserData[index] = dataUpdated;
-									return resolve(dataUpdated);
+									return resolve(_.cloneDeep(dataUpdated));
 								}
 								case "sqlite": {
 									const user = await userModel.findOne({ where: { userID } });
 									const dataUpdated = (await user.update(dataWillChange)).get({ plain: true });
 									global.db.allUserData[index] = dataUpdated;
-									return resolve(dataUpdated);
+									return resolve(_.cloneDeep(dataUpdated));
 								}
 								case "json": {
 									dataWillChange.updatedAt = moment.tz().format();
@@ -129,7 +129,7 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 										...dataWillChange
 									};
 									writeJsonSync(pathUsersData, global.db.allUserData, optionsWriteJSON);
-									return resolve(global.db.allUserData[index]);
+									return resolve(_.cloneDeep(global.db.allUserData[index]));
 								}
 							}
 							break;
@@ -234,7 +234,7 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 					data: {}
 				};
 				userData = await save(userID, userData, "create");
-				resolve(userData);
+				resolve(_.cloneDeep(userData));
 			}
 			catch (err) {
 				reject(err);
@@ -269,7 +269,7 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 			};
 
 			userData = await save(userID, userData, "update");
-			return userData;
+			return _.cloneDeep(userData);
 		}
 		catch (err) {
 			throw err;
@@ -327,11 +327,11 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 					throw new Error(`The second argument (path) must be a string or array, not ${typeof path}`);
 				else
 					if (typeof path === "string")
-						return _.get(userData, path, defaultValue);
+						return _.cloneDeep(_.get(userData, path, defaultValue));
 					else
-						return _.times(path.length, i => _.get(userData, path[i], defaultValue[i]));
+						return _.cloneDeep(_.times(path.length, i => _.get(userData, path[i], defaultValue[i])));
 
-			return userData;
+			return _.cloneDeep(userData);
 		}
 		catch (err) {
 			throw err;
@@ -353,8 +353,8 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 				if (typeof query !== "string")
 					throw new Error(`The fourth argument (query) must be a string, not ${typeof query}`);
 				else
-					return fakeGraphql(query, userData);
-			return userData;
+					return _.cloneDeep(fakeGraphql(query, userData));
+			return _.cloneDeep(userData);
 		}
 		catch (err) {
 			throw err;
@@ -396,8 +396,8 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 				if (typeof query !== "string")
 					throw new Error(`The third argument (query) must be a string, not ${typeof query}`);
 				else
-					return fakeGraphql(query, userData);
-			return userData;
+					return _.cloneDeep(fakeGraphql(query, userData));
+			return _.cloneDeep(userData);
 		}
 		catch (err) {
 			throw err;
@@ -425,8 +425,8 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 				if (typeof query !== "string")
 					throw new Error(`The third argument (query) must be a string, not ${typeof query}`);
 				else
-					return fakeGraphql(query, userData);
-			return userData;
+					return _.cloneDeep(fakeGraphql(query, userData));
+			return _.cloneDeep(userData);
 		}
 		catch (err) {
 			throw err;

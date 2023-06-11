@@ -71,7 +71,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 										_.omit(dataCreated._doc, ["_id", "__v"]) :
 										dataCreated.get({ plain: true });
 									global.db.allThreadData.push(dataCreated);
-									return resolve(dataCreated);
+									return resolve(_.cloneDeep(dataCreated));
 								}
 								case "json": {
 									const timeCreate = moment.tz().format();
@@ -79,7 +79,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 									threadData.updatedAt = timeCreate;
 									global.db.allThreadData.push(threadData);
 									writeJsonSync(pathThreadsData, global.db.allThreadData, optionsWriteJSON);
-									return resolve(threadData);
+									return resolve(_.cloneDeep(threadData));
 								}
 								default: {
 									break;
@@ -113,13 +113,13 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 									let dataUpdated = await threadModel.findOneAndUpdate({ threadID }, dataWillChange, { returnDocument: 'after' });
 									dataUpdated = _.omit(dataUpdated._doc, ["_id", "__v"]);
 									global.db.allThreadData[index] = dataUpdated;
-									return resolve(dataUpdated);
+									return resolve(_.cloneDeep(dataUpdated));
 								}
 								case "sqlite": {
 									const thread = await threadModel.findOne({ where: { threadID } });
 									const dataUpdated = (await thread.update(dataWillChange)).get({ plain: true });
 									global.db.allThreadData[index] = dataUpdated;
-									return resolve(dataUpdated);
+									return resolve(_.cloneDeep(dataUpdated));
 								}
 								case "json": {
 									dataWillChange.updatedAt = moment.tz().format();
@@ -128,7 +128,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 										...dataWillChange
 									};
 									writeJsonSync(pathThreadsData, global.db.allThreadData, optionsWriteJSON);
-									return resolve(global.db.allThreadData[index]);
+									return resolve(_.cloneDeep(global.db.allThreadData[index]));
 								}
 								default:
 									break;
@@ -225,7 +225,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 					isGroup: threadInfo.threadType == 2
 				};
 				threadData = await save(threadID, threadData, "create");
-				resolve(threadData);
+				resolve(_.cloneDeep(threadData));
 			}
 			catch (err) {
 				reject(err);
@@ -290,7 +290,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 			};
 
 			threadData = await save(threadID, threadData, "update");
-			return threadData;
+			return _.cloneDeep(threadData);
 		}
 		catch (err) {
 			throw err;
@@ -349,11 +349,11 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 					throw new Error(`The second argument (path) must be a string or an object, not a ${typeof path}`);
 				else
 					if (typeof path === "string")
-						return _.get(threadData, path, defaultValue);
+						return _.cloneDeep(_.get(threadData, path, defaultValue));
 					else
-						return _.times(path.length, i => _.get(threadData, path[i], defaultValue[i]));
+						return _.cloneDeep(_.times(path.length, i => _.get(threadData, path[i], defaultValue[i])));
 
-			return threadData;
+			return _.cloneDeep(threadData);
 		}
 		catch (err) {
 			throw err;
@@ -374,8 +374,8 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 				if (typeof query !== "string")
 					throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
 				else
-					return fakeGraphql(query, threadData);
-			return threadData;
+					return _.cloneDeep(fakeGraphql(query, threadData));
+			return _.cloneDeep(threadData);
 		}
 		catch (err) {
 			throw err;
