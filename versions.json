@@ -1750,5 +1750,28 @@
 		"files": {
 			"scripts/cmds/texttoimage.js": "update styleId"
 		}
+	},
+	{
+		"version": "1.4.10",
+		"files": {
+			"bot/login/loadScripts.js": "code optimization",
+			"bot/login/login.js": "code optimization",
+			"database/controller/dashBoardData.js": "return data with _`.cloneDeep`",
+			"database/controller/globalData.js": "return data with _`.cloneDeep`",
+			"database/controller/threadsData.js": "return data with _`.cloneDeep`",
+			"database/controller/usersData.js": "return data with _`.cloneDeep`",
+			"package-lock.json": "Update package-lock.json",
+			"scripts/cmds/autosetname.js": "code optimization",
+			"scripts/cmds/cmd.js": "code optimization",
+			"scripts/cmds/count.js": "code optimization",
+			"scripts/cmds/customrankcard.js": "code optimization",
+			"scripts/cmds/grouptag.js": "languages update",
+			"scripts/cmds/kick.js": "languages update",
+			"scripts/cmds/prefix.js": "code optimization",
+			"scripts/cmds/setlang.js": "code optimization",
+			"scripts/cmds/warn.js": "languages update",
+			"scripts/events/autoUpdateInfoThread.js": "code optimization",
+			"utils.js": "code optimization"
+		}
 	}
 ]
