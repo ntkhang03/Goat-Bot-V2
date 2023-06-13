@@ -1773,5 +1773,21 @@
 			"scripts/events/autoUpdateInfoThread.js": "code optimization",
 			"utils.js": "code optimization"
 		}
+	},
+	{
+		"version": "1.4.11",
+		"files": {
+			"bot/login/loadScripts.js": "code optimization",
+			"bot/login/login.js": "code optimization",
+			"fb-chat-api/src/addUserToGroup.js": "add `CustomError` class to fb-chat-api - easy for debugging",
+			"fb-chat-api/src/changeAdminStatus.js": "add `CustomError` class to fb-chat-api - easy for debugging",
+			"fb-chat-api/src/changeThreadColor.js": "add `CustomError` class to fb-chat-api - easy for debugging",
+			"fb-chat-api/src/getThreadList.js": "add `CustomError` class to fb-chat-api - easy for debugging",
+			"fb-chat-api/src/httpPostFormData.js": "add `CustomError` class to fb-chat-api - easy for debugging",
+			"fb-chat-api/utils.js": "add `CustomError` class to fb-chat-api - easy for debugging",
+			"scripts/cmds/cmd.js": "code optimization",
+			"scripts/cmds/eval.js": "code optimization",
+			"scripts/cmds/event.js": "code optimization"
+		}
 	}
 ]
