@@ -1,11 +1,18 @@
 const fs = require("fs-extra");
 const path = require("path");
 const axios = require("axios");
+const cheerio = require("cheerio");
+
+function getDomain(url) {
+	const regex = /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n]+)/im;
+	const match = url.match(regex);
+	return match ? match[1] : null;
+}
 
 module.exports = {
 	config: {
 		name: "event",
-		version: "1.6",
+		version: "1.7",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -124,7 +131,7 @@ module.exports = {
 			let fileName = args[2];
 			let rawCode;
 
-			if (!url && !fileName)
+			if (!url || !fileName)
 				return message.reply(getLang("missingUrlCodeOrFileName"));
 
 			if (url.endsWith(".js")) {
@@ -136,7 +143,30 @@ module.exports = {
 			if (url.match(/(https?:\/\/(?:www\.|(?!www)))/)) {
 				if (!fileName || !fileName.endsWith(".js"))
 					return message.reply(getLang("missingFileNameInstall"));
+
+				const domain = getDomain(url);
+				if (!domain)
+					return message.reply(getLang("invalidUrl"));
+
+				if (domain == "pastebin.com") {
+					const regex = /https:\/\/pastebin\.com\/(?!raw\/)(.*)/;
+					if (url.match(regex))
+						url = url.replace(regex, "https://pastebin.com/raw/$1");
+					if (url.endsWith("/"))
+						url = url.slice(0, -1);
+				}
+				else if (domain == "github.com") {
+					const regex = /https:\/\/github\.com\/(.*)\/blob\/(.*)/;
+					if (url.match(regex))
+						url = url.replace(regex, "https://raw.githubusercontent.com/$1/$2");
+				}
+
 				rawCode = (await axios.get(url)).data;
+
+				if (domain == "savetext.net") {
+					const $ = cheerio.load(rawCode);
+					rawCode = $("#content").text();
+				}
 			}
 			else {
 				if (args[args.length - 1].endsWith(".js")) {
