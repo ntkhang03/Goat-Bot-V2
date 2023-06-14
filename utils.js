@@ -135,7 +135,7 @@ function convertTime(miliSeconds, replaceSeconds = "s", replaceMinutes = "m", re
 
 	if (notShowZero)
 		formattedDate = formattedDate.replace(/00\w+/g, '');
-		
+
 	return formattedDate;
 }
 
@@ -161,6 +161,33 @@ function createOraDots(text) {
 		spin.stop();
 	};
 	return spin;
+}
+
+function createQueue(callback) {
+	const queue = [];
+	const queueObj = {
+		push: function (task) {
+			queue.push(task);
+			if (queue.length == 1)
+				queueObj.next();
+		},
+		running: null,
+		length: function () {
+			return queue.length;
+		},
+		next: function () {
+			if (queue.length > 0) {
+				const task = queue[0];
+				queueObj.running = task;
+				callback(task, async function (err, result) {
+					queueObj.running = null;
+					queue.shift();
+					queueObj.next();
+				});
+			}
+		}
+	};
+	return queueObj;
 }
 
 function enableStderrClearLine(isEnable = true) {
@@ -724,6 +751,7 @@ const utils = {
 	colors,
 	convertTime,
 	createOraDots,
+	createQueue,
 	defaultStderrClearLine,
 	enableStderrClearLine,
 	getExtFromAttachmentType,
