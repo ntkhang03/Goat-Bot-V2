@@ -1800,5 +1800,11 @@
 			"scripts/cmds/cmd.js": "fix bot stop working after using cmd command",
 			"utils.js": "add new method to utils: `createQueue`"
 		}
+	},
+	{
+		"version": "1.4.13",
+		"files": {
+			"database/controller/threadsData.js": "hide console.log"
+		}
 	}
 ]
