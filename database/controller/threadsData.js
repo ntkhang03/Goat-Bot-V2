@@ -17,10 +17,6 @@ const messageQueue = global.utils.createQueue(async (task, callback) => {
 	}
 });
 
-setInterval(function () {
-	console.log("messageQueueThread", messageQueue.length());
-}, 5000);
-
 const { creatingThreadData } = global.client.database;
 
 module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
@@ -318,8 +314,6 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 	function getAll(path, defaultValue, query) {
 		return new Promise(async function (resolve, reject) {
 			messageQueue.push(async function () {
-				console.log("get all thread");
-
 				try {
 					let dataReturn = _.cloneDeep(global.db.allThreadData);
 
@@ -389,7 +383,6 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 	async function get(threadID, path, defaultValue, query) {
 		return new Promise(async function (resolve, reject) {
 			messageQueue.push(async function () {
-				console.log("get thread", threadID);
 				try {
 					return resolve(await get_(threadID, path, defaultValue, query));
 				}
@@ -429,8 +422,6 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 	async function remove(threadID) {
 		return new Promise(async function (resolve, reject) {
 			messageQueue.push(async function () {
-				console.log("remove thread", threadID);
-
 				try {
 					if (isNaN(threadID)) {
 						const error = new Error(`The first argument (threadID) must be a number, not a ${typeof threadID}`);
