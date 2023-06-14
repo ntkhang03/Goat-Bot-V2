@@ -1789,5 +1789,16 @@
 			"scripts/cmds/eval.js": "code optimization",
 			"scripts/cmds/event.js": "code optimization"
 		}
+	},
+	{
+		"version": "1.4.12",
+		"files": {
+			"database/controller/dashBoardData.js": "change queue handling",
+			"database/controller/globalData.js": "change queue handling",
+			"database/controller/threadsData.js": "change queue handling",
+			"database/controller/usersData.js": "change queue handling",
+			"scripts/cmds/cmd.js": "fix bot stop working after using cmd command",
+			"utils.js": "add new method to utils: `createQueue`"
+		}
 	}
 ]
