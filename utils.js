@@ -589,8 +589,81 @@ async function shortenURL(url) {
 		return result.data;
 	}
 	catch (err) {
-		throw new Error('Error when shortening URL');
+		let error;
+		if (err.response) {
+			error = new Error();
+			Object.assign(error, err.response.data);
+		}
+		else
+			error = new Error(err.message);
 	}
+}
+
+async function uploadImgbb({ file, type = 'file' }) {
+	try {
+		const res_ = await axios({
+			method: 'GET',
+			url: 'https://imgbb.com'
+		});
+
+		const auth_token = res_.data.match(/auth_token="([^"]+)"/)[1];
+		const timestamp = Date.now();
+
+		const res = await axios({
+			method: 'POST',
+			url: 'https://imgbb.com/json',
+			headers: {
+				"content-type": "multipart/form-data;",
+			},
+			data: {
+				source: file,
+				type: type,
+				action: 'upload',
+				timestamp: timestamp,
+				auth_token: auth_token
+			}
+		});
+
+		return res.data;
+	}
+	catch (err) {
+		let error;
+		if (err.response) {
+			error = new Error();
+			Object.assign(error, err.response.data);
+		}
+		else
+			error = new Error(err.message);
+
+		throw error;
+	}
+}
+
+async function uploadZippyshare(stream) {
+	const res = await axios({
+		method: 'POST',
+		url: 'https://api.zippysha.re/upload',
+		headers: {
+			'Content-Type': 'multipart/form-data'
+		},
+		data: {
+			file: stream
+		}
+	});
+
+	const fullUrl = res.data.data.file.url.full;
+	const res_ = await axios({
+		method: 'GET',
+		url: fullUrl,
+		headers: {
+			"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.43"
+		}
+	});
+
+	const downloadUrl = res_.data.match(/id="download-url"(?:.|\n)*?href="(.+?)"/)[1];
+	res.data.data.file.url.download = downloadUrl;
+
+	return res.data;
 }
 
 const drive = {
@@ -657,12 +730,14 @@ const drive = {
 			responseType
 		});
 		const headersResponse = response.headers;
-		const file = response.data;
-
 		const fileName = headersResponse["content-disposition"]?.split('filename="')[1]?.split('"')[0] || `${utils.randomString(10)}.${utils.getExtFromMimeType(headersResponse["content-type"])}`;
 
-		if (responseType === "stream")
-			file.path = fileName;
+		if (responseType == "arraybuffer")
+			return Buffer.from(response.data);
+		else if (responseType == "stream")
+			response.data.path = fileName;
+
+		const file = response.data;
 
 		return file;
 	},
@@ -779,6 +854,8 @@ const utils = {
 	Prism,
 	translate,
 	shortenURL,
+	uploadZippyshare,
+	uploadImgbb,
 	drive
 };
 
