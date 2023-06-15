@@ -1806,5 +1806,21 @@
 		"files": {
 			"database/controller/threadsData.js": "hide console.log"
 		}
+	},
+	{
+		"version": "1.4.14",
+		"files": {
+			"bot/login/login.js": "code optimization",
+			"dashboard/app.js": "change the `getAll` method of controller data to asynchronous",
+			"dashboard/middleware/get.js": "change the `getAll` method of controller data to asynchronous",
+			"dashboard/middleware/post.js": "change the `getAll` method of controller data to asynchronous",
+			"dashboard/routes/api.js": "change the `getAll` method of controller data to asynchronous",
+			"dashboard/routes/dashBoard.js": "change the `getAll` method of controller data to asynchronous",
+			"scripts/cmds/backupdata.js": "change the `getAll` method of controller data to asynchronous",
+			"scripts/cmds/customrankcard.js": "change file storage method with ZippyShare",
+			"scripts/cmds/notification.js": "change the `getAll` method of controller data to asynchronous",
+			"scripts/cmds/rank.js": "change file storage method with ZippyShare",
+			"utils.js": "add new methods `uploadImgbb` and `uploadZippyshare` to utils"
+		}
 	}
 ]
