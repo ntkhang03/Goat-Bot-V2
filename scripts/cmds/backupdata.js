@@ -3,7 +3,7 @@ const fs = require("fs-extra");
 module.exports = {
 	config: {
 		name: "backupdata",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -31,15 +31,17 @@ module.exports = {
 	},
 
 	onStart: async function ({ message, getLang, threadsData, usersData, dashBoardData, globalData }) {
-		const globalDataBackup = globalData.getAll();
-		const threadsDataBackup = threadsData.getAll();
-		const usersDataBackup = usersData.getAll();
-		const dashBoardDataBackup = dashBoardData.getAll();
+		const [globalDataBackup, threadsDataBackup, usersDataBackup, dashBoardDataBackup] = await Promise.all([
+			globalData.getAll(),
+			threadsData.getAll(),
+			usersData.getAll(),
+			dashBoardData.getAll()
+		]);
 
-		const pathThreads = __dirname + "/tmp/threadsData.json";
-		const pathUsers = __dirname + "/tmp/usersData.json";
-		const pathDashBoard = __dirname + "/tmp/dashBoardData.json";
-		const pathGlobal = __dirname + "/tmp/globalData.json";
+		const pathThreads = `${__dirname}/tmp/threadsData.json`;
+		const pathUsers = `${__dirname}/tmp/usersData.json`;
+		const pathDashBoard = `${__dirname}/tmp/dashBoardData.json`;
+		const pathGlobal = `${__dirname}/tmp/globalData.json`;
 
 		fs.writeFileSync(pathThreads, JSON.stringify(threadsDataBackup, null, 2));
 		fs.writeFileSync(pathUsers, JSON.stringify(usersDataBackup, null, 2));

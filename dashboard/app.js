@@ -144,23 +144,15 @@ module.exports = async (api) => {
 		}
 	});
 
-	const middleWareForGetMethod = require('./middleware/get.js')(getThreadDataSync, checkAuthConfigDashboardOfThread);
-	const middleWareForPostMethod = require('./middleware/post.js')(getThreadDataSync, checkAuthConfigDashboardOfThread);
+	const middleWareForGetMethod = require('./middleware/get.js')(checkAuthConfigDashboardOfThread);
+	const middleWareForPostMethod = require('./middleware/post.js')(checkAuthConfigDashboardOfThread);
 
 	// ————————————————————————————————————————————— //
 
-	function checkAuthConfigDashboardOfThread(threadData, userID) {
+	async function checkAuthConfigDashboardOfThread(threadData, userID) {
 		if (!isNaN(threadData))
-			threadData = getThreadDataSync(threadData) || {};
+			threadData = await threadsData.get(threadData);
 		return threadData.adminIDs?.includes(userID) || threadData.members?.some(m => m.userID == userID && m.permissionConfigDashboard == true) || false;
-	}
-
-	function getThreadDataSync(threadID) {
-		return threadsData.getAll().find(t => t.threadID == threadID);
-	}
-
-	function getUserDataSync(userID) {
-		return usersData.getAll().find(u => u.userID == userID);
 	}
 
 	const isVideoFile = (mimeType) => videoExt.includes(mimeDB[mimeType]?.extensions?.[0]);
@@ -197,7 +189,7 @@ module.exports = async (api) => {
 		unAuthenticated_G, isWaitVerifyAccount_G, isAuthenticated_G, isVeryfiUserIDFacebook_G, checkHasAndInThread_G, middlewareCheckAuthConfigDashboardOfThread_G,
 		unAuthenticated_P, isWaitVerifyAccount_P, isAuthenticated_P, isVeryfiUserIDFacebook_P, checkHasAndInThread_P, middlewareCheckAuthConfigDashboardOfThread_P,
 		isVerifyRecaptcha, validateEmail, randomNumberApikey, transporter, generateEmailVerificationCode, dashBoardData, expireVerifyCode, Passport, isVideoFile,
-		threadsData, api, createLimiter, config, checkAuthConfigDashboardOfThread, imageExt, videoExt, audioExt, convertSize, drive, usersData, getThreadDataSync
+		threadsData, api, createLimiter, config, checkAuthConfigDashboardOfThread, imageExt, videoExt, audioExt, convertSize, drive, usersData
 	};
 
 	const registerRoute = require('./routes/register.js')(paramsForRoutes);
@@ -213,7 +205,7 @@ module.exports = async (api) => {
 	});
 
 
-	app.get('/stats', (req, res) => {
+	app.get('/stats', async (req, res) => {
 		let fcaVersion;
 		try {
 			fcaVersion = require('fb-chat-api/package.json').version;
@@ -222,8 +214,8 @@ module.exports = async (api) => {
 			fcaVersion = 'unknown';
 		}
 
-		const totalThread = threadsData.getAll().filter(t => t.threadID.toString().length > 15).length;
-		const totalUser = usersData.getAll().length;
+		const totalThread = (await threadsData.getAll()).filter(t => t.threadID.toString().length > 15).length;
+		const totalUser = (await usersData.getAll()).length;
 		const prefix = config.prefix;
 		const uptime = utils.convertTime(process.uptime() * 1000);
 
@@ -238,9 +230,9 @@ module.exports = async (api) => {
 	});
 
 
-	app.get('/profile', isAuthenticated_G, (req, res) => {
+	app.get('/profile', isAuthenticated_G, async (req, res) => {
 		res.render('profile', {
-			userData: getUserDataSync(req.user.facebookUserID) || {}
+			userData: await usersData.get(req.user.facebookUserID) || {}
 		});
 	});
 	app.get('/donate', (req, res) => res.render('donate'));

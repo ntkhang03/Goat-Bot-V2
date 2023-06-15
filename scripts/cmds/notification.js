@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: "notification",
 		aliases: ["notify", "noti"],
-		version: "1.5",
+		version: "1.6",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -56,7 +56,7 @@ module.exports = {
 			)
 		};
 
-		const allThreadID = threadsData.getAll().filter(t => t.isGroup && t.members.find(m => m.userID == api.getCurrentUserID())?.inGroup);
+		const allThreadID = (await threadsData.getAll()).filter(t => t.isGroup && t.members.find(m => m.userID == api.getCurrentUserID())?.inGroup);
 		message.reply(getLang("sendingNotification", allThreadID.length));
 
 		let sendSucces = 0;
