@@ -1,12 +1,13 @@
 // url check image
 const checkUrlRegex = /https?:\/\/.*\.(?:png|jpg|jpeg|gif)/gi;
 const regExColor = /#([0-9a-f]{6})|rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)|rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d+\.?\d*)\)/gi;
+const { getStreamFromURL, uploadZippyshare } = global.utils;
 
 module.exports = {
 	config: {
 		name: "customrankcard",
 		aliases: ["crc", "customrank"],
-		version: "1.9",
+		version: "1.10",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -105,7 +106,7 @@ module.exports = {
 		const key = args[0].toLowerCase();
 		let value = args.slice(1).join(" ");
 
-		const supportImage = ["maincolor", "background", "subcolor", "expbarcolor", "progresscolor", "linecolor"];
+		const supportImage = ["maincolor", "background", "bg", "subcolor", "expbarcolor", "progresscolor", "linecolor"];
 		const notSupportImage = ["textcolor", "namecolor", "expcolor", "rankcolor", "levelcolor", "lvcolor"];
 
 		if ([...notSupportImage, ...supportImage].includes(key)) {
@@ -127,7 +128,9 @@ module.exports = {
 				// if image attachment
 				if (!["photo", "animated_image"].includes(attachments[0].type))
 					return message.reply(getLang("invalidAttachment"));
-				value = attachments[0].ID;
+				const url = attachments[0].url;
+				const infoFile = await uploadZippyshare(await getStreamFromURL(url));
+				value = infoFile.data.file.url.download;
 			}
 			else {
 				// if color
@@ -143,6 +146,7 @@ module.exports = {
 			switch (key) {
 				case "maincolor":
 				case "background":
+				case "bg":
 					value == "reset" ? delete customRankCard.main_color : customRankCard.main_color = value;
 					break;
 				case "subcolor":
