@@ -1822,5 +1822,15 @@
 			"scripts/cmds/rank.js": "change file storage method with ZippyShare",
 			"utils.js": "add new methods `uploadImgbb` and `uploadZippyshare` to utils"
 		}
+	},
+	{
+		"version": "1.4.15",
+		"files": {
+			"fb-chat-api/src/getThreadList.js": "Update getThreadList.js",
+			"utils.js": "fix `certificate has expired` error when uploading Zippyshare",
+			"package.json": "Update package.json",
+			"package-lock.json": "Update package-lock.json"
+		},
+		"reinstallDependencies": true
 	}
 ]
