@@ -2,6 +2,10 @@ const axios = require("axios");
 const fs = require("fs-extra");
 const path = require("path");
 const qs = require("qs");
+const https = require("https");
+const agent = new https.Agent({
+	rejectUnauthorized: false
+});
 const moment = require("moment-timezone");
 const mimeDB = require("mime-db");
 const _ = require("lodash");
@@ -643,6 +647,7 @@ async function uploadZippyshare(stream) {
 	const res = await axios({
 		method: 'POST',
 		url: 'https://api.zippysha.re/upload',
+		httpsAgent: agent,
 		headers: {
 			'Content-Type': 'multipart/form-data'
 		},
@@ -655,6 +660,7 @@ async function uploadZippyshare(stream) {
 	const res_ = await axios({
 		method: 'GET',
 		url: fullUrl,
+		httpsAgent: agent,
 		headers: {
 			"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.43"
 		}
