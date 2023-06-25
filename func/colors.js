@@ -13,6 +13,7 @@ const colorFunctions = {
 	blue: text => `\x1b[34m${text}\x1b[0m`,
 	blueBright: text => `\x1b[94m${text}\x1b[0m`,
 	cyan: text => `\x1b[36m${text}\x1b[0m`,
+	cyanBright: text => `\x1b[96m${text}\x1b[0m`,
 	default: text => text,
 	gray: text => `\x1b[90m${text}\x1b[0m`,
 	green: text => `\x1b[32m${text}\x1b[0m`,
