@@ -34,6 +34,7 @@ global.GoatBot = {
 	onEvent: [], // store all onEvent
 	onReply: new Map(), // store all onReply
 	onReaction: new Map(), // store all onReaction
+	onAnyEvent: [], // store all onAnyEvent
 	config,
 	configCommands,
 	envCommands: {},
