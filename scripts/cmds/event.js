@@ -12,7 +12,7 @@ function getDomain(url) {
 module.exports = {
 	config: {
 		name: "event",
-		version: "1.7",
+		version: "1.8",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -115,7 +115,7 @@ module.exports = {
 			if (arraySucces.length > 0)
 				msg += getLang("loadedSuccess", arraySucces.length) + '\n';
 			if (arrayFail.length > 0)
-				msg += getLang("loadedFail", arrayFail.length, "❗" + arrayFail.join("\n❗ "));
+				msg += (msg ? '\n' : '') + getLang("loadedFail", arrayFail.length, "❗" + arrayFail.join("\n❗ "));
 			message.reply(msg);
 		}
 		else if (args[0] == "unload") {
