@@ -34,6 +34,13 @@ module.exports = {
 		}
 		console.log(`${getCurrentTime()} ${colors.greenBright(`${characters} ${prefix}:`)}`, message);
 	},
+	succes: function (prefix, message) {
+		if (message === undefined) {
+			message = prefix;
+			prefix = "SUCCES";
+		}
+		console.log(`${getCurrentTime()} ${colors.cyanBright(`${characters} ${prefix}:`)}`, message);
+	},
 	master: function (prefix, message) {
 		if (message === undefined) {
 			message = prefix;
