@@ -1832,5 +1832,26 @@
 			"package-lock.json": "Update package-lock.json"
 		},
 		"reinstallDependencies": true
+	},
+	{
+		"version": "1.4.16",
+		"files": {
+			"Goat.js": "add new handle `onAnyEvent`: handling for all types of events",
+			"bot/custom.js": "add new script bot/custom.js",
+			"bot/handler/handlerAction.js": "add new handle `onAnyEvent`: handling for all types of events",
+			"bot/handler/handlerEvents.js": "add new handle `onAnyEvent`: handling for all types of events",
+			"bot/login/getFbstate1.js": "fix can't login with account and password",
+			"bot/login/loadScripts.js": "fix can't login with account and password",
+			"bot/login/login.js": "fix can't login with account and password",
+			"fb-chat-api/index.js": "add new api `refreshFb_dtsg`: Refreshes the fb_dtsg and jazoest values in ctx of fca",
+			"fb-chat-api/src/refreshFb_dtsg.js": "add new api `refreshFb_dtsg`: Refreshes the fb_dtsg and jazoest values in ctx of fca",
+			"func/colors.js": "add new color to utils.colors (`cyanBright`)",
+			"languages/en.lang": "languages update",
+			"languages/vi.lang": "languages update",
+			"logger/loading.js": "add new log and loading method: `succes`",
+			"logger/log.js": "add new log and loading method: `succes`",
+			"scripts/cmds/cmd.js": "Bug fixes and code optimization",
+			"scripts/cmds/event.js": "Bug fixes and code optimization"
+		}
 	}
 ]
