@@ -203,6 +203,7 @@ function buildAPI(globalOptions, html, jar) {
 		'markAsReadAll',
 		'markAsSeen',
 		'muteThread',
+		'refreshFb_dtsg',
 		'removeUserFromGroup',
 		'resolvePhotoUrl',
 		'searchForThread',
