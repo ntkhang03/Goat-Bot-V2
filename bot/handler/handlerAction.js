@@ -20,8 +20,14 @@ module.exports = (api, threadModel, userModel, dashBoardModel, globalModel, user
 		if (!handlerChat)
 			return;
 
-		const { onFirstChat, onStart, onChat, onReply, onEvent, handlerEvent, onReaction, typ, presence, read_receipt } = handlerChat;
+		const {
+			onAnyEvent, onFirstChat, onStart, onChat,
+			onReply, onEvent, handlerEvent, onReaction,
+			typ, presence, read_receipt
+		} = handlerChat;
 
+
+		onAnyEvent();
 		switch (event.type) {
 			case "message":
 			case "message_reply":
