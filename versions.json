@@ -1853,5 +1853,13 @@
 			"scripts/cmds/cmd.js": "Bug fixes and code optimization",
 			"scripts/cmds/event.js": "Bug fixes and code optimization"
 		}
+	},
+	{
+		"version": "1.4.17",
+		"files": {
+			"bot/login/login.js": "fix cannot install custom command with `cmd` command",
+			"dashboard/views/dashboard-thread.eta": "Update dashboard-thread.eta",
+			"scripts/cmds/cmd.js": "fix cannot install custom command with `cmd` command"
+		}
 	}
 ]
