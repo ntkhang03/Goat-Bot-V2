@@ -1,13 +1,13 @@
 // url check image
 const checkUrlRegex = /https?:\/\/.*\.(?:png|jpg|jpeg|gif)/gi;
 const regExColor = /#([0-9a-f]{6})|rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)|rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d+\.?\d*)\)/gi;
-const { getStreamFromURL, uploadZippyshare } = global.utils;
+const { uploadImgbb } = global.utils;
 
 module.exports = {
 	config: {
 		name: "customrankcard",
 		aliases: ["crc", "customrank"],
-		version: "1.10",
+		version: "1.11",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -122,15 +122,16 @@ module.exports = {
 				const matchUrl = value.match(checkUrlRegex);
 				if (!matchUrl)
 					return message.reply(getLang("invalidImage"));
-				value = matchUrl[0];
+				const infoFile = await uploadImgbb(matchUrl[0], 'url');
+				value = infoFile.image.url;
 			}
 			else if (attachments.length > 0) {
 				// if image attachment
 				if (!["photo", "animated_image"].includes(attachments[0].type))
 					return message.reply(getLang("invalidAttachment"));
 				const url = attachments[0].url;
-				const infoFile = await uploadZippyshare(await getStreamFromURL(url));
-				value = infoFile.data.file.url.download;
+				const infoFile = await uploadImgbb(url, 'url');
+				value = infoFile.image.url;
 			}
 			else {
 				// if color
