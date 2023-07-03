@@ -1861,5 +1861,20 @@
 			"dashboard/views/dashboard-thread.eta": "Update dashboard-thread.eta",
 			"scripts/cmds/cmd.js": "fix cannot install custom command with `cmd` command"
 		}
+	},
+	{
+		"version": "1.4.18",
+		"files": {
+			"bot/login/login.js": "fix handlerWhenListenHasError not working",
+			"config.json": {
+				"optionsFca.autoReconnect": false
+			},
+			"fb-chat-api/src/listenMqtt.js": "Update listenMqtt.js",
+			"scripts/cmds/cmd.js": "fix bug",
+			"scripts/cmds/customrankcard.js": "fix image not working after few days",
+			"scripts/cmds/daily.js": "Update daily.js",
+			"scripts/cmds/emojimean.js": "fixes 404 error",
+			"utils.js": "edit method `uploadImgbb`, add new class: `CustomError`"
+		}
 	}
 ]
