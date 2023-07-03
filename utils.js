@@ -73,6 +73,17 @@ const word = [
 	' '
 ];
 
+class CustomError extends Error {
+	constructor(obj) {
+		if (typeof obj === 'string')
+			obj = { message: obj };
+		if (typeof obj !== 'object' || obj === null)
+			throw new TypeError('Object required');
+		obj.message ? super(obj.message) : super();
+		Object.assign(this, obj);
+	}
+}
+
 function lengthWhiteSpacesEndLine(text) {
 	let length = 0;
 	for (let i = text.length - 1; i >= 0; i--) {
@@ -603,8 +614,10 @@ async function shortenURL(url) {
 	}
 }
 
-async function uploadImgbb({ file, type = 'file' }) {
+async function uploadImgbb(file /* stream */, type = "file") {
 	try {
+		if (!file || typeof file._read !== 'function' || typeof file._readableState !== 'object')
+			throw new Error('The first argument (file) must be a stream');
 		const res_ = await axios({
 			method: 'GET',
 			url: 'https://imgbb.com'
@@ -617,7 +630,7 @@ async function uploadImgbb({ file, type = 'file' }) {
 			method: 'POST',
 			url: 'https://imgbb.com/json',
 			headers: {
-				"content-type": "multipart/form-data;",
+				"content-type": "multipart/form-data"
 			},
 			data: {
 				source: file,
@@ -629,17 +642,79 @@ async function uploadImgbb({ file, type = 'file' }) {
 		});
 
 		return res.data;
+		// {
+		// 	"status_code": 200,
+		// 	"success": {
+		// 		"message": "image uploaded",
+		// 		"code": 200
+		// 	},
+		// 	"image": {
+		// 		"name": "Banner-Project-Goat-Bot",
+		// 		"extension": "png",
+		// 		"width": 2560,
+		// 		"height": 1440,
+		// 		"size": 194460,
+		// 		"time": 1688352855,
+		// 		"expiration": 0,
+		// 		"likes": 0,
+		// 		"description": null,
+		// 		"original_filename": "Banner Project Goat Bot.png",
+		// 		"is_animated": 0,
+		// 		"is_360": 0,
+		// 		"nsfw": 0,
+		// 		"id_encoded": "D1yzzdr",
+		// 		"size_formatted": "194.5 KB",
+		// 		"filename": "Banner-Project-Goat-Bot.png",
+		// 		"url": "https://i.ibb.co/wdXBBtc/Banner-Project-Goat-Bot.png",  // => this is url image
+		// 		"url_viewer": "https://ibb.co/D1yzzdr",
+		// 		"url_viewer_preview": "https://ibb.co/D1yzzdr",
+		// 		"url_viewer_thumb": "https://ibb.co/D1yzzdr",
+		// 		"image": {
+		// 			"filename": "Banner-Project-Goat-Bot.png",
+		// 			"name": "Banner-Project-Goat-Bot",
+		// 			"mime": "image/png",
+		// 			"extension": "png",
+		// 			"url": "https://i.ibb.co/wdXBBtc/Banner-Project-Goat-Bot.png",
+		// 			"size": 194460
+		// 		},
+		// 		"thumb": {
+		// 			"filename": "Banner-Project-Goat-Bot.png",
+		// 			"name": "Banner-Project-Goat-Bot",
+		// 			"mime": "image/png",
+		// 			"extension": "png",
+		// 			"url": "https://i.ibb.co/D1yzzdr/Banner-Project-Goat-Bot.png"
+		// 		},
+		// 		"medium": {
+		// 			"filename": "Banner-Project-Goat-Bot.png",
+		// 			"name": "Banner-Project-Goat-Bot",
+		// 			"mime": "image/png",
+		// 			"extension": "png",
+		// 			"url": "https://i.ibb.co/tHtQQRL/Banner-Project-Goat-Bot.png"
+		// 		},
+		// 		"display_url": "https://i.ibb.co/tHtQQRL/Banner-Project-Goat-Bot.png",
+		// 		"display_width": 2560,
+		// 		"display_height": 1440,
+		// 		"delete_url": "https://ibb.co/D1yzzdr/<TOKEN>",
+		// 		"views_label": "lượt xem",
+		// 		"likes_label": "thích",
+		// 		"how_long_ago": "mới đây",
+		// 		"date_fixed_peer": "2023-07-03 02:54:15",
+		// 		"title": "Banner-Project-Goat-Bot",
+		// 		"title_truncated": "Banner-Project-Goat-Bot",
+		// 		"title_truncated_html": "Banner-Project-Goat-Bot",
+		// 		"is_use_loader": false
+		// 	},
+		// 	"request": {
+		// 		"type": "file",
+		// 		"action": "upload",
+		// 		"timestamp": "1688352853967",
+		// 		"auth_token": "a2606b39536a05a81bef15558bb0d61f7253dccb"
+		// 	},
+		// 	"status_txt": "OK"
+		// }
 	}
 	catch (err) {
-		let error;
-		if (err.response) {
-			error = new Error();
-			Object.assign(error, err.response.data);
-		}
-		else
-			error = new Error(err.message);
-
-		throw error;
+		throw new CustomError(err.response ? err.response.data : err.message);
 	}
 }
 
@@ -829,6 +904,8 @@ const drive = {
 };
 
 const utils = {
+	CustomError,
+
 	colors,
 	convertTime,
 	createOraDots,
@@ -851,6 +928,7 @@ const utils = {
 	removeHomeDir,
 	splitPage,
 	translateAPI,
+
 	// async functions
 	downloadFile,
 	findUid,
