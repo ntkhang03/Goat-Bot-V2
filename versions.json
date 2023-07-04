@@ -1876,5 +1876,12 @@
 			"scripts/cmds/emojimean.js": "fixes 404 error",
 			"utils.js": "edit method `uploadImgbb`, add new class: `CustomError`"
 		}
+	},
+	{
+		"version": "1.4.19",
+		"files": {
+			"dashboard/routes/register.js": "fix can't register dashboard account",
+			"database/models/sqlite/global.js": "fix can't register dashboard account"
+		}
 	}
 ]
