@@ -73,6 +73,8 @@ const word = [
 	' '
 ];
 
+const regCheckURL = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+
 class CustomError extends Error {
 	constructor(obj) {
 		if (typeof obj === 'string')
@@ -614,10 +616,19 @@ async function shortenURL(url) {
 	}
 }
 
-async function uploadImgbb(file /* stream */, type = "file") {
+async function uploadImgbb(file /* stream or image url */) {
+	let type = "file";
 	try {
-		if (!file || typeof file._read !== 'function' || typeof file._readableState !== 'object')
-			throw new Error('The first argument (file) must be a stream');
+		if (!file)
+			throw new Error('The first argument (file) must be a stream or a image url');
+		if (regCheckURL.test(file) == true)
+			type = "url";
+		if (
+			(type != "url" && (!(typeof file._read === 'function' && typeof file._readableState === 'object')))
+			|| (type == "url" && !regCheckURL.test(file))
+		)
+			throw new Error('The first argument (file) must be a stream or an image URL');
+
 		const res_ = await axios({
 			method: 'GET',
 			url: 'https://imgbb.com'
@@ -714,7 +725,7 @@ async function uploadImgbb(file /* stream */, type = "file") {
 		// }
 	}
 	catch (err) {
-		throw new CustomError(err.response ? err.response.data : err.message);
+		throw new CustomError(err.response ? err.response.data : err);
 	}
 }
 
