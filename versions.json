@@ -1883,5 +1883,12 @@
 			"dashboard/routes/register.js": "fix can't register dashboard account",
 			"database/models/sqlite/global.js": "fix can't register dashboard account"
 		}
+	},
+	{
+		"version": "1.4.20",
+		"files": {
+			"scripts/cmds/antichangeinfobox.js": "change photo storage method",
+			"utils.js": "fix can't uploadImgbb with url"
+		}
 	}
 ]
