@@ -2,7 +2,6 @@ const axios = require('axios');
 const _ = require('lodash');
 const fs = require('fs-extra');
 const path = require('path');
-const cheerio = require('cheerio');
 const log = require('./logger/log.js');
 let chalk;
 try {
@@ -184,9 +183,8 @@ fs.copyFileSync = function (src, dest) {
 
 	// fixes package.json not updating content by itself
 	const { data: packageHTML5 } = await axios.get("https://github.com/ntkhang03/Goat-Bot-V2/blob/main/package.json");
-	const $ = cheerio.load(packageHTML5);
-	const content = $('td.blob-code-inner').text();
-	fs.writeFileSync(`${process.cwd()}/package.json`, JSON.stringify(JSON.parse(content), null, 2));
+	const content = packageHTML5.split(',"blob":{"rawBlob":')[1].split(',"colorizedLines"')[0];
+	fs.writeFileSync(`${process.cwd()}/package.json`, JSON.stringify(JSON.parse(JSON.parse(content)), null, 2));
 	log.info("UPDATE", getText("updater", "updateSuccess", !reinstallDependencies ? getText("updater", "restartToApply") : ""));
 
 	// npm install
