@@ -257,6 +257,10 @@ function getTime(timestamps, format) {
 	return moment(timestamps).tz(config.timeZone).format(format);
 }
 
+function isNumber(value) {
+	return !isNaN(parseFloat(value));
+}
+
 function jsonStringifyColor(obj, filter, indent, level) {
 	// source: https://www.npmjs.com/package/node-json-color-stringify
 	indent = indent || 0;
@@ -929,6 +933,7 @@ const utils = {
 	getPrefix,
 	getTime,
 	isHexColor,
+	isNumber,
 	jsonStringifyColor,
 	loading: require("./logger/loading.js"),
 	log,
