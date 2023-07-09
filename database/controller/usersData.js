@@ -3,6 +3,7 @@ const moment = require("moment-timezone");
 const path = require("path");
 const axios = require("axios");
 const _ = require("lodash");
+const { CustomError } = global.utils;
 
 const optionsWriteJSON = {
 	spaces: 2,
@@ -53,9 +54,10 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 					index = _.findIndex(global.db.allUserData, { userID });
 				}
 				catch (err) {
-					const e = new Error(`Can't find user with userID: ${userID} in database`);
-					e.name = "USER_NOT_FOUND";
-					throw e;
+					throw new CustomError({
+						name: "USER_NOT_FOUND",
+						message: `Can't find user with userID: ${userID} in database`
+					});
 				}
 			}
 
@@ -161,9 +163,10 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 
 	async function getName(userID, checkData = true) {
 		if (isNaN(userID)) {
-			const error = new Error(`The first argument (userID) must be a number, not ${typeof userID}`);
-			error.name = "Invalid userID";
-			throw error;
+			throw new CustomError({
+				name: "INVALID_USER_ID",
+				message: `The first argument (userID) must be a number, not ${typeof userID}`
+			});
 		}
 		if (checkData) {
 			const userData = global.db.allUserData.find(u => u.userID == userID);
@@ -181,9 +184,10 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 
 	async function getAvatarUrl(userID) {
 		if (isNaN(userID)) {
-			const error = new Error(`The first argument (userID) must be a number, not ${typeof userID}`);
-			error.name = "Invalid userID";
-			throw error;
+			throw new CustomError({
+				name: "INVALID_USER_ID",
+				message: `The first argument (userID) must be a number, not ${typeof userID}`
+			});
 		}
 		try {
 			const user = await axios.post(`https://www.facebook.com/api/graphql/`, null, {
@@ -208,14 +212,16 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 			const queue = new Promise(async function (resolve_, reject_) {
 				try {
 					if (global.db.allUserData.some(u => u.userID == userID)) {
-						const messageError = new Error(`User with id "${userID}" already exists in the data`);
-						messageError.name = "Data already exists";
-						throw messageError;
+						throw new CustomError({
+							name: "DATA_ALREADY_EXISTS",
+							message: `User with id "${userID}" already exists in the data`
+						});
 					}
 					if (isNaN(userID)) {
-						const error = new Error(`The first argument (userID) must be a number, not ${typeof userID}`);
-						error.name = "Invalid userID";
-						throw error;
+						throw new CustomError({
+							name: "INVALID_USER_ID",
+							message: `The first argument (userID) must be a number, not ${typeof userID}`
+						});
 					}
 					userInfo = userInfo || (await api.getUserInfo(userID))[userID];
 					let userData = {
@@ -263,9 +269,10 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 			messageQueue.push(async function () {
 				try {
 					if (isNaN(userID)) {
-						const error = new Error(`The first argument (userID) must be a number, not ${typeof userID}`);
-						error.name = "Invalid userID";
-						throw error;
+						throw new CustomError({
+							name: "INVALID_USER_ID",
+							message: `The first argument (userID) must be a number, not ${typeof userID}`
+						});
 					}
 					const infoUser = await get_(userID);
 					updateInfoUser = updateInfoUser || (await api.getUserInfo(userID))[userID];
@@ -324,9 +331,10 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 		return new Promise(async (resolve, reject) => {
 			try {
 				if (isNaN(userID)) {
-					const error = new Error(`The first argument (userID) must be a number, not ${typeof userID}`);
-					error.name = "INVALID_USER_ID";
-					throw error;
+					throw new CustomError({
+						name: "INVALID_USER_ID",
+						message: `The first argument (userID) must be a number, not ${typeof userID}`
+					});
 				}
 				let userData;
 
@@ -377,9 +385,10 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 			messageQueue.push(async function () {
 				try {
 					if (isNaN(userID)) {
-						const error = new Error(`The first argument (userID) must be a number, not ${typeof userID}`);
-						error.name = "Invalid userID";
-						throw error;
+						throw new CustomError({
+							name: "INVALID_USER_ID",
+							message: `The first argument (userID) must be a number, not ${typeof userID}`
+						});
 					}
 
 					if (!path && (typeof updateData != "object" || typeof updateData == "object" && Array.isArray(updateData)))
@@ -401,14 +410,51 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 		});
 	}
 
+	async function deleteKey(userID, path, query) {
+		return new Promise(async function (resolve, reject) {
+			messageQueue.push(async function () {
+				try {
+					if (isNaN(userID)) {
+						throw new CustomError({
+							name: "INVALID_USER_ID",
+							message: `The first argument (userID) must be a number, not a ${typeof userID}`
+						});
+					}
+					if (typeof path !== "string")
+						throw new Error(`The second argument (path) must be a string, not a ${typeof path}`);
+					const spitPath = path.split(".");
+					if (spitPath.length == 1)
+						throw new Error(`Can't delete key "${path}" because it's a root key`);
+					const parent = spitPath.slice(0, spitPath.length - 1).join(".");
+					const parentData = await get_(userID, parent);
+					if (!parentData)
+						throw new Error(`Can't find key "${parent}" in user with userID: ${userID}`);
+
+					_.unset(parentData, spitPath[spitPath.length - 1]);
+					const setData = await save(userID, parentData, "update", parent);
+					if (query)
+						if (typeof query !== "string")
+							throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
+						else
+							return resolve(_.cloneDeep(fakeGraphql(query, setData)));
+					return resolve(_.cloneDeep(setData));
+				}
+				catch (err) {
+					reject(err);
+				}
+			});
+		});
+	}
+
 	async function getMoney(userID) {
 		return new Promise((resolve, reject) => {
 			messageQueue.push(async function () {
 				try {
 					if (isNaN(userID)) {
-						const error = new Error(`The first argument (userID) must be a number, not ${typeof userID}`);
-						error.name = "Invalid userID";
-						throw error;
+						throw new CustomError({
+							name: "INVALID_USER_ID",
+							message: `The first argument (userID) must be a number, not ${typeof userID}`
+						});
 					}
 					const money = await get_(userID, "money");
 					resolve(money);
@@ -425,14 +471,16 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 			messageQueue.push(async function () {
 				try {
 					if (isNaN(userID)) {
-						const error = new Error(`The first argument (userID) must be a number, not ${typeof userID}`);
-						error.name = "Invalid userID";
-						throw error;
+						throw new CustomError({
+							name: "INVALID_USER_ID",
+							message: `The first argument (userID) must be a number, not ${typeof userID}`
+						});
 					}
 					if (isNaN(money)) {
-						const error = new Error(`The second argument (money) must be a number, not ${typeof money}`);
-						error.name = "Invalid money";
-						throw error;
+						throw new CustomError({
+							name: "INVALID_MONEY",
+							message: `The second argument (money) must be a number, not ${typeof money}`
+						});
 					}
 					if (!global.db.allUserData.some(u => u.userID == userID))
 						await create_(userID);
@@ -459,14 +507,16 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 			messageQueue.push(async function () {
 				try {
 					if (isNaN(userID)) {
-						const error = new Error(`The first argument (userID) must be a number, not ${typeof userID}`);
-						error.name = "Invalid userID";
-						throw error;
+						throw new CustomError({
+							name: "INVALID_USER_ID",
+							message: `The first argument (userID) must be a number, not ${typeof userID}`
+						});
 					}
 					if (isNaN(money)) {
-						const error = new Error(`The second argument (money) must be a number, not ${typeof money}`);
-						error.name = "Invalid money";
-						throw error;
+						throw new CustomError({
+							name: "INVALID_MONEY",
+							message: `The second argument (money) must be a number, not ${typeof money}`
+						});
 					}
 					if (!global.db.allUserData.some(u => u.userID == userID))
 						await create_(userID);
@@ -517,6 +567,7 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 		getAll,
 		get,
 		set,
+		deleteKey,
 		getMoney,
 		addMoney,
 		subtractMoney,

@@ -2,6 +2,7 @@ const { existsSync, writeJsonSync, readJSONSync } = require("fs-extra");
 const moment = require("moment-timezone");
 const path = require("path");
 const _ = require("lodash");
+const { CustomError } = global.utils;
 const optionsWriteJSON = {
 	spaces: 2,
 	EOL: "\n"
@@ -200,8 +201,7 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 		});
 	}
 
-
-	function get(email, path, defaultValue, query) {
+	function get_(email, path, defaultValue, query) {
 		return new Promise((resolve, reject) => {
 			messageQueue.push(async function () {
 				try {
@@ -233,6 +233,19 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 		});
 	}
 
+	function get(email, path, defaultValue, query) {
+		return new Promise((resolve, reject) => {
+			messageQueue.push(async function () {
+				try {
+					resolve(await get_(email, path, defaultValue, query));
+				}
+				catch (err) {
+					reject(err);
+				}
+			});
+		});
+	}
+
 	async function set(email, updateData, path, query) {
 		return new Promise((resolve, reject) => {
 			messageQueue.push(async function () {
@@ -240,9 +253,10 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 					if (!path && (typeof updateData != "object" || typeof updateData == "object" && Array.isArray(updateData)))
 						throw new Error(`The second argument (updateData) must be an object or an array, not a ${typeof updateData}`);
 					if (!global.db.allDashBoardData.some(u => u.email == email)) {
-						const messageError = new Error(`User with email "${email}" does not exist in the data`);
-						messageError.name = "USER_NOT_FOUND";
-						throw messageError;
+						throw new CustomError({
+							name: "USER_NOT_FOUND",
+							message: `User with email "${email}" does not exist in the data`
+						});
 					}
 					const userData = await save(email, updateData, "update", path);
 					if (query)
@@ -253,12 +267,54 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 					return resolve(_.cloneDeep(userData));
 				}
 				catch (err) {
-					throw err;
+					reject(err);
 				}
 			});
 		});
 	}
 
+	async function deleteKey(email, path, query) {
+		return new Promise((resolve, reject) => {
+			messageQueue.push(async function () {
+				try {
+					if (typeof email != "string") {
+						throw new CustomError({
+							name: "INVALID_EMAIL",
+							message: `The first argument (email) must be a string, not a ${typeof email}`
+						});
+					}
+					if (!global.db.allDashBoardData.some(u => u.email == email)) {
+						throw new CustomError({
+							name: "USER_NOT_FOUND",
+							message: `User with email "${email}" does not exist in the data`
+						});
+					}
+
+					if (typeof path !== "string")
+						throw new Error(`The second argument (path) must be a string, not a ${typeof path}`);
+					const spitPath = path.split(".");
+					if (spitPath.length == 1)
+						throw new Error(`Can't delete key "${path}" because it's a root key`);
+					const parent = spitPath.slice(0, spitPath.length - 1).join(".");
+					const parentData = await get_(email, parent);
+					if (!parentData)
+						throw new Error(`Can't find key "${parent}" in user data`);
+
+					_.unset(parentData, spitPath[spitPath.length - 1]);
+					const setData = await save(email, parentData, "update", parent);
+					if (query)
+						if (typeof query !== "string")
+							throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
+						else
+							return resolve(_.cloneDeep(fakeGraphql(query, setData)));
+					return resolve(_.cloneDeep(setData));
+				}
+				catch (err) {
+					reject(err);
+				}
+			});
+		});
+	}
 
 	async function remove(email) {
 		return new Promise((resolve, reject) => {
@@ -287,6 +343,7 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 		getAll,
 		get,
 		set,
+		deleteKey,
 		remove
 	};
 };

@@ -2,6 +2,7 @@ const { existsSync, writeJsonSync, readJSONSync } = require("fs-extra");
 const moment = require("moment-timezone");
 const path = require("path");
 const _ = require("lodash");
+const { CustomError } = global.utils;
 const optionsWriteJSON = {
 	spaces: 2,
 	EOL: "\n"
@@ -52,9 +53,10 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 					index = _.findIndex(global.db.allThreadData, { threadID });
 				}
 				catch (err) {
-					const e = new Error(`Can't find thread with threadID: ${threadID} in database`);
-					e.name = "ThreadNotExist";
-					throw e;
+					throw new CustomError({
+						name: "THREAD_NOT_EXIST",
+						message: `Can't find thread with threadID: ${threadID} in database`
+					});
 				}
 			}
 
@@ -171,14 +173,16 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 			const queue = new Promise(async function (resolve_, reject_) {
 				try {
 					if (global.db.allThreadData.some(t => t.threadID == threadID)) {
-						const error = new Error(`Thread with id "${threadID}" already exists in the data`);
-						error.name = "DATA_EXISTS";
-						throw error;
+						throw new CustomError({
+							name: "DATA_EXISTS",
+							message: `Thread with id "${threadID}" already exists in the data`
+						});
 					}
 					if (isNaN(threadID)) {
-						const error = new Error(`The first argument (threadID) must be a number, not a ${typeof threadID}`);
-						error.name = "INVALID_THREAD_ID";
-						throw error;
+						throw new CustomError({
+							name: "INVALID_THREAD_ID",
+							message: `The first argument (threadID) must be a number, not a ${typeof threadID}`
+						});
 					}
 					threadInfo = threadInfo || await api.getThreadInfo(threadID);
 					const { threadName, userInfo, adminIDs } = threadInfo;
@@ -254,9 +258,10 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 			messageQueue.push(async function () {
 				try {
 					if (isNaN(threadID)) {
-						const error = new Error(`The first argument (threadID) must be a number, not a ${typeof threadID}`);
-						error.name = "Invalid threadID";
-						reject(error);
+						reject(new CustomError({
+							name: "INVALID_THREAD_ID",
+							message: `The first argument (threadID) must be a number, not a ${typeof threadID}`
+						}));
 					}
 					const threadInfo = await get_(threadID);
 					newThreadInfo = newThreadInfo || await api.getThreadInfo(threadID);
@@ -345,9 +350,10 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 		return new Promise(async function (resolve, reject) {
 			try {
 				if (isNaN(threadID)) {
-					const error = new Error(`The first argument (threadID) must be a number, not a ${typeof threadID}`);
-					error.name = "Invalid threadID";
-					throw error;
+					throw new CustomError({
+						name: "INVALID_THREAD_ID",
+						message: `The first argument (threadID) must be a number, not a ${typeof threadID}`
+					});
 				}
 				let threadData;
 
@@ -398,9 +404,10 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 			messageQueue.push(async function () {
 				try {
 					if (isNaN(threadID)) {
-						const error = new Error(`The first argument (threadID) must be a number, not a ${typeof threadID}`);
-						error.name = "Invalid threadID";
-						throw error;
+						throw new CustomError({
+							name: "INVALID_THREAD_ID",
+							message: `The first argument (threadID) must be a number, not a ${typeof threadID}`
+						});
 					}
 					if (!path && (typeof updateData != "object" || Array.isArray(updateData)))
 						throw new Error(`The second argument (updateData) must be an object, not a ${typeof updateData}`);
@@ -419,14 +426,51 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 		});
 	}
 
+	async function deleteKey(threadID, path, query) {
+		return new Promise(async function (resolve, reject) {
+			messageQueue.push(async function () {
+				try {
+					if (isNaN(threadID)) {
+						throw new CustomError({
+							name: "INVALID_THREAD_ID",
+							message: `The first argument (threadID) must be a number, not a ${typeof threadID}`
+						});
+					}
+					if (typeof path !== "string")
+						throw new Error(`The second argument (path) must be a string, not a ${typeof path}`);
+					const spitPath = path.split(".");
+					if (spitPath.length == 1)
+						throw new Error(`Can't delete key "${path}" because it's a root key`);
+					const parent = spitPath.slice(0, spitPath.length - 1).join(".");
+					const parentData = await get_(threadID, parent);
+					if (!parentData)
+						throw new Error(`Can't find key "${parent}" in thread with threadID: ${threadID}`);
+
+					_.unset(parentData, spitPath[spitPath.length - 1]);
+					const setData = await save(threadID, parentData, "update", parent);
+					if (query)
+						if (typeof query !== "string")
+							throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
+						else
+							return resolve(_.cloneDeep(fakeGraphql(query, setData)));
+					return resolve(_.cloneDeep(setData));
+				}
+				catch (err) {
+					reject(err);
+				}
+			});
+		});
+	}
+
 	async function remove(threadID) {
 		return new Promise(async function (resolve, reject) {
 			messageQueue.push(async function () {
 				try {
 					if (isNaN(threadID)) {
-						const error = new Error(`The first argument (threadID) must be a number, not a ${typeof threadID}`);
-						error.name = "INVALID_THREAD_ID";
-						throw error;
+						throw new CustomError({
+							name: "INVALID_THREAD_ID",
+							message: `The first argument (threadID) must be a number, not a ${typeof threadID}`
+						});
 					}
 					await save(threadID, { threadID }, "delete");
 					return resolve(true);
@@ -447,6 +491,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 		getAll,
 		get,
 		set,
+		deleteKey,
 		remove
 	};
 };

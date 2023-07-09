@@ -2,7 +2,7 @@ const { existsSync, writeJsonSync, readJSONSync } = require("fs-extra");
 const moment = require("moment-timezone");
 const path = require("path");
 const _ = require("lodash");
-
+const { CustomError } = global.utils;
 const optionsWriteJSON = {
 	spaces: 2,
 	EOL: "\n"
@@ -44,9 +44,10 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 		try {
 			const index = _.findIndex(global.db.allGlobalData, { key });
 			if (index === -1 && mode === "update") {
-				const err = new Error(`Can't find data with key: "${key}" in database`);
-				err.name = "KEY_NOT_FOUND";
-				throw err;
+				throw new CustomError({
+					name: "KEY_NOT_FOUND",
+					message: `Can't find data with key: "${key}" in database`
+				});
 			}
 
 			switch (mode) {
@@ -176,9 +177,10 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 			const queue = new Promise(async function (resolve_, reject_) {
 				try {
 					if (global.db.allGlobalData.some(u => u.key == key)) {
-						const messageError = new Error(`Data with key "${key}" already exists in the data`);
-						messageError.name = "KEY_EXISTS";
-						throw messageError;
+						throw new CustomError({
+							name: "KEY_EXISTS",
+							message: `Data with key "${key}" already exists in the data`
+						});
 					}
 
 					data.key = key;
@@ -313,9 +315,10 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 					if (!path && (typeof updateData != "object" || typeof updateData == "object" && Array.isArray(updateData)))
 						throw new Error(`The second argument (updateData) must be an object, not a ${typeof updateData}`);
 					if (!global.db.allGlobalData.some(u => u.key == key)) {
-						const messageError = new Error(`Data with key "${key}" does not exist in the data`);
-						messageError.name = "KEY_NOT_FOUND";
-						throw messageError;
+						throw new CustomError({
+							name: "KEY_NOT_FOUND",
+							message: `Data with key "${key}" does not exist in the data`
+						});
 					}
 					const setData = await save(key, updateData, "update", path);
 					if (query)
@@ -332,15 +335,58 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 		});
 	}
 
+	async function deleteKey(key, path, query) {
+		return new Promise((resolve, reject) => {
+			messageQueue.push(async function () {
+				try {
+					if (typeof key != "string") {
+						throw new CustomError({
+							name: "INVALID_TYPE",
+							message: `The first argument (key) must be a string, not a ${typeof key}`
+						});
+					}
+					if (!global.db.allGlobalData.some(u => u.key == key)) {
+						throw new CustomError({
+							name: "KEY_NOT_FOUND",
+							message: `Data with key "${key}" does not exist in the data`
+						});
+					}
+
+					if (typeof path !== "string")
+						throw new Error(`The second argument (path) must be a string, not a ${typeof path}`);
+					const spitPath = path.split(".");
+					if (spitPath.length == 1)
+						throw new Error(`Can't delete key "${path}" because it's a root key`);
+					const parent = spitPath.slice(0, spitPath.length - 1).join(".");
+					const parentData = await get_(key, parent);
+					if (!parentData)
+						throw new Error(`Can't find key "${parent}" in user data`);
+
+					_.unset(parentData, spitPath[spitPath.length - 1]);
+					const setData = await save(key, parentData, "update", parent);
+					if (query)
+						if (typeof query !== "string")
+							throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
+						else
+							return resolve(_.cloneDeep(fakeGraphql(query, setData)));
+					return resolve(_.cloneDeep(setData));
+				}
+				catch (err) {
+					reject(err);
+				}
+			});
+		});
+	}
 
 	async function remove(key) {
 		return new Promise((resolve, reject) => {
 			messageQueue.push(async function () {
 				try {
 					if (typeof key != "string") {
-						const error = new Error(`The first argument (key) must be a string, not a ${typeof key}`);
-						error.name = "INVALID_KEY";
-						throw error;
+						throw new CustomError({
+							name: "INVALID_TYPE",
+							message: `The first argument (key) must be a string, not a ${typeof key}`
+						});
 					}
 					await save(key, { key }, "remove");
 					return resolve(true);
@@ -360,6 +406,7 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 		getAll,
 		get,
 		set,
+		deleteKey,
 		remove
 	};
 };
