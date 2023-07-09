@@ -1890,5 +1890,16 @@
 			"scripts/cmds/antichangeinfobox.js": "change photo storage method",
 			"utils.js": "fix can't uploadImgbb with url"
 		}
+	},
+	{
+		"version": "1.4.21",
+		"files": {
+			"database/controller/dashBoardData.js": "add new method: `deleteKey`",
+			"database/controller/globalData.js": "add new method: `deleteKey`",
+			"database/controller/threadsData.js": "add new method: `deleteKey`",
+			"database/controller/usersData.js": "add new method: `deleteKey`",
+			"updater.js": "fix can't update to new version",
+			"utils.js": "add new method: `isNumber`"
+		}
 	}
 ]
