@@ -203,33 +203,31 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 
 	function get_(email, path, defaultValue, query) {
 		return new Promise((resolve, reject) => {
-			messageQueue.push(async function () {
-				try {
-					if (!email || typeof email != "string")
-						throw new Error(`The first argument (email) must be a string, not a ${typeof email}`);
-					let userData = global.db.allDashBoardData.find(u => u.email == email);
-					if (!userData)
-						return resolve(undefined);
+			try {
+				if (!email || typeof email != "string")
+					throw new Error(`The first argument (email) must be a string, not a ${typeof email}`);
+				let userData = global.db.allDashBoardData.find(u => u.email == email);
+				if (!userData)
+					return resolve(undefined);
 
-					if (query)
-						if (typeof query !== "string")
-							throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
-						else userData = fakeGraphql(query, userData);
+				if (query)
+					if (typeof query !== "string")
+						throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
+					else userData = fakeGraphql(query, userData);
 
-					if (path)
-						if (!["string", "array"].includes(typeof path))
-							throw new Error(`The second argument (path) must be a string or an array, not a ${typeof path}`);
+				if (path)
+					if (!["string", "array"].includes(typeof path))
+						throw new Error(`The second argument (path) must be a string or an array, not a ${typeof path}`);
+					else
+						if (typeof path === "string")
+							return resolve(_.cloneDeep(_.get(userData, path, defaultValue)));
 						else
-							if (typeof path === "string")
-								return resolve(_.cloneDeep(_.get(userData, path, defaultValue)));
-							else
-								return resolve(_.cloneDeep(_.times(path.length, i => _.get(userData, path[i], defaultValue[i]))));
-					return resolve(_.cloneDeep(userData));
-				}
-				catch (err) {
-					reject(err);
-				}
-			});
+							return resolve(_.cloneDeep(_.times(path.length, i => _.get(userData, path[i], defaultValue[i]))));
+				return resolve(_.cloneDeep(userData));
+			}
+			catch (err) {
+				reject(err);
+			}
 		});
 	}
 
