@@ -1901,5 +1901,12 @@
 			"updater.js": "fix can't update to new version",
 			"utils.js": "add new method: `isNumber`"
 		}
+	},
+	{
+		"version": "1.4.22",
+		"files": {
+			"dashboard/passport-config.js": "fix can't register dashboard account",
+			"database/controller/dashBoardData.js": "fix can't register dashboard account"
+		}
 	}
 ]
