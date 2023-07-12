@@ -1908,5 +1908,23 @@
 			"dashboard/passport-config.js": "fix can't register dashboard account",
 			"database/controller/dashBoardData.js": "fix can't register dashboard account"
 		}
+	},
+	{
+		"version": "1.4.23",
+		"files": {
+			"Goat.js": "automatically update changes of dirConfigCommands and dirConfig",
+			"bot/login/loadData.js": "optimization code",
+			"bot/login/login.js": "optimization code",
+			"configCommands.json": {
+				"envGlobal.goatbotApikey": ""
+			},
+			"languages/en.lang": "languages update",
+			"languages/vi.lang": "languages update",
+			"logger/log.js": "correct spelling `succes` -> `success`",
+			"restoreBackup.js": "Update restoreBackup.js",
+			"scripts/cmds/texttoimage.js": "fix cannot use command `texttoimage`",
+			"updater.js": "Update updater.js",
+			"utils.js": "add new class `GoatBotApis`: call api on https://goatbot.tk"
+		}
 	}
 ]
