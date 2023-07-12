@@ -149,7 +149,7 @@ fs.copyFileSync = function (src, dest) {
 		}
 
 		if (["config.json", "configCommands.json"].includes(filePath)) {
-			const currentConfig = require(filePath);
+			const currentConfig = JSON.parse(fs.readFileSync(fullPath, "utf-8"));
 			const configValueUpdate = files[filePath];
 
 			for (const key in configValueUpdate) {
