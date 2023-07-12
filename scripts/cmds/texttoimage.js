@@ -1,10 +1,10 @@
-const axios = require("axios");
+const { GoatBotApis } = global.utils;
 
 module.exports = {
 	config: {
 		name: "texttoimage",
 		aliases: ["midjourney", "openjourney", "text2image"],
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -28,30 +28,35 @@ module.exports = {
 		vi: {
 			syntaxError: "⚠️ Vui lòng nhập prompt",
 			error: "❗ Đã có lỗi xảy ra, vui lòng thử lại sau:\n%1",
-			serverError: "❗ Server đang quá tải, vui lòng thử lại sau"
+			serverError: "❗ Server đang quá tải, vui lòng thử lại sau",
+			missingGoatApiKey: "❗ Chưa cài đặt apikey cho GoatBot, vui lòng truy cập goatbot.tk để lấy apikey và cài đặt vào file configCommands.json > envGlobal.goatbotApikey và lưu lại"
 		},
 		en: {
 			syntaxError: "⚠️ Please enter prompt",
 			error: "❗ An error has occurred, please try again later:\n%1",
-			serverError: "❗ Server is overloaded, please try again later"
+			serverError: "❗ Server is overloaded, please try again later",
+			missingGoatApiKey: "❗ Not set apikey for GoatBot, please visit goatbot.tk to get apikey and set it to configCommands.json > envGlobal.goatbotApikey and save"
 		}
 	},
 
-	onStart: async function ({ message, args, getLang }) {
+	onStart: async function ({ message, args, getLang, envGlobal }) {
+		const goatBotApi = new GoatBotApis(envGlobal.goatbotApikey);
+		if (!goatBotApi.isSetApiKey())
+			return message.reply(getLang("missingGoatApiKey"));
 		const prompt = args.join(" ");
 		if (!prompt)
 			return message.reply(getLang("syntaxError"));
 
 		try {
-			const { data: imageStream } = await axios({
-				url: "https://goatbotserver.onrender.com/taoanhdep/texttoimage",
-				method: "POST",
+			const { data: imageStream } = await goatBotApi.api({
+				url: "/image/mdjrny",
+				method: "GET",
 				headers: {
 					"Content-Type": "application/json"
 				},
-				data: {
+				params: {
 					prompt,
-					styleId: 28,
+					style_id: 28,
 					aspect_ratio: "1:1"
 				},
 				responseType: "stream"
@@ -64,7 +69,7 @@ module.exports = {
 			});
 		}
 		catch (err) {
-			return message.reply(getLang("error", err.response?.data?.message || err.message));
+			return message.reply(getLang("error", err.data?.message || err.message));
 		}
 	}
 };
