@@ -17,7 +17,7 @@ function recursiveReadDirAndBackup(pathFileOrFolder) {
 			fs.mkdirSync(pathFileOrFolderRestore);
 		const readDir = fs.readdirSync(pathFileOrFolderBackup);
 		readDir.forEach(fileOrFolder => {
-			recursiveReadDirAndBackup(pathFileOrFolder + '/' + fileOrFolder);
+			recursiveReadDirAndBackup(`${pathFileOrFolder}/${fileOrFolder}`);
 		});
 	}
 	else {
@@ -47,7 +47,7 @@ function recursiveReadDirAndBackup(pathFileOrFolder) {
 	versionBackup = versionBackup.replace("backup_", ""); // remove backup_ if exists (may be user input backup_1.0.0)
 	versionBackup = `backup_${versionBackup}`;
 
-	const backupFolder = `${process.cwd()}/${versionBackup}`;
+	const backupFolder = `${process.cwd()}/backups/${versionBackup}`;
 	if (!fs.existsSync(backupFolder)) {
 		log.error("ERROR", `Backup folder is not exists (${backupFolder})`);
 		process.exit();
