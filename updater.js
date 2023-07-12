@@ -120,7 +120,16 @@ fs.copyFileSync = function (src, dest) {
 		}
 	}
 
-	const folderBackup = `${process.cwd()}/backup_${currentVersion}`;
+	const backupsPath = `${process.cwd()}/backups`;
+	if (!fs.existsSync(backupsPath))
+		fs.mkdirSync(backupsPath);
+	const folderBackup = `${backupsPath}/backup_${currentVersion}`;
+
+	// find all folders start with "backup_" (these folders are created by updater in old version), and move to backupsPath
+	const foldersBackup = fs.readdirSync(process.cwd())
+		.filter(folder => folder.startsWith("backup_") && fs.lstatSync(folder).isDirectory());
+	for (const folder of foldersBackup)
+		fs.moveSync(folder, `${backupsPath}/${folder}`);
 
 	log.info("UPDATE", `Update to version ${chalk.yellow(createUpdate.version)}`);
 	const { files, deleteFiles, reinstallDependencies } = createUpdate;
@@ -139,8 +148,8 @@ fs.copyFileSync = function (src, dest) {
 			continue;
 		}
 
-		if (filePath === "config.json") {
-			const currentConfig = require('./config.json');
+		if (["config.json", "configCommands.json"].includes(filePath)) {
+			const currentConfig = require(filePath);
 			const configValueUpdate = files[filePath];
 
 			for (const key in configValueUpdate) {
@@ -153,16 +162,18 @@ fs.copyFileSync = function (src, dest) {
 					_.set(currentConfig, key, value);
 			}
 
+			if (fs.existsSync(fullPath))
+				fs.copyFileSync(fullPath, `${folderBackup}/${filePath}`);
 			fs.writeFileSync(fullPath, JSON.stringify(currentConfig, null, 2));
-			console.log(chalk.bold.blue('[↑]'), `${filePath}`);
-			// warning config.json is changed
-			console.log(chalk.bold.yellow('[!]'), getText("updater", "configChanged"));
-		}
 
-		if (fs.existsSync(fullPath))
-			fs.copyFileSync(fullPath, `${folderBackup}/${filePath}`);
-		if (filePath != "config.json")
+			console.log(chalk.bold.blue('[↑]'), filePath);
+			console.log(chalk.bold.yellow('[!]'), getText("updater", "configChanged", chalk.yellow(filePath)));
+		}
+		else {
+			if (fs.existsSync(fullPath))
+				fs.copyFileSync(fullPath, `${folderBackup}/${filePath}`);
 			fs.writeFileSync(fullPath, Buffer.from(getFile));
+		}
 
 		console.log(chalk.bold.blue('[↑]'), `${filePath}:`, chalk.hex('#858585')(typeof description == "string" ? description : typeof description == "object" ? JSON.stringify(description, null, 2) : description));
 	}
