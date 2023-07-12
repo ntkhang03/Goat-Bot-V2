@@ -326,6 +326,7 @@ function jsonStringifyColor(obj, filter, indent, level) {
 	return output;
 }
 
+
 function message(api, event) {
 	async function sendMessageError(err) {
 		if (typeof err === "object" && !err.stack)
@@ -931,33 +932,6 @@ class GoatBotApis {
 
 		// modify axios response
 		this.api.interceptors.response.use((response) => {
-			let responseData;
-			const promise = () => new Promise((resolveFunc) => {
-				// decode all response data to utf8 (string) if responseType is
-				if (response.config.responseType === "arraybuffer") {
-					responseData = Buffer.from(response.data, "binary").toString("utf8");
-					resolveFunc();
-				}
-				else if (response.config.responseType === "stream") {
-					let data = "";
-					response.data.on("data", (chunk) => {
-						data += chunk;
-					});
-					response.data.on("end", () => {
-						responseData = data;
-						resolveFunc();
-					});
-				}
-				else {
-					responseData = response.data;
-					resolveFunc();
-				}
-			});
-
-			try {
-				responseData = JSON.parse(responseData);
-			}
-			catch (err) { }
 			return {
 				status: response.status,
 				statusText: response.statusText,
@@ -966,7 +940,7 @@ class GoatBotApis {
 					'x-free-remaining-requests': parseInt(response.headers['x-free-remaining-requests']),
 					'x-used-requests': parseInt(response.headers['x-used-requests'])
 				},
-				data: responseData
+				data: response.data
 			};
 		});
 
