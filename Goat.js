@@ -157,11 +157,13 @@ const watchAndReloadConfig = (dir, type, prop, logName) => {
 						return;
 					}
 					global.GoatBot[prop] = JSON.parse(fs.readFileSync(dir, 'utf-8'));
-					log.success(logName, `Reloaded ${dir}`);
-				} catch (err) {
-					log.warn(logName, `Can't reload ${dir}`);
+					log.success(logName, `Reloaded ${dir.replace(process.cwd(), "")}`);
+				}
+				catch (err) {
+					log.warn(logName, `Can't reload ${dir.replace(process.cwd(), "")}`);
 					global.GoatBot[prop] = oldConfig;
-				} finally {
+				}
+				finally {
 					lastModified = fs.statSync(dir).mtimeMs;
 				}
 			}, 200);
