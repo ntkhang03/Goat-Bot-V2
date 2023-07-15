@@ -20,7 +20,7 @@ function validJSON(pathDir) {
 	try {
 		if (!fs.existsSync(pathDir))
 			throw new Error(`File "${pathDir}" not found`);
-		execSync(`npx jsonlint ${pathDir}`, { stdio: 'pipe' });
+		execSync(`npx jsonlint "${pathDir}"`, { stdio: 'pipe' });
 		return true;
 	}
 	catch (err) {
