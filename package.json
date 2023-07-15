@@ -1,6 +1,6 @@
 {
 	"name": "goat-bot-v2",
-	"version": "1.4.23",
+	"version": "1.4.24",
 	"description": "A simple Bot chat messenger using personal account. Made by NTKhang.",
 	"main": "index.js",
 	"engines": {
@@ -33,6 +33,7 @@
 		"moment-timezone": "^0.5.34",
 		"mongoose": "^6.3.1",
 		"mqtt": "^4.3.7",
+		"node_characterai": "^1.1.7",
 		"node-cron": "^3.0.2",
 		"nodemailer": "^6.7.5",
 		"npmlog": "^7.0.1",

@@ -1926,5 +1926,17 @@
 			"updater.js": "Update updater.js",
 			"utils.js": "add new class `GoatBotApis`: call api on https://goatbot.tk"
 		}
+	},
+	{
+		"version": "1.4.24",
+		"files": {
+			"Goat.js": "remove home path in log auto update config",
+			"bot/login/loadData.js": "database optimization",
+			"bot/login/login.js": "database optimization",
+			"database/connectDB/connectSqlite.js": "database optimization",
+			"database/controller/index.js": "database optimization",
+			"scripts/cmds/jsontomongodb.js": "fix cannot use command `jsontomongo` and `jsontosqlite`",
+			"scripts/cmds/jsontosqlite.js": "fix cannot use command `jsontomongo` and `jsontosqlite`"
+		}
 	}
 ]
