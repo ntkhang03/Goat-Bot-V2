@@ -1944,5 +1944,11 @@
 		"files": {
 			"bot/login/loadData.js": "fix console freezing"
 		}
+	},
+	{
+		"version": "1.4.26",
+		"files": {
+			"Goat.js": "fix jsonlint not working with folder names with spaces"
+		}
 	}
 ]
