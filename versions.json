@@ -1938,5 +1938,11 @@
 			"scripts/cmds/jsontomongodb.js": "fix cannot use command `jsontomongo` and `jsontosqlite`",
 			"scripts/cmds/jsontosqlite.js": "fix cannot use command `jsontomongo` and `jsontosqlite`"
 		}
+	},
+	{
+		"version": "1.4.25",
+		"files": {
+			"bot/login/loadData.js": "fix console freezing"
+		}
 	}
 ]
