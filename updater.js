@@ -192,8 +192,11 @@ fs.copyFileSync = function (src, dest) {
 		}
 	}
 
-	const { data: packageJSON } = await axios.get("https://raw.githubusercontent.com/ntkhang03/Goat-Bot-V2/main/package.json");
-	fs.writeFileSync(`${process.cwd()}/package.json`, JSON.stringify(packageJSON, null, 2));
+	const { data: packageHTML } = await axios.get("https://github.com/ntkhang03/Goat-Bot-V2/blob/main/package.json");
+	const json = packageHTML.split('data-target="react-app.embeddedData">')[1].split('</script>')[0];
+	const packageJSON = JSON.parse(json).payload.blob.rawLines.join('\n');
+
+	fs.writeFileSync(`${process.cwd()}/package.json`, JSON.stringify(JSON.parse(packageJSON), null, 2));
 	log.info("UPDATE", getText("updater", "updateSuccess", !reinstallDependencies ? getText("updater", "restartToApply") : ""));
 
 	// npm install
