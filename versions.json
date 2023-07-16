@@ -1950,5 +1950,20 @@
 		"files": {
 			"Goat.js": "fix jsonlint not working with folder names with spaces"
 		}
+	},
+	{
+		"version": "1.4.27",
+		"files": {
+			"bot/login/getFbstate1.js": "change package `request-promise` to `request`",
+			"bot/login/loadScripts.js": "change package `request-promise` to `request`",
+			"fb-chat-api/src/changeAvatar.js": "remove package `bluebird`",
+			"fb-chat-api/src/changeGroupImage.js": "remove package `bluebird`",
+			"fb-chat-api/src/sendMessage.js": "remove package `bluebird`",
+			"fb-chat-api/src/uploadAttachment.js": "remove package `bluebird`",
+			"fb-chat-api/utils.js": "remove package `bluebird`",
+			"package-lock.json": "update packages",
+			"package.json": "update packages",
+			"scripts/cmds/translate.js": "language update"
+		}
 	}
 ]
