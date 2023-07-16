@@ -1965,5 +1965,11 @@
 			"package.json": "update packages",
 			"scripts/cmds/translate.js": "language update"
 		}
+	},
+	{
+		"version": "1.4.28",
+		"files": {
+			"scripts/cmds/jsontomongodb.js": "fix incorrect database type recognition"
+		}
 	}
 ]
