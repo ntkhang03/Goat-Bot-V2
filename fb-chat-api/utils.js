@@ -1,8 +1,7 @@
 /* eslint-disable no-prototype-builtins */
 "use strict";
 
-const bluebird = require("bluebird");
-let request = bluebird.promisify(require("request").defaults({ jar: true, proxy: process.env.FB_PROXY }));
+let request = promisifyPromise(require("request").defaults({ jar: true, proxy: process.env.FB_PROXY }));
 const stream = require("stream");
 const log = require("npmlog");
 const querystring = require("querystring");
@@ -19,12 +18,77 @@ class CustomError extends Error {
 	}
 }
 
+function callbackToPromise(func) {
+	return function (...args) {
+		return new Promise((resolve, reject) => {
+			func(...args, (err, data) => {
+				if (err)
+					reject(err);
+				else
+					resolve(data);
+			});
+		});
+	};
+}
+
+function isHasCallback(func) {
+	if (typeof func !== "function")
+		return false;
+	return func.toString().split("\n")[0].match(/(callback|cb)\s*\)/) !== null;
+}
+
+// replace for bluebird.promisify (but this only applies best to the `request` package)
+function promisifyPromise(promise) {
+	const keys = Object.keys(promise);
+	let promise_;
+	if (
+		typeof promise === "function"
+		&& isHasCallback(promise)
+	)
+		promise_ = callbackToPromise(promise);
+	else
+		promise_ = promise;
+
+	for (const key of keys) {
+		if (!promise[key]?.toString)
+			continue;
+
+		if (
+			typeof promise[key] === "function"
+			&& isHasCallback(promise[key])
+		) {
+			promise_[key] = callbackToPromise(promise[key]);
+		}
+		else {
+			promise_[key] = promise[key];
+		}
+	}
+
+	return promise_;
+}
+
+// replace for bluebird.delay
+function delay(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// replace for bluebird.try
+function tryPromise(tryFunc) {
+	return new Promise((resolve, reject) => {
+		try {
+			resolve(tryFunc());
+		} catch (error) {
+			reject(error);
+		}
+	});
+}
+
 function setProxy(url) {
 	if (typeof url == "undefined")
-		return request = bluebird.promisify(require("request").defaults({
+		return request = promisifyPromise(require("request").defaults({
 			jar: true
 		}));
-	return request = bluebird.promisify(require("request").defaults({
+	return request = promisifyPromise(require("request").defaults({
 		jar: true,
 		proxy: url
 	}));
@@ -1158,7 +1222,7 @@ function parseAndCheckLogin(ctx, defaultFuncs, retryCount, sourceCall) {
 		}
 	}
 	return function (data) {
-		return bluebird.try(function () {
+		return tryPromise(function () {
 			log.verbose("parseAndCheckLogin", data.body);
 			if (data.statusCode >= 500 && data.statusCode < 600) {
 				if (retryCount >= 5) {
@@ -1191,8 +1255,7 @@ function parseAndCheckLogin(ctx, defaultFuncs, retryCount, sourceCall) {
 					data.request.headers["Content-Type"].split(";")[0] ===
 					"multipart/form-data"
 				) {
-					return bluebird
-						.delay(retryTime)
+					return delay(retryTime)
 						.then(function () {
 							return defaultFuncs.postFormData(
 								url,
@@ -1204,8 +1267,7 @@ function parseAndCheckLogin(ctx, defaultFuncs, retryCount, sourceCall) {
 						.then(parseAndCheckLogin(ctx, defaultFuncs, retryCount, sourceCall));
 				}
 				else {
-					return bluebird
-						.delay(retryTime)
+					return delay(retryTime)
 						.then(function () {
 							return defaultFuncs.post(url, ctx.jar, data.request.formData);
 						})
