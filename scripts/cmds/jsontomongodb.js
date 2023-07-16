@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: "jsontomongodb",
 		aliases: ["jsontomongo"],
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -47,7 +47,7 @@ module.exports = {
 	},
 
 	onStart: async function ({ args, message, threadModel, userModel, dashBoardModel, globalModel, getLang }) {
-		if (global.GoatBot.config.database.type !== "sqlite")
+		if (global.GoatBot.config.database.type !== "mongodb")
 			return message.reply(getLang("invalidDatabase"));
 
 		switch (args[0]) {
