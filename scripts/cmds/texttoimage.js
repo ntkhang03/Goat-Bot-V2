@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: "texttoimage",
 		aliases: ["midjourney", "openjourney", "text2image"],
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -51,9 +51,6 @@ module.exports = {
 			const { data: imageStream } = await goatBotApi.api({
 				url: "/image/mdjrny",
 				method: "GET",
-				headers: {
-					"Content-Type": "application/json"
-				},
 				params: {
 					prompt,
 					style_id: 28,
