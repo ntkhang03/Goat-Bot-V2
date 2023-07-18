@@ -1971,5 +1971,19 @@
 		"files": {
 			"scripts/cmds/jsontomongodb.js": "fix incorrect database type recognition"
 		}
+	},
+	{
+		"version": "1.5.0",
+		"files": {
+			"Copyright.txt": "Copyright update 😮‍💨",
+			"Goat.js": "Copyright update 😮‍💨",
+			"bot/handler/handlerEvents.js": "Update handlerEvents.js",
+			"bot/login/loadScripts.js": "update code",
+			"bot/login/login.js": "update code",
+			"index.js": "Copyright update 😮‍💨",
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update",
+			"scripts/cmds/texttoimage.js": "fix display `undefined`"
+		}
 	}
 ]
