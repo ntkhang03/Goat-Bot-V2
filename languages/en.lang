@@ -60,6 +60,8 @@ login.listenMqttClose=ListenMQTT closed
 login.listenMqttCloseByUser=ListenMQTT closed by user
 login.retryCheckLiveCookie=Retrying to check cookie... %1
 
+version.tooOldVersion=You are using a too old version of Goat-Bot, please update to the latest version by typing the command: %1 into the cmd/console/terminal/shell
+
 # bot/custom.js
 custom.refreshedFb_dtsg=Refreshed fb_dtsg and jazoest successfully
 custom.refreshedFb_dtsgError=An error occurred when refreshing fb_dtsg and jazoest
