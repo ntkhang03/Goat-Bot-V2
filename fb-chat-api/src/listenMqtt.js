@@ -109,10 +109,19 @@ function listenMqtt(defaultFuncs, api, ctx, globalCallback) {
 		if (ctx.globalOptions.autoReconnect) {
 			listenMqtt(defaultFuncs, api, ctx, globalCallback);
 		} else {
-			globalCallback({
-				type: "stop_listen",
-				error: "Connection refused: Server unavailable"
-			}, null);
+			utils.checkLiveCookie()
+				.then(res => {
+					globalCallback({
+						type: "stop_listen",
+						error: "Connection refused: Server unavailable"
+					}, null);
+				})
+				.catch(err => {
+					globalCallback({
+						type: "account_inactive",
+						error: "Maybe your account is blocked by facebook, please login and check at https://facebook.com"
+					}, null);
+				});
 		}
 	});
 
