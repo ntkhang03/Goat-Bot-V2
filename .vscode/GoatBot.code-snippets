@@ -182,5 +182,13 @@
 			"};"
 		],
 		"description": "Create template for Goat Bot command event"
+	},
+	"Log Dev": {
+		"scope": "javascript,typescript",
+		"prefix": ["LogDev", "DevLog"],
+		"body": [
+			"global.utils.log.dev($1);"
+		],
+		"description": "Create template for log dev"
 	}
 }
