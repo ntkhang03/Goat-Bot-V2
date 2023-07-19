@@ -1985,5 +1985,19 @@
 			"languages/vi.lang": "language update",
 			"scripts/cmds/texttoimage.js": "fix display `undefined`"
 		}
+	},
+	{
+		"version": "1.5.1",
+		"files": {
+			".gitignore": "Update .gitignore",
+			".vscode/GoatBot.code-snippets": "add new snippet: `LogDev`: \"Create template for log dev",
+			"dashboard/routes/verifyfbid.js": "fix can't verify uid facebook",
+			"fb-chat-api/src/addUserToGroup.js": "Update addUserToGroup.js",
+			"fb-chat-api/src/listenMqtt.js": "Update listenMqtt.js",
+			"languages/cmds/en.js": "languages update",
+			"languages/events/en.js": "languages update",
+			"scripts/cmds/help.js": "languages update",
+			"scripts/cmds/setwelcome.js": "languages update"
+		}
 	}
 ]
