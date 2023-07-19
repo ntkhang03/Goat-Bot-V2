@@ -10,7 +10,7 @@ module.exports = function ({ isAuthenticated_G, isAuthenticated_P, randomNumberA
 			res.render("verifyfbid");
 		})
 		.get('/submit-code', [isAuthenticated_G, function (req, res, next) {
-			if (!req.user.waitVerify)
+			if (!req.session.waitVerify)
 				return res.redirect('/verifyfbid');
 			next();
 		}], (req, res) => {
@@ -33,18 +33,18 @@ module.exports = function ({ isAuthenticated_G, isAuthenticated_P, randomNumberA
 			catch (e) {
 				return res.status(400).send({ errors: [{ msg: 'Facebook id hoặc url profile không tồn tại' }] });
 			}
-			const email = req.user.email;
+			const email = req.session.email;
 			const index = waitingVeryFbid.findIndex(item => item.email === email);
 			if (index !== -1)
 				waitingVeryFbid[index] = { email, code, fbid };
 			else
 				waitingVeryFbid.push({ email, code, fbid });
-			req.user.waitVerify = fbid;
+			req.session.waitVerify = fbid;
 			setTimeout(() => {
 				const index = waitingVeryFbid.findIndex(item => item.email === email);
 				if (index !== -1)
 					waitingVeryFbid.splice(index, 1);
-				delete req.user.waitVerify;
+				delete req.session.waitVerify;
 			}, expireVerifyCode);
 
 			try {
@@ -64,17 +64,17 @@ module.exports = function ({ isAuthenticated_G, isAuthenticated_P, randomNumberA
 			});
 		})
 		.post('/submit-code', [isAuthenticated_P, function (req, res, next) {
-			if (!req.user.waitVerify)
+			if (!req.session.waitVerify)
 				return res.redirect('/verifyfbid');
 			next();
 		}, createLimiter(1000 * 60 * 5, 20)], async (req, res) => {
 			const { code } = req.body;
-			const user = await dashBoardData.get(req.user.email);
+			const user = await dashBoardData.get(req.session.email);
 			const index = waitingVeryFbid.findIndex(item => item.email === user.email);
 			if (waitingVeryFbid[index].code === code) {
-				const fbid = req.user.waitVerify;
+				const fbid = req.session.waitVerify;
 				console.log(`User ${user.email} verify fbid ${fbid}`);
-				delete req.user.waitVerify;
+				delete req.session.waitVerify;
 				await dashBoardData.set(user.email, { facebookUserID: fbid });
 				req.flash('success', { msg: 'Đã xác nhận user id facebook thành công' });
 				res.send({
