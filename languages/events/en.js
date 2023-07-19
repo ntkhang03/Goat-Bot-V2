@@ -1,5 +1,5 @@
 module.exports = {
-	// You can customize the language here
+	// You can customize the language here or directly in the command files
 	autoUpdateThreadInfo: {},
 	checkwarn: {
 		text: {
