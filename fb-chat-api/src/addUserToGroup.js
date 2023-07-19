@@ -98,7 +98,7 @@ module.exports = function (defaultFuncs, api, ctx) {
 					throw new utils.CustomError({ error: "Add to group failed." });
 				}
 				if (resData.error) {
-					throw new utils.CustomError();
+					throw new utils.CustomError(resData);
 				}
 
 				return callback();
