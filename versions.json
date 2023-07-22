@@ -1999,5 +1999,19 @@
 			"scripts/cmds/help.js": "languages update",
 			"scripts/cmds/setwelcome.js": "languages update"
 		}
+	},
+	{
+		"version": "1.5.2",
+		"files": {
+			"Goat.js": "Update Goat.js",
+			"dashboard/routes/verifyfbid.js": "fix can't verify facebook id",
+			"dashboard/views/verifyfbid-submit-code.eta": "fix can't verify facebook id",
+			"languages/cmds/en.js": "language update",
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update",
+			"scripts/cmds/help.js": "fix can't send attachment",
+			"scripts/cmds/setleave.js": "fix can't send attachment",
+			"updater.js": "Update updater.js"
+		}
 	}
 ]
