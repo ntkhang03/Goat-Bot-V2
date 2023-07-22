@@ -109,7 +109,7 @@ function listenMqtt(defaultFuncs, api, ctx, globalCallback) {
 		if (ctx.globalOptions.autoReconnect) {
 			listenMqtt(defaultFuncs, api, ctx, globalCallback);
 		} else {
-			utils.checkLiveCookie()
+			utils.checkLiveCookie(ctx, defaultFuncs)
 				.then(res => {
 					globalCallback({
 						type: "stop_listen",
