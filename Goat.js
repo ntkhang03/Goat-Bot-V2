@@ -49,7 +49,7 @@ function validJSON(pathDir) {
 const { NODE_ENV } = process.env;
 const dirConfig = path.normalize(`${__dirname}/config${['production', 'development'].includes(NODE_ENV) ? '.dev.json' : '.json'}`);
 const dirConfigCommands = path.normalize(`${__dirname}/configCommands${['production', 'development'].includes(NODE_ENV) ? '.dev.json' : '.json'}`);
-const dirAccount = `${__dirname}/account${['production', 'development'].includes(NODE_ENV) ? '.dev.txt' : '.txt'}`;
+const dirAccount = path.normalize(`${__dirname}/account${['production', 'development'].includes(NODE_ENV) ? '.dev.txt' : '.txt'}`);
 
 for (const pathDir of [dirConfig, dirConfigCommands]) {
 	try {
@@ -221,10 +221,10 @@ function convertLangObj(languageData) {
 function getText(head, key, ...args) {
 	let langObj;
 	if (typeof head == "object") {
-		let pathLanguageFile = `${__dirname}/languages/${head.lang}.lang`;
+		let pathLanguageFile = path.normalize(`${__dirname}/languages/${head.lang}.lang`);
 		head = head.head;
 		if (!fs.existsSync(pathLanguageFile)) {
-			utils.log.warn("LANGUAGE", `Can't find language file ${pathLanguageFile}, using default language file "${__dirname}/languages/en.lang"`);
+			utils.log.warn("LANGUAGE", `Can't find language file ${pathLanguageFile}, using default language file "${path.normalize(`${__dirname}/languages/en.lang`)}"`);
 			pathLanguageFile = `${__dirname}/languages/en.lang`;
 		}
 		const readLanguage = fs.readFileSync(pathLanguageFile, "utf-8");
@@ -268,7 +268,7 @@ if (config.autoRestart) {
 (async () => {
 	// ———————————————— SETUP MAIL ———————————————— //
 	const { gmailAccount } = config.credentials;
-	const { email, clientId, clientSecret, refreshToken, apiKey: googleApiKey } = gmailAccount;
+	const { email, clientId, clientSecret, refreshToken } = gmailAccount;
 	const OAuth2 = google.auth.OAuth2;
 	const OAuth2_client = new OAuth2(clientId, clientSecret);
 	OAuth2_client.setCredentials({ refresh_token: refreshToken });
