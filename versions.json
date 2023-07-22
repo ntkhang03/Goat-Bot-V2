@@ -2013,5 +2013,11 @@
 			"scripts/cmds/setleave.js": "fix can't send attachment",
 			"updater.js": "Update updater.js"
 		}
+	},
+	{
+		"version": "1.5.3",
+		"files": {
+			"fb-chat-api/src/listenMqtt.js": "fix \"TypeError: Cannot read properties of undefined (reading 'get')\" when listenMqtt is closed"
+		}
 	}
 ]
