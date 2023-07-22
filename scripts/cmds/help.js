@@ -13,7 +13,7 @@ const doNotDelete = "[ 🐐 | Goat Bot V2 ]";
 module.exports = {
 	config: {
 		name: "help",
-		version: "1.16",
+		version: "1.17",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -227,12 +227,11 @@ module.exports = {
 						const pathFile = path.normalize(keyPathFile);
 
 						if (!fs.existsSync(pathFile)) {
-							const cutFullPath = pathFile.split(path.sep).filter(item => item != "");
-							cutFullPath.pop(); // remove file name
-							for (let i = 0; i < cutFullPath.length; i++) {
-								const path = cutFullPath.slice(0, i + 1).join('/'); // create path
-								if (!fs.existsSync(path))
-									fs.mkdirSync(path); // create folder
+							const cutDirPath = path.dirname(pathFile).split(path.sep);
+							for (let i = 0; i < cutDirPath.length; i++) {
+								const pathCheck = `${cutDirPath.slice(0, i + 1).join(path.sep)}${path.sep}`; // create path
+								if (!fs.existsSync(pathCheck))
+									fs.mkdirSync(pathCheck); // create folder
 							}
 							const getFilePromise = axios.get(guide.attachment[keyPathFile], { responseType: 'arraybuffer' })
 								.then(response => {
