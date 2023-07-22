@@ -129,6 +129,7 @@ updater.installingPackages=Installing dependencies for bot...
 updater.installSuccess=Installed dependencies successfully, restart the bot to use the new version
 updater.backupSuccess=Successfully backed up changed files, see in the %1 folder
 updater.restartToApply=. Restart the bot to apply the new version
+updater.skipFile=There is a new version of the %1 file, but you have skipped this file during the update process with the comment %2 in this file
 
 # dashboard/routes/verifyfbid.js
 verifyfbid.sendCode=Your verification code is:\n%1\nThe verification code is valid for %2 minutes
