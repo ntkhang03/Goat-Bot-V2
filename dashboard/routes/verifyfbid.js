@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { findUid, getText } = global.utils;
-const waitingVeryFbid = [];
 
 module.exports = function ({ isAuthenticated_G, isAuthenticated_P, randomNumberApikey, expireVerifyCode, isVerifyRecaptcha, dashBoardData, api, createLimiter, config }) {
 	router
@@ -33,17 +32,13 @@ module.exports = function ({ isAuthenticated_G, isAuthenticated_P, randomNumberA
 			catch (e) {
 				return res.status(400).send({ errors: [{ msg: 'Facebook id hoặc url profile không tồn tại' }] });
 			}
-			const email = req.session.email;
-			const index = waitingVeryFbid.findIndex(item => item.email === email);
-			if (index !== -1)
-				waitingVeryFbid[index] = { email, code, fbid };
-			else
-				waitingVeryFbid.push({ email, code, fbid });
-			req.session.waitVerify = fbid;
+			req.session.waitVerify = {
+				fbid,
+				code,
+				email: req.user.email
+			};
+
 			setTimeout(() => {
-				const index = waitingVeryFbid.findIndex(item => item.email === email);
-				if (index !== -1)
-					waitingVeryFbid.splice(index, 1);
 				delete req.session.waitVerify;
 			}, expireVerifyCode);
 
@@ -56,6 +51,13 @@ module.exports = function ({ isAuthenticated_G, isAuthenticated_P, randomNumberA
 					errors.push({ msg: 'Hiện tại bot bị chặn tính năng và không thể gửi tin nhắn, vui lòng thử lại sau' });
 				else
 					errors.push({ msg: `Không thể gửi mã xác nhận tới id facebook "${fbid}", bạn đã bật nhận tin nhắn chờ từ người lạ chưa?` });
+
+				req.flash('errors', errors);
+				return res.status(400).send({
+					status: 'error',
+					errors,
+					message: errors[0].msg
+				});
 			}
 			req.flash('success', { msg: 'Mã xác nhận đã được gửi tới id facebook của bạn, nếu không thấy hãy kiểm tra tin nhăn chờ' });
 			res.send({
@@ -69,10 +71,9 @@ module.exports = function ({ isAuthenticated_G, isAuthenticated_P, randomNumberA
 			next();
 		}, createLimiter(1000 * 60 * 5, 20)], async (req, res) => {
 			const { code } = req.body;
-			const user = await dashBoardData.get(req.session.email);
-			const index = waitingVeryFbid.findIndex(item => item.email === user.email);
-			if (waitingVeryFbid[index].code === code) {
-				const fbid = req.session.waitVerify;
+			const user = await dashBoardData.get(req.user.email);
+			if (code == req.session.waitVerify.code) {
+				const fbid = req.session.waitVerify.fbid;
 				console.log(`User ${user.email} verify fbid ${fbid}`);
 				delete req.session.waitVerify;
 				await dashBoardData.set(user.email, { facebookUserID: fbid });
@@ -84,7 +85,7 @@ module.exports = function ({ isAuthenticated_G, isAuthenticated_P, randomNumberA
 				});
 			}
 			else {
-				return res.status(400).send({ errors: [{ msg: 'Mã xác nhận không đúng' }] });
+				return res.status(400).send({ msg: 'Mã xác nhận không đúng' });
 			}
 		});
 
