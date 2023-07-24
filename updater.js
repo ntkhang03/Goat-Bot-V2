@@ -103,7 +103,7 @@ fs.copyFileSync = function (src, dest) {
 
 	for (const version of versionsNeedToUpdate) {
 		for (const filePath in version.files) {
-			if (filePath === "config.json") {
+			if (["config.json", "configCommands.json"].includes(filePath)) {
 				if (!createUpdate.files[filePath])
 					createUpdate.files[filePath] = {};
 
@@ -114,10 +114,16 @@ fs.copyFileSync = function (src, dest) {
 			}
 			else
 				createUpdate.files[filePath] = version.files[filePath];
+
 			if (version.reinstallDependencies)
 				createUpdate.reinstallDependencies = true;
+
+			if (createUpdate.deleteFiles[filePath])
+				delete createUpdate.deleteFiles[filePath];
+
 			for (const filePath in version.deleteFiles)
 				createUpdate.deleteFiles[filePath] = version.deleteFiles[filePath];
+
 			createUpdate.version = version.version;
 		}
 	}
@@ -173,24 +179,28 @@ fs.copyFileSync = function (src, dest) {
 		}
 		else {
 			const contentsSkip = ["DO NOT UPDATE", "SKIP UPDATE", "DO NOT UPDATE THIS FILE"];
+			const fileExists = fs.existsSync(fullPath);
 
-			if (fs.existsSync(fullPath)) {
+			// if file exists, backup it
+			if (fileExists)
 				fs.copyFileSync(fullPath, `${folderBackup}/${filePath}`);
 
-				// check first line of file, if it contains any contentsSkip, skip update this file
-				const firstLine = fs.readFileSync(fullPath, "utf-8").trim().split(/\r?\n|\r/)[0];
-				const indexSkip = contentsSkip.findIndex(c => firstLine.includes(c));
-				if (indexSkip !== -1) {
-					console.log(chalk.bold.yellow('[!]'), getText("updater", "skipFile", chalk.yellow(filePath), chalk.yellow(contentsSkip[indexSkip])));
-					continue;
-				}
-				else {
-					fs.writeFileSync(fullPath, Buffer.from(getFile));
-				}
+			// check first line of file, if it contains any contentsSkip, skip update this file
+			const firstLine = fs.readFileSync(fullPath, "utf-8").trim().split(/\r?\n|\r/)[0];
+			const indexSkip = contentsSkip.findIndex(c => firstLine.includes(c));
+			if (indexSkip !== -1) {
+				console.log(chalk.bold.yellow('[!]'), getText("updater", "skipFile", chalk.yellow(filePath), chalk.yellow(contentsSkip[indexSkip])));
+				continue;
+			}
+			else {
+				fs.writeFileSync(fullPath, Buffer.from(getFile));
+
+				if (fileExists)
+					console.log(chalk.bold.blue('[↑]'), `${filePath}:`, chalk.hex('#858585')(typeof description == "string" ? description : typeof description == "object" ? JSON.stringify(description, null, 2) : description));
+				else
+					console.log(chalk.bold.green('[+]'), `${filePath}:`, chalk.hex('#858585')(typeof description == "string" ? description : typeof description == "object" ? JSON.stringify(description, null, 2) : description));
 			}
 		}
-
-		console.log(chalk.bold.blue('[↑]'), `${filePath}:`, chalk.hex('#858585')(typeof description == "string" ? description : typeof description == "object" ? JSON.stringify(description, null, 2) : description));
 	}
 
 	for (const filePath in deleteFiles) {
