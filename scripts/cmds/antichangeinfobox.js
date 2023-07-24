@@ -1,9 +1,9 @@
-const { getStreamFromURL } = global.utils;
+const { getStreamFromURL, uploadImgbb } = global.utils;
 
 module.exports = {
 	config: {
 		name: "antichangeinfobox",
-		version: "1.5",
+		version: "1.6",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -90,7 +90,8 @@ module.exports = {
 				const { imageSrc } = await threadsData.get(threadID);
 				if (!imageSrc)
 					return message.reply(getLang("missingAvt"));
-				await checkAndSaveData("avatar", imageSrc);
+				const newImageSrc = await uploadImgbb(imageSrc);
+				await checkAndSaveData("avatar", newImageSrc.image.url);
 				break;
 			}
 			case "name": {
@@ -124,7 +125,7 @@ module.exports = {
 		switch (logMessageType) {
 			case "log:thread-image": {
 				const dataAntiChange = await threadsData.get(threadID, "data.antiChangeInfoBox", {});
-				if (!dataAntiChange.avatar)
+				if (!dataAntiChange.avatar && role < 1)
 					return;
 				return async function () {
 					if (role < 1 && api.getCurrentUserID() !== author) {
@@ -133,7 +134,8 @@ module.exports = {
 					}
 					else {
 						const imageSrc = logMessageData.url;
-						await threadsData.set(threadID, imageSrc, "data.antiChangeInfoBox.avatar");
+						const newImageSrc = await uploadImgbb(imageSrc);
+						await threadsData.set(threadID, newImageSrc.image.url, "data.antiChangeInfoBox.avatar");
 					}
 				};
 			}

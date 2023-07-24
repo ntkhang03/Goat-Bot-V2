@@ -157,17 +157,20 @@ module.exports = function (defaultFuncs, api, ctx) {
 			tags = [""];
 		}
 		if (utils.getType(limit) !== "Number" || !Number.isInteger(limit) || limit <= 0) {
-			throw { error: "getThreadList: limit must be a positive integer" };
+			throw new utils.CustomError({ error: "getThreadList: limit must be a positive integer" });
 		}
 		if (utils.getType(timestamp) !== "Null" &&
 			(utils.getType(timestamp) !== "Number" || !Number.isInteger(timestamp))) {
-			throw { error: "getThreadList: timestamp must be an integer or null" };
+			throw new utils.CustomError({ error: "getThreadList: timestamp must be an integer or null" });
 		}
 		if (utils.getType(tags) === "String") {
 			tags = [tags];
 		}
 		if (utils.getType(tags) !== "Array") {
-			throw { error: "getThreadList: tags must be an array" };
+			throw new utils.CustomError({
+				error: "getThreadList: tags must be an array",
+				message: "getThreadList: tags must be an array"
+			});
 		}
 
 		let resolveFunc = function () { };
@@ -187,11 +190,12 @@ module.exports = function (defaultFuncs, api, ctx) {
 		}
 
 		const form = {
-			"av": ctx.globalOptions.pageID,
+			"av": ctx.i_userID || ctx.userID,
 			"queries": JSON.stringify({
 				"o0": {
 					// This doc_id was valid on 2020-07-20
-					"doc_id": "3336396659757871",
+					// "doc_id": "3336396659757871",
+					"doc_id": "3426149104143726",
 					"query_params": {
 						"limit": limit + (timestamp ? 1 : 0),
 						"before": timestamp,
@@ -209,11 +213,11 @@ module.exports = function (defaultFuncs, api, ctx) {
 			.then(utils.parseAndCheckLogin(ctx, defaultFuncs))
 			.then((resData) => {
 				if (resData[resData.length - 1].error_results > 0) {
-					throw resData[0].o0.errors;
+					throw new utils.CustomError(resData[0].o0.errors);
 				}
 
 				if (resData[resData.length - 1].successful_results === 0) {
-					throw { error: "getThreadList: there was no successful_results", res: resData };
+					throw new utils.CustomError({ error: "getThreadList: there was no successful_results", res: resData });
 				}
 
 				// When we ask for threads using timestamp from the previous request,

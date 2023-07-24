@@ -1738,5 +1738,286 @@
 			"bot/login/loadScripts.js": "fix console freezing",
 			"bot/login/login.js": "fix console freezing"
 		}
+	},
+	{
+		"version": "1.4.8",
+		"files": {
+			"scripts/cmds/texttoimage.js": "new command `texttoimage`: create image with your prompt"
+		}
+	},
+	{
+		"version": "1.4.9",
+		"files": {
+			"scripts/cmds/texttoimage.js": "update styleId"
+		}
+	},
+	{
+		"version": "1.4.10",
+		"files": {
+			"bot/login/loadScripts.js": "code optimization",
+			"bot/login/login.js": "code optimization",
+			"database/controller/dashBoardData.js": "return data with _`.cloneDeep`",
+			"database/controller/globalData.js": "return data with _`.cloneDeep`",
+			"database/controller/threadsData.js": "return data with _`.cloneDeep`",
+			"database/controller/usersData.js": "return data with _`.cloneDeep`",
+			"package-lock.json": "Update package-lock.json",
+			"scripts/cmds/autosetname.js": "code optimization",
+			"scripts/cmds/cmd.js": "code optimization",
+			"scripts/cmds/count.js": "code optimization",
+			"scripts/cmds/customrankcard.js": "code optimization",
+			"scripts/cmds/grouptag.js": "languages update",
+			"scripts/cmds/kick.js": "languages update",
+			"scripts/cmds/prefix.js": "code optimization",
+			"scripts/cmds/setlang.js": "code optimization",
+			"scripts/cmds/warn.js": "languages update",
+			"scripts/events/autoUpdateInfoThread.js": "code optimization",
+			"utils.js": "code optimization"
+		}
+	},
+	{
+		"version": "1.4.11",
+		"files": {
+			"bot/login/loadScripts.js": "code optimization",
+			"bot/login/login.js": "code optimization",
+			"fb-chat-api/src/addUserToGroup.js": "add `CustomError` class to fb-chat-api - easy for debugging",
+			"fb-chat-api/src/changeAdminStatus.js": "add `CustomError` class to fb-chat-api - easy for debugging",
+			"fb-chat-api/src/changeThreadColor.js": "add `CustomError` class to fb-chat-api - easy for debugging",
+			"fb-chat-api/src/getThreadList.js": "add `CustomError` class to fb-chat-api - easy for debugging",
+			"fb-chat-api/src/httpPostFormData.js": "add `CustomError` class to fb-chat-api - easy for debugging",
+			"fb-chat-api/utils.js": "add `CustomError` class to fb-chat-api - easy for debugging",
+			"scripts/cmds/cmd.js": "code optimization",
+			"scripts/cmds/eval.js": "code optimization",
+			"scripts/cmds/event.js": "code optimization"
+		}
+	},
+	{
+		"version": "1.4.12",
+		"files": {
+			"database/controller/dashBoardData.js": "change queue handling",
+			"database/controller/globalData.js": "change queue handling",
+			"database/controller/threadsData.js": "change queue handling",
+			"database/controller/usersData.js": "change queue handling",
+			"scripts/cmds/cmd.js": "fix bot stop working after using cmd command",
+			"utils.js": "add new method to utils: `createQueue`"
+		}
+	},
+	{
+		"version": "1.4.13",
+		"files": {
+			"database/controller/threadsData.js": "hide console.log"
+		}
+	},
+	{
+		"version": "1.4.14",
+		"files": {
+			"bot/login/login.js": "code optimization",
+			"dashboard/app.js": "change the `getAll` method of controller data to asynchronous",
+			"dashboard/middleware/get.js": "change the `getAll` method of controller data to asynchronous",
+			"dashboard/middleware/post.js": "change the `getAll` method of controller data to asynchronous",
+			"dashboard/routes/api.js": "change the `getAll` method of controller data to asynchronous",
+			"dashboard/routes/dashBoard.js": "change the `getAll` method of controller data to asynchronous",
+			"scripts/cmds/backupdata.js": "change the `getAll` method of controller data to asynchronous",
+			"scripts/cmds/customrankcard.js": "change file storage method with ZippyShare",
+			"scripts/cmds/notification.js": "change the `getAll` method of controller data to asynchronous",
+			"scripts/cmds/rank.js": "change file storage method with ZippyShare",
+			"utils.js": "add new methods `uploadImgbb` and `uploadZippyshare` to utils"
+		}
+	},
+	{
+		"version": "1.4.15",
+		"files": {
+			"fb-chat-api/src/getThreadList.js": "Update getThreadList.js",
+			"utils.js": "fix `certificate has expired` error when uploading Zippyshare",
+			"package.json": "Update package.json",
+			"package-lock.json": "Update package-lock.json"
+		},
+		"reinstallDependencies": true
+	},
+	{
+		"version": "1.4.16",
+		"files": {
+			"Goat.js": "add new handle `onAnyEvent`: handling for all types of events",
+			"bot/custom.js": "add new script bot/custom.js",
+			"bot/handler/handlerAction.js": "add new handle `onAnyEvent`: handling for all types of events",
+			"bot/handler/handlerEvents.js": "add new handle `onAnyEvent`: handling for all types of events",
+			"bot/login/getFbstate1.js": "fix can't login with account and password",
+			"bot/login/loadScripts.js": "fix can't login with account and password",
+			"bot/login/login.js": "fix can't login with account and password",
+			"fb-chat-api/index.js": "add new api `refreshFb_dtsg`: Refreshes the fb_dtsg and jazoest values in ctx of fca",
+			"fb-chat-api/src/refreshFb_dtsg.js": "add new api `refreshFb_dtsg`: Refreshes the fb_dtsg and jazoest values in ctx of fca",
+			"func/colors.js": "add new color to utils.colors (`cyanBright`)",
+			"languages/en.lang": "languages update",
+			"languages/vi.lang": "languages update",
+			"logger/loading.js": "add new log and loading method: `succes`",
+			"logger/log.js": "add new log and loading method: `succes`",
+			"scripts/cmds/cmd.js": "Bug fixes and code optimization",
+			"scripts/cmds/event.js": "Bug fixes and code optimization"
+		}
+	},
+	{
+		"version": "1.4.17",
+		"files": {
+			"bot/login/login.js": "fix cannot install custom command with `cmd` command",
+			"dashboard/views/dashboard-thread.eta": "Update dashboard-thread.eta",
+			"scripts/cmds/cmd.js": "fix cannot install custom command with `cmd` command"
+		}
+	},
+	{
+		"version": "1.4.18",
+		"files": {
+			"bot/login/login.js": "fix handlerWhenListenHasError not working",
+			"config.json": {
+				"optionsFca.autoReconnect": false
+			},
+			"fb-chat-api/src/listenMqtt.js": "Update listenMqtt.js",
+			"scripts/cmds/cmd.js": "fix bug",
+			"scripts/cmds/customrankcard.js": "fix image not working after few days",
+			"scripts/cmds/daily.js": "Update daily.js",
+			"scripts/cmds/emojimean.js": "fixes 404 error",
+			"utils.js": "edit method `uploadImgbb`, add new class: `CustomError`"
+		}
+	},
+	{
+		"version": "1.4.19",
+		"files": {
+			"dashboard/routes/register.js": "fix can't register dashboard account",
+			"database/models/sqlite/global.js": "fix can't register dashboard account"
+		}
+	},
+	{
+		"version": "1.4.20",
+		"files": {
+			"scripts/cmds/antichangeinfobox.js": "change photo storage method",
+			"utils.js": "fix can't uploadImgbb with url"
+		}
+	},
+	{
+		"version": "1.4.21",
+		"files": {
+			"database/controller/dashBoardData.js": "add new method: `deleteKey`",
+			"database/controller/globalData.js": "add new method: `deleteKey`",
+			"database/controller/threadsData.js": "add new method: `deleteKey`",
+			"database/controller/usersData.js": "add new method: `deleteKey`",
+			"updater.js": "fix can't update to new version",
+			"utils.js": "add new method: `isNumber`"
+		}
+	},
+	{
+		"version": "1.4.22",
+		"files": {
+			"dashboard/passport-config.js": "fix can't register dashboard account",
+			"database/controller/dashBoardData.js": "fix can't register dashboard account"
+		}
+	},
+	{
+		"version": "1.4.23",
+		"files": {
+			"Goat.js": "automatically update changes of dirConfigCommands and dirConfig",
+			"bot/login/loadData.js": "optimization code",
+			"bot/login/login.js": "optimization code",
+			"configCommands.json": {
+				"envGlobal.goatbotApikey": ""
+			},
+			"languages/en.lang": "languages update",
+			"languages/vi.lang": "languages update",
+			"logger/log.js": "correct spelling `succes` -> `success`",
+			"restoreBackup.js": "Update restoreBackup.js",
+			"scripts/cmds/texttoimage.js": "fix cannot use command `texttoimage`",
+			"updater.js": "Update updater.js",
+			"utils.js": "add new class `GoatBotApis`: call api on https://goatbot.tk"
+		}
+	},
+	{
+		"version": "1.4.24",
+		"files": {
+			"Goat.js": "remove home path in log auto update config",
+			"bot/login/loadData.js": "database optimization",
+			"bot/login/login.js": "database optimization",
+			"database/connectDB/connectSqlite.js": "database optimization",
+			"database/controller/index.js": "database optimization",
+			"scripts/cmds/jsontomongodb.js": "fix cannot use command `jsontomongo` and `jsontosqlite`",
+			"scripts/cmds/jsontosqlite.js": "fix cannot use command `jsontomongo` and `jsontosqlite`"
+		}
+	},
+	{
+		"version": "1.4.25",
+		"files": {
+			"bot/login/loadData.js": "fix console freezing"
+		}
+	},
+	{
+		"version": "1.4.26",
+		"files": {
+			"Goat.js": "fix jsonlint not working with folder names with spaces"
+		}
+	},
+	{
+		"version": "1.4.27",
+		"files": {
+			"bot/login/getFbstate1.js": "change package `request-promise` to `request`",
+			"bot/login/loadScripts.js": "change package `request-promise` to `request`",
+			"fb-chat-api/src/changeAvatar.js": "remove package `bluebird`",
+			"fb-chat-api/src/changeGroupImage.js": "remove package `bluebird`",
+			"fb-chat-api/src/sendMessage.js": "remove package `bluebird`",
+			"fb-chat-api/src/uploadAttachment.js": "remove package `bluebird`",
+			"fb-chat-api/utils.js": "remove package `bluebird`",
+			"package-lock.json": "update packages",
+			"package.json": "update packages",
+			"scripts/cmds/translate.js": "language update"
+		}
+	},
+	{
+		"version": "1.4.28",
+		"files": {
+			"scripts/cmds/jsontomongodb.js": "fix incorrect database type recognition"
+		}
+	},
+	{
+		"version": "1.5.0",
+		"files": {
+			"Copyright.txt": "Copyright update 😮‍💨",
+			"Goat.js": "Copyright update 😮‍💨",
+			"bot/handler/handlerEvents.js": "Update handlerEvents.js",
+			"bot/login/loadScripts.js": "update code",
+			"bot/login/login.js": "update code",
+			"index.js": "Copyright update 😮‍💨",
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update",
+			"scripts/cmds/texttoimage.js": "fix display `undefined`"
+		}
+	},
+	{
+		"version": "1.5.1",
+		"files": {
+			".gitignore": "Update .gitignore",
+			".vscode/GoatBot.code-snippets": "add new snippet: `LogDev`: \"Create template for log dev",
+			"dashboard/routes/verifyfbid.js": "fix can't verify uid facebook",
+			"fb-chat-api/src/addUserToGroup.js": "Update addUserToGroup.js",
+			"fb-chat-api/src/listenMqtt.js": "Update listenMqtt.js",
+			"languages/cmds/en.js": "languages update",
+			"languages/events/en.js": "languages update",
+			"scripts/cmds/help.js": "languages update",
+			"scripts/cmds/setwelcome.js": "languages update"
+		}
+	},
+	{
+		"version": "1.5.2",
+		"files": {
+			"Goat.js": "Update Goat.js",
+			"dashboard/routes/verifyfbid.js": "fix can't verify facebook id",
+			"dashboard/views/verifyfbid-submit-code.eta": "fix can't verify facebook id",
+			"languages/cmds/en.js": "language update",
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update",
+			"scripts/cmds/help.js": "fix can't send attachment",
+			"scripts/cmds/setleave.js": "fix can't send attachment",
+			"updater.js": "Update updater.js"
+		}
+	},
+	{
+		"version": "1.5.3",
+		"files": {
+			"fb-chat-api/src/listenMqtt.js": "fix \"TypeError: Cannot read properties of undefined (reading 'get')\" when listenMqtt is closed"
+		}
 	}
 ]

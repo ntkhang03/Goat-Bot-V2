@@ -3,8 +3,8 @@ const router = express.Router();
 
 module.exports = function ({ isAuthenticated_G, isVeryfiUserIDFacebook_G, checkHasAndInThread_G, threadsData, checkAuthConfigDashboardOfThread, imageExt, videoExt, audioExt, convertSize, drive, isVideoFile }) {
 	router
-		.get("/", [isAuthenticated_G, isVeryfiUserIDFacebook_G], (req, res) => {
-			let allThread = threadsData.getAll();
+		.get("/", [isAuthenticated_G, isVeryfiUserIDFacebook_G], async (req, res) => {
+			let allThread = await threadsData.getAll();
 			allThread = allThread.filter(t => t.members.some(m => m.userID == req.user.facebookUserID && m.inGroup)/* && (api ? t.members.some(m => m.userID == api.getCurrentUserID()) : true)*/);
 			res.render("dashboard", { threads: allThread });
 		})

@@ -1,12 +1,13 @@
 // url check image
 const checkUrlRegex = /https?:\/\/.*\.(?:png|jpg|jpeg|gif)/gi;
 const regExColor = /#([0-9a-f]{6})|rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)|rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d+\.?\d*)\)/gi;
+const { uploadImgbb } = global.utils;
 
 module.exports = {
 	config: {
 		name: "customrankcard",
 		aliases: ["crc", "customrank"],
-		version: "1.8",
+		version: "1.11",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -101,15 +102,11 @@ module.exports = {
 		if (!args[0])
 			return message.SyntaxError();
 
-		const { data } = await threadsData.get(event.threadID);
-		if (!data.customRankCard)
-			data.customRankCard = {};
-
-		const oldDesign = data.customRankCard;
+		const customRankCard = await threadsData.get(event.threadID, "data.customRankCard", {});
 		const key = args[0].toLowerCase();
 		let value = args.slice(1).join(" ");
 
-		const supportImage = ["maincolor", "background", "subcolor", "expbarcolor", "progresscolor", "linecolor"];
+		const supportImage = ["maincolor", "background", "bg", "subcolor", "expbarcolor", "progresscolor", "linecolor"];
 		const notSupportImage = ["textcolor", "namecolor", "expcolor", "rankcolor", "levelcolor", "lvcolor"];
 
 		if ([...notSupportImage, ...supportImage].includes(key)) {
@@ -125,13 +122,16 @@ module.exports = {
 				const matchUrl = value.match(checkUrlRegex);
 				if (!matchUrl)
 					return message.reply(getLang("invalidImage"));
-				value = matchUrl[0];
+				const infoFile = await uploadImgbb(matchUrl[0], 'url');
+				value = infoFile.image.url;
 			}
 			else if (attachments.length > 0) {
 				// if image attachment
 				if (!["photo", "animated_image"].includes(attachments[0].type))
 					return message.reply(getLang("invalidAttachment"));
-				value = attachments[0].ID;
+				const url = attachments[0].url;
+				const infoFile = await uploadImgbb(url, 'url');
+				value = infoFile.image.url;
 			}
 			else {
 				// if color
@@ -147,41 +147,40 @@ module.exports = {
 			switch (key) {
 				case "maincolor":
 				case "background":
-					value == "reset" ? delete oldDesign.main_color : oldDesign.main_color = value;
+				case "bg":
+					value == "reset" ? delete customRankCard.main_color : customRankCard.main_color = value;
 					break;
 				case "subcolor":
-					value == "reset" ? delete oldDesign.sub_color : oldDesign.sub_color = value;
+					value == "reset" ? delete customRankCard.sub_color : customRankCard.sub_color = value;
 					break;
 				case "linecolor":
-					value == "reset" ? delete oldDesign.line_color : oldDesign.line_color = value;
+					value == "reset" ? delete customRankCard.line_color : customRankCard.line_color = value;
 					break;
 				case "progresscolor":
-					value == "reset" ? delete oldDesign.exp_color : oldDesign.exp_color = value;
+					value == "reset" ? delete customRankCard.exp_color : customRankCard.exp_color = value;
 					break;
 				case "expbarcolor":
-					value == "reset" ? delete oldDesign.expNextLevel_color : oldDesign.expNextLevel_color = value;
+					value == "reset" ? delete customRankCard.expNextLevel_color : customRankCard.expNextLevel_color = value;
 					break;
 				case "textcolor":
-					value == "reset" ? delete oldDesign.text_color : oldDesign.text_color = value;
+					value == "reset" ? delete customRankCard.text_color : customRankCard.text_color = value;
 					break;
 				case "namecolor":
-					value == "reset" ? delete oldDesign.name_color : oldDesign.name_color = value;
+					value == "reset" ? delete customRankCard.name_color : customRankCard.name_color = value;
 					break;
 				case "rankcolor":
-					value == "reset" ? delete oldDesign.rank_color : oldDesign.rank_color = value;
+					value == "reset" ? delete customRankCard.rank_color : customRankCard.rank_color = value;
 					break;
 				case "levelcolor":
 				case "lvcolor":
-					value == "reset" ? delete oldDesign.level_color : oldDesign.level_color = value;
+					value == "reset" ? delete customRankCard.level_color : customRankCard.level_color = value;
 					break;
 				case "expcolor":
-					value == "reset" ? delete oldDesign.exp_text_color : oldDesign.exp_text_color = value;
+					value == "reset" ? delete customRankCard.exp_text_color : customRankCard.exp_text_color = value;
 					break;
 			}
 			try {
-				await threadsData.set(event.threadID, {
-					data
-				});
+				await threadsData.set(event.threadID, customRankCard, "data.customRankCard");
 				message.reply({
 					body: getLang("success"),
 					attachment: await global.client.makeRankCard(event.senderID, usersData, threadsData, event.threadID, envCommands["rank"]?.deltaNext || 5)
@@ -198,11 +197,9 @@ module.exports = {
 		else if (["alphasubcolor", "alphasubcard"].includes(key)) {
 			if (parseFloat(value) < 0 && parseFloat(value) > 1)
 				return message.reply(getLang("invalidAlpha"));
-			oldDesign.alpha_subcard = parseFloat(value);
+			customRankCard.alpha_subcard = parseFloat(value);
 			try {
-				await threadsData.set(event.threadID, {
-					data
-				});
+				await threadsData.set(event.threadID, customRankCard, "data.customRankCard");
 				message.reply({
 					body: getLang("success"),
 					attachment: await global.client.makeRankCard(event.senderID, usersData, threadsData, event.threadID, envCommands["rank"]?.deltaNext || 5)
@@ -217,11 +214,8 @@ module.exports = {
 			}
 		}
 		else if (key == "reset") {
-			data.customRankCard = {};
 			try {
-				await threadsData.set(event.threadID, {
-					data
-				});
+				await threadsData.set(event.threadID, {}, "data.customRankCard");
 				message.reply(getLang("reseted"));
 			}
 			catch (err) {

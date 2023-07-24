@@ -1,19 +1,94 @@
 /* eslint-disable no-prototype-builtins */
 "use strict";
 
-const bluebird = require("bluebird");
-let request = bluebird.promisify(require("request").defaults({ jar: true, proxy: process.env.FB_PROXY }));
+let request = promisifyPromise(require("request").defaults({ jar: true, proxy: process.env.FB_PROXY }));
 const stream = require("stream");
 const log = require("npmlog");
 const querystring = require("querystring");
 const url = require("url");
 
+class CustomError extends Error {
+	constructor(obj) {
+		if (typeof obj === 'string')
+			obj = { message: obj };
+		if (typeof obj !== 'object' || obj === null)
+			throw new TypeError('Object required');
+		obj.message ? super(obj.message) : super();
+		Object.assign(this, obj);
+	}
+}
+
+function callbackToPromise(func) {
+	return function (...args) {
+		return new Promise((resolve, reject) => {
+			func(...args, (err, data) => {
+				if (err)
+					reject(err);
+				else
+					resolve(data);
+			});
+		});
+	};
+}
+
+function isHasCallback(func) {
+	if (typeof func !== "function")
+		return false;
+	return func.toString().split("\n")[0].match(/(callback|cb)\s*\)/) !== null;
+}
+
+// replace for bluebird.promisify (but this only applies best to the `request` package)
+function promisifyPromise(promise) {
+	const keys = Object.keys(promise);
+	let promise_;
+	if (
+		typeof promise === "function"
+		&& isHasCallback(promise)
+	)
+		promise_ = callbackToPromise(promise);
+	else
+		promise_ = promise;
+
+	for (const key of keys) {
+		if (!promise[key]?.toString)
+			continue;
+
+		if (
+			typeof promise[key] === "function"
+			&& isHasCallback(promise[key])
+		) {
+			promise_[key] = callbackToPromise(promise[key]);
+		}
+		else {
+			promise_[key] = promise[key];
+		}
+	}
+
+	return promise_;
+}
+
+// replace for bluebird.delay
+function delay(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// replace for bluebird.try
+function tryPromise(tryFunc) {
+	return new Promise((resolve, reject) => {
+		try {
+			resolve(tryFunc());
+		} catch (error) {
+			reject(error);
+		}
+	});
+}
+
 function setProxy(url) {
 	if (typeof url == "undefined")
-		return request = bluebird.promisify(require("request").defaults({
+		return request = promisifyPromise(require("request").defaults({
 			jar: true
 		}));
-	return request = bluebird.promisify(require("request").defaults({
+	return request = promisifyPromise(require("request").defaults({
 		jar: true,
 		proxy: url
 	}));
@@ -984,7 +1059,7 @@ function getFrom(str, startToken, endToken) {
 	const lastHalf = str.substring(start);
 	const end = lastHalf.indexOf(endToken);
 	if (end === -1) {
-		throw Error(
+		throw new Error(
 			"Could not find endTime `" + endToken + "` in the given string."
 		);
 	}
@@ -1134,20 +1209,30 @@ function makeDefaults(html, userID, ctx) {
 	};
 }
 
-function parseAndCheckLogin(ctx, defaultFuncs, retryCount) {
+function parseAndCheckLogin(ctx, defaultFuncs, retryCount, sourceCall) {
 	if (retryCount == undefined) {
 		retryCount = 0;
 	}
+	if (sourceCall == undefined) {
+		try {
+			throw new Error();
+		}
+		catch (e) {
+			sourceCall = e;
+		}
+	}
 	return function (data) {
-		return bluebird.try(function () {
+		return tryPromise(function () {
 			log.verbose("parseAndCheckLogin", data.body);
 			if (data.statusCode >= 500 && data.statusCode < 600) {
 				if (retryCount >= 5) {
-					const err = new Error("Request retry failed. Check the `res` and `statusCode` property on this error.");
-					err.statusCode = data.statusCode;
-					err.res = data.body;
-					err.error = "Request retry failed. Check the `res` and `statusCode` property on this error.";
-					throw err;
+					throw new CustomError({
+						message: "Request retry failed. Check the `res` and `statusCode` property on this error.",
+						statusCode: data.statusCode,
+						res: data.body,
+						error: "Request retry failed. Check the `res` and `statusCode` property on this error.",
+						sourceCall: sourceCall
+					});
 				}
 				retryCount++;
 				const retryTime = Math.floor(Math.random() * 5000);
@@ -1170,8 +1255,7 @@ function parseAndCheckLogin(ctx, defaultFuncs, retryCount) {
 					data.request.headers["Content-Type"].split(";")[0] ===
 					"multipart/form-data"
 				) {
-					return bluebird
-						.delay(retryTime)
+					return delay(retryTime)
 						.then(function () {
 							return defaultFuncs.postFormData(
 								url,
@@ -1180,40 +1264,43 @@ function parseAndCheckLogin(ctx, defaultFuncs, retryCount) {
 								{}
 							);
 						})
-						.then(parseAndCheckLogin(ctx, defaultFuncs, retryCount));
+						.then(parseAndCheckLogin(ctx, defaultFuncs, retryCount, sourceCall));
 				}
 				else {
-					return bluebird
-						.delay(retryTime)
+					return delay(retryTime)
 						.then(function () {
 							return defaultFuncs.post(url, ctx.jar, data.request.formData);
 						})
-						.then(parseAndCheckLogin(ctx, defaultFuncs, retryCount));
+						.then(parseAndCheckLogin(ctx, defaultFuncs, retryCount, sourceCall));
 				}
 			}
 			if (data.statusCode !== 200)
-				throw new Error(
-					"parseAndCheckLogin got status code: " +
-					data.statusCode +
-					". Bailing out of trying to parse response."
-				);
+				throw new CustomError({
+					message: "parseAndCheckLogin got status code: " + data.statusCode + ". Bailing out of trying to parse response.",
+					statusCode: data.statusCode,
+					res: data.body,
+					error: "parseAndCheckLogin got status code: " + data.statusCode + ". Bailing out of trying to parse response.",
+					sourceCall: sourceCall
+				});
 
 			let res = null;
 			try {
 				res = JSON.parse(makeParsable(data.body));
 			} catch (e) {
-				const err = new Error("JSON.parse error. Check the `detail` property on this error.");
-				err.error = "JSON.parse error. Check the `detail` property on this error.";
-				err.detail = e;
-				err.res = data.body;
-				throw err;
+				throw new CustomError({
+					message: "JSON.parse error. Check the `detail` property on this error.",
+					detail: e,
+					res: data.body,
+					error: "JSON.parse error. Check the `detail` property on this error.",
+					sourceCall: sourceCall
+				});
 			}
 
 			// In some cases the response contains only a redirect URL which should be followed
 			if (res.redirect && data.request.method === "GET") {
 				return defaultFuncs
 					.get(res.redirect, ctx.jar)
-					.then(parseAndCheckLogin(ctx, defaultFuncs));
+					.then(parseAndCheckLogin(ctx, defaultFuncs, undefined, sourceCall));
 			}
 
 			// TODO: handle multiple cookies?
@@ -1251,9 +1338,13 @@ function parseAndCheckLogin(ctx, defaultFuncs, retryCount) {
 			}
 
 			if (res.error === 1357001) {
-				const err = new Error('Facebook blocked login. Please visit https://facebook.com and check your account.');
-				err.error = "Not logged in.";
-				throw err;
+				throw new CustomError({
+					message: "Facebook blocked login. Please visit https://facebook.com and check your account.",
+					error: "Not logged in.",
+					res: res,
+					statusCode: data.statusCode,
+					sourceCall: sourceCall
+				});
 			}
 			return res;
 		});
@@ -1265,9 +1356,10 @@ function checkLiveCookie(ctx, defaultFuncs) {
 		.get("https://m.facebook.com/me", ctx.jar)
 		.then(function (res) {
 			if (res.body.indexOf(ctx.i_userID || ctx.userID) === -1) {
-				const err = new Error("Not logged in.");
-				err.error = "Not logged in.";
-				throw err;
+				throw new CustomError({
+					message: "Not logged in.",
+					error: "Not logged in."
+				});
 			}
 			return true;
 		});
@@ -1408,6 +1500,7 @@ function getAppState(jar) {
 		.concat(jar.getCookies("https://www.messenger.com"));
 }
 module.exports = {
+	CustomError,
 	isReadableStream,
 	get,
 	post,

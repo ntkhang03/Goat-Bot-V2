@@ -21,6 +21,8 @@ See [utils.js](https://github.com/ntkhang03/Goat-Bot-V2/blob/main/utils.js) for 
 - Knowledge of Javascript, Node.js, JSON,...
 - Knowledge of [Facebook Chat API Unofficial](https://github.com/ntkhang03/fb-chat-api/blob/master/DOCS.md)
 
+### **⚠️ Important Note**
+- Any issues related to 18+, vulgarity, obscenity, pornography, treason, politics, etc., are not allowed in GoatBot. Adding custom commands or modifying the code to violate these rules will result in a **permanent ban**. Please be cautious with each line of your code.
 <hr>
 
 ### **💾 Database**

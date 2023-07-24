@@ -17,7 +17,7 @@ module.exports = function (defaultFuncs, api, ctx) {
 			(utils.getType(threadID) === "Function" ||
 				utils.getType(threadID) === "AsyncFunction")
 		) {
-			throw { error: "please pass a threadID as a second argument." };
+			throw new utils.CustomError({ error: "please pass a threadID as a second argument." });
 		}
 
 		if (!callback) {
@@ -33,12 +33,12 @@ module.exports = function (defaultFuncs, api, ctx) {
 			utils.getType(threadID) !== "Number" &&
 			utils.getType(threadID) !== "String"
 		) {
-			throw {
+			throw new utils.CustomError({
 				error:
 					"ThreadID should be of type Number or String and not " +
 					utils.getType(threadID) +
 					"."
-			};
+			});
 		}
 
 		if (utils.getType(userID) !== "Array") {
@@ -78,12 +78,12 @@ module.exports = function (defaultFuncs, api, ctx) {
 				utils.getType(userID[i]) !== "Number" &&
 				utils.getType(userID[i]) !== "String"
 			) {
-				throw {
+				throw new utils.CustomError({
 					error:
 						"Elements of userID should be of type Number or String and not " +
 						utils.getType(userID[i]) +
 						"."
-				};
+				});
 			}
 
 			form["log_message_data[added_participants][" + i + "]"] =
@@ -95,10 +95,10 @@ module.exports = function (defaultFuncs, api, ctx) {
 			.then(utils.parseAndCheckLogin(ctx, defaultFuncs))
 			.then(function (resData) {
 				if (!resData) {
-					throw { error: "Add to group failed." };
+					throw new utils.CustomError({ error: "Add to group failed." });
 				}
 				if (resData.error) {
-					throw resData;
+					throw new utils.CustomError(resData);
 				}
 
 				return callback();

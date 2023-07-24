@@ -1,4 +1,6 @@
-module.exports = function (getThreadDataSync, checkAuthConfigDashboardOfThread) {
+const { threadsData } = global.db;
+
+module.exports = function (checkAuthConfigDashboardOfThread) {
 	return {
 		isAuthenticated(req, res, next) {
 			if (req.isAuthenticated())
@@ -43,7 +45,7 @@ module.exports = function (getThreadDataSync, checkAuthConfigDashboardOfThread) 
 		async checkHasAndInThread(req, res, next) {
 			const userID = req.user.facebookUserID;
 			const { threadID } = req.body;
-			const threadData = getThreadDataSync(threadID);
+			const threadData = await threadsData.get(threadID);
 			if (!threadData)
 				return res.status(401).send({
 					status: "error",

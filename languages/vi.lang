@@ -60,6 +60,12 @@ login.listenMqttClose=Đã ngắt kết nối với server MQTT
 login.listenMqttCloseByUser=Đã ngắt kết nối với server MQTT bởi người dùng
 login.retryCheckLiveCookie=Đang kiểm tra lại cookie... %1
 
+version.tooOldVersion=Bạn đang sử dụng phiên bản quá cũ của Goat-Bot, vui lòng cập nhật lên phiên bản mới nhất bằng cách gõ lệnh: %1 vào cmd/console/terminal/shell
+
+# bot/custom.js
+custom.refreshedFb_dtsg=Đã làm mới fb_dtsg và jazoest thành công
+custom.refreshedFb_dtsgError=Đã xảy ra lỗi khi làm mới fb_dtsg và jazoest
+
 # bot/login/loadData.js
 loadData.loadThreadDataSuccess=Đã tải xong dữ liệu của %1 nhóm!
 loadData.loadUserDataSuccess=Đã tải xong dữ liệu của %1 người dùng!
@@ -98,6 +104,7 @@ handlerEvents.errorOccurred3=❌ [ %1 ]\nĐã xảy ra lỗi khi thực thi onRe
 handlerEvents.errorOccurred4=❌ [ %1 ]\n Đã xảy ra lỗi khi thực thi onReaction tại command "%2"\n\n%3
 handlerEvents.errorOccurred5=❌ [ %1 ]\nĐã xảy ra lỗi tại command event "%2"\n\n%3
 handlerEvents.errorOccurred6=❌ [ %1 ]\nĐã xảy ra lỗi tại command onEvent ở lệnh "%2"\n\n%3
+handlerEvents.errorOccurred7=❌ [ %1 ]\nĐã xảy ra lỗi khi thực thi onAnyEvent tại command "%2"\n\n%3
 handlerEvents.cannotFindCommandName=❌ Không tìm thấy tên lệnh để thực thi phản hồi này!
 handlerEvents.cannotFindCommand=❌ Không tìm thấy lệnh "%1" để thực thi phản hồi này!
 
@@ -117,11 +124,12 @@ updater.latestVersion=Bạn đang sử dụng phiên bản mới nhất
 updater.cantFindVersion=Bạn đang sử dụng phiên bản không xác định (%1), vui lòng kiểm tra lại tệp package.json của bạn
 updater.newVersions=Có %1 phiên bản cần cập nhật mới, bất đầu tiến hành cập nhật...
 updater.updateSuccess=Cập nhật thành công%1
-updater.configChanged=Tệp config.json đã được thay đổi, vui lòng kiểm tra lại tệp config.json của bạn
+updater.configChanged=Tệp %1 đã được thay đổi, vui lòng kiểm tra lại tệp config.json của bạn
 updater.installingPackages=Đang cài đặt các gói phụ thuộc cho bot...
 updater.installSuccess=Cài đặt các gói phụ thuộc thành công, khởi động lại bot để sử dụng phiên bản mới
 updater.backupSuccess=Đã sao lưu thành công các file bị thay đổi, xem tại thư mục %1
 updater.restartToApply=. Khởi động lại bot để sử dụng phiên bản mới
+updater.skipFile=Đã có phiên bản mới của file %1, nhưng bạn đã bỏ qua file này trong quá trình cập nhật với comment %2 trong file này
 
 # dashboard/routes/verifyfbid.js
 verifyfbid.sendCode=Mã xác nhận của bạn là:\n%1\nMã xác nhận có hiệu lực trong vòng %2 phút

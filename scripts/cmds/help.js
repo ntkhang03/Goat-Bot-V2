@@ -13,7 +13,7 @@ const doNotDelete = "[ 🐐 | Goat Bot V2 ]";
 module.exports = {
 	config: {
 		name: "help",
-		version: "1.15",
+		version: "1.17",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -81,9 +81,10 @@ module.exports = {
 	onStart: async function ({ message, args, event, threadsData, getLang, role }) {
 		const langCode = await threadsData.get(event.threadID, "data.lang") || global.GoatBot.config.language;
 		let customLang = {};
-		const pathCustomLang = path.join(__dirname, "..", "..", "languages", "cmds", `${langCode}.js`);
+		const pathCustomLang = path.normalize(`${process.cwd()}/languages/cmds/${langCode}.js`);
 		if (fs.existsSync(pathCustomLang))
 			customLang = require(pathCustomLang);
+
 		const { threadID } = event;
 		const threadData = await threadsData.get(threadID);
 		const prefix = getPrefix(threadID);
@@ -92,6 +93,7 @@ module.exports = {
 			sortHelp = "name";
 		const commandName = (args[0] || "").toLowerCase();
 		const command = commands.get(commandName) || commands.get(aliases.get(commandName));
+
 		// ———————————————— LIST ALL COMMAND ——————————————— //
 		if (!command && !args[0] || !isNaN(args[0])) {
 			const arrayInfo = [];
@@ -116,11 +118,13 @@ module.exports = {
 						priority: value.priority || 0
 					});
 				}
-				arrayInfo.sort((a, b) => a.data - b.data);
-				arrayInfo.sort((a, b) => a.priority > b.priority ? -1 : 1);
+
+				arrayInfo.sort((a, b) => a.data - b.data); // sort by name
+				arrayInfo.sort((a, b) => a.priority > b.priority ? -1 : 1); // sort by priority
 				const { allPage, totalPage } = global.utils.splitPage(arrayInfo, numberOfOnePage);
 				if (page < 1 || page > totalPage)
 					return message.reply(getLang("pageNotFound", page));
+
 				const returnArray = allPage[page - 1] || [];
 				const startNumber = (page - 1) * numberOfOnePage + 1;
 				msg += (returnArray || []).reduce((text, item, index) => text += `│ ${index + startNumber}${index + startNumber < 10 ? " " : ""}. ${item.data}\n`, '').slice(0, -1);
@@ -197,7 +201,7 @@ module.exports = {
 				else
 					description = getLang("doNotHave");
 
-			let sendWithAttachment = false;
+			let sendWithAttachment = false; // check subcommand need send with attachment or not
 
 			if (args[1]?.match(/^-g|guide|-u|usage$/)) {
 				formSendMessage.body = getLang("onlyUsage", guideBody.split("\n").join("\n│"));
@@ -215,24 +219,44 @@ module.exports = {
 			}
 
 			if (sendWithAttachment && guide.attachment) {
-				if (typeof guide.attachment == "object") {
+				if (typeof guide.attachment == "object" && !Array.isArray(guide.attachment)) {
+					const promises = [];
 					formSendMessage.attachment = [];
-					for (const pathFile in guide.attachment) {
+
+					for (const keyPathFile in guide.attachment) {
+						const pathFile = path.normalize(keyPathFile);
+
 						if (!fs.existsSync(pathFile)) {
-							const cutFullPath = pathFile.split("/").filter(item => item != "");
-							cutFullPath.pop();
-							for (let i = 0; i < cutFullPath.length; i++) {
-								const path = cutFullPath.slice(0, i + 1).join('/');
-								if (!fs.existsSync(path))
-									fs.mkdirSync(path);
+							const cutDirPath = path.dirname(pathFile).split(path.sep);
+							for (let i = 0; i < cutDirPath.length; i++) {
+								const pathCheck = `${cutDirPath.slice(0, i + 1).join(path.sep)}${path.sep}`; // create path
+								if (!fs.existsSync(pathCheck))
+									fs.mkdirSync(pathCheck); // create folder
 							}
-							const getFile = await axios.get(guide.attachment[pathFile], { responseType: 'arraybuffer' });
-							fs.writeFileSync(pathFile, Buffer.from(getFile.data));
+							const getFilePromise = axios.get(guide.attachment[keyPathFile], { responseType: 'arraybuffer' })
+								.then(response => {
+									fs.writeFileSync(pathFile, Buffer.from(response.data));
+								});
+
+							promises.push({
+								pathFile,
+								getFilePromise
+							});
 						}
-						formSendMessage.attachment.push(fs.createReadStream(pathFile));
+						else {
+							promises.push({
+								pathFile,
+								getFilePromise: Promise.resolve()
+							});
+						}
 					}
+
+					await Promise.all(promises.map(item => item.getFilePromise));
+					for (const item of promises)
+						formSendMessage.attachment.push(fs.createReadStream(item.pathFile));
 				}
 			}
+
 			return message.reply(formSendMessage);
 		}
 	}

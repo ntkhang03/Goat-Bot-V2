@@ -47,6 +47,8 @@
     const submitButton = $("#submitSend");
     submitButton.on("click", function(e) {
       e.preventDefault();
+			submitButton.disabled = true;
+			submitButton.html("<span class='spinner-border spinner-border-sm'></span> Sending...");
       const form = $("#verifyfbidForm");
       const data = form.serialize();
       $.ajax({
@@ -62,6 +64,8 @@
             title: "Error",
             message: err.responseJSON.message
           });
+					submitButton.disabled = false;
+					submitButton.html("Send");
         }
       });
     });

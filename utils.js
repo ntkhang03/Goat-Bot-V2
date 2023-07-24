@@ -2,6 +2,10 @@ const axios = require("axios");
 const fs = require("fs-extra");
 const path = require("path");
 const qs = require("qs");
+const https = require("https");
+const agent = new https.Agent({
+	rejectUnauthorized: false
+});
 const moment = require("moment-timezone");
 const mimeDB = require("mime-db");
 const _ = require("lodash");
@@ -69,6 +73,19 @@ const word = [
 	' '
 ];
 
+const regCheckURL = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+
+class CustomError extends Error {
+	constructor(obj) {
+		if (typeof obj === 'string')
+			obj = { message: obj };
+		if (typeof obj !== 'object' || obj === null)
+			throw new TypeError('Object required');
+		obj.message ? super(obj.message) : super();
+		Object.assign(this, obj);
+	}
+}
+
 function lengthWhiteSpacesEndLine(text) {
 	let length = 0;
 	for (let i = text.length - 1; i >= 0; i--) {
@@ -135,7 +152,7 @@ function convertTime(miliSeconds, replaceSeconds = "s", replaceMinutes = "m", re
 
 	if (notShowZero)
 		formattedDate = formattedDate.replace(/00\w+/g, '');
-		
+
 	return formattedDate;
 }
 
@@ -161,6 +178,33 @@ function createOraDots(text) {
 		spin.stop();
 	};
 	return spin;
+}
+
+function createQueue(callback) {
+	const queue = [];
+	const queueObj = {
+		push: function (task) {
+			queue.push(task);
+			if (queue.length == 1)
+				queueObj.next();
+		},
+		running: null,
+		length: function () {
+			return queue.length;
+		},
+		next: function () {
+			if (queue.length > 0) {
+				const task = queue[0];
+				queueObj.running = task;
+				callback(task, async function (err, result) {
+					queueObj.running = null;
+					queue.shift();
+					queueObj.next();
+				});
+			}
+		}
+	};
+	return queueObj;
 }
 
 function enableStderrClearLine(isEnable = true) {
@@ -200,7 +244,8 @@ function getPrefix(threadID) {
 	threadID = String(threadID);
 	let prefix = global.GoatBot.config.prefix;
 	const threadData = global.db.allThreadData.find(t => t.threadID == threadID);
-	threadData ? prefix = threadData.data.prefix || prefix : "";
+	if (threadData)
+		prefix = threadData.data.prefix || prefix;
 	return prefix;
 }
 
@@ -210,6 +255,10 @@ function getTime(timestamps, format) {
 		timestamps = undefined;
 	}
 	return moment(timestamps).tz(config.timeZone).format(format);
+}
+
+function isNumber(value) {
+	return !isNaN(parseFloat(value));
 }
 
 function jsonStringifyColor(obj, filter, indent, level) {
@@ -276,6 +325,7 @@ function jsonStringifyColor(obj, filter, indent, level) {
 
 	return output;
 }
+
 
 function message(api, event) {
 	async function sendMessageError(err) {
@@ -561,8 +611,156 @@ async function shortenURL(url) {
 		return result.data;
 	}
 	catch (err) {
-		throw new Error('Error when shortening URL');
+		let error;
+		if (err.response) {
+			error = new Error();
+			Object.assign(error, err.response.data);
+		}
+		else
+			error = new Error(err.message);
 	}
+}
+
+async function uploadImgbb(file /* stream or image url */) {
+	let type = "file";
+	try {
+		if (!file)
+			throw new Error('The first argument (file) must be a stream or a image url');
+		if (regCheckURL.test(file) == true)
+			type = "url";
+		if (
+			(type != "url" && (!(typeof file._read === 'function' && typeof file._readableState === 'object')))
+			|| (type == "url" && !regCheckURL.test(file))
+		)
+			throw new Error('The first argument (file) must be a stream or an image URL');
+
+		const res_ = await axios({
+			method: 'GET',
+			url: 'https://imgbb.com'
+		});
+
+		const auth_token = res_.data.match(/auth_token="([^"]+)"/)[1];
+		const timestamp = Date.now();
+
+		const res = await axios({
+			method: 'POST',
+			url: 'https://imgbb.com/json',
+			headers: {
+				"content-type": "multipart/form-data"
+			},
+			data: {
+				source: file,
+				type: type,
+				action: 'upload',
+				timestamp: timestamp,
+				auth_token: auth_token
+			}
+		});
+
+		return res.data;
+		// {
+		// 	"status_code": 200,
+		// 	"success": {
+		// 		"message": "image uploaded",
+		// 		"code": 200
+		// 	},
+		// 	"image": {
+		// 		"name": "Banner-Project-Goat-Bot",
+		// 		"extension": "png",
+		// 		"width": 2560,
+		// 		"height": 1440,
+		// 		"size": 194460,
+		// 		"time": 1688352855,
+		// 		"expiration": 0,
+		// 		"likes": 0,
+		// 		"description": null,
+		// 		"original_filename": "Banner Project Goat Bot.png",
+		// 		"is_animated": 0,
+		// 		"is_360": 0,
+		// 		"nsfw": 0,
+		// 		"id_encoded": "D1yzzdr",
+		// 		"size_formatted": "194.5 KB",
+		// 		"filename": "Banner-Project-Goat-Bot.png",
+		// 		"url": "https://i.ibb.co/wdXBBtc/Banner-Project-Goat-Bot.png",  // => this is url image
+		// 		"url_viewer": "https://ibb.co/D1yzzdr",
+		// 		"url_viewer_preview": "https://ibb.co/D1yzzdr",
+		// 		"url_viewer_thumb": "https://ibb.co/D1yzzdr",
+		// 		"image": {
+		// 			"filename": "Banner-Project-Goat-Bot.png",
+		// 			"name": "Banner-Project-Goat-Bot",
+		// 			"mime": "image/png",
+		// 			"extension": "png",
+		// 			"url": "https://i.ibb.co/wdXBBtc/Banner-Project-Goat-Bot.png",
+		// 			"size": 194460
+		// 		},
+		// 		"thumb": {
+		// 			"filename": "Banner-Project-Goat-Bot.png",
+		// 			"name": "Banner-Project-Goat-Bot",
+		// 			"mime": "image/png",
+		// 			"extension": "png",
+		// 			"url": "https://i.ibb.co/D1yzzdr/Banner-Project-Goat-Bot.png"
+		// 		},
+		// 		"medium": {
+		// 			"filename": "Banner-Project-Goat-Bot.png",
+		// 			"name": "Banner-Project-Goat-Bot",
+		// 			"mime": "image/png",
+		// 			"extension": "png",
+		// 			"url": "https://i.ibb.co/tHtQQRL/Banner-Project-Goat-Bot.png"
+		// 		},
+		// 		"display_url": "https://i.ibb.co/tHtQQRL/Banner-Project-Goat-Bot.png",
+		// 		"display_width": 2560,
+		// 		"display_height": 1440,
+		// 		"delete_url": "https://ibb.co/D1yzzdr/<TOKEN>",
+		// 		"views_label": "lượt xem",
+		// 		"likes_label": "thích",
+		// 		"how_long_ago": "mới đây",
+		// 		"date_fixed_peer": "2023-07-03 02:54:15",
+		// 		"title": "Banner-Project-Goat-Bot",
+		// 		"title_truncated": "Banner-Project-Goat-Bot",
+		// 		"title_truncated_html": "Banner-Project-Goat-Bot",
+		// 		"is_use_loader": false
+		// 	},
+		// 	"request": {
+		// 		"type": "file",
+		// 		"action": "upload",
+		// 		"timestamp": "1688352853967",
+		// 		"auth_token": "a2606b39536a05a81bef15558bb0d61f7253dccb"
+		// 	},
+		// 	"status_txt": "OK"
+		// }
+	}
+	catch (err) {
+		throw new CustomError(err.response ? err.response.data : err);
+	}
+}
+
+async function uploadZippyshare(stream) {
+	const res = await axios({
+		method: 'POST',
+		url: 'https://api.zippysha.re/upload',
+		httpsAgent: agent,
+		headers: {
+			'Content-Type': 'multipart/form-data'
+		},
+		data: {
+			file: stream
+		}
+	});
+
+	const fullUrl = res.data.data.file.url.full;
+	const res_ = await axios({
+		method: 'GET',
+		url: fullUrl,
+		httpsAgent: agent,
+		headers: {
+			"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.43"
+		}
+	});
+
+	const downloadUrl = res_.data.match(/id="download-url"(?:.|\n)*?href="(.+?)"/)[1];
+	res.data.data.file.url.download = downloadUrl;
+
+	return res.data;
 }
 
 const drive = {
@@ -629,12 +827,14 @@ const drive = {
 			responseType
 		});
 		const headersResponse = response.headers;
-		const file = response.data;
-
 		const fileName = headersResponse["content-disposition"]?.split('filename="')[1]?.split('"')[0] || `${utils.randomString(10)}.${utils.getExtFromMimeType(headersResponse["content-type"])}`;
 
-		if (responseType === "stream")
-			file.path = fileName;
+		if (responseType == "arraybuffer")
+			return Buffer.from(response.data);
+		else if (responseType == "stream")
+			response.data.path = fileName;
+
+		const file = response.data;
 
 		return file;
 	},
@@ -719,10 +919,95 @@ const drive = {
 	}
 };
 
+class GoatBotApis {
+	constructor(apiKey) {
+		this.apiKey = apiKey;
+		const url = `https://goatbot.tk/api`;
+		this.api = axios.create({
+			baseURL: url,
+			headers: {
+				"x-api-key": apiKey
+			}
+		});
+
+		// modify axios response
+		this.api.interceptors.response.use((response) => {
+			return {
+				status: response.status,
+				statusText: response.statusText,
+				responseHeaders: {
+					'x-remaining-requests': parseInt(response.headers['x-remaining-requests']),
+					'x-free-remaining-requests': parseInt(response.headers['x-free-remaining-requests']),
+					'x-used-requests': parseInt(response.headers['x-used-requests'])
+				},
+				data: response.data
+			};
+		});
+
+		// modify axios response error
+		this.api.interceptors.response.use(undefined, async (error) => {
+			let responseDataError;
+			const promise = () => new Promise((resolveFunc) => {
+				// decode all response data to utf8 (string) if responseType is 
+				if (error.response.config.responseType === "arraybuffer") {
+					responseDataError = Buffer.from(error.response.data, "binary").toString("utf8");
+					resolveFunc();
+				}
+				else if (error.response.config.responseType === "stream") {
+					let data = "";
+					error.response.data.on("data", (chunk) => {
+						data += chunk;
+					});
+					error.response.data.on("end", () => {
+						responseDataError = data;
+						resolveFunc();
+					});
+				}
+				else {
+					responseDataError = error.response.data;
+					resolveFunc();
+				}
+			});
+
+			await promise();
+			try {
+				responseDataError = JSON.parse(responseDataError);
+			}
+			catch (err) { }
+			return Promise.reject({
+				status: error.response.status,
+				statusText: error.response.statusText,
+				responseHeaders: {
+					'x-remaining-requests': parseInt(error.response.headers['x-remaining-requests']),
+					'x-free-remaining-requests': parseInt(error.response.headers['x-free-remaining-requests']),
+					'x-used-requests': parseInt(error.response.headers['x-used-requests'])
+				},
+				data: responseDataError
+			});
+		});
+	}
+
+	isSetApiKey() {
+		return this.apiKey && typeof this.apiKey === "string";
+	}
+
+	getApiKey() {
+		return this.apiKey;
+	}
+
+	async getAccountInfo() {
+		const { data } = await this.api.get("/info");
+		return data;
+	}
+}
+
 const utils = {
+	CustomError,
+
 	colors,
 	convertTime,
 	createOraDots,
+	createQueue,
 	defaultStderrClearLine,
 	enableStderrClearLine,
 	getExtFromAttachmentType,
@@ -731,6 +1016,7 @@ const utils = {
 	getPrefix,
 	getTime,
 	isHexColor,
+	isNumber,
 	jsonStringifyColor,
 	loading: require("./logger/loading.js"),
 	log,
@@ -741,6 +1027,7 @@ const utils = {
 	removeHomeDir,
 	splitPage,
 	translateAPI,
+
 	// async functions
 	downloadFile,
 	findUid,
@@ -750,7 +1037,11 @@ const utils = {
 	Prism,
 	translate,
 	shortenURL,
-	drive
+	uploadZippyshare,
+	uploadImgbb,
+	drive,
+
+	GoatBotApis
 };
 
 module.exports = utils;

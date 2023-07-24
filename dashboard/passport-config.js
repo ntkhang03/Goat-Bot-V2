@@ -12,7 +12,7 @@ module.exports = function (Passport, db, bcrypt) {
 
 	Passport.use(new localStrategy(
 		async function (email, password, done) {
-			const user = db.get(email);
+			const user = await db.get(email);
 			if (!user)
 				return done(null, false, { message: "Email không tồn tại" });
 

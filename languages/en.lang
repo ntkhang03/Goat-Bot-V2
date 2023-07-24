@@ -60,6 +60,12 @@ login.listenMqttClose=ListenMQTT closed
 login.listenMqttCloseByUser=ListenMQTT closed by user
 login.retryCheckLiveCookie=Retrying to check cookie... %1
 
+version.tooOldVersion=You are using a too old version of Goat-Bot, please update to the latest version by typing the command: %1 into the cmd/console/terminal/shell
+
+# bot/custom.js
+custom.refreshedFb_dtsg=Refreshed fb_dtsg and jazoest successfully
+custom.refreshedFb_dtsgError=An error occurred when refreshing fb_dtsg and jazoest
+
 # bot/login/loadData.js
 loadData.loadThreadDataSuccess=Loaded %1 group's data successfully!
 loadData.loadUserDataSuccess=Loaded %1 user's data successfully!
@@ -98,6 +104,7 @@ handlerEvents.errorOccurred3=❌ [ %1 ]\nAn error occurred when executing onRepl
 handlerEvents.errorOccurred4=❌ [ %1 ]\nAn error occurred when executing onReaction at command "%2"\n\n%3
 handlerEvents.errorOccurred5=❌ [ %1 ]\nAn error occurred when executing onEvent at command "%2"\n\n%3
 handlerEvents.errorOccurred6=❌ [ %1 ]\nAn error occurred when executing onEvent at command "%2"\n\n%3
+handlerEvents.errorOccurred7=❌ [ %1 ]\nAn error occurred when executing onAnyEvent at command "%2"\n\n%3
 handlerEvents.cannotFindCommandName=❌ Cannot find command name to execute this reply!
 handlerEvents.cannotFindCommand=❌ Cannot find command "%1" to execute this reply!
 
@@ -117,11 +124,12 @@ updater.latestVersion=You are using the latest version
 updater.cantFindVersion=You are using an undefined version (%1), please check your package.json file again
 updater.newVersions=There are %1 new versions to update, starting to update...
 updater.updateSuccess=Update successfully%1
-updater.configChanged=The config.json file has been changed, please check your config.json file again
+updater.configChanged=The %1 has been changed, please check your config.json file again
 updater.installingPackages=Installing dependencies for bot...
 updater.installSuccess=Installed dependencies successfully, restart the bot to use the new version
 updater.backupSuccess=Successfully backed up changed files, see in the %1 folder
 updater.restartToApply=. Restart the bot to apply the new version
+updater.skipFile=There is a new version of the %1 file, but you have skipped this file during the update process with the comment %2 in this file
 
 # dashboard/routes/verifyfbid.js
 verifyfbid.sendCode=Your verification code is:\n%1\nThe verification code is valid for %2 minutes

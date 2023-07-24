@@ -5,7 +5,6 @@ const log = require("npmlog");
 
 
 module.exports = function (defaultFuncs, api, ctx) {
-
 	return function httpPostFormData(url, form, customHeader, callback, notAPI) {
 		let resolveFunc = function () { };
 		let rejectFunc = function () { };
@@ -27,6 +26,11 @@ module.exports = function (defaultFuncs, api, ctx) {
 
 		customHeader = customHeader || {};
 
+		if (utils.getType(callback) == "Boolean") {
+			notAPI = callback;
+			callback = null;
+		}
+
 		callback = callback || function (err, data) {
 			if (err) return rejectFunc(err);
 			resolveFunc(data);
@@ -39,7 +43,7 @@ module.exports = function (defaultFuncs, api, ctx) {
 					callback(null, resData.body.toString());
 				})
 				.catch(function (err) {
-					log.error("httpGet", err);
+					log.error("httpPostFormData", err);
 					return callback(err);
 				});
 		} else {
