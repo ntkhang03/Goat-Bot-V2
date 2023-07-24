@@ -186,7 +186,7 @@ fs.copyFileSync = function (src, dest) {
 				fs.copyFileSync(fullPath, `${folderBackup}/${filePath}`);
 
 			// check first line of file, if it contains any contentsSkip, skip update this file
-			const firstLine = fs.readFileSync(fullPath, "utf-8").trim().split(/\r?\n|\r/)[0];
+			const firstLine = fileExists ? fs.readFileSync(fullPath, "utf-8").trim().split(/\r?\n|\r/)[0] : "";
 			const indexSkip = contentsSkip.findIndex(c => firstLine.includes(c));
 			if (indexSkip !== -1) {
 				console.log(chalk.bold.yellow('[!]'), getText("updater", "skipFile", chalk.yellow(filePath), chalk.yellow(contentsSkip[indexSkip])));
