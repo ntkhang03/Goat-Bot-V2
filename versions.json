@@ -2019,5 +2019,13 @@
 		"files": {
 			"fb-chat-api/src/listenMqtt.js": "fix \"TypeError: Cannot read properties of undefined (reading 'get')\" when listenMqtt is closed"
 		}
+	},
+	{
+		"version": "1.5.4",
+		"files": {
+			"scripts/cmds/cmd.js": "fix failed to install command from url",
+			"scripts/cmds/weather.js": "added areaName in message body - by `Sadman-11`",
+			"scripts/cmds/ytb.js": "Fix cant downloads shorts - by `Sadman-11`"
+		}
 	}
 ]
