@@ -109,8 +109,9 @@ module.exports = {
 			handle({ type, infoVideo, message, downloadFile, getLang });
 			return;
 		}
-
-		const keyWord = args.slice(1).join(" ");
+		
+		let keyWord = args.slice(1).join(" ");
+		keyWord = keyWord.includes("?feature=share") ? keyWord.replace("?feature=share", "") : keyWord;
 		const maxResults = 6;
 
 		let result;
