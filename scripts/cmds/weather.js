@@ -22,7 +22,7 @@ function formatHours(hours) {
 module.exports = {
 	config: {
 		name: "weather",
-		version: "1.0",
+		version: "1.1",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
