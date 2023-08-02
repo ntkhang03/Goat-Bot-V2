@@ -2027,5 +2027,12 @@
 			"scripts/cmds/weather.js": "added areaName in message body - by `Sadman-11`",
 			"scripts/cmds/ytb.js": "Fix cant downloads shorts - by `Sadman-11`"
 		}
+	},
+	{
+		"version": "1.5.5",
+		"files": {
+			"fb-chat-api/src/listenMqtt.js": "fix `event.participantIDs` not displaying correctly in thread",
+			"scripts/cmds/videofb.js": "Fixed can't download by `illusionghost3`\n\nFixed Sorry, we can't download the video for you because the size is larger than 83MB. Api changed."
+		}
 	}
 ]
