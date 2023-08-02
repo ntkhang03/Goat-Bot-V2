@@ -372,7 +372,7 @@ function parseDelta(defaultFuncs, api, ctx, globalCallback, v) {
 								.otherUserFbId).toString(),
 						messageID: delta.deltaMessageReply.message.messageMetadata.messageId,
 						senderID: delta.deltaMessageReply.message.messageMetadata.actorFbId.toString(),
-						attachments: delta.deltaMessageReply.message.attachments.map(function (att) {
+						attachments: (delta.deltaMessageReply.message.attachments || []).map(function (att) {
 							const mercury = JSON.parse(att.mercuryJSON);
 							Object.assign(att, mercury);
 							return att;
@@ -391,7 +391,7 @@ function parseDelta(defaultFuncs, api, ctx, globalCallback, v) {
 						isGroup: !!delta.deltaMessageReply.message.messageMetadata.threadKey.threadFbId,
 						mentions: mentions,
 						timestamp: delta.deltaMessageReply.message.messageMetadata.timestamp,
-						participantIDs: (delta.deltaMessageReply.message.messageMetadata.cid.canonicalParticipantFbids || []).map(e => e.toString())
+						participantIDs: (delta.deltaMessageReply.message.messageMetadata.cid.canonicalParticipantFbids || delta.deltaMessageReply.message.participants || []).map(e => e.toString())
 					};
 
 					if (delta.deltaMessageReply.repliedToMessage) {
