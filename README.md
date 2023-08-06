@@ -34,6 +34,7 @@
 
 ## 🚧 **Requirement**
 - Node.js 16.x [Download](https://nodejs.org/dist/v16.20.0) | [Home](https://nodejs.org/en/download/) | [Other versions](https://nodejs.org/en/download/releases/)
+- Knowledge of **programming**, javascript, nodejs, unofficial facebook api
 
 ## 📝 **Tutorial**
 Tutorial has been uploaded on YouTube
