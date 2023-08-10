@@ -1,10 +1,9 @@
 "use strict";
 
 const utils = require("./utils");
-const cheerio = require("cheerio");
 const log = require("npmlog");
 
-let checkVerified = null;
+const checkVerified = null;
 
 const defaultLogRecordSize = 100;
 log.maxRecordSize = defaultLogRecordSize;
@@ -160,7 +159,7 @@ function buildAPI(globalOptions, html, jar) {
 		getAppState: function getAppState() {
 			const appState = utils.getAppState(jar);
 			// filter duplicate
-			return appState.filter((item, index, self) => self.findIndex((t) => { return t.key === item.key }) === index);
+			return appState.filter((item, index, self) => self.findIndex((t) => { return t.key === item.key; }) === index);
 		}
 	};
 
@@ -238,256 +237,6 @@ function buildAPI(globalOptions, html, jar) {
 	return [ctx, defaultFuncs, api];
 }
 
-function makeLogin(jar, email, password, loginOptions, callback, prCallback) {
-	return function (res) {
-		const html = res.body;
-		const $ = cheerio.load(html);
-		let arr = [];
-
-		// This will be empty, but just to be sure we leave it
-		$("#login_form input").map(function (i, v) {
-			arr.push({ val: $(v).val(), name: $(v).attr("name") });
-		});
-
-		arr = arr.filter(function (v) {
-			return v.val && v.val.length;
-		});
-
-		const form = utils.arrToForm(arr);
-		form.lsd = utils.getFrom(html, "[\"LSD\",[],{\"token\":\"", "\"}");
-		form.lgndim = Buffer.from("{\"w\":1440,\"h\":900,\"aw\":1440,\"ah\":834,\"c\":24}").toString('base64');
-		form.email = email;
-		form.pass = password;
-		form.default_persistent = '0';
-		form.lgnrnd = utils.getFrom(html, "name=\"lgnrnd\" value=\"", "\"");
-		form.locale = 'en_US';
-		form.timezone = '240';
-		form.lgnjs = ~~(Date.now() / 1000);
-
-
-		// Getting cookies from the HTML page... (kill me now plz)
-		// we used to get a bunch of cookies in the headers of the response of the
-		// request, but FB changed and they now send those cookies inside the JS.
-		// They run the JS which then injects the cookies in the page.
-		// The "solution" is to parse through the html and find those cookies
-		// which happen to be conveniently indicated with a _js_ in front of their
-		// variable name.
-		//
-		// ---------- Very Hacky Part Starts -----------------
-		const willBeCookies = html.split("\"_js_");
-		willBeCookies.slice(1).map(function (val) {
-			const cookieData = JSON.parse("[\"" + utils.getFrom(val, "", "]") + "]");
-			jar.setCookie(utils.formatCookie(cookieData, "facebook"), "https://www.facebook.com");
-		});
-		// ---------- Very Hacky Part Ends -----------------
-
-		log.info("login", "Logging in...");
-		return utils
-			.post("https://www.facebook.com/login/device-based/regular/login/?login_attempt=1&lwv=110", jar, form, loginOptions)
-			.then(utils.saveCookies(jar))
-			.then(function (res) {
-				const headers = res.headers;
-				if (!headers.location) {
-					throw { error: "Wrong username/password." };
-				}
-
-				// This means the account has login approvals turned on.
-				if (headers.location.indexOf('https://www.facebook.com/checkpoint/') > -1) {
-					log.info("login", "You have login approvals turned on.");
-					const nextURL = 'https://www.facebook.com/checkpoint/?next=https%3A%2F%2Fwww.facebook.com%2Fhome.php';
-
-					return utils
-						.get(headers.location, jar, null, loginOptions)
-						.then(utils.saveCookies(jar))
-						.then(function (res) {
-							const html = res.body;
-							// Make the form in advance which will contain the fb_dtsg and nh
-							const $ = cheerio.load(html);
-							let arr = [];
-							$("form input").map(function (i, v) {
-								arr.push({ val: $(v).val(), name: $(v).attr("name") });
-							});
-
-							arr = arr.filter(function (v) {
-								return v.val && v.val.length;
-							});
-
-							const form = utils.arrToForm(arr);
-							if (html.indexOf("checkpoint/?next") > -1) {
-								setTimeout(() => {
-									checkVerified = setInterval((_form) => {
-										/* utils
-											.post("https://www.facebook.com/login/approvals/approved_machine_check/", jar, form, loginOptions, null, {
-												"Referer": "https://www.facebook.com/checkpoint/?next"
-											})
-											.then(utils.saveCookies(jar))
-											.then(res => {
-												try {
-													JSON.parse(res.body.replace(/for\s*\(\s*;\s*;\s*\)\s*;\s*()/, ""));
-												} catch (ex) {
-													clearInterval(checkVerified);
-													log.info("login", "Verified from browser. Logging in...");
-													return loginHelper(utils.getAppState(jar), email, password, loginOptions, callback);
-												}
-											})
-											.catch(ex => {
-												log.error("login", ex);
-											}); */
-									}, 5000, {
-										fb_dtsg: form.fb_dtsg,
-										jazoest: form.jazoest,
-										dpr: 1
-									});
-								}, 2500);
-								throw {
-									error: 'login-approval',
-									continue: function submit2FA(code) {
-										form.approvals_code = code;
-										form['submit[Continue]'] = $("#checkpointSubmitButton").html(); //'Continue';
-										let prResolve = null;
-										let prReject = null;
-										const rtPromise = new Promise(function (resolve, reject) {
-											prResolve = resolve;
-											prReject = reject;
-										});
-										if (typeof code == "string") {
-											utils
-												.post(nextURL, jar, form, loginOptions)
-												.then(utils.saveCookies(jar))
-												.then(function (res) {
-													const $ = cheerio.load(res.body);
-													const error = $("#approvals_code").parent().attr("data-xui-error");
-													if (error) {
-														throw {
-															error: 'login-approval',
-															errordesc: "Invalid 2FA code.",
-															lerror: error,
-															continue: submit2FA
-														};
-													}
-												})
-												.then(function () {
-													// Use the same form (safe I hope)
-													delete form.no_fido;
-													delete form.approvals_code;
-													form.name_action_selected = 'dont_save'; //'save_device';
-
-													return utils
-														.post(nextURL, jar, form, loginOptions)
-														.then(utils.saveCookies(jar));
-												})
-												.then(function (res) {
-													const headers = res.headers;
-													if (!headers.location && res.body.indexOf('Review Recent Login') > -1) {
-														throw { error: "Something went wrong with login approvals." };
-													}
-
-													const appState = utils.getAppState(jar);
-
-													if (callback === prCallback) {
-														callback = function (err, api) {
-															if (err) {
-																return prReject(err);
-															}
-															return prResolve(api);
-														};
-													}
-
-													// Simply call loginHelper because all it needs is the jar
-													// and will then complete the login process
-													return loginHelper(appState, email, password, loginOptions, callback);
-												})
-												.catch(function (err) {
-													// Check if using Promise instead of callback
-													if (callback === prCallback) {
-														prReject(err);
-													} else {
-														callback(err);
-													}
-												});
-										} else {
-											utils
-												.post("https://www.facebook.com/checkpoint/?next=https%3A%2F%2Fwww.facebook.com%2Fhome.php", jar, form, loginOptions, null, {
-													"Referer": "https://www.facebook.com/checkpoint/?next"
-												})
-												.then(utils.saveCookies(jar))
-												.then(res => {
-													try {
-														JSON.parse(res.body.replace(/for\s*\(\s*;\s*;\s*\)\s*;\s*/, ""));
-													} catch (ex) {
-														clearInterval(checkVerified);
-														log.info("login", "Verified from browser. Logging in...");
-														if (callback === prCallback) {
-															callback = function (err, api) {
-																if (err) {
-																	return prReject(err);
-																}
-																return prResolve(api);
-															};
-														}
-														return loginHelper(utils.getAppState(jar), email, password, loginOptions, callback);
-													}
-												})
-												.catch(ex => {
-													log.error("login", ex);
-													if (callback === prCallback) {
-														prReject(ex);
-													} else {
-														callback(ex);
-													}
-												});
-										}
-										return rtPromise;
-									}
-								};
-							} else {
-								if (!loginOptions.forceLogin) {
-									throw { error: "Couldn't login. Facebook might have blocked this account. Please login with a browser or enable the option 'forceLogin' and try again." };
-								}
-								if (html.indexOf("Suspicious Login Attempt") > -1) {
-									form['submit[This was me]'] = "This was me";
-								} else {
-									form['submit[This Is Okay]'] = "This Is Okay";
-								}
-
-								return utils
-									.post(nextURL, jar, form, loginOptions)
-									.then(utils.saveCookies(jar))
-									.then(function () {
-										// Use the same form (safe I hope)
-										form.name_action_selected = 'save_device';
-
-										return utils
-											.post(nextURL, jar, form, loginOptions)
-											.then(utils.saveCookies(jar));
-									})
-									.then(function (res) {
-										const headers = res.headers;
-
-										if (!headers.location && res.body.indexOf('Review Recent Login') > -1) {
-											throw { error: "Something went wrong with review recent login." };
-										}
-
-										const appState = utils.getAppState(jar);
-
-										// Simply call loginHelper because all it needs is the jar
-										// and will then complete the login process
-										return loginHelper(appState, email, password, loginOptions, callback);
-									})
-									.catch(function (e) {
-										callback(e);
-									});
-							}
-						});
-				}
-
-				return utils
-					.get('https://www.facebook.com/', jar, null, loginOptions)
-					.then(utils.saveCookies(jar));
-			});
-	};
-}
-
 // Helps the login
 function loginHelper(appState, email, password, globalOptions, callback, prCallback) {
 	let mainPromise = null;
@@ -496,6 +245,30 @@ function loginHelper(appState, email, password, globalOptions, callback, prCallb
 	// If we're given an appState we loop through it and save each cookie
 	// back into the jar.
 	if (appState) {
+		// check and convert cookie to appState
+		if (utils.getType(appState) === 'Array' && appState.some(c => c.name)) {
+			appState = appState.map(c => {
+				c.key = c.name;
+				delete c.name;
+				return c;
+			});
+		}
+		else if (utils.getType(appState) === 'String') {
+			const arrayAppState = [];
+			appState.split(';').forEach(c => {
+				const [key, value] = c.split('=');
+
+				arrayAppState.push({
+					key: (key || "").trim(),
+					value: (value || "").trim(),
+					domain: "facebook.com",
+					path: "/",
+					expires: new Date().getTime() + 1000 * 60 * 60 * 24 * 365
+				});
+			});
+			appState = arrayAppState;
+		}
+
 		appState.map(function (c) {
 			const str = c.key + "=" + c.value + "; expires=" + c.expires + "; domain=" + c.domain + "; path=" + c.path + ";";
 			jar.setCookie(str, "http://" + c.domain);
@@ -506,17 +279,12 @@ function loginHelper(appState, email, password, globalOptions, callback, prCallb
 			.get('https://www.facebook.com/', jar, null, globalOptions, { noRef: true })
 			.then(utils.saveCookies(jar));
 	} else {
-		// Open the main page, then we login with the given credentials and finally
-		// load the main page again (it'll give us some IDs that we need)
-		mainPromise = utils
-			.get("https://www.facebook.com/", null, null, globalOptions, { noRef: true })
-			.then(utils.saveCookies(jar))
-			.then(makeLogin(jar, email, password, globalOptions, callback, prCallback))
-			.then(function () {
-				return utils
-					.get('https://www.facebook.com/', jar, null, globalOptions)
-					.then(utils.saveCookies(jar));
-			});
+		if (email) {
+			throw { error: "Currently, the login method by email and password is no longer supported, please use the login method by appState" };
+		}
+		else {
+			throw { error: "No appState given." };
+		}
 	}
 
 	let ctx = null;

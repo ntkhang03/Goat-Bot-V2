@@ -21,6 +21,10 @@ module.exports = function (defaultFuncs, api, ctx) {
 			};
 		}
 
+		if (ctx.i_userID) {
+			throw { error: "Cannot set reaction as another profile." };
+		}
+
 		switch (reaction) {
 			case "\uD83D\uDE0D": //:heart_eyes:
 			case "\uD83D\uDE06": //:laughing:
@@ -102,7 +106,7 @@ module.exports = function (defaultFuncs, api, ctx) {
 				if (!resData) {
 					throw { error: "setReaction returned empty object." };
 				}
-				if (resData.error) {
+				if (resData.error || resData.errors) {
 					throw resData;
 				}
 				callback(null);

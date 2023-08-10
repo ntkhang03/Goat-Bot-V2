@@ -1,6 +1,5 @@
 "use strict";
 
-//var cheerio = require("cheerio");
 const utils = require("../utils");
 const log = require("npmlog");
 
