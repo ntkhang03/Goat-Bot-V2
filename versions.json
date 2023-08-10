@@ -2034,5 +2034,16 @@
 			"fb-chat-api/src/listenMqtt.js": "fix `event.participantIDs` not displaying correctly in thread",
 			"scripts/cmds/videofb.js": "Fixed can't download by `illusionghost3`\n\nFixed Sorry, we can't download the video for you because the size is larger than 83MB. Api changed."
 		}
+	},
+	{
+		"version": "1.5.6",
+		"files": {
+			"fb-chat-api/index.js": "fca upadte",
+			"fb-chat-api/src/getFriendsList.js": "fca upadte",
+			"fb-chat-api/src/sendMessage.js": "fca upadte",
+			"fb-chat-api/src/setMessageReaction.js": "fca upadte",
+			"scripts/cmds/translate.js": "language update",
+			"scripts/cmds/warn.js": "language update, code optimization"
+		}
 	}
 ]
