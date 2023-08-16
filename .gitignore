@@ -5,6 +5,7 @@ minify.js
 backupOrigin.js
 createVersion.js
 createVersionAndCommit.js
+checkOriginCodeChanged.js
 *.zip
 *.dev.*
 *.rar
