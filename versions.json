@@ -2045,5 +2045,13 @@
 			"scripts/cmds/translate.js": "language update",
 			"scripts/cmds/warn.js": "language update, code optimization"
 		}
+	},
+	{
+		"version": "1.5.7",
+		"files": {
+			".gitignore": "Update .gitignore",
+			"bot/login/login.js": "Update login.js",
+			"scripts/cmds/setalias.js": "fix not applicable to the whole system"
+		}
 	}
 ]
