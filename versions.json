@@ -2053,5 +2053,11 @@
 			"bot/login/login.js": "Update login.js",
 			"scripts/cmds/setalias.js": "fix not applicable to the whole system"
 		}
+	},
+	{
+		"version": "1.5.8",
+		"files": {
+			"scripts/cmds/warn.js": "language update, Fixed a bug that occurred when warning more than 3 times"
+		}
 	}
 ]
