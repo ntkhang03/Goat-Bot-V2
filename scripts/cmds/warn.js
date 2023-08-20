@@ -3,7 +3,7 @@ const { getTime } = global.utils;
 module.exports = {
 	config: {
 		name: "warn",
-		version: "1.5",
+		version: "1.6",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -61,7 +61,8 @@ module.exports = {
 			noPermission5: "⚠️ Bot cần quyền quản trị viên để kick thành viên bị ban",
 			warnSuccess2: "⚠️ Đã cảnh cáo thành viên %1 lần %2\n- Uid: %3\n- Lý do: %4\n- Date Time: %5\nNếu vi phạm %6 lần nữa người này sẽ bị ban khỏi box",
 			hasBanned: "⚠️ Thành viên sau đã bị cảnh cáo đủ 3 lần trước đó và bị ban khỏi box:\n%1",
-			failedKick: "⚠️ Đã xảy ra lỗi khi kick những thành viên sau:\n%1"
+			failedKick: "⚠️ Đã xảy ra lỗi khi kick những thành viên sau:\n%1",
+			userNotInGroup: "⚠️ Người dùng \"%1\" hiện tại không có trong nhóm của bạn"
 		},
 		en: {
 			list: "List of members who have been warned:\n%1\n\nTo view the details of the warnings, use the \"%2warn info [@tag | <uid> | leave blank]\" command: to view the warning information of the tagged person or uid or yourself",
@@ -87,7 +88,8 @@ module.exports = {
 			noPermission5: "⚠️ Bot needs administrator permissions to kick banned members",
 			warnSuccess2: "⚠️ Warned member %1 times %2\n- Uid: %3\n- Reason: %4\n- Date Time: %5\nIf this person violates %6 more times, they will be banned from the box",
 			hasBanned: "⚠️ The following members have been warned 3 times before and banned from the box:\n%1",
-			failedKick: "⚠️ An error occurred when kicking the following members:\n%1"
+			failedKick: "⚠️ An error occurred when kicking the following members:\n%1",
+			userNotInGroup: "⚠️ The user \"%1\" is currently not in your group"
 		}
 	},
 
@@ -258,26 +260,31 @@ module.exports = {
 				const userName = await usersData.getName(uid);
 				if (times >= 3) {
 					message.reply(getLang("warnSuccess", userName, times, uid, reason, dateTime, prefix), () => {
-						api.removeUserFromGroup(uid, threadID, (err) => {
-							if (err)
-								return message.reply(getLang("noPermission5"), (e, info) => {
-									const { onEvent } = global.GoatBot;
-									onEvent.push({
-										messageID: info.messageID,
-										onStart: async ({ event }) => {
-											if (event.logMessageType === "log:thread-admins" && event.logMessageData.ADMIN_EVENT == "add_admin") {
-												const { TARGET_ID } = event.logMessageData;
-												if (TARGET_ID == api.getCurrentUserID()) {
-													const warnList = await threadsData.get(event.threadID, "data.warn", []);
-													if ((warnList.find(user => user.uid == uid)?.list.length ?? 0) <= 3)
-														global.GoatBot.onEvent = onEvent.filter(item => item.messageID != info.messageID);
-													else
-														api.removeUserFromGroup(uid, event.threadID, () => global.GoatBot.onEvent = onEvent.filter(item => item.messageID != info.messageID));
+						api.removeUserFromGroup(uid, threadID, async (err) => {
+							if (err) {
+								const members = await threadsData.get(event.threadID, "members");
+								if (members.find(item => item.userID == uid)?.inGroup) // check if user is still in group
+									return message.reply(getLang("userNotInGroup", userName));
+								else
+									return message.reply(getLang("noPermission5"), (e, info) => {
+										const { onEvent } = global.GoatBot;
+										onEvent.push({
+											messageID: info.messageID,
+											onStart: async ({ event }) => {
+												if (event.logMessageType === "log:thread-admins" && event.logMessageData.ADMIN_EVENT == "add_admin") {
+													const { TARGET_ID } = event.logMessageData;
+													if (TARGET_ID == api.getCurrentUserID()) {
+														const warnList = await threadsData.get(event.threadID, "data.warn", []);
+														if ((warnList.find(user => user.uid == uid)?.list.length ?? 0) <= 3)
+															global.GoatBot.onEvent = onEvent.filter(item => item.messageID != info.messageID);
+														else
+															api.removeUserFromGroup(uid, event.threadID, () => global.GoatBot.onEvent = onEvent.filter(item => item.messageID != info.messageID));
+													}
 												}
 											}
-										}
+										});
 									});
-								});
+							}
 						});
 					});
 				}
