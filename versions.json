@@ -2059,5 +2059,13 @@
 		"files": {
 			"scripts/cmds/warn.js": "language update, Fixed a bug that occurred when warning more than 3 times"
 		}
+	},
+	{
+		"version": "1.5.9",
+		"files": {
+			"fb-chat-api/src/sendMessage.js": "add function `removeSpecialChar`: remove forbidden characters sent via facebook messages",
+			"scripts/cmds/callad.js": "language update, log update",
+			"scripts/cmds/gpt.js": "fix cannot use gpt chat when there is only one character"
+		}
 	}
 ]
