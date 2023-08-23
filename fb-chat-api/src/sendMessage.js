@@ -14,6 +14,28 @@ const allowedProperties = {
 	location: true
 };
 
+function removeSpecialChar(inputString) { // remove char banned by facebook
+	if (typeof inputString !== "string")
+		return inputString;
+	// Convert string to Buffer
+	const buffer = Buffer.from(inputString, 'utf8');
+
+	// Filter buffer start with ef b8 8f
+	let filteredBuffer = Buffer.alloc(0);
+	for (let i = 0; i < buffer.length; i++) {
+		if (buffer[i] === 0xEF && buffer[i + 1] === 0xB8 && buffer[i + 2] === 0x8F) {
+			i += 2; // Skip 3 bytes of buffer starting with ef b8 8f
+		} else {
+			filteredBuffer = Buffer.concat([filteredBuffer, buffer.slice(i, i + 1)]);
+		}
+	}
+
+	// Convert filtered buffer to string
+	const convertedString = filteredBuffer.toString('utf8');
+
+	return convertedString;
+}
+
 module.exports = function (defaultFuncs, api, ctx) {
 	function uploadAttachment(attachments, callback) {
 		const uploads = [];
@@ -386,6 +408,10 @@ module.exports = function (defaultFuncs, api, ctx) {
 
 		if (msgType === "String") {
 			msg = { body: msg };
+		}
+
+		if (utils.getType(msg.body) === "String") {
+			msg.body = removeSpecialChar(msg.body);
 		}
 
 		const disallowedProperties = Object.keys(msg).filter(
