@@ -2073,5 +2073,11 @@
 		"files": {
 			"bot/login/login.js": "fix `TypeError: Cannot read properties of null (reading '_host')`"
 		}
+	},
+	{
+		"version": "1.5.11",
+		"files": {
+			"bot/login/loadScripts.js": "fix `TypeError: Cannot read properties of null (reading '_host')` (2)"
+		}
 	}
 ]
