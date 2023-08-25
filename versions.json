@@ -2067,5 +2067,11 @@
 			"scripts/cmds/callad.js": "language update, log update",
 			"scripts/cmds/gpt.js": "fix cannot use gpt chat when there is only one character"
 		}
+	},
+	{
+		"version": "1.5.10",
+		"files": {
+			"bot/login/login.js": "fix `TypeError: Cannot read properties of null (reading '_host')`"
+		}
 	}
 ]
