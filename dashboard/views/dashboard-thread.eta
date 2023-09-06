@@ -21,11 +21,6 @@
 		<h5 class="alert-heading">Box Name: <%= threadData.threadName %></h5>
 		<p class="mt-2">Box ID: <%= threadData.threadID %></p>
 	</div>
-<!-- 	
-  <p class="text-success">Box Name: <%=threadData.threadName || "null" %>
-  </p>
-  <p class="text-info">Box ID: <%=threadID%>
-  </p> -->
 
   <div class="jwvIWx">
     <div class="dwztKr" href="<%= '/dashboard/' + threadID + '/welcome' %>">

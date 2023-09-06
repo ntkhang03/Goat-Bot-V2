@@ -1,13 +1,13 @@
 module.exports = {
 	config: {
 		name: "autoUpdateThreadInfo",
-		version: "1.2",
+		version: "1.4",
 		author: "NTKhang",
 		category: "events"
 	},
 
 	onStart: async ({ threadsData, event, api }) => {
-		const types = ["log:subscribe", "log:unsubscribe", "log:thread-admins", "log:thread-name", "log:thread-image", "log:thread-icon", "log:thread-color"];
+		const types = ["log:subscribe", "log:unsubscribe", "log:thread-admins", "log:thread-name", "log:thread-image", "log:thread-icon", "log:thread-color", "log:user-nickname"];
 		if (!types.includes(event.logMessageType))
 			return;
 		const { threadID, logMessageData, logMessageType } = event;
@@ -43,7 +43,7 @@ module.exports = {
 							members[index] = newData;
 						}
 					}
-					await threadsData.set(threadID, { members });
+					await threadsData.set(threadID, members, "members");
 				};
 
 			case "log:unsubscribe":
@@ -51,7 +51,7 @@ module.exports = {
 					const oldData = members.find(member => member.userID === logMessageData.leftParticipantFbId);
 					if (oldData) {
 						oldData.inGroup = false;
-						await threadsData.set(threadID, { members });
+						await threadsData.set(threadID, members, "members");
 					}
 				};
 
@@ -62,25 +62,25 @@ module.exports = {
 					else
 						adminIDs = adminIDs.filter(uid => uid != logMessageData.TARGET_ID);
 					adminIDs = [...new Set(adminIDs)];
-					await threadsData.set(threadID, { adminIDs });
+					await threadsData.set(threadID, adminIDs, "adminIDs");
 				};
 
 			case "log:thread-name":
 				return async function () {
 					const threadName = logMessageData.name;
-					await threadsData.set(threadID, { threadName });
+					await threadsData.set(threadID, threadName, "threadName");
 				};
 			case "log:thread-image":
 				return async function () {
-					await threadsData.set(threadID, { imageSrc: logMessageData.url });
+					await threadsData.set(threadID, logMessageData.url, "imageSrc");
 				};
 			case "log:thread-icon":
 				return async function () {
-					await threadsData.set(threadID, { emoji: logMessageData.thread_icon });
+					await threadsData.set(threadID, logMessageData.thread_icon, "emoji");
 				};
 			case "log:thread-color":
 				return async function () {
-					await threadsData.set(threadID, { threadThemeID: logMessageData.theme_id });
+					await threadsData.set(threadID, logMessageData.theme_id, "threadThemeID");
 				};
 			case "log:user-nickname":
 				return async function () {
@@ -88,7 +88,7 @@ module.exports = {
 					const oldData = members.find(member => member.userID === participant_id);
 					if (oldData) {
 						oldData.nickname = nickname;
-						await threadsData.set(threadID, { members });
+						await threadsData.set(threadID, members, "members");
 					}
 				};
 			default:

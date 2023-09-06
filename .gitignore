@@ -1,6 +1,11 @@
 node_modules
+fb-chat-api.dev
 obfcode.js
 minify.js
+backupOrigin.js
+createVersion.js
+createVersionAndCommit.js
+checkOriginCodeChanged.js
 *.zip
 *.dev.*
 *.rar
@@ -11,6 +16,8 @@ database/data/*
 
 scripts/cmds/tmp/*
 !scripts/cmds/tmp/.gitkeep
+scripts/cmds/assets/guide
+!scripts/cmds/assets/guide/.gitkeep
 
 scripts/events/tmp/*
 scripts/events/data/leaveAttachment

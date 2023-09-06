@@ -3,7 +3,7 @@ const { getTime } = global.utils;
 module.exports = {
 	config: {
 		name: "thread",
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -79,7 +79,7 @@ module.exports = {
 				let allThread = await threadsData.getAll();
 				let keyword = args.slice(1).join(" ");
 				if (['-j', '-join'].includes(args[1])) {
-					allThread = allThread.filter(thread => thread.isGroup);
+					allThread = allThread.filter(thread => thread.members.some(member => member.userID == global.GoatBot.botID && member.inGroup));
 					keyword = args.slice(2).join(" ");
 				}
 				const result = allThread.filter(item => item.threadID.length > 15 && (item.threadName || "").toLowerCase().includes(keyword.toLowerCase()));

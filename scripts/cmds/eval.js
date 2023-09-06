@@ -1,9 +1,9 @@
-const { removeHomeDir } = global.utils;
+const { removeHomeDir, log } = global.utils;
 
 module.exports = {
 	config: {
 		name: "eval",
-		version: "1.2",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -63,6 +63,7 @@ module.exports = {
 				${args.join(" ")}
 			}
 			catch(err) {
+				log.err("eval command", err);
 				message.send(
 					"${getLang("error")}\\n" +
 					(err.stack ?

@@ -1,7 +1,7 @@
 module.exports = {
 	config: {
 		name: "setalias",
-		version: "1.5",
+		version: "1.7",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -75,14 +75,6 @@ module.exports = {
 		}
 	},
 
-	onLoad: async function ({ globalData }) {
-		if (!await globalData.get('setalias'))
-			await globalData.create('setalias', {
-				key: 'setalias',
-				data: []
-			});
-	},
-
 	onStart: async function ({ message, event, args, threadsData, globalData, role, getLang }) {
 		const aliasesData = await threadsData.get(event.threadID, "data.aliases", {});
 
@@ -111,7 +103,7 @@ module.exports = {
 								commandName,
 								aliases: [alias]
 							});
-						await globalData.set('setalias', 'data', globalAliasesData);
+						await globalData.set('setalias', globalAliasesData, 'data');
 						global.GoatBot.aliases.set(alias, commandName);
 						return message.reply(getLang("addAliasSuccess", alias, commandName));
 					}
@@ -151,7 +143,7 @@ module.exports = {
 						if (!globalAliasesThisCommand || !globalAliasesThisCommand.aliases.includes(alias))
 							return message.reply(getLang("aliasNotExist", alias, commandName));
 						globalAliasesThisCommand.aliases.splice(globalAliasesThisCommand.aliases.indexOf(alias), 1);
-						await globalData.set('setalias', 'data', globalAliasesData);
+						await globalData.set('setalias', globalAliasesData, 'data');
 						global.GoatBot.aliases.delete(alias);
 						return message.reply(getLang("removeAliasSuccess", alias, commandName));
 					}

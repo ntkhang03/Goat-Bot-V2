@@ -2,59 +2,70 @@
 <h1 align="center"><img src="./dashboard/images/logo-non-bg.png" width="22px"> Goat Bot - Bot Chat Messenger</h1>
 
 <p align="center">
-	<a href="https://nodejs.org/en/download/">
+	<a href="https://nodejs.org/dist/v16.20.0">
 		<img src="https://img.shields.io/badge/Nodejs%20Support-16.x-brightgreen.svg?style=flat-square" alt="Nodejs Support v16.x">
 	</a>
   <img alt="size" src="https://img.shields.io/github/repo-size/ntkhang03/Goat-Bot-V2.svg?style=flat-square&label=size">
-  <img alt="code-version" src="https://img.shields.io/badge/dynamic/json?color=red&label=code%20version&prefix=v&query=%24.version&url=https://github.com/ntkhang03/Goat-Bot-V2/raw/main/package.json&style=flat-square">
+  <img alt="code-version" src="https://img.shields.io/badge/dynamic/json?color=brightgreen&label=code%20version&prefix=v&query=%24.version&url=https://github.com/ntkhang03/Goat-Bot-V2/raw/main/package.json&style=flat-square">
   <img alt="visitors" src="https://visitor-badge.laobi.icu/badge?style=flat-square&page_id=ntkhang3.Goat-Bot-V2">
-  <img alt="size" src="https://img.shields.io/badge/license-MIT-green?style=flat-square">
+  <img alt="size" src="https://img.shields.io/badge/license-MIT-green?style=flat-square&color=brightgreen">
 </p>
 
-- [📝 Note](#-note)
-- [🚧 Requirement](#-requirement)
-- [📝 Tutorial](#-tutorial)
-- [📝 How to Update](#-how-to-update)
-- [📝 How to create new commands](#-how-to-create-new-commands)
-- [📙 Support](#-support)
-- [📚 Support Languages in source code](#-support-languages-in-source-code)
-- [📌 Common Problems](#-common-problems)
-- [📸 Screenshots](#-screenshots)
-- [✨ Copyright (C)](#-copyright-c)
-- [📜 License](#-license)
+- [📝 **Note**](#-note)
+- [🚧 **Requirement**](#-requirement)
+- [📝 **Tutorial**](#-tutorial)
+- [🔔 **How to get notification when have new update?**](#-how-to-get-notification-when-have-new-update)
+- [🆙 **How to Update**](#-how-to-update)
+- [🛠️ **How to create new commands**](#️-how-to-create-new-commands)
+- [💭 **Support**](#-support)
+- [📚 **Support Languages in source code**](#-support-languages-in-source-code)
+- [📌 **Common Problems**](#-common-problems)
+- [❌ **DO NOT USE THE ORIGINAL UNDERGRADUATE VERSION**](#-do-not-use-the-original-undergraduate-version)
+- [📸 **Screenshots**](#-screenshots)
+- [✨ **Copyright (C)**](#-copyright-c)
+- [📜 **License**](#-license)
 
 <hr>
 
 ## 📝 **Note**
 - This is a messenger chat bot using a personal account, using an [unofficial api](https://github.com/ntkhang03/fb-chat-api/blob/master/DOCS.md) ([Origin here](https://github.com/Schmavery/facebook-chat-api)) and this may lead to facebook account being locked due to spam or other reasons. 
 - So, I recommend using a clone account (one that you're willing to throw away at any time)
-- I am not responsible for any problems that may arise from using this bot.
+- ***I am not responsible for any problems that may arise from using this bot.***
 
 ## 🚧 **Requirement**
-- Node.js 16.x [Download](https://nodejs.org/dist/v16.7.0) | [Home](https://nodejs.org/en/download/)
+- Node.js 16.x [Download](https://nodejs.org/dist/v16.20.0) | [Home](https://nodejs.org/en/download/) | [Other versions](https://nodejs.org/en/download/releases/)
+- Knowledge of **programming**, javascript, nodejs, unofficial facebook api
 
 ## 📝 **Tutorial**
-#### A Tutorial has been uploaded on YouTube
-- Replit.com: https://www.youtube.com/watch?v=nTIT8OQeRnY
-- VPS/Windows:
+Tutorial has been uploaded on YouTube
+- For mobile phone: https://www.youtube.com/watch?v=grVeZ76HlgA
+- For vps/windows: https://www.youtube.com/watch?v=uCbSYNQNEwY
+  
+Summary instructions:
+- See [here](https://github.com/ntkhang03/Goat-Bot-V2/blob/main/STEP_INSTALL.md)
 
-## 📝 **How to Update**
-#### A Tutorial has been uploaded on YouTube
-- https://youtu.be/c-3P2fjNHuE
+## 🔔 **How to get notification when have new update?**
+- Click on the `Watch` button in the upper right corner of the screen and select `Custom` and select `Pull requests` and `Releases` and click `Apply` to get notified when there is a new update.
 
-## 📝 **How to create new commands**
+## 🆙 **How to Update**
+Tutorial has been uploaded on YouTube
+- on phone/repl: https://youtu.be/grVeZ76HlgA?t=1342
+- on vps/computer: https://youtu.be/uCbSYNQNEwY?t=508
+
+## 🛠️ **How to create new commands**
 - See [here](https://github.com/ntkhang03/Goat-Bot-V2/blob/main/DOCS.md)
 
-## 📙 **Support**
-#### If you have major coding issues with this bot, please join and ask for help.
+## 💭 **Support**
+If you have major coding issues with this bot, please join and ask for help.
+- https://discord.com/invite/DbyGwmkpVY (recommended)
 - https://www.facebook.com/groups/goatbot
 - https://www.facebook.com/groups/goatbot/permalink/493150412403231
 - https://m.me/j/AbYrIGusyc0M402z
-- https://discord.com/invite/DbyGwmkpVY
+- ~~https://t.me/gatbottt~~ (no longer supported)
 - ***Please do not inbox me, I do not respond to private messages, any questions please join the chat group for answers. ThankThanks!***
 
 ## 📚 **Support Languages in source code**
-
+- Currently, the bot supports 2 languages:
 - [x] `en: English`
 - [x] `vi: Vietnamese`
 
@@ -107,6 +118,10 @@
 		<p>- If you don't publish the project in google console only the approved accounts added to the project can use it <a href="https://youtu.be/nTIT8OQeRnY?t=438">Tuatorial</a></p>
 </details>
 
+## ❌ **DO NOT USE THE ORIGINAL UNDERGRADUATE VERSION**
+- The use of unknown source code can lead to the device being infected with viruses, malware, hacked social accounts, banks, ...
+- Goat-Bot-V2 is only published at https://github.com/ntkhang03/Goat-Bot-V2, all other sources, all forks from other github, replit,... are fake, violate policy
+- If you use from other sources (whether accidentally or intentionally) it means that you are in violation and will be banned without notice
 ## 📸 **Screenshots**
 - ### Bot
 <details>
@@ -126,16 +141,32 @@
 
 <details>
 	<summary>
- 		Weather:
+ 		Weather
 	</summary>
 	<p><img src="https://i.ibb.co/2FwWVLv/weather.png" width="399px"></p>
 </details>
 
 <details>
 	<summary>
- 		Auto send notification when have user join or leave box chat (you can custom message):
+ 		Auto send notification when have user join or leave box chat (you can custom message)
 	</summary>
 	<p><img src="https://i.ibb.co/Jsb5Jxf/wcgb.png" width="399px"></p>
+</details>
+
+<details>
+	<summary>
+ 		Openjourney
+	</summary>
+	<p><img src="https://i.ibb.co/XJfwj1X/Screenshot-2023-05-09-22-43-58-630-com-facebook-orca.jpg" width="399px"></p>
+</details>
+
+<details>
+	<summary>
+ 		GPT
+	</summary>
+	<p><img src="https://i.ibb.co/D4wRbM3/Screenshot-2023-05-09-22-47-48-037-com-facebook-orca.jpg" width="399px"></p>
+	<p><img src="https://i.ibb.co/z8HqPkH/Screenshot-2023-05-09-22-47-53-737-com-facebook-orca.jpg" width="399px"></p>
+	<p><img src="https://i.ibb.co/19mZQpR/Screenshot-2023-05-09-22-48-02-516-com-facebook-orca.jpg" width="399px"></p>
 </details>
 
 

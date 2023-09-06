@@ -1,4 +1,5 @@
 const Canvas = require("canvas");
+const { uploadZippyshare } = global.utils;
 
 const defaultFontName = "BeVietnamPro-SemiBold";
 const defaultPathFontName = `${__dirname}/assets/font/BeVietnamPro-SemiBold.ttf`;
@@ -20,7 +21,7 @@ global.client.makeRankCard = makeRankCard;
 module.exports = {
 	config: {
 		name: "rank",
-		version: "1.4",
+		version: "1.6",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -33,13 +34,16 @@ module.exports = {
 			en: "View your level or the level of the tagged person. You can tag many people"
 		},
 		category: "rank",
-		guide: "   {pn} [để trống | @tags]",
+		guide: {
+			vi: "   {pn} [để trống | @tags]",
+			en: "   {pn} [empty | @tags]"
+		},
 		envConfig: {
 			deltaNext: 5
 		}
 	},
 
-	onStart: async function ({ message, event, usersData, threadsData, commandName, envCommands }) {
+	onStart: async function ({ message, event, usersData, threadsData, commandName, envCommands, api }) {
 		deltaNext = envCommands[commandName].deltaNext;
 		let targetUsers;
 		const arrayMentions = Object.keys(event.mentions);
@@ -50,7 +54,7 @@ module.exports = {
 			targetUsers = arrayMentions;
 
 		const rankCards = await Promise.all(targetUsers.map(async userID => {
-			const rankCard = await makeRankCard(userID, usersData, threadsData, event.threadID, deltaNext);
+			const rankCard = await makeRankCard(userID, usersData, threadsData, event.threadID, deltaNext, api);
 			rankCard.path = `${randomString(10)}.png`;
 			return rankCard;
 		}));
@@ -84,14 +88,14 @@ const defaultDesignCard = {
 	text_color: "#000000"
 };
 
-async function makeRankCard(userID, usersData, threadsData, threadID, deltaNext) {
+async function makeRankCard(userID, usersData, threadsData, threadID, deltaNext, api = global.GoatBot.fcaApi) {
 	const { exp } = await usersData.get(userID);
 	const levelUser = expToLevel(exp, deltaNext);
 
 	const expNextLevel = levelToExp(levelUser + 1, deltaNext) - levelToExp(levelUser, deltaNext);
 	const currentExp = expNextLevel - (levelToExp(levelUser + 1, deltaNext) - exp);
 
-	const allUser = usersData.getAll();
+	const allUser = await usersData.getAll();
 	allUser.sort((a, b) => b.exp - a.exp);
 	const rank = allUser.findIndex(user => user.userID == userID) + 1;
 
@@ -105,9 +109,26 @@ async function makeRankCard(userID, usersData, threadsData, threadID, deltaNext)
 		avatar: await usersData.getAvatarUrl(userID)
 	};
 
-	const image = new RankCard({
+	const configRankCard = {
 		...defaultDesignCard,
-		...customRankCard,
+		...customRankCard
+	};
+
+	const checkImagKey = [
+		"main_color",
+		"sub_color",
+		"line_color",
+		"exp_color",
+		"expNextLevel_color"
+	];
+
+	for (const key of checkImagKey) {
+		if (!isNaN(configRankCard[key]))
+			configRankCard[key] = await api.resolvePhotoUrl(configRankCard[key]);
+	}
+
+	const image = new RankCard({
+		...configRankCard,
 		...dataLevel
 	});
 	return await image.buildCard();
@@ -814,7 +835,7 @@ class RankCard {
 			+------------------------------------+
 		*/
 		ctx.globalCompositeOperation = "destination-over";
-		if (main_color.match?.(/^https?:\/\//)) {
+		if (main_color.match?.(/^https?:\/\//) || Buffer.isBuffer(main_color)) {
 			ctx.beginPath();
 			ctx.moveTo(radius, 0);
 			ctx.lineTo(widthCard - radius, 0);

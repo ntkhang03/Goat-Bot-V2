@@ -1,7 +1,7 @@
 module.exports = {
 	config: {
 		name: "checkwarn",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		category: "events"
 	},
@@ -22,7 +22,7 @@ module.exports = {
 			return async function () {
 				const { threadID } = event;
 				const { data } = await threadsData.get(event.threadID);
-				const { warnList } = data;
+				const { warn: warnList } = data;
 				if (!warnList)
 					return;
 				const { addedParticipants } = event.logMessageData;

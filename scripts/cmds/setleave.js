@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: "setleave",
 		aliases: ["setl"],
-		version: "1.4",
+		version: "1.5",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -34,7 +34,7 @@ module.exports = {
 					+ "\n\nVí dụ:"
 					+ "\n   {pn} file reset: xóa gửi file",
 				attachment: {
-					[`${__dirname}/assets/guide/setleave_1.png`]: "https://i.ibb.co/2FKJHJr/guide1.png"
+					[`${__dirname}/assets/guide/setleave/setleave_vi_1.png`]: "https://i.ibb.co/2FKJHJr/guide1.png"
 				}
 			},
 			en: {
@@ -53,7 +53,7 @@ module.exports = {
 					+ "\n\nExample:"
 					+ "\n   {pn} file reset: reset file",
 				attachment: {
-					[`${__dirname}/assets/guide/setleave_1.png`]: "https://i.ibb.co/2FKJHJr/guide1.png"
+					[`${__dirname}/assets/guide/setleave/setleave_en_1.png`]: "https://i.ibb.co/2FKJHJr/guide1.png"
 				}
 			}
 		}

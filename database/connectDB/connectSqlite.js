@@ -18,6 +18,7 @@ module.exports = async function () {
 		threadModel,
 		userModel,
 		dashBoardModel,
-		globalModel
+		globalModel,
+		sequelize
 	};
 };

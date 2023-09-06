@@ -28,7 +28,7 @@ module.exports = function ({ unAuthenticated_G, isWaitVerifyAccount_G, unAuthent
 				errors.push({ msg: "Địa chỉ email không hợp lệ" });
 			if (email.length > 100 || email.length < 5)
 				errors.push({ msg: "Địa chỉ email phải có độ dài từ 5 đến 100 ký tự" });
-			if (dashBoardData.get(email))
+			if (await dashBoardData.get(email))
 				errors.push({ msg: `Địa chỉ email ${email} đã được sử dụng` });
 			if (password !== password_confirmation)
 				errors.push({ msg: "Mật khẩu không khớp" });

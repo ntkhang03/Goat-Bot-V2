@@ -28,7 +28,7 @@ function fakeGraphql(query, data, obj = {}) {
 }
 
 module.exports = async function (api) {
-	var threadModel, userModel, dashBoardModel;
+	var threadModel, userModel, dashBoardModel, globalModel, sequelize = null;
 	switch (databaseType) {
 		case "mongodb": {
 			const spin = ora({
@@ -77,7 +77,7 @@ module.exports = async function (api) {
 			process.stderr.clearLine = function () { };
 			spin.start();
 			try {
-				var { threadModel, userModel, dashBoardModel, globalModel } = await require("../connectDB/connectSqlite.js")();
+				var { threadModel, userModel, dashBoardModel, globalModel, sequelize } = await require("../connectDB/connectSqlite.js")();
 				process.stderr.clearLine = defaultClearLine;
 				spin.stop();
 				log.info("SQLITE", getText("indexController", "connectMySQLSuccess"));
@@ -108,7 +108,8 @@ module.exports = async function (api) {
 		threadsData,
 		usersData,
 		dashBoardData,
-		globalData
+		globalData,
+		sequelize
 	};
 
 	return {
@@ -120,6 +121,7 @@ module.exports = async function (api) {
 		usersData,
 		dashBoardData,
 		globalData,
+		sequelize,
 		databaseType
 	};
 };

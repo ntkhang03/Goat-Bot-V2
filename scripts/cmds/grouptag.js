@@ -2,7 +2,7 @@ module.exports = {
 	config: {
 		name: "grouptag",
 		aliases: ["grtag"],
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -18,25 +18,27 @@ module.exports = {
 		guide: {
 			vi: "   {pn} add <groupTagName> <@tags>: dùng để thêm nhóm tag mới hoặc thêm thành viên vào nhóm tag đã có"
 				+ "\n   Ví dụ:"
-				+ "\n    {pn} TEAM1 @tag1 @tag2"
+				+ "\n    {pn} add TEAM1 @tag1 @tag2"
 				+ "\n\n   {pn} del <groupTagName> <@tags>: dùng để xóa các thành viên được tag khỏi nhóm tag <groupTagName>"
 				+ "\n   Ví dụ:"
 				+ "\n    {pn} del TEAM1 @tag1 @tag2"
 				+ "\n\n   {pn} remove <groupTagName>: dùng để xóa nhóm tag"
 				+ "\n   Ví dụ:"
 				+ "\n    {pn} remove TEAM1"
+				+ "\n\n	 {pn} tag <groupTagName>: dùng để tag nhóm tag"
 				+ "\n\n   {pn} rename <groupTagName> | <newGroupTagName>: dùng để đổi tên nhóm tag"
 				+ "\n\n   {pn} [list | all]: dùng để xem danh sách các nhóm tag trong nhóm chat của bạn"
 				+ "\n\n   {pn} info <groupTagName>: dùng để xem thông tin của nhóm tag",
 			en: "   {pn} add <groupTagName> <@tags>: use to add new group tag or add members to group tag"
 				+ "\n   Example:"
-				+ "\n    {pn} TEAM1 @tag1 @tag2"
+				+ "\n    {pn} add TEAM1 @tag1 @tag2"
 				+ "\n\n   {pn} del <groupTagName> <@tags>: use to remove members from group tag"
 				+ "\n   Example:"
 				+ "\n    {pn} del TEAM1 @tag1 @tag2"
 				+ "\n\n   {pn} remove <groupTagName>: use to remove group tag"
 				+ "\n   Example:"
 				+ "\n    {pn} remove TEAM1"
+				+ "\n\n	 {pn} tag <groupTagName>: use to tag group tag"
 				+ "\n\n   {pn} rename <groupTagName> | <newGroupTagName>: use to rename group tag"
 				+ "\n\n   {pn} [list | all]: use to view list of group tag in your group chat"
 				+ "\n\n   {pn} info <groupTagName>: use to view info of group tag"
@@ -199,8 +201,22 @@ module.exports = {
 				message.reply(getLang("deletedSuccess2", groupTagName));
 				break;
 			}
-			case "tag": {
+			case "rename": {
 				const content = (args.slice(1) || []).join(" ");
+				const [oldGroupTagName, newGroupTagName] = content.split("|").map(str => str.trim());
+				if (!oldGroupTagName || !newGroupTagName)
+					return message.reply(getLang("noGroupTagName2"));
+				const oldGroupTag = groupTags.find(tag => tag.name.toLowerCase() === oldGroupTagName.toLowerCase());
+				if (!oldGroupTag)
+					return message.reply(getLang("noExistedGroupTag", oldGroupTagName));
+				oldGroupTag.name = newGroupTagName;
+				await threadsData.set(threadID, groupTags, "data.groupTags");
+				message.reply(getLang("renamedSuccess", oldGroupTagName, newGroupTagName));
+				break;
+			}
+			case "tag":
+			default: {
+				const content = (args.slice(args[0] === "tag" ? 1 : 0) || []).join(" ");
 				const groupTagName = content.trim();
 				if (!groupTagName)
 					return message.reply(getLang("noGroupTagName"));
@@ -223,22 +239,6 @@ module.exports = {
 					mentions
 				});
 				break;
-			}
-			case "rename": {
-				const content = (args.slice(1) || []).join(" ");
-				const [oldGroupTagName, newGroupTagName] = content.split("|").map(str => str.trim());
-				if (!oldGroupTagName || !newGroupTagName)
-					return message.reply(getLang("noGroupTagName2"));
-				const oldGroupTag = groupTags.find(tag => tag.name.toLowerCase() === oldGroupTagName.toLowerCase());
-				if (!oldGroupTag)
-					return message.reply(getLang("noExistedGroupTag", oldGroupTagName));
-				oldGroupTag.name = newGroupTagName;
-				await threadsData.set(threadID, groupTags, "data.groupTags");
-				message.reply(getLang("renamedSuccess", oldGroupTagName, newGroupTagName));
-				break;
-			}
-			default: {
-				message.SyntaxError();
 			}
 		}
 	}

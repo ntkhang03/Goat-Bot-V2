@@ -10,12 +10,12 @@ const videoExt = ['webm', 'mkv', 'flv', 'vob', 'ogv', 'ogg', 'rrc', 'gifv',
 	'3g2', 'mxf', 'roq', 'nsv', 'flv', 'f4v', 'f4p', 'f4a', 'f4b', 'mod'
 ];
 
-module.exports = function ({ isAuthenticated_P, isVeryfiUserIDFacebook_P, checkHasAndInThread_P, isAuthenticated_G, isVeryfiUserIDFacebook_G, threadsData, drive, checkAuthConfigDashboardOfThread, usersData, createLimiter, getThreadDataSync, middlewareCheckAuthConfigDashboardOfThread_P, isVideoFile }) {
+module.exports = function ({ isAuthenticated_P, isVeryfiUserIDFacebook_P, checkHasAndInThread_P, isAuthenticated_G, isVeryfiUserIDFacebook_G, threadsData, drive, checkAuthConfigDashboardOfThread, usersData, createLimiter, middlewareCheckAuthConfigDashboardOfThread_P, isVideoFile }) {
 	const apiLimiter = createLimiter(1000 * 60 * 5, 10);
 	router
 		.post('/delete/:slug', [isAuthenticated_P, isVeryfiUserIDFacebook_P, checkHasAndInThread_P, middlewareCheckAuthConfigDashboardOfThread_P, apiLimiter], async function (req, res) {
 			const { fileIDs, threadID, location } = req.body;
-			const threadData = getThreadDataSync(threadID);
+			const threadData = await threadsData.get(threadID);
 			if (!threadData)
 				return res.status(400).send({
 					status: 'error',
@@ -213,8 +213,7 @@ module.exports = function ({ isAuthenticated_P, isVeryfiUserIDFacebook_P, checkH
 					error: 'PERMISSION_DENIED',
 					message: 'Bạn không có quyền chỉnh sửa dữ liệu trong nhóm này'
 				});
-			const threadData = getThreadDataSync(threadID);
-
+			const threadData = await threadsData.get(threadID);
 			try {
 				switch (slug) {
 					case 'welcomeAttachment':
@@ -301,7 +300,7 @@ module.exports = function ({ isAuthenticated_P, isVeryfiUserIDFacebook_P, checkH
 	// 			message: 'Bad request'
 	// 		});
 	// 	}
-	// 	let allThread = threadsData.getAll();
+	// 	let allThread = await threadsData.getAll();
 	// 	allThread = allThread.filter(t => t.members.some(m => m.userID == req.params.userID));
 	// 	return res.status(200).send({
 	// 		status: 'success',

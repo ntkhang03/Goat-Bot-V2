@@ -1,6 +1,6 @@
 # index.js
 Goat.newVersionDetected=You are using version %1, the latest version is %2. Please update to use the bot better by typing into the console/cmd command: node update
-Goat.autoRestart1=Bot will auto restart in %1 seconds
+Goat.autoRestart1=Bot will auto restart in %1
 Goat.autoRestart2=Bot will auto restart by cron job: %1
 Goat.googleApiTokenExpired=Google API refresh token has expired or been revoked, please get a new token at https://developers.google.com/oauthplayground/
 
@@ -9,6 +9,7 @@ login.currentlyLogged=Login in progress
 login.notFoundDirAccount=Cannot find file %1
 login.loginToken=Login with access token
 login.loginCookieString=Login with cookie string
+login.loginCookieNetscape=Login with cookie netscape
 login.loginCookieArray=Login with cookie array
 login.loginPassword=Login with email & password...
 login.accountError=Please enter the full permission token in the form of %1 or cookie in the form of string %2 or cookie in the form of array:\n[\n  { name: %3, value: %4 },\n  { name: %5, value: %6 }\n]\n or\n[\n  { key: %3, value: %4 },\n  { key: %5, value: %6 }\n]\ninto the file %7
@@ -30,7 +31,7 @@ login.refreshCookieSuccess=Refreshed cookie successfully, restart the bot to use
 login.refreshCookieWarning=You have enabled the auto refresh cookie mode, but you have not configured email and password in the file config.json
 login.tokenError=Token is invalid or expired. Please enter the full permission token in the form of %1 into the file %2
 login.cookieError=Cookie is invalid or expired.
-login.loginPasswordError=Error occurred when logging in with email & password
+login.loginPasswordError=Error occurred when logging in with email & password in config.json
 login.loginSuccess=Successful login
 login.loginError=An error occurred while signing in
 login.openDashboardSuccess=Successfully opened bot management page
@@ -44,17 +45,26 @@ login.runBot=Launch bot successfully, start receiving messages from users
 login.notLoggedIn=An error occurred, please check your Facebook account again
 login.callBackError=An error occurred when callback listenMqtt
 login.userBanned=You've been banned from using a bot!!
-login.checkGbanError=An error occurred while checking GBAN
-login.gbanMessage=You have been banned from the Goat-Bot project on %1 for the reason: %2
+login.checkGbanError=An error occurred while checking GBAN, try update source to latest version (open cmd and type: node update)
+login.gbanMessage=You have been banned from the Goat-Bot project on %1 for the reason: %2\n» Time: %3
+login.gbanMessageToDate=You have been banned from the Goat-Bot project on %1 for the reason: %2\n» Time: %3\n» To date: %4
 login.gbanAdminMessage=User %1 has been banned from the Goat-Bot project on %2 for the reason: %3
 login.openServerUptimeSuccess=🚀 Opened uptime server: %1
 login.openServerUptimeError=An error has occurred, cannot open server uptime
-login.restartListenMessage=ListenMQTT restart enabled every %1ms (%2 minutes)
+login.restartListenMessage=ListenMQTT restart enabled every %1
 login.stopRestartListenMessage=ListenMQTT restart disabled
 login.restartListenMessageError=An error occurred when restarting ListenMQTT
 login.restartListenMessage2=Successfully restarted ListenMQTT
-login.refreshCookieAfter=Refreshing cookie after %1 minutes
+login.refreshCookieAfter=Refreshing cookie after %1
 login.listenMqttClose=ListenMQTT closed
+login.listenMqttCloseByUser=ListenMQTT closed by user
+login.retryCheckLiveCookie=Retrying to check cookie... %1
+
+version.tooOldVersion=You are using a too old version of Goat-Bot, please update to the latest version by typing the command: %1 into the cmd/console/terminal/shell
+
+# bot/custom.js
+custom.refreshedFb_dtsg=Refreshed fb_dtsg and jazoest successfully
+custom.refreshedFb_dtsgError=An error occurred when refreshing fb_dtsg and jazoest
 
 # bot/login/loadData.js
 loadData.loadThreadDataSuccess=Loaded %1 group's data successfully!
@@ -66,8 +76,8 @@ loadData.refreshThreadDataError=Something went wrong when updating the groups in
 # bot/login/loadScripts.js
 loadScripts.loadScriptsError=The %1 files have an error during loading:
 loadScripts.loadScriptsNotMatchOrigin=The %1 files do not match the original files on the github project, make sure that these command files are reliable:
-loadScripts.NOT_FOUND=NOT FOUND IN THE ORIGINAL FILES:
-loadScripts.NOT_MATCH=DOES NOT MATCH THE ORIGINAL FILE:
+loadScripts.NOT_FOUND=NOT FOUND IN THE ORIGINAL SOURCE CODE:
+loadScripts.NOT_MATCH=DOES NOT MATCH THE ORIGINAL SOURCE CODE:
 
 # bot/login/socketIO.js
 socketIO.connected=Connected to socket.io server
@@ -94,6 +104,7 @@ handlerEvents.errorOccurred3=❌ [ %1 ]\nAn error occurred when executing onRepl
 handlerEvents.errorOccurred4=❌ [ %1 ]\nAn error occurred when executing onReaction at command "%2"\n\n%3
 handlerEvents.errorOccurred5=❌ [ %1 ]\nAn error occurred when executing onEvent at command "%2"\n\n%3
 handlerEvents.errorOccurred6=❌ [ %1 ]\nAn error occurred when executing onEvent at command "%2"\n\n%3
+handlerEvents.errorOccurred7=❌ [ %1 ]\nAn error occurred when executing onAnyEvent at command "%2"\n\n%3
 handlerEvents.cannotFindCommandName=❌ Cannot find command name to execute this reply!
 handlerEvents.cannotFindCommand=❌ Cannot find command "%1" to execute this reply!
 
@@ -110,11 +121,15 @@ indexController.connectMySQLError=An error occurred while connecting to a SQLITE
 
 # updater.js
 updater.latestVersion=You are using the latest version
+updater.cantFindVersion=You are using an undefined version (%1), please check your package.json file again
 updater.newVersions=There are %1 new versions to update, starting to update...
-updater.updateSuccess=Update successfully ✓
-updater.configChanged=The config.json file has been changed, please check your config.json file again
+updater.updateSuccess=Update successfully%1
+updater.configChanged=The %1 has been changed, please check your config.json file again
 updater.installingPackages=Installing dependencies for bot...
-updater.installSuccess=Installed dependencies successfully ✓
+updater.installSuccess=Installed dependencies successfully, restart the bot to use the new version
+updater.backupSuccess=Successfully backed up changed files, see in the %1 folder
+updater.restartToApply=. Restart the bot to apply the new version
+updater.skipFile=There is a new version of the %1 file, but you have skipped this file during the update process with the comment %2 in this file
 
 # dashboard/routes/verifyfbid.js
 verifyfbid.sendCode=Your verification code is:\n%1\nThe verification code is valid for %2 minutes

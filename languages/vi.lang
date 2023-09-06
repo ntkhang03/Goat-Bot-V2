@@ -1,6 +1,6 @@
 # index.js
 Goat.newVersionDetected=Bạn đang dùng phiên bản %1, phiên bản mới nhất là %2. Vui lòng cập nhật để sử dụng bot tốt hơn bằng cách gõ vào console/cmd lệnh: node update
-Goat.autoRestart1=Bot sẽ tự động khởi động lại sau %1 giây
+Goat.autoRestart1=Bot sẽ tự động khởi động lại sau %1
 Goat.autoRestart2=Bot sẽ tự động khởi động lại theo cron job: %1
 Goat.googleApiTokenExpired=refresh token google api đã hết hạn hoặc bị thu hồi, vui lòng lấy lại token mới tại https://developers.google.com/oauthplayground/
 
@@ -9,6 +9,7 @@ login.currentlyLogged=Đang tiến hành đăng nhập
 login.notFoundDirAccount=Không tìm thấy tệp tin %1
 login.loginToken=Đang đăng nhập bằng access token
 login.loginCookieString=Đang đăng nhập bằng cookie string
+login.loginCookieNetscape=Đang đăng nhập bằng cookie netscape
 login.loginCookieArray=Đang đăng nhập bằng cookie array
 login.accountError=Vui lòng nhập token full quyền dạng %1 hoặc cookie dạng string %2 hoặc cookie dạng array:\n[\n  { name: %3, value: %4 },\n  { name: %5, value: %6 }\n]\n hoặc\n[\n  { key: %3, value: %4 },\n  { key: %5, value: %6 }\n]\nvào file %7
 login.cannotFindAccount=Không tìm thấy tài khoản facebook, vui lòng chọn một trong các tùy chọn sau (nhấn số để chọn hoặc nhấn xuống và lên để chọn và nhấn enter để xác nhận):
@@ -29,7 +30,7 @@ login.refreshCookieSuccess=Đã làm mới cookie thành công, khởi động l
 login.refreshCookieWarning=Bạn đã bật chế độ tự động làm mới cookie, nhưng bạn chưa cấu hình email và mật khẩu trong file config.json
 login.tokenError=Token không hợp lệ hoặc đã hết hạn. Vui lòng nhập token full quyền dạng %1 vào file %2
 login.cookieError=Cookie không hợp lệ hoặc đã hết hạn.
-login.loginPassword=Đang tiến hành đăng nhập bằng email & password...
+login.loginPassword=Đang tiến hành đăng nhập bằng email & password trong config.json...
 login.loginPasswordError=Đã xảy ra lỗi khi đăng nhập bằng mail & password
 login.loginSuccess=Đăng nhập thành công
 login.loginError=Đã xảy ra lỗi khi đăng nhập
@@ -44,17 +45,26 @@ login.runBot=Khởi chạy bot thành công, bắt đầu nhận tin nhắn từ
 login.notLoggedIn=Đã xảy ra lỗi không thể đăng nhập, vui lòng kiểm tra lại tài khoản Facebook của bạn
 login.callBackError=Đã xảy ra lỗi khi callback listenMqtt
 login.userBanned=Bạn đã bị global ban không thể sử dụng bot!!
-login.checkGbanError=Đã xảy ra lỗi trong quá trình kiểm tra GBAN
-login.gbanMessage=Bạn đã bị ban khỏi project GOAT-BOT vào ngày %1 với lý do: %2
+login.checkGbanError=Đã xảy ra lỗi trong quá trình kiểm tra GBAN, thử cập nhật source code phiên bản mới nhất (mở cmd và gõ lệnh: node update)
+login.gbanMessage=Bạn đã bị ban khỏi project GOAT-BOT vào ngày %1 với lý do: %2\n» Thời gian: %3
+login.gbanMessageToDate=Bạn đã bị ban khỏi project GOAT-BOT vào ngày %1 với lý do: %2\n» Thời gian: %3\n» Đến ngày: %4
 login.gbanAdminMessage=Người dùng %1 đã bị ban khỏi project GOAT-BOT vào ngày %2 với lý do: %3
 login.openServerUptimeSuccess=🚀 Đã mở sever uptime: %1
 login.openServerUptimeError=Đã xảy ra lỗi, không thể mở server uptime
-login.restartListenMessage=Đã bật khởi động lại ListenMQTT sau mỗi %1ms (%2 minutes)
+login.restartListenMessage=Đã bật khởi động lại ListenMQTT sau mỗi %1
 login.stopRestartListenMessage=Đã tắt khởi động lại ListenMQTT
 login.restartListenMessageError=Đã xảy ra lỗi khi khởi động lại ListenMQTT
 login.restartListenMessage2=Đã khởi động lại ListenMQTT thành công
-login.refreshCookieAfter=Đã bật tự động làm mới cookie sau mỗi %1 phút
+login.refreshCookieAfter=Đã bật tự động làm mới cookie sau mỗi %1
 login.listenMqttClose=Đã ngắt kết nối với server MQTT
+login.listenMqttCloseByUser=Đã ngắt kết nối với server MQTT bởi người dùng
+login.retryCheckLiveCookie=Đang kiểm tra lại cookie... %1
+
+version.tooOldVersion=Bạn đang sử dụng phiên bản quá cũ của Goat-Bot, vui lòng cập nhật lên phiên bản mới nhất bằng cách gõ lệnh: %1 vào cmd/console/terminal/shell
+
+# bot/custom.js
+custom.refreshedFb_dtsg=Đã làm mới fb_dtsg và jazoest thành công
+custom.refreshedFb_dtsgError=Đã xảy ra lỗi khi làm mới fb_dtsg và jazoest
 
 # bot/login/loadData.js
 loadData.loadThreadDataSuccess=Đã tải xong dữ liệu của %1 nhóm!
@@ -66,8 +76,8 @@ loadData.refreshThreadDataError=Đã có lỗi xảy ra khi cập nhật thông 
 # bot/login/loadScripts.js
 loadScripts.loadScriptsError=Những file %1 xảy ra lỗi trong quá trình load:
 loadScripts.loadScriptsNotMatchOrigin=Những file %1 không khớp với file gốc trên github của project, hãy chắc chắn rằng những file lệnh này đáng tin cậy:
-loadScripts.NOT_FOUND=KHÔNG TÌM THẤY TRONG FILE GỐC:
-loadScripts.NOT_MATCH=KHÔNG KHỚP VỚI FILE GỐC:
+loadScripts.NOT_FOUND=KHÔNG TÌM THẤY TRONG MÃ NGUỒN CHÍNH THỨC:
+loadScripts.NOT_MATCH=KHÔNG KHỚP VỚI MÃ NGUỒN CHÍNH THỨC:
 
 # bot/login/socketIO.js
 socketIO.connected=Đã khởi tạo server socket.io thành công!
@@ -94,6 +104,7 @@ handlerEvents.errorOccurred3=❌ [ %1 ]\nĐã xảy ra lỗi khi thực thi onRe
 handlerEvents.errorOccurred4=❌ [ %1 ]\n Đã xảy ra lỗi khi thực thi onReaction tại command "%2"\n\n%3
 handlerEvents.errorOccurred5=❌ [ %1 ]\nĐã xảy ra lỗi tại command event "%2"\n\n%3
 handlerEvents.errorOccurred6=❌ [ %1 ]\nĐã xảy ra lỗi tại command onEvent ở lệnh "%2"\n\n%3
+handlerEvents.errorOccurred7=❌ [ %1 ]\nĐã xảy ra lỗi khi thực thi onAnyEvent tại command "%2"\n\n%3
 handlerEvents.cannotFindCommandName=❌ Không tìm thấy tên lệnh để thực thi phản hồi này!
 handlerEvents.cannotFindCommand=❌ Không tìm thấy lệnh "%1" để thực thi phản hồi này!
 
@@ -110,11 +121,15 @@ indexController.connectMySQLError=Đã xảy ra lỗi khi kết nối cơ sở d
 
 # updater.js
 updater.latestVersion=Bạn đang sử dụng phiên bản mới nhất
+updater.cantFindVersion=Bạn đang sử dụng phiên bản không xác định (%1), vui lòng kiểm tra lại tệp package.json của bạn
 updater.newVersions=Có %1 phiên bản cần cập nhật mới, bất đầu tiến hành cập nhật...
-updater.updateSuccess=Cập nhật thành công ✓
-updater.configChanged=Tệp config.json đã được thay đổi, vui lòng kiểm tra lại tệp config.json của bạn
+updater.updateSuccess=Cập nhật thành công%1
+updater.configChanged=Tệp %1 đã được thay đổi, vui lòng kiểm tra lại tệp config.json của bạn
 updater.installingPackages=Đang cài đặt các gói phụ thuộc cho bot...
-updater.installSuccess=Cài đặt các gói phụ thuộc thành công ✓
+updater.installSuccess=Cài đặt các gói phụ thuộc thành công, khởi động lại bot để sử dụng phiên bản mới
+updater.backupSuccess=Đã sao lưu thành công các file bị thay đổi, xem tại thư mục %1
+updater.restartToApply=. Khởi động lại bot để sử dụng phiên bản mới
+updater.skipFile=Đã có phiên bản mới của file %1, nhưng bạn đã bỏ qua file này trong quá trình cập nhật với comment %2 trong file này
 
 # dashboard/routes/verifyfbid.js
 verifyfbid.sendCode=Mã xác nhận của bạn là:\n%1\nMã xác nhận có hiệu lực trong vòng %2 phút

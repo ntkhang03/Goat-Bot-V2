@@ -1266,7 +1266,6 @@
 			"scripts/events/newcommandevent.eg.js": "add category",
 			"scripts/events/onEvent.js": "add category",
 			"scripts/events/welcome.js": "add category"
-			
 		}
 	},
 	{
@@ -1276,6 +1275,809 @@
 			"package-lock.json": "change the fca dependency package",
 			"package.json": "change the fca dependency package",
 			"bot/login/login.js": "fix unable to reconnect to listenMqtt"
+		}
+	},
+	{
+		"version": "1.2.42",
+		"files": {
+			"utils.js": "update function `randomString`",
+			"scripts/events/welcome.js": "disable greetings for members banned by the `ban` command",
+			"scripts/cmds/guessnumber.js": "new command game `guessnumber`",
+			"bot/login/login.js": "can login with Netscape cookies",
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update",
+			"scripts/cmds/openjourney.js": "language update"
+		}
+	},
+	{
+		"version": "1.2.43",
+		"files": {
+			"bot/login/login.js": "code optimization",
+			"bot/handler/handlerEvents.js": "code optimization",
+			"scripts/cmds/setalias.js": "code optimization",
+			"scripts/cmds/shortcut.js": "code optimization",
+			"database/controller/globalData.js": "code optimization and fix bug",
+			"database/models/sqlite/global.js": "code optimization and fix bug",
+			"logger/log.js": "add new function `log.dev()`",
+			"scripts/cmds/eval.js": "add error log in console when there is an error",
+			"scripts/cmds/guessnumber.js": "added ranking function for game `guessnumber`",
+			"scripts/cmds/backupdata.js": "new command: `backupdata` - backup bot data to json file"
+		}
+	},
+	{
+		"version": "1.3.0",
+		"files": {
+			"fb-chat-api/index.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/utils.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/addExternalModule.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/addUserToGroup.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/changeAdminStatus.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/changeArchivedStatus.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/changeAvatar.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/changeBio.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/changeBlockedStatus.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/changeGroupImage.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/changeNickname.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/changeThreadColor.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/changeThreadEmoji.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/createNewGroup.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/createPoll.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/deleteMessage.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/deleteThread.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/forwardAttachment.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/getCurrentUserID.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/getEmojiUrl.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/getFriendsList.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/getMessage.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/getThreadHistory.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/getThreadInfo.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/getThreadList.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/getThreadPictures.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/getUserID.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/getUserInfo.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/handleFriendRequest.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/handleMessageRequest.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/httpGet.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/httpPost.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/httpPostFormData.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/listenMqtt.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/logout.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/markAsDelivered.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/markAsRead.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/markAsReadAll.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/markAsSeen.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/muteThread.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/removeUserFromGroup.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/resolvePhotoUrl.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/searchForThread.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/sendMessage.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/sendTypingIndicator.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/setMessageReaction.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/setPostReaction.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/setTitle.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/threadColors.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/unfriend.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/unsendMessage.js": "remove dependency package `fb-chat-api-temp`",
+			"fb-chat-api/src/uploadAttachment.js": "remove dependency package `fb-chat-api-temp`",
+			"scripts/cmds/backupdata.js": "change command name",
+			"bot/handler/handlerEvents.js": "code optimization",
+			"bot/login/checkLiveCookie.js": "code optimization",
+			"bot/login/handlerWhenListenHasError.js": "code optimization",
+			"bot/login/login.js": "code optimization",
+			"scripts/cmds/guessnumber.js": "code optimization",
+			"config.json": {
+				"optionsFca.autoReconnect": true
+			},
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update",
+			"scripts/cmds/anime.js": "delete anime command - api is down",
+			"package.json": "",
+			"package-lock.json": ""
+		}
+	},
+	{
+		"version": "1.3.1",
+		"files": {
+			"config.json": {
+				"optionsFca.autoReconnect": false
+			}
+		}
+	},
+	{
+		"version": "1.3.2",
+		"files": {
+			"config.json": {
+				"restartListenMqtt.delayAfterStopListening": 2000,
+				"optionsFca.autoReconnect": true
+			},
+			".gitignore": "Update .gitignore",
+			"Goat.js": "and fix error listenMqtt",
+			"bot/login/loadScripts.js": "code optimization",
+			"bot/login/login.js": "hiden log error and fix error listenMqtt",
+			"fb-chat-api/README.MD": "Create README.MD",
+			"fb-chat-api/src/listenMqtt.js": "and fix error listenMqtt",
+			"fb-chat-api/utils.js": "hiden log error and fix error listenMqtt"
+		}
+	},
+	{
+		"version": "1.3.3",
+		"files": {
+			"bot/handler/handlerEvents.js": "fix can't use alias for ignoreadboxonly",
+			"bot/login/loadScripts.js": "fix cannot use database sqlite",
+			"bot/login/login.js": "i hope can fix listenMqtt error",
+			"dashboard/app.js": "hide log: forget to use `express-session` middleware",
+			"database/controller/globalData.js": "fix cannot use database sqlite",
+			"scripts/cmds/update.js": "command ability"
+		}
+	},
+	{
+		"version": "1.3.4",
+		"files": {
+			".gitignore": "Update .gitignore",
+			"Goat.js": "Update Goat.js",
+			"bot/login/handlerWhenListenHasError.js": "trim content to 2000 characters for discord hook (maximum limit)",
+			"bot/login/loadData.js": "code optimization",
+			"bot/login/loadScripts.js": "code optimization",
+			"bot/login/login.js": "code optimization",
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update",
+			"scripts/cmds/ban.js": "Release the official version",
+			"utils.js": "update function `convertTime`"
+		}
+	},
+	{
+		"version": "1.3.5",
+		"files": {
+			"Goat.js": "added the feature to disable bot in inbox and automatically load the scripts when there is a change",
+			"bot/handler/handlerAction.js": "added the feature to disable bot in inbox and automatically load the scripts when there is a change",
+			"bot/login/loadData.js": "added the feature to disable bot in inbox and automatically load the scripts when there is a change",
+			"bot/login/login.js": "added the feature to disable bot in inbox and automatically load the scripts when there is a change",
+			"config.json": {
+				"antiInbox": false,
+				"autoLoadScripts": {
+					"enable": false,
+					"ignoreCmds": "",
+					"ignoreEvents": "",
+					"notes": "this feature will automatically load the script when scripts have been changed, you can set ignoreCmds to ignore commands, ignoreEvents to ignore events, separate by comma or space, example: \"cmd1.js cmd2.js cmd3.js\" (without backslash)"
+				}
+			},
+			"scripts/cmds/customrankcard.js": "fix file url from facebook expires after some time",
+			"scripts/cmds/rank.js": "fix file url from facebook expires after some time"
+		}
+	},
+	{
+		"version": "1.3.6",
+		"files": {
+			"Goat.js": "fix listenMqtt loop issues",
+			"bot/handler/handlerAction.js": "fix events not working when `antiInbox is on`",
+			"bot/login/loadScripts.js": "code optimization",
+			"bot/login/login.js": "can use `i_user` (another profile in facebook account)",
+			"config.json": {
+				"adminOnly.hideNotiMessage": false,
+				"facebookAccount.i_user": ""
+			},
+			"fb-chat-api/index.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/changeAvatar.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/changeBio.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/changeGroupImage.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/changeThreadColor.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/createNewGroup.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/getCurrentUserID.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/getFriendsList.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/getUserID.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/handleFriendRequest.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/listenMqtt.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/sendMessage.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/setMessageReaction.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/setPostReaction.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/setTitle.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/unfriend.js": "can use `i_user` (another profile in facebook account)",
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update"
+		}
+	},
+	{
+		"version": "1.3.7",
+		"files": {
+			"Goat.js": "Update Goat.js",
+			"bot/login/handlerWhenListenHasError.js": "Update handlerWhenListenHasError.js",
+			"fb-chat-api/src/sendMessage.js": "Update sendMessage.js",
+			"package-lock.json": "Update package-lock.json",
+			"scripts/cmds/ban.js": "language update",
+			"scripts/cmds/guessnumber.js": "Official version released"
+		}
+	},
+	{
+		"version": "1.3.8",
+		"files": {
+			"Goat.js": "Update Goat.js",
+			"fb-chat-api/src/listenMqtt.js": "Update listenMqtt.js",
+			"scripts/cmds/gpt.js": "new command `gpt`: use open ai api model `gpt-3.5-turbo`"
+		}
+	},
+	{
+		"version": "1.3.9",
+		"files": {
+			"bot/login/login.js": "code optimization",
+			"fb-chat-api/index.js": "fix duplicate values in getAppState()",
+			"fb-chat-api/src/addUserToGroup.js": "can use `i_user` (another profile in facebook account)",
+			"fb-chat-api/src/setPostReaction.js": "can use `i_user` (another profile in facebook account)",
+			"scripts/cmds/gpt.js": "fix `You are using gpt chat` error",
+			"scripts/cmds/prefix.js": "language update",
+			"scripts/cmds/sendnoti.js": "add new sub-command `list`: show list of notification groups you are managing, and `info`: view info of notification group"
+		}
+	},
+	{
+		"version": "1.3.10",
+		"files": {
+			"README.md": "Update README.md",
+			"scripts/cmds/gpt.js": "Don't let others interfere with your chats and gpt",
+			"scripts/cmds/rank.js": "language update"
+		}
+	},
+	{
+		"version": "1.3.11",
+		"files": {
+			"LICENSE": "Update LICENSE",
+			"bot/login/login.js": "Update login.js",
+			"index.js": "Update index.js"
+		}
+	},
+	{
+		"version": "1.3.12",
+		"files": {
+			"STEP_INSTALL.md": "Update STEP_INSTALL.md",
+			"bot/login/login.js": "fixes `getSeqId`",
+			"config.json": {
+				"whiteListMode": {
+					"enable": false,
+					"whiteListIds": []
+				}
+			},
+			"fb-chat-api/src/listenMqtt.js": "fixes `getSeqId`",
+			"fb-chat-api/utils.js": "update new function: `checkLiveCookie`",
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update",
+			"replit.nix": "Update replit.nix",
+			"scripts/cmds/thread.js": "fix could not find thread joined"
+		}
+	},
+	{
+		"version": "1.3.13",
+		"files": {
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update",
+			"updater.js": "Update updater.js"
+		}
+	},
+	{
+		"version": "1.3.14",
+		"files": {
+			"config.json": {
+				"whiteListMode.notes": "if you enable this feature, only the ids in the whiteListIds section can use the bot"
+			},
+			"fb-chat-api/index.js": "add function `unfriend` for fca",
+			"fb-chat-api/src/unfriend.js": "add function `unfriend` for fca",
+			"updater.js": "Update updater.js"
+		}
+	},
+	{
+		"version": "1.3.15",
+		"files": {
+			"bot/handler/handlerEvents.js": "fix mqtt bug",
+			"bot/login/login.js": "fix mqtt bug",
+			"config.json": {
+				"hideNotiMessage": {
+					"wrongCommand": false,
+					"adminOnly": false,
+					"threadBanned": false,
+					"userBanned": false
+				}
+			},
+			"fb-chat-api/src/getMessage.js": "update new thread colors",
+			"fb-chat-api/src/listenMqtt.js": "Update listenMqtt.js",
+			"fb-chat-api/src/threadColors.js": "update new thread colors",
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update",
+			"scripts/cmds/adboxonly.js": "add new subcommand: `noti` (on/off the notification when user is not admin of group use bot)",
+			"scripts/cmds/openjourney.js": "language update $ handle error",
+			"updater.js": "Update updater.js"
+		}
+	},
+	{
+		"version": "1.3.16",
+		"files": {
+			"database/controller/dashBoardData.js": "add message queue for save data",
+			"database/controller/globalData.js": "add message queue for save data",
+			"database/controller/threadsData.js": "add message queue for save data",
+			"database/controller/usersData.js": "add message queue for save data",
+			"scripts/cmds/help.js": "fix bug & language update"
+		},
+		"reinstallDependencies": true
+	},
+	{
+		"version": "1.3.17",
+		"files": {
+			"database/controller/dashBoardData.js": "fix bug `cannot read property 'name' of undefined`",
+			"database/controller/globalData.js": "fix bug `cannot read property 'name' of undefined`",
+			"database/controller/threadsData.js": "fix bug `cannot read property 'name' of undefined`",
+			"database/controller/usersData.js": "fix bug `cannot read property 'name' of undefined`",
+			"scripts/cmds/getfbstate.js": "add new subcommand: `cookies`, `string`"
+		}
+	},
+	{
+		"version": "1.3.18",
+		"files": {
+			"fb-chat-api/src/listenMqtt.js": "fix infinite loop Stop listenMqtt",
+			"scripts/cmds/getfbstate.js": "add new alias `getcookie`"
+		}
+	},
+	{
+		"version": "1.3.19",
+		"files": {
+			".gitignore": "Update .gitignore",
+			".vscode/GoatBot.code-snippets": "add new snippets: `GoatBotCommandSetOnReply`, `GoatBotCommandSetOnReaction`, `GoatBotCommandPushOnEvent`, `GoatBotCommandSetOnChat`",
+			"Goat.js": "add new handle: `onFirstChat`",
+			"bot/handler/handlerAction.js": "add new handle: `onFirstChat`",
+			"bot/handler/handlerCheckData.js": "code optimization",
+			"bot/handler/handlerEvents.js": "fix thread refresh when event doesn't have threadID",
+			"bot/login/login.js": "fix infinite loop Stop listenMqtt",
+			"database/controller/dashBoardData.js": "code optimization",
+			"database/controller/globalData.js": "code optimization",
+			"database/controller/threadsData.js": "code optimization",
+			"database/controller/usersData.js": "code optimization",
+			"fb-chat-api/src/listenMqtt.js": "remove mqttClient listen close message and added key ``participantIDs` to event type `message` and `message_reply`",
+			"fb-chat-api/utils.js": "added key `participantIDs` to event type `message`",
+			"package.json": "add new scripts: `dev`, `prod`",
+			"scripts/cmds/ban.js": "add sub command `check`: Check banned members and kick them out of the box chat",
+			"scripts/cmds/cmd.js": "add new handle: `onFirstChat`",
+			"utils.js": "code optimization"
+		}
+	},
+	{
+		"version": "1.3.20",
+		"files": {
+			"bot/handler/handlerEvents.js": "fixes error: `TypeError: onFirstChat is not a function`"
+		}
+	},
+	{
+		"version": "1.3.21",
+		"files": {
+			"bot/handler/handlerEvents.js": "fixes error: `TypeError: onFirstChat is not a function`",
+			"bot/login/loadScripts.js": "fixes error: `TypeError: onFirstChat is not a function`",
+			"bot/login/login.js": "fixes error: `TypeError: onFirstChat is not a function`"
+		}
+	},
+	{
+		"version": "1.3.22",
+		"files": {
+			"README.md": "Update README.md",
+			"scripts/cmds/warn.js": "fix checkwarn not working",
+			"scripts/events/checkwarn.js": "fix checkwarn not working",
+			"scripts/events/welcome.js": "Update welcome.js"
+		}
+	},
+	{
+		"version": "1.4.0",
+		"files": {
+			"bot/login/login.js": "Update gban system",
+			"languages/en.lang": "languages update",
+			"languages/vi.lang": "languages update",
+			"restoreBackup.js": "add new script `restoreBackup.js`: restore restore the previous backup version",
+			"scripts/cmds/shortcut.js": "fix bug"
+		}
+	},
+	{
+		"version": "1.4.1",
+		"files": {
+			"bot/login/login.js": "fix `Please restore the crypto.c reateCipher function to the original!`"
+		}
+	},
+	{
+		"version": "1.4.2",
+		"files": {
+			"bot/login/login.js": "hide participantIDs from log"
+		}
+	},
+	{
+		"version": "1.4.3",
+		"files": {
+			"fb-chat-api/utils.js": "change key `participants` to `participantIDs` in callback `event` type in mqtt",
+			"languages/en.lang": "languages update",
+			"languages/vi.lang": "languages update",
+			"updater.js": "Update updater.js"
+		}
+	},
+	{
+		"version": "1.4.4",
+		"files": {
+			"Goat.js": "auto convert data type uid in config to string",
+			"bot/handler/handlerEvents.js": "update option `hideNotiMessage`",
+			"bot/login/loadScripts.js": "update option `hideNotiMessage`",
+			"bot/login/login.js": "update option `hideNotiMessage`",
+			"config.json": {
+				"hideNotiMessage": {
+					"commandNotFound": false,
+					"adminOnly": false,
+					"threadBanned": false,
+					"userBanned": false,
+					"needRoleToUseCmd": false
+				}
+			},
+			"fb-chat-api/src/listenMqtt.js": "fix bug",
+			"scripts/cmds/adminonly.js": "add subcommand: `adminonly noti`: turn on/off the notification when user is not admin use bot"
+		}
+	},
+	{
+		"version": "1.4.5",
+		"files": {
+			"database/controller/dashBoardData.js": "add new prototype `existsSync` for dashBoardData, globalData, threadsData and usersData",
+			"database/controller/globalData.js": "add new prototype `existsSync` for dashBoardData, globalData, threadsData and usersData",
+			"database/controller/threadsData.js": "add new prototype `existsSync` for dashBoardData, globalData, threadsData and usersData",
+			"database/controller/usersData.js": "add new prototype `existsSync` for dashBoardData, globalData, threadsData and usersData",
+			"fb-chat-api/src/sendMessage.js": "update callback when error occurs",
+			"scripts/cmds/antichangeinfobox.js": "add new subcommand `nickname`: anti change nickname in box chat",
+			"scripts/cmds/warn.js": "fix bug",
+			"scripts/events/autoUpdateInfoThread.js": "fix bug"
+		}
+	},
+	{
+		"version": "1.4.6",
+		"files": {
+			"bot/login/loadScripts.js": "ignore the file's command extension `eg.js`",
+			"bot/login/login.js": "ignore the file's command extension `eg.js`"
+		},
+		"deleteFiles": {
+			"scripts/cmds/art.js": "api is no longer working",
+			"scripts/cmds/openjourney.js": "api is no longer working"
+		}
+	},
+	{
+		"version": "1.4.7",
+		"files": {
+			"bot/login/loadScripts.js": "fix console freezing",
+			"bot/login/login.js": "fix console freezing"
+		}
+	},
+	{
+		"version": "1.4.8",
+		"files": {
+			"scripts/cmds/texttoimage.js": "new command `texttoimage`: create image with your prompt"
+		}
+	},
+	{
+		"version": "1.4.9",
+		"files": {
+			"scripts/cmds/texttoimage.js": "update styleId"
+		}
+	},
+	{
+		"version": "1.4.10",
+		"files": {
+			"bot/login/loadScripts.js": "code optimization",
+			"bot/login/login.js": "code optimization",
+			"database/controller/dashBoardData.js": "return data with _`.cloneDeep`",
+			"database/controller/globalData.js": "return data with _`.cloneDeep`",
+			"database/controller/threadsData.js": "return data with _`.cloneDeep`",
+			"database/controller/usersData.js": "return data with _`.cloneDeep`",
+			"package-lock.json": "Update package-lock.json",
+			"scripts/cmds/autosetname.js": "code optimization",
+			"scripts/cmds/cmd.js": "code optimization",
+			"scripts/cmds/count.js": "code optimization",
+			"scripts/cmds/customrankcard.js": "code optimization",
+			"scripts/cmds/grouptag.js": "languages update",
+			"scripts/cmds/kick.js": "languages update",
+			"scripts/cmds/prefix.js": "code optimization",
+			"scripts/cmds/setlang.js": "code optimization",
+			"scripts/cmds/warn.js": "languages update",
+			"scripts/events/autoUpdateInfoThread.js": "code optimization",
+			"utils.js": "code optimization"
+		}
+	},
+	{
+		"version": "1.4.11",
+		"files": {
+			"bot/login/loadScripts.js": "code optimization",
+			"bot/login/login.js": "code optimization",
+			"fb-chat-api/src/addUserToGroup.js": "add `CustomError` class to fb-chat-api - easy for debugging",
+			"fb-chat-api/src/changeAdminStatus.js": "add `CustomError` class to fb-chat-api - easy for debugging",
+			"fb-chat-api/src/changeThreadColor.js": "add `CustomError` class to fb-chat-api - easy for debugging",
+			"fb-chat-api/src/getThreadList.js": "add `CustomError` class to fb-chat-api - easy for debugging",
+			"fb-chat-api/src/httpPostFormData.js": "add `CustomError` class to fb-chat-api - easy for debugging",
+			"fb-chat-api/utils.js": "add `CustomError` class to fb-chat-api - easy for debugging",
+			"scripts/cmds/cmd.js": "code optimization",
+			"scripts/cmds/eval.js": "code optimization",
+			"scripts/cmds/event.js": "code optimization"
+		}
+	},
+	{
+		"version": "1.4.12",
+		"files": {
+			"database/controller/dashBoardData.js": "change queue handling",
+			"database/controller/globalData.js": "change queue handling",
+			"database/controller/threadsData.js": "change queue handling",
+			"database/controller/usersData.js": "change queue handling",
+			"scripts/cmds/cmd.js": "fix bot stop working after using cmd command",
+			"utils.js": "add new method to utils: `createQueue`"
+		}
+	},
+	{
+		"version": "1.4.13",
+		"files": {
+			"database/controller/threadsData.js": "hide console.log"
+		}
+	},
+	{
+		"version": "1.4.14",
+		"files": {
+			"bot/login/login.js": "code optimization",
+			"dashboard/app.js": "change the `getAll` method of controller data to asynchronous",
+			"dashboard/middleware/get.js": "change the `getAll` method of controller data to asynchronous",
+			"dashboard/middleware/post.js": "change the `getAll` method of controller data to asynchronous",
+			"dashboard/routes/api.js": "change the `getAll` method of controller data to asynchronous",
+			"dashboard/routes/dashBoard.js": "change the `getAll` method of controller data to asynchronous",
+			"scripts/cmds/backupdata.js": "change the `getAll` method of controller data to asynchronous",
+			"scripts/cmds/customrankcard.js": "change file storage method with ZippyShare",
+			"scripts/cmds/notification.js": "change the `getAll` method of controller data to asynchronous",
+			"scripts/cmds/rank.js": "change file storage method with ZippyShare",
+			"utils.js": "add new methods `uploadImgbb` and `uploadZippyshare` to utils"
+		}
+	},
+	{
+		"version": "1.4.15",
+		"files": {
+			"fb-chat-api/src/getThreadList.js": "Update getThreadList.js",
+			"utils.js": "fix `certificate has expired` error when uploading Zippyshare",
+			"package.json": "Update package.json",
+			"package-lock.json": "Update package-lock.json"
+		},
+		"reinstallDependencies": true
+	},
+	{
+		"version": "1.4.16",
+		"files": {
+			"Goat.js": "add new handle `onAnyEvent`: handling for all types of events",
+			"bot/custom.js": "add new script bot/custom.js",
+			"bot/handler/handlerAction.js": "add new handle `onAnyEvent`: handling for all types of events",
+			"bot/handler/handlerEvents.js": "add new handle `onAnyEvent`: handling for all types of events",
+			"bot/login/getFbstate1.js": "fix can't login with account and password",
+			"bot/login/loadScripts.js": "fix can't login with account and password",
+			"bot/login/login.js": "fix can't login with account and password",
+			"fb-chat-api/index.js": "add new api `refreshFb_dtsg`: Refreshes the fb_dtsg and jazoest values in ctx of fca",
+			"fb-chat-api/src/refreshFb_dtsg.js": "add new api `refreshFb_dtsg`: Refreshes the fb_dtsg and jazoest values in ctx of fca",
+			"func/colors.js": "add new color to utils.colors (`cyanBright`)",
+			"languages/en.lang": "languages update",
+			"languages/vi.lang": "languages update",
+			"logger/loading.js": "add new log and loading method: `succes`",
+			"logger/log.js": "add new log and loading method: `succes`",
+			"scripts/cmds/cmd.js": "Bug fixes and code optimization",
+			"scripts/cmds/event.js": "Bug fixes and code optimization"
+		}
+	},
+	{
+		"version": "1.4.17",
+		"files": {
+			"bot/login/login.js": "fix cannot install custom command with `cmd` command",
+			"dashboard/views/dashboard-thread.eta": "Update dashboard-thread.eta",
+			"scripts/cmds/cmd.js": "fix cannot install custom command with `cmd` command"
+		}
+	},
+	{
+		"version": "1.4.18",
+		"files": {
+			"bot/login/login.js": "fix handlerWhenListenHasError not working",
+			"config.json": {
+				"optionsFca.autoReconnect": false
+			},
+			"fb-chat-api/src/listenMqtt.js": "Update listenMqtt.js",
+			"scripts/cmds/cmd.js": "fix bug",
+			"scripts/cmds/customrankcard.js": "fix image not working after few days",
+			"scripts/cmds/daily.js": "Update daily.js",
+			"scripts/cmds/emojimean.js": "fixes 404 error",
+			"utils.js": "edit method `uploadImgbb`, add new class: `CustomError`"
+		}
+	},
+	{
+		"version": "1.4.19",
+		"files": {
+			"dashboard/routes/register.js": "fix can't register dashboard account",
+			"database/models/sqlite/global.js": "fix can't register dashboard account"
+		}
+	},
+	{
+		"version": "1.4.20",
+		"files": {
+			"scripts/cmds/antichangeinfobox.js": "change photo storage method",
+			"utils.js": "fix can't uploadImgbb with url"
+		}
+	},
+	{
+		"version": "1.4.21",
+		"files": {
+			"database/controller/dashBoardData.js": "add new method: `deleteKey`",
+			"database/controller/globalData.js": "add new method: `deleteKey`",
+			"database/controller/threadsData.js": "add new method: `deleteKey`",
+			"database/controller/usersData.js": "add new method: `deleteKey`",
+			"updater.js": "fix can't update to new version",
+			"utils.js": "add new method: `isNumber`"
+		}
+	},
+	{
+		"version": "1.4.22",
+		"files": {
+			"dashboard/passport-config.js": "fix can't register dashboard account",
+			"database/controller/dashBoardData.js": "fix can't register dashboard account"
+		}
+	},
+	{
+		"version": "1.4.23",
+		"files": {
+			"Goat.js": "automatically update changes of dirConfigCommands and dirConfig",
+			"bot/login/loadData.js": "optimization code",
+			"bot/login/login.js": "optimization code",
+			"configCommands.json": {
+				"envGlobal.goatbotApikey": ""
+			},
+			"languages/en.lang": "languages update",
+			"languages/vi.lang": "languages update",
+			"logger/log.js": "correct spelling `succes` -> `success`",
+			"restoreBackup.js": "Update restoreBackup.js",
+			"scripts/cmds/texttoimage.js": "fix cannot use command `texttoimage`",
+			"updater.js": "Update updater.js",
+			"utils.js": "add new class `GoatBotApis`: call api on https://goatbot.tk"
+		}
+	},
+	{
+		"version": "1.4.24",
+		"files": {
+			"Goat.js": "remove home path in log auto update config",
+			"bot/login/loadData.js": "database optimization",
+			"bot/login/login.js": "database optimization",
+			"database/connectDB/connectSqlite.js": "database optimization",
+			"database/controller/index.js": "database optimization",
+			"scripts/cmds/jsontomongodb.js": "fix cannot use command `jsontomongo` and `jsontosqlite`",
+			"scripts/cmds/jsontosqlite.js": "fix cannot use command `jsontomongo` and `jsontosqlite`"
+		}
+	},
+	{
+		"version": "1.4.25",
+		"files": {
+			"bot/login/loadData.js": "fix console freezing"
+		}
+	},
+	{
+		"version": "1.4.26",
+		"files": {
+			"Goat.js": "fix jsonlint not working with folder names with spaces"
+		}
+	},
+	{
+		"version": "1.4.27",
+		"files": {
+			"bot/login/getFbstate1.js": "change package `request-promise` to `request`",
+			"bot/login/loadScripts.js": "change package `request-promise` to `request`",
+			"fb-chat-api/src/changeAvatar.js": "remove package `bluebird`",
+			"fb-chat-api/src/changeGroupImage.js": "remove package `bluebird`",
+			"fb-chat-api/src/sendMessage.js": "remove package `bluebird`",
+			"fb-chat-api/src/uploadAttachment.js": "remove package `bluebird`",
+			"fb-chat-api/utils.js": "remove package `bluebird`",
+			"package-lock.json": "update packages",
+			"package.json": "update packages",
+			"scripts/cmds/translate.js": "language update"
+		}
+	},
+	{
+		"version": "1.4.28",
+		"files": {
+			"scripts/cmds/jsontomongodb.js": "fix incorrect database type recognition"
+		}
+	},
+	{
+		"version": "1.5.0",
+		"files": {
+			"Copyright.txt": "Copyright update 😮‍💨",
+			"Goat.js": "Copyright update 😮‍💨",
+			"bot/handler/handlerEvents.js": "Update handlerEvents.js",
+			"bot/login/loadScripts.js": "update code",
+			"bot/login/login.js": "update code",
+			"index.js": "Copyright update 😮‍💨",
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update",
+			"scripts/cmds/texttoimage.js": "fix display `undefined`"
+		}
+	},
+	{
+		"version": "1.5.1",
+		"files": {
+			".gitignore": "Update .gitignore",
+			".vscode/GoatBot.code-snippets": "add new snippet: `LogDev`: \"Create template for log dev",
+			"dashboard/routes/verifyfbid.js": "fix can't verify uid facebook",
+			"fb-chat-api/src/addUserToGroup.js": "Update addUserToGroup.js",
+			"fb-chat-api/src/listenMqtt.js": "Update listenMqtt.js",
+			"languages/cmds/en.js": "languages update",
+			"languages/events/en.js": "languages update",
+			"scripts/cmds/help.js": "languages update",
+			"scripts/cmds/setwelcome.js": "languages update"
+		}
+	},
+	{
+		"version": "1.5.2",
+		"files": {
+			"Goat.js": "Update Goat.js",
+			"dashboard/routes/verifyfbid.js": "fix can't verify facebook id",
+			"dashboard/views/verifyfbid-submit-code.eta": "fix can't verify facebook id",
+			"languages/cmds/en.js": "language update",
+			"languages/en.lang": "language update",
+			"languages/vi.lang": "language update",
+			"scripts/cmds/help.js": "fix can't send attachment",
+			"scripts/cmds/setleave.js": "fix can't send attachment",
+			"updater.js": "Update updater.js"
+		}
+	},
+	{
+		"version": "1.5.3",
+		"files": {
+			"fb-chat-api/src/listenMqtt.js": "fix \"TypeError: Cannot read properties of undefined (reading 'get')\" when listenMqtt is closed"
+		}
+	},
+	{
+		"version": "1.5.4",
+		"files": {
+			"scripts/cmds/cmd.js": "fix failed to install command from url",
+			"scripts/cmds/weather.js": "added areaName in message body - by `Sadman-11`",
+			"scripts/cmds/ytb.js": "Fix cant downloads shorts - by `Sadman-11`"
+		}
+	},
+	{
+		"version": "1.5.5",
+		"files": {
+			"fb-chat-api/src/listenMqtt.js": "fix `event.participantIDs` not displaying correctly in thread",
+			"scripts/cmds/videofb.js": "Fixed can't download by `illusionghost3`\n\nFixed Sorry, we can't download the video for you because the size is larger than 83MB. Api changed."
+		}
+	},
+	{
+		"version": "1.5.6",
+		"files": {
+			"fb-chat-api/index.js": "fca upadte",
+			"fb-chat-api/src/getFriendsList.js": "fca upadte",
+			"fb-chat-api/src/sendMessage.js": "fca upadte",
+			"fb-chat-api/src/setMessageReaction.js": "fca upadte",
+			"scripts/cmds/translate.js": "language update",
+			"scripts/cmds/warn.js": "language update, code optimization"
+		}
+	},
+	{
+		"version": "1.5.7",
+		"files": {
+			".gitignore": "Update .gitignore",
+			"bot/login/login.js": "Update login.js",
+			"scripts/cmds/setalias.js": "fix not applicable to the whole system"
+		}
+	},
+	{
+		"version": "1.5.8",
+		"files": {
+			"scripts/cmds/warn.js": "language update, Fixed a bug that occurred when warning more than 3 times"
+		}
+	},
+	{
+		"version": "1.5.9",
+		"files": {
+			"fb-chat-api/src/sendMessage.js": "add function `removeSpecialChar`: remove forbidden characters sent via facebook messages",
+			"scripts/cmds/callad.js": "language update, log update",
+			"scripts/cmds/gpt.js": "fix cannot use gpt chat when there is only one character"
+		}
+	},
+	{
+		"version": "1.5.10",
+		"files": {
+			"bot/login/login.js": "fix `TypeError: Cannot read properties of null (reading '_host')`"
+		}
+	},
+	{
+		"version": "1.5.11",
+		"files": {
+			"bot/login/loadScripts.js": "fix `TypeError: Cannot read properties of null (reading '_host')` (2)"
 		}
 	}
 ]

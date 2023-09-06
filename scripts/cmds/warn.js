@@ -3,7 +3,7 @@ const { getTime } = global.utils;
 module.exports = {
 	config: {
 		name: "warn",
-		version: "1.3",
+		version: "1.6",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -20,18 +20,18 @@ module.exports = {
 			vi: "   {pn} @tag <lý do>: dùng cảnh cáo thành viên"
 				+ "\n   {pn} list: xem danh sách những thành viên đã bị cảnh cáo"
 				+ "\n   {pn} listban: xem danh sách những thành viên đã bị cảnh cáo đủ 3 lần và bị ban khỏi box"
-				+ "\n   {pn} info [@tag | <uid> | để trống]: xem thông tin cảnh cáo của người được tag hoặc uid hoặc bản thân"
-				+ "\n   {pn} unban <uid>: gỡ ban thành viên bằng uid"
-				+ "\n   {pn} unwarn <uid> [<số thứ tự> | để trống]: gỡ cảnh cáo thành viên bằng uid và số thứ tự cảnh cáo"
-				+ "\n   {pn} warn reset: reset tất cả dữ liệu cảnh cáo"
+				+ "\n   {pn} info [@tag | <uid> | reply | để trống]: xem thông tin cảnh cáo của người được tag hoặc uid hoặc bản thân"
+				+ "\n   {pn} unban [@tag | <uid> | reply | để trống]: gỡ ban thành viên, đồng thời gỡ tất cả cảnh cáo của thành viên đó"
+				+ "\n   {pn} unwarn [@tag | <uid> | reply | để trống] [<số thứ tự> | để trống]: gỡ cảnh cáo thành viên bằng uid và số thứ tự cảnh cáo, nếu để trống sẽ gỡ cảnh cáo cuối cùng"
+				+ "\n   {pn} reset: reset tất cả dữ liệu cảnh cáo"
 				+ "\n⚠️ Cần set quản trị viên cho bot để bot tự kick thành viên bị ban",
 			en: "   {pn} @tag <reason>: warn member"
 				+ "\n   {pn} list: view list of warned members"
 				+ "\n   {pn} listban: view list of banned members"
-				+ "\n   {pn} info [@tag | <uid> | leave blank]: view warn info of tagged member or uid or yourself"
-				+ "\n   {pn} unban <uid>: unban member by uid"
-				+ "\n   {pn} unwarn <uid> [<warn number> | leave blank]: unwarn member by uid and warn number"
-				+ "\n   {pn} warn reset: reset all warn data"
+				+ "\n   {pn} info [@tag | <uid> | reply | leave blank]: view warning information of tagged person or uid or yourself"
+				+ "\n   {pn} unban [@tag | <uid> | reply | leave blank]: unban member, at the same time remove all warnings of that member"
+				+ "\n   {pn} unwarn [@tag | <uid> | reply | leave blank] [<number> | leave blank]: remove warning of member by uid and number of warning, if leave blank will remove the last warning"
+				+ "\n   {pn} reset: reset all warn data"
 				+ "\n⚠️ You need to set admin for bot to auto kick banned members"
 		}
 	},
@@ -61,7 +61,8 @@ module.exports = {
 			noPermission5: "⚠️ Bot cần quyền quản trị viên để kick thành viên bị ban",
 			warnSuccess2: "⚠️ Đã cảnh cáo thành viên %1 lần %2\n- Uid: %3\n- Lý do: %4\n- Date Time: %5\nNếu vi phạm %6 lần nữa người này sẽ bị ban khỏi box",
 			hasBanned: "⚠️ Thành viên sau đã bị cảnh cáo đủ 3 lần trước đó và bị ban khỏi box:\n%1",
-			failedKick: "⚠️ Đã xảy ra lỗi khi kick những thành viên sau:\n%1"
+			failedKick: "⚠️ Đã xảy ra lỗi khi kick những thành viên sau:\n%1",
+			userNotInGroup: "⚠️ Người dùng \"%1\" hiện tại không có trong nhóm của bạn"
 		},
 		en: {
 			list: "List of members who have been warned:\n%1\n\nTo view the details of the warnings, use the \"%2warn info [@tag | <uid> | leave blank]\" command: to view the warning information of the tagged person or uid or yourself",
@@ -87,7 +88,8 @@ module.exports = {
 			noPermission5: "⚠️ Bot needs administrator permissions to kick banned members",
 			warnSuccess2: "⚠️ Warned member %1 times %2\n- Uid: %3\n- Reason: %4\n- Date Time: %5\nIf this person violates %6 more times, they will be banned from the box",
 			hasBanned: "⚠️ The following members have been warned 3 times before and banned from the box:\n%1",
-			failedKick: "⚠️ An error occurred when kicking the following members:\n%1"
+			failedKick: "⚠️ An error occurred when kicking the following members:\n%1",
+			userNotInGroup: "⚠️ The user \"%1\" is currently not in your group"
 		}
 	},
 
@@ -123,12 +125,13 @@ module.exports = {
 				let uids, msg = "";
 				if (Object.keys(event.mentions).length)
 					uids = Object.keys(event.mentions);
-				else if (event.messageReply && event.messageReply.senderID)
+				else if (event.messageReply?.senderID)
 					uids = [event.messageReply.senderID];
 				else if (args.slice(1).length)
 					uids = args.slice(1);
 				else
 					uids = [senderID];
+
 				if (!uids)
 					return message.reply(getLang("invalidUid"));
 				msg += (await Promise.all(uids.map(async uid => {
@@ -155,12 +158,23 @@ module.exports = {
 			case "unban": {
 				if (role < 1)
 					return message.reply(getLang("noPermission"));
-				const uidUnban = args[1];
+				let uidUnban;
+				if (Object.keys(event.mentions).length)
+					uidUnban = Object.keys(event.mentions)[0];
+				else if (event.messageReply?.senderID)
+					uidUnban = event.messageReply.senderID;
+				else if (args.slice(1).length)
+					uidUnban = args.slice(1);
+				else
+					uidUnban = senderID;
+
 				if (!uidUnban || isNaN(uidUnban))
 					return message.reply(getLang("invalidUid2"));
+
 				const index = warnList.findIndex(user => user.uid == uidUnban && user.list.length >= 3);
 				if (index === -1)
 					return message.reply(getLang("notBanned", uidUnban));
+
 				warnList.splice(index, 1);
 				await threadsData.set(threadID, warnList, "data.warn");
 				const userName = await usersData.getName(uidUnban);
@@ -175,7 +189,7 @@ module.exports = {
 					uid = Object.keys(event.mentions)[0];
 					num = args[args.length - 1];
 				}
-				else if (event.messageReply && event.messageReply.senderID) {
+				else if (event.messageReply?.senderID) {
 					uid = event.messageReply.senderID;
 					num = args[1];
 				}
@@ -183,16 +197,21 @@ module.exports = {
 					uid = args[1];
 					num = parseInt(args[2]) - 1;
 				}
+
 				if (isNaN(uid))
 					return message.reply(getLang("invalidUid3"));
+
 				const dataWarnOfUser = warnList.find(u => u.uid == uid);
 				if (!dataWarnOfUser?.list.length)
 					return message.reply(getLang("noData2", uid));
+
 				if (isNaN(num))
 					num = dataWarnOfUser.list.length - 1;
+
 				const userName = await usersData.getName(uid);
 				if (num > dataWarnOfUser.list.length)
 					return message.reply(getLang("notEnoughWarn", userName, dataWarnOfUser.list.length));
+
 				dataWarnOfUser.list.splice(parseInt(num), 1);
 				if (!dataWarnOfUser.list.length)
 					warnList.splice(warnList.findIndex(u => u.uid == uid), 1);
@@ -241,25 +260,31 @@ module.exports = {
 				const userName = await usersData.getName(uid);
 				if (times >= 3) {
 					message.reply(getLang("warnSuccess", userName, times, uid, reason, dateTime, prefix), () => {
-						api.removeUserFromGroup(uid, threadID, (err) => {
-							if (err)
-								return message.reply(getLang("noPermission5"), (e, info) => {
-									const { onEvent } = global.GoatBot;
-									onEvent.push({
-										messageID: info.messageID,
-										onStart: ({ event }) => {
-											if (event.logMessageType === "log:thread-admins" && event.logMessageData.ADMIN_EVENT == "add_admin") {
-												const { TARGET_ID } = event.logMessageData;
-												if (TARGET_ID == api.getCurrentUserID()) {
-													if ((warnList.find(user => user.uid == uid)?.list.length ?? 0) <= 3)
-														global.GoatBot.onEvent = onEvent.filter(item => item.messageID != info.messageID);
-													else
-														api.removeUserFromGroup(uid, event.threadID, () => global.GoatBot.onEvent = onEvent.filter(item => item.messageID != info.messageID));
+						api.removeUserFromGroup(uid, threadID, async (err) => {
+							if (err) {
+								const members = await threadsData.get(event.threadID, "members");
+								if (members.find(item => item.userID == uid)?.inGroup) // check if user is still in group
+									return message.reply(getLang("userNotInGroup", userName));
+								else
+									return message.reply(getLang("noPermission5"), (e, info) => {
+										const { onEvent } = global.GoatBot;
+										onEvent.push({
+											messageID: info.messageID,
+											onStart: async ({ event }) => {
+												if (event.logMessageType === "log:thread-admins" && event.logMessageData.ADMIN_EVENT == "add_admin") {
+													const { TARGET_ID } = event.logMessageData;
+													if (TARGET_ID == api.getCurrentUserID()) {
+														const warnList = await threadsData.get(event.threadID, "data.warn", []);
+														if ((warnList.find(user => user.uid == uid)?.list.length ?? 0) <= 3)
+															global.GoatBot.onEvent = onEvent.filter(item => item.messageID != info.messageID);
+														else
+															api.removeUserFromGroup(uid, event.threadID, () => global.GoatBot.onEvent = onEvent.filter(item => item.messageID != info.messageID));
+													}
 												}
 											}
-										}
+										});
 									});
-								});
+							}
 						});
 					});
 				}
@@ -274,7 +299,7 @@ module.exports = {
 		if (logMessageType === "log:subscribe") {
 			return async () => {
 				const { data, adminIDs } = await threadsData.get(event.threadID);
-				const warnList = data.warn?.warnList ?? [];
+				const warnList = data.warn || [];
 				if (!warnList.length)
 					return;
 				const { addedParticipants } = logMessageData;
@@ -302,39 +327,47 @@ module.exports = {
 							const { onEvent } = global.GoatBot;
 							onEvent.push({
 								messageID: info.messageID,
-								onStart: ({ event }) => {
-									if (event.logMessageType === "log:thread-admins" && event.logMessageData.ADMIN_EVENT == "add_admin") {
-										const { TARGET_ID } = event.logMessageData;
-										if (TARGET_ID == api.getCurrentUserID()) {
-											removeUsers(hasBanned, warnList, api, event, message, getLang);
-											global.GoatBot.onEvent = onEvent.filter(item => item.messageID != info.messageID);
-										}
+								onStart: async ({ event }) => {
+									if (
+										event.logMessageType === "log:thread-admins"
+										&& event.logMessageData.ADMIN_EVENT == "add_admin"
+										&& event.logMessageData.TARGET_ID == api.getCurrentUserID()
+									) {
+										const threadData = await threadsData.get(event.threadID);
+										const warnList = threadData.data.warn;
+										const members = threadData.members;
+										removeUsers(hasBanned, warnList, api, event, message, getLang, members);
+										global.GoatBot.onEvent = onEvent.filter(item => item.messageID != info.messageID);
 									}
 								}
 							});
 						});
-					else
-						removeUsers(hasBanned, warnList, api, event, message, getLang);
+					else {
+						const members = await threadsData.get(event.threadID, "members");
+						removeUsers(hasBanned, warnList, api, event, message, getLang, members);
+					}
 				}
 			};
 		}
 	}
 };
 
-async function removeUsers(hasBanned, warnList, api, event, message, getLang) {
+async function removeUsers(hasBanned, warnList, api, event, message, getLang, members) {
 	const failed = [];
 	for (const user of hasBanned) {
-		try {
-			if (warnList.find(item => item.uid == user.uid)?.list.length ?? 0 >= 3)
-				await api.removeUserFromGroup(user.uid, event.threadID);
-		}
-		catch (e) {
-			failed.push({
-				uid: user.uid,
-				name: user.name
-			});
+		if (members.find(item => item.userID == user.uid)?.inGroup) { // check if user is still in group
+			try {
+				if (warnList.find(item => item.uid == user.uid)?.list.length ?? 0 >= 3)
+					await api.removeUserFromGroup(user.uid, event.threadID);
+			}
+			catch (e) {
+				failed.push({
+					uid: user.uid,
+					name: user.name
+				});
+			}
 		}
 	}
 	if (failed.length)
-		message.reply(getLang("failedRemove", failed.map(item => `  - ${item.name} (uid: ${item.uid})`).join("\n")));
+		message.reply(getLang("failedKick", failed.map(item => `  - ${item.name} (uid: ${item.uid})`).join("\n")));
 }

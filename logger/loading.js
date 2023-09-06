@@ -28,6 +28,13 @@ module.exports = {
 		}
 		process.stderr.write(`\r${`${getCurrentTime()} ${colors.greenBright(`${characters} ${prefix}:`)} ${message}`}`);
 	},
+	succes: function (prefix, message) {
+		if (message === undefined) {
+			message = prefix;
+			prefix = "SUCCES";
+		}
+		process.stderr.write(`\r${`${getCurrentTime()} ${colors.cyanBright(`${characters} ${prefix}:`)} ${message}`}`);
+	},
 	master: function (prefix, message) {
 		if (message === undefined) {
 			message = prefix;
