@@ -23,7 +23,7 @@ async function getStreamAndSize(url, path = "") {
 module.exports = {
 	config: {
 		name: "ytb",
-		version: "1.12",
+		version: "1.14",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -101,7 +101,7 @@ module.exports = {
 				return message.SyntaxError();
 		}
 
-		const checkurl = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+		const checkurl = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))((\w|-){11})(?:\S+)?$/;
 		const urlYtb = checkurl.test(args[1]);
 
 		if (urlYtb) {
@@ -314,7 +314,7 @@ async function search(keyWord) {
 
 async function getVideoInfo(id) {
 	// get id from url if url
-	id = id.replace(/(>|<)/gi, '').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+	id = id.replace(/(>|<)/gi, '').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/|\/shorts\/)/);
 	id = id[2] !== undefined ? id[2].split(/[^0-9a-z_\-]/i)[0] : id[0];
 
 	const { data: html } = await axios.get(`https://youtu.be/${id}?hl=en`, {
