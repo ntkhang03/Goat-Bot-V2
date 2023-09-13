@@ -3,7 +3,7 @@ const { getStreamFromURL, uploadImgbb } = global.utils;
 module.exports = {
 	config: {
 		name: "antichangeinfobox",
-		version: "1.6",
+		version: "1.7",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -128,12 +128,19 @@ module.exports = {
 				if (!dataAntiChange.avatar && role < 1)
 					return;
 				return async function () {
+					// check if user not is admin or owner then change avatar back
 					if (role < 1 && api.getCurrentUserID() !== author) {
-						message.reply(getLang("antiChangeAvatarAlreadyOn"));
-						api.changeGroupImage(await getStreamFromURL(dataAntiChange.avatar), threadID);
+						if (dataAntiChange.avatar != "REMOVE") {
+							message.reply(getLang("antiChangeAvatarAlreadyOn"));
+							api.changeGroupImage(await getStreamFromURL(dataAntiChange.avatar), threadID);
+						}
 					}
+					// else save new avatar
 					else {
 						const imageSrc = logMessageData.url;
+						if (!imageSrc)
+							return await threadsData.set(threadID, "REMOVE", "data.antiChangeInfoBox.avatar");
+
 						const newImageSrc = await uploadImgbb(imageSrc);
 						await threadsData.set(threadID, newImageSrc.image.url, "data.antiChangeInfoBox.avatar");
 					}
