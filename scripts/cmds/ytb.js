@@ -1,5 +1,5 @@
 const axios = require("axios");
-const ytdl = require("ytdl-core");
+const ytdl = require("@distube/ytdl-core");
 const fs = require("fs-extra");
 const { getStreamFromURL, downloadFile } = global.utils;
 async function getStreamAndSize(url, path = "") {
