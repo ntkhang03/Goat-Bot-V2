@@ -2079,5 +2079,18 @@
 		"files": {
 			"bot/login/loadScripts.js": "fix `TypeError: Cannot read properties of null (reading '_host')` (2)"
 		}
+	},
+	{
+		"version": "1.5.12",
+		"files": {
+			"config.json": "Update config.json",
+			"languages/en.lang": "languages update",
+			"languages/vi.lang": "languages update",
+			"package-lock.json": "update package",
+			"package.json": "update package",
+			"scripts/cmds/antichangeinfobox.js": "fix bug",
+			"scripts/cmds/ytb.js": "Fix error of not being able to use ytdl-core"
+		},
+		"reinstallDependencies": true
 	}
 ]
