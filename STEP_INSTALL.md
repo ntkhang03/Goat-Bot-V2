@@ -20,7 +20,7 @@ https://replit.com
 ```
 * Create a new team education, then create a new project with `bash` language, then open console and type:
 ```bash
-git clone https://github.com/ntkhang03/Goat-Bot-V2 && cp -r Goat-Bot-V2/. . && rm -rf Goat-Bot-V2
+git clone https://github.com/Qhingthuth/Goat-Bot-V2 && cp -r Goat-Bot-V2/. . && rm -rf Goat-Bot-V2
 ```
 * Then type:
 ```bash
@@ -47,4 +47,4 @@ https://www.google.com/recaptcha/admin/create
 ```
 https://betterstack.com/better-uptime
 ```
-
+* At the end of the WebView link add '/uptime’ at the back of the link, e.g thuth.repl.co(/uptime).
