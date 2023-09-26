@@ -22,6 +22,10 @@ https://replit.com
 ```bash
 git clone https://github.com/ntkhang03/Goat-Bot-V2 && cp -r Goat-Bot-V2/. . && rm -rf Goat-Bot-V2
 ```
+*My own repository link
+```
+git clone https://github.com/Qhingthuth/Goat-Bot-V2 && cp -r Goat-Bot-V2/. . && rm -rf Goat-Bot-V2
+```
 * Then type:
 ```bash
 npm install
