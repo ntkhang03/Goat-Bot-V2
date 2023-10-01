@@ -8,7 +8,7 @@
 		"npm": ">=7.0.0"
 	},
 	"dependencies": {
-		"@distube/ytdl-core": "^4.13.0",
+		"@distube/ytdl-core": "^4.13.2",
 		"axios": "^1.4.0",
 		"bcrypt": "^5.0.1",
 		"canvas": "^2.9.1",
