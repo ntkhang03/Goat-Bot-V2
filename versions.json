@@ -2095,5 +2095,17 @@
 			"scripts/cmds/ytb.js": "Fix error of not being able to use ytdl-core"
 		},
 		"reinstallDependencies": true
+	},
+	{
+		"version": "1.5.13",
+		"files": {
+			"bot/handler/handlerCheckData.js": "Update handlerCheckData.js",
+			"bot/login/loadScripts.js": "Update loadScripts.js",
+			"database/controller/threadsData.js": "change error name from `DATA_EXISTS` to `DATA_ALREADY_EXISTS`",
+			"package-lock.json": "Update package-lock.json",
+			"package.json": "Update package.json",
+			"scripts/cmds/antichangeinfobox.js": "language update",
+			"utils.js": "Update utils.js"
+		}
 	}
 ]
