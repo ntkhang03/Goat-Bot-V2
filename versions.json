@@ -2083,7 +2083,10 @@
 	{
 		"version": "1.5.12",
 		"files": {
-			"config.json": "Update config.json",
+			"config.json": {
+				"hideNotiMessage.needRoleToUseCmdOnReply": false,
+				"hideNotiMessage.needRoleToUseCmdOnReaction": false
+			},
 			"languages/en.lang": "languages update",
 			"languages/vi.lang": "languages update",
 			"package-lock.json": "update package",
