@@ -250,6 +250,7 @@ function getPrefix(threadID) {
 }
 
 function getTime(timestamps, format) {
+	// check if just have timestamps -> format = timestamps
 	if (!format && typeof timestamps == 'string') {
 		format = timestamps;
 		timestamps = undefined;
