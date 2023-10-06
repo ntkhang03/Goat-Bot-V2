@@ -2107,5 +2107,12 @@
 			"scripts/cmds/antichangeinfobox.js": "language update",
 			"utils.js": "Update utils.js"
 		}
+	},
+	{
+		"version": "1.5.14",
+		"files": {
+			"fb-chat-api/src/listenMqtt.js": "fix event `log:thread-icon` not working",
+			"fb-chat-api/utils.js": "fix event `log:thread-icon` not working"
+		}
 	}
 ]
