@@ -927,6 +927,7 @@ function getAdminTextMessageType(type) {
 		case "change_thread_theme":
 			return "log:thread-color";
 		case "change_thread_icon":
+		case "change_thread_quick_reaction":
 			return "log:thread-icon";
 		case "change_thread_nickname":
 			return "log:user-nickname";
