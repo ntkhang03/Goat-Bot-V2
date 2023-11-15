@@ -1,6 +1,6 @@
 {
 	"name": "goat-bot-v2",
-	"version": "1.5.11",
+	"version": "1.5.14",
 	"description": "A simple Bot chat messenger using personal account. Made by NTKhang.",
 	"main": "index.js",
 	"engines": {
@@ -8,6 +8,7 @@
 		"npm": ">=7.0.0"
 	},
 	"dependencies": {
+		"@distube/ytdl-core": "^4.13.2",
 		"axios": "^1.4.0",
 		"bcrypt": "^5.0.1",
 		"canvas": "^2.9.1",
@@ -47,8 +48,7 @@
 		"sqlite3": "^5.0.5",
 		"tinyurl": "^1.1.7",
 		"totp-generator": "^0.0.13",
-		"websocket-stream": "^5.5.2",
-		"ytdl-core": "github:fent/node-ytdl-core#pull/1203/head"
+		"websocket-stream": "^5.5.2"
 	},
 	"scripts": {
 		"start": "node index.js",

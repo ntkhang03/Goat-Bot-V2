@@ -174,7 +174,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 				try {
 					if (global.db.allThreadData.some(t => t.threadID == threadID)) {
 						throw new CustomError({
-							name: "DATA_EXISTS",
+							name: "DATA_ALREADY_EXISTS",
 							message: `Thread with id "${threadID}" already exists in the data`
 						});
 					}

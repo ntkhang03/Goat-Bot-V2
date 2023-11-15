@@ -2079,5 +2079,40 @@
 		"files": {
 			"bot/login/loadScripts.js": "fix `TypeError: Cannot read properties of null (reading '_host')` (2)"
 		}
+	},
+	{
+		"version": "1.5.12",
+		"files": {
+			"config.json": {
+				"hideNotiMessage.needRoleToUseCmdOnReply": false,
+				"hideNotiMessage.needRoleToUseCmdOnReaction": false
+			},
+			"languages/en.lang": "languages update",
+			"languages/vi.lang": "languages update",
+			"package-lock.json": "update package",
+			"package.json": "update package",
+			"scripts/cmds/antichangeinfobox.js": "fix bug",
+			"scripts/cmds/ytb.js": "Fix error of not being able to use ytdl-core"
+		},
+		"reinstallDependencies": true
+	},
+	{
+		"version": "1.5.13",
+		"files": {
+			"bot/handler/handlerCheckData.js": "Update handlerCheckData.js",
+			"bot/login/loadScripts.js": "Update loadScripts.js",
+			"database/controller/threadsData.js": "change error name from `DATA_EXISTS` to `DATA_ALREADY_EXISTS`",
+			"package-lock.json": "Update package-lock.json",
+			"package.json": "Update package.json",
+			"scripts/cmds/antichangeinfobox.js": "language update",
+			"utils.js": "Update utils.js"
+		}
+	},
+	{
+		"version": "1.5.14",
+		"files": {
+			"fb-chat-api/src/listenMqtt.js": "fix event `log:thread-icon` not working",
+			"fb-chat-api/utils.js": "fix event `log:thread-icon` not working"
+		}
 	}
 ]
