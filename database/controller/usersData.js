@@ -161,6 +161,14 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 		}
 	}
 
+	function getNameInDB(userID) {
+		const userData = global.db.allUserData.find(u => u.userID == userID);
+		if (userData)
+			return userData.name;
+		else
+			return null;
+	}
+
 	async function getName(userID, checkData = true) {
 		if (isNaN(userID)) {
 			throw new CustomError({
@@ -168,17 +176,16 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 				message: `The first argument (userID) must be a number, not ${typeof userID}`
 			});
 		}
-		if (checkData) {
-			const userData = global.db.allUserData.find(u => u.userID == userID);
-			if (userData)
-				return userData.name;
-		}
+
+		if (checkData)
+			return getNameInDB(userID);
+
 		try {
 			const user = await axios.post(`https://www.facebook.com/api/graphql/?q=${`node(${userID}){name}`}`);
 			return user.data[userID].name;
 		}
 		catch (error) {
-			return null;
+			return getNameInDB(userID);
 		}
 	}
 
@@ -561,6 +568,7 @@ module.exports = async function (databaseType, userModel, api, fakeGraphql) {
 			return global.db.allUserData.some(u => u.userID == userID);
 		},
 		getName,
+		getNameInDB,
 		getAvatarUrl,
 		create,
 		refreshInfo,
