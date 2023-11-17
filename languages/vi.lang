@@ -143,3 +143,11 @@ utils.errorOccurred=❌ Đã xảy ra lỗi:\n\n%1
 
 # for command
 command.restartedBot=Đã khởi động lại bot
+
+# dashboard/app.js
+app.googleApiRefreshTokenExpired=Google API refresh token đã hết hạn hoặc bị thu hồi, vui lòng lấy lại token mới tại https://developers.google.com/oauthplayground/
+app.tooManyRequests=Quá nhiều yêu cầu trong 1 phút qua, vui lòng thử lại sau!
+app.notPermissionChangeFbstate=Bạn không có quyền thay đổi fbstate!
+app.notFoundFbstate=Vui lòng nhập fbstate!
+app.changedFbstateSuccess=Thay đổi fbstate thành công!
+app.serverError=Server đã xảy ra lỗi, vui lòng thử lại sau!
