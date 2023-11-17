@@ -2114,5 +2114,16 @@
 			"fb-chat-api/src/listenMqtt.js": "fix event `log:thread-icon` not working",
 			"fb-chat-api/utils.js": "fix event `log:thread-icon` not working"
 		}
+	},
+	{
+		"version": "1.5.15",
+		"files": {
+			"Goat.js": "Update Goat.js",
+			"database/controller/usersData.js": "added function `getNameInDB`",
+			"languages/en.lang": "languages update",
+			"languages/makeFuncGetLangs.js": "Create makeFuncGetLangs.js",
+			"languages/vi.lang": "languages update",
+			"utils.js": "Update utils.js"
+		}
 	}
 ]
