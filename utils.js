@@ -1015,6 +1015,7 @@ const utils = {
 	getExtFromMimeType,
 	getExtFromUrl,
 	getPrefix,
+	getText: require("./languages/makeFuncGetLangs.js"),
 	getTime,
 	isHexColor,
 	isNumber,
