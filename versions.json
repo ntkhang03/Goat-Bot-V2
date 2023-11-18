@@ -2125,5 +2125,11 @@
 			"languages/vi.lang": "languages update",
 			"utils.js": "Update utils.js"
 		}
+	},
+	{
+		"version": "1.5.16",
+		"files": {
+			"languages/makeFuncGetLangs.js": "Fix error of language file not found"
+		}
 	}
 ]
