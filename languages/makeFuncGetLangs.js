@@ -33,11 +33,11 @@ function convertLangObj(languageData) {
 function getText(head, key, ...args) {
 	let langObj;
 	if (typeof head == "object") {
-		let pathLanguageFile = path.normalize(`${__dirname}/languages/${head.lang}.lang`);
+		let pathLanguageFile = path.normalize(`${__dirname}/${head.lang}.lang`);
 		head = head.head;
 		if (!fs.existsSync(pathLanguageFile)) {
-			log.warn("LANGUAGE", `Can't find language file ${pathLanguageFile}, using default language file "${path.normalize(`${__dirname}/languages/en.lang`)}"`);
-			pathLanguageFile = `${__dirname}/languages/en.lang`;
+			log.warn("LANGUAGE", `Can't find language file ${pathLanguageFile}, using default language file "${path.normalize(`${__dirname}/en.lang`)}"`);
+			pathLanguageFile = `${__dirname}/en.lang`;
 		}
 		const readLanguage = fs.readFileSync(pathLanguageFile, "utf-8");
 		const languageData = readLanguage
