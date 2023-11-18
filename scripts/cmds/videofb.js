@@ -1,10 +1,10 @@
 const axios = require("axios");
-
 module.exports = {
 	config: {
 		name: "videofb",
-		version: "1.3",
-		author: "NTKhang & Mohammad Alamin",
+		aliases: ["fbdown", "facebook"],
+		version: "1.4",
+		author: "Mohammad Alamin",
 		countDown: 5,
 		role: 0,
 		shortDescription: {
@@ -31,33 +31,36 @@ module.exports = {
 		},
 		en: {
 			missingUrl: "Please enter the facebook video/story (public) url you want to download",
+			missingKey: "Please add your global key on configCommands.json",
 			error: "An error occurred while downloading the video",
 			downloading: "Downloading video for you",
-			tooLarge: "Sorry, we can't download the video for you because the size is larger than 83MB"
+			tooLarge: "Sorry, we can't download the video for you."
 		}
 	},
 
-	onStart: async function ({ args, message, getLang }) {
-		if (!args[0]) {
-			return message.reply(getLang("missingUrl"));
-		}
-
+	onStart: async function ({ args, message, getLang, envGlobal }) {
+	  if (!args[0]) return message.reply(getLang("missingUrl"));
 		let msgSend = null;
 		try {
-			const response = await axios.get(`https://toxinum.xyz/api/v1/videofb?url=${args[0]}`);
-
+		  msgSend = message.reply(getLang("downloading"));
+		  const response = await axios.get('https://anbusec.xyz/api/downloader/facebook',
+		  {
+		    params: {
+		      'apikey': 'lCLCntSNYhy1w1rLiGLJ',
+		      'url': args[0]
+		    }
+		  });
 			if (response.data.success === false) {
 				return message.reply(getLang("error"));
 			}
-
-			msgSend = message.reply(getLang("downloading"));
-
-			const stream = await global.utils.getStreamFromURL(response.data.url2); //url2 is for high quality videos & url1 is for low quality videos
-			await message.reply({ attachment: stream });
-
+			const stream = await global.utils.getStreamFromURL(response.data.url);
+			await message.reply({
+			  body: response.data.title,
+			  attachment: stream
+			});
 			message.unsend((await msgSend).messageID);
-		}
-		catch (e) {
+		} catch (e) {
+		  console.log(e)
 			message.unsend((await msgSend).messageID);
 			return message.reply(getLang("tooLarge"));
 		}
