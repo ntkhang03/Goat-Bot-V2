@@ -2131,5 +2131,13 @@
 		"files": {
 			"languages/makeFuncGetLangs.js": "Fix error of language file not found"
 		}
+	},
+	{
+		"version": "1.5.17",
+		"files": {
+			"scripts/cmds/videofb.js": "Fixed api issue",
+			"scripts/cmds/insta.js": "Instagram video downloader added",
+			"configCommands.json": "Modified",
+		}
 	}
 ]
