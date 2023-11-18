@@ -1,7 +1,7 @@
 const axios = require("axios");
 const fs = require("fs-extra");
 const path = require("path");
-const qs = require("qs");
+const cheerio = require("cheerio");
 const https = require("https");
 const agent = new https.Agent({
   rejectUnauthorized: false
@@ -476,7 +476,6 @@ async function findUid(link) {
     }
     return id;
   } catch (error) {
-    console.error('Error in findUid function:', error.message);
     throw new Error('An unexpected error occurred. Please try again.');
   }
 }
