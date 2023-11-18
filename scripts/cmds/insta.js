@@ -1,36 +1,36 @@
 const axios = require("axios");
 module.exports = {
 	config: {
-		name: "videofb",
-		aliases: ["fbdown", "fb"],
+		name: "insta",
+		aliases: ["instavid", "instagram"],
 		version: "1.1",
 		author: "Mohammad Alamin",
 		countDown: 5,
 		role: 0,
 		shortDescription: {
 			vi: "Tải video từ facebook",
-			en: "Download video from Facebook"
+			en: "Download video from Instagram"
 		},
 		longDescription: {
 			vi: "Tải video/story từ facebook (công khai)",
-			en: "Download video/story from Facebook (public)"
+			en: "Download video/story from Instagram (public)"
 		},
 		category: "media",
 		guide: {
 			vi: "   {pn} <url video/story>: tải video từ facebook",
-			en: "   {pn} <url video/story>: download video from Facebook"
+			en: "   {pn} <url video/story>: download video from Instagram"
 		}
 	},
 
 	langs: {
 		vi: {
-			missingUrl: "Vui lòng nhập url video/story Facebook (công khai) bạn muốn tải về",
+			missingUrl: "Vui lòng nhập url video/story facebook (công khai) bạn muốn tải về",
 			error: "Đã xảy ra lỗi khi tải video",
 			downloading: "Đang tiến hành tải video cho bạn",
 			tooLarge: "Rất tiếc không thể tải video cho bạn vì dung lượng lớn hơn 83MB"
 		},
 		en: {
-			missingUrl: "Please enter the Facebook video/story (public) url you want to download",
+			missingUrl: "Please enter the Instagram video/story (public) url you want to download",
 			missingKey: "Please add your global key on configCommands.json",
 			error: "An error occurred while downloading the video",
 			downloading: "Downloading video for you",
@@ -44,7 +44,7 @@ module.exports = {
 		let msgSend = null;
 		try {
 		  msgSend = message.reply(getLang("downloading"));
-		  const response = await axios.get('https://anbusec.xyz/api/downloader/facebook',
+		  const response = await axios.get('https://anbusec.xyz/api/downloader/instagram',
 		  {
 		    params: {
 		      'apikey': envGlobal.globalKey,

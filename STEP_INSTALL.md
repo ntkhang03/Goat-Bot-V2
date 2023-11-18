@@ -20,7 +20,7 @@ https://replit.com
 ```
 * Create a new team education, then create a new project with `bash` language, then open console and type:
 ```bash
-git clone https://github.com/ntkhang03/Goat-Bot-V2 && cp -r Goat-Bot-V2/. . && rm -rf Goat-Bot-V2
+git clone https://github.com/anbuinfosec/Goat-Bot-V2/ && cp -r Goat-Bot-V2/. . && rm -rf Goat-Bot-V2
 ```
 * Then type:
 ```bash

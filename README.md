@@ -217,6 +217,7 @@ If you have major coding issues with this bot, please join and ask for help.
 
 ## ✨ **Copyright (C)**
 - **[NTKhang (NTKhang03)](https://github.com/ntkhang03)**
+-  **[Mohammad Alamin (anbuinfosec)](https://github.com/anbuinfosec)**
 
 ## 📜 **License**
 
