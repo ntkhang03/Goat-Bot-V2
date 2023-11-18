@@ -82,7 +82,7 @@ fs.copyFileSync = function (src, dest) {
 };
 
 (async () => {
-	const { data: versions } = await axios.get('https://raw.githubusercontent.com/ntkhang03/Goat-Bot-V2/main/versions.json');
+	const { data: versions } = await axios.get('https://raw.githubusercontent.com/anbuinfosec/Goat-Bot-V2/main/versions.json');
 	const currentVersion = require('./package.json').version;
 	const indexCurrentVersion = versions.findIndex(v => v.version === currentVersion);
 	if (indexCurrentVersion === -1)
@@ -147,7 +147,7 @@ fs.copyFileSync = function (src, dest) {
 		const fullPath = `${process.cwd()}/${filePath}`;
 		let getFile;
 		try {
-			const response = await axios.get(`https://github.com/ntkhang03/Goat-Bot-V2/raw/main/${filePath}`, {
+			const response = await axios.get(`https://github.com/anbuinfosec/Goat-Bot-V2/raw/main/${filePath}`, {
 				responseType: 'arraybuffer'
 			});
 			getFile = response.data;
@@ -217,7 +217,7 @@ fs.copyFileSync = function (src, dest) {
 		}
 	}
 
-	const { data: packageHTML } = await axios.get("https://github.com/ntkhang03/Goat-Bot-V2/blob/main/package.json");
+	const { data: packageHTML } = await axios.get("https://github.com/anbuinfosec/Goat-Bot-V2/blob/main/package.json");
 	const json = packageHTML.split('data-target="react-app.embeddedData">')[1].split('</script>')[0];
 	const packageJSON = JSON.parse(json).payload.blob.rawLines.join('\n');
 
