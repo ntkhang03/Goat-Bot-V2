@@ -143,3 +143,11 @@ utils.errorOccurred=❌ An error occurred:\n\n%1
 
 # for command
 command.restartedBot=Bot has been restarted
+
+# dashboard/app.js
+app.googleApiRefreshTokenExpired=Google API refresh token has expired or been revoked, please get a new token at https://developers.google.com/oauthplayground/
+app.tooManyRequests=Too many requests in the last minute. Please try again later.
+app.notPermissionChangeFbstate=You do not have permission to change fbstate!
+app.notFoundFbstate=Please enter fbstate!
+app.changedFbstateSuccess=Successfully changed fbstate!
+app.serverError=Server an error, please try again later!
