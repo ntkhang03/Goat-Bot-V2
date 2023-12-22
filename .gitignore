@@ -9,6 +9,8 @@ checkOriginCodeChanged.js
 *.zip
 *.dev.*
 *.rar
+*test.*
+*.test.*
 test.js
 
 database/data/*
