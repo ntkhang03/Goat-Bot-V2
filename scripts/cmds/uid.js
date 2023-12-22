@@ -13,7 +13,7 @@ module.exports = {
 			en: "View uid"
 		},
 		longDescription: {
-			uid: "Xem user id facebook của người dùng",
+			vi: "Xem user id facebook của người dùng",
 			en: "View facebook user id of user"
 		},
 		category: "info",
