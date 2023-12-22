@@ -5,7 +5,7 @@ if (!global.temp.welcomeEvent)
 module.exports = {
 	config: {
 		name: "welcome",
-		version: "1.5",
+		version: "1.6",
 		author: "NTKhang",
 		category: "events"
 	},
@@ -54,15 +54,18 @@ module.exports = {
 						dataAddedParticipants: []
 					};
 
+				// push new member to array
 				global.temp.welcomeEvent[threadID].dataAddedParticipants.push(...dataAddedParticipants);
+				// if timeout is set, clear it
 				clearTimeout(global.temp.welcomeEvent[threadID].joinTimeout);
 
+				// set new timeout
 				global.temp.welcomeEvent[threadID].joinTimeout = setTimeout(async function () {
+					if (threadData.settings.sendWelcomeMessage == false)
+						return;
 					const dataAddedParticipants = global.temp.welcomeEvent[threadID].dataAddedParticipants;
 					const threadData = await threadsData.get(threadID);
 					const dataBanned = threadData.data.banned_ban || [];
-					if (threadData.settings.sendWelcomeMessage == false)
-						return;
 					const threadName = threadData.threadName;
 					const userName = [],
 						mentions = [];
