@@ -1,4 +1,4 @@
-<% const { errors, success, warnings } = E; %>
+<% const { errors = [], success = [], warnings = [] } = E; %>
 
 <div id="toast"></div>
 
@@ -13,7 +13,6 @@
 <% } %>
 
 
-
 <% for (const succ of success) { %>
 <script>
   $.createToast({
@@ -23,7 +22,6 @@
   });
 </script>
 <% } %>
-
 
 
 <% for (const w of warnings) { %>

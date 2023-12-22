@@ -1,97 +1,103 @@
-<%~ includeFile('./partials/header.eta') %>
-<%~ includeFile('./partials/message.eta') %>
+<%~ includeFile("partials/header.eta", {
+	user: user
+}) %>
+<%~ includeFile("partials/message.eta") %>
+<%~ includeFile("partials/title.eta", {
+	icon: "fas fa-home",
+	title: "Home"
+}); %>
 
-<div class="bg-primary text-white py-3">
-  <div class="container">
-    <h6 class="text-white">
-      <i class="fas fa-user"></i> Home Page
-    </h6>
-  </div>
+<h1 class="text-center">Welcome to Goat Bot!</h1>
+
+<ul class="text-center d-block list-unstyled">
+	<li> <i class="fas fa-user-shield"></i> Moderation</li>
+	<li> <i class="fas fa-terminal"></i> Custom commands</li>
+</ul>
+
+<div class="text-center mb-3">
+<% if (global.botID) { %>
+	<button class="btn btn-phoenix-primary btn-block rounded-5" id="addme">
+		Thêm bot vào box chat của bạn
+	</button>
+<% } else { %>
+	<button class="btn btn-phoenix-danger btn-block rounded-5">
+		Hiện tại bot đang offline
+	</button>
+<% } %>
 </div>
 
-<div class="sc-1oyyt79-2 sc-7gz76x-2 kVsEXq vynAJ">
-  <h1 class="text-center">Welcome to Goat Bot!</h1>
-  <div class="sc-wmxmib-0 jvLzPo">
-    <div class="sc-wmxmib-1 iuMMRY"></div>
-    <ul class="hJChrr">
-      <li class="sc-wmxmib-3 fbFQWM"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="sc-bjUoiL hRRAmB sc-wmxmib-4 fAKCHl" main="#9B9D9F">
-          <path d="M18 7L9.429 17 6 13" stroke="#9B9D9F" data-stroke="main" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-        </svg> <span>Moderation</span></li>
-      <li class="sc-wmxmib-3 fbFQWM"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="sc-bjUoiL hRRAmB sc-wmxmib-4 fAKCHl" main="#9B9D9F">
-          <path d="M18 7L9.429 17 6 13" stroke="#9B9D9F" data-stroke="main" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-        </svg> <span>Custom commands</span></li>
+<hr>
 
-    </ul>
-    <% if (global.botID) { %>
-    <button class="addme text-white">Thêm bot vào box chat của bạn</button>
-    <% } else { %>
-    <button class="addme-offline text-white">Hiện tại bot đang offline</button>
-    <% } %>
-  </div>
-</div>
-</div>
+<!-- go to /dashboard -->
+<section id="about" class="py-5" onclick="window.location.href='/dashboard'" style="cursor: pointer;">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 mx-auto">
+				<h2 class="text-center mb-4">Dễ dàng sử dụng</h2>
+				<p class="text-center">Tại đây bạn có thể tùy chỉnh lời chào thành viên mới, tạm biệt thành viên rời khỏi
+					box, v.v. và nhiều hơn nữa với bảng điều khiển dễ sử dụng và trực quan nhất!</p>
+			</div>
+		</div>
+	</div>
+</section>
 
+<section id="rent-api" class="bg-light py-5" onclick="window.location.href='/dashboard'" style="cursor: pointer;">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 mx-auto">
+				<h2 class="text-center mb-4">Gửi lời chào khi có người dùng mới tham gia vào nhóm chat</h2>
+				<p class="text-center">Tận dụng thông điệp chào mừng để thông báo cho những người mới đến về các quy tắc
+					nhóm chat, hoặc các sự kiện đang diễn ra của bạn. Bạn có thể thiết kế thiệp chào mừng của riêng
+					bạn hoặc giữ nó đơn giản.</p>
+			</div>
+		</div>
+	</div>
+</section>
 
-<div class="list-group">
-  <a href="/dashboard" class="list-group-item list-group-item-action flex-column align-items-start active">
-    <div class="container">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">Dễ dàng sử dụng</h5>
-      </div>
-      <p class="mb-1">Tại đây bạn có thể tùy chỉnh lời chào thành viên mới, tạm biệt thành viên rời khỏi
-        box, v.v. và nhiều hơn nữa với bảng điều khiển dễ sử dụng và trực quan nhất!</p>
-    </div>
-  </a>
+<section id="contact" class="py-5" onclick="window.location.href='/dashboard'" style="cursor: pointer;">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 mx-auto">
+				<h2 class="text-center mb-4">Dễ dàng tạo các lệnh tùy chỉnh của riêng bạn</h2>
+				<p class="text-center">Goat Bot cung cấp cho bạn toàn quyền kiểm soát để tạo ra lệnh của riêng bạn.</p>
+			</div>
+		</div>
+	</div>
+</section>
 
-  <a href="/dashboard" class="list-group-item list-group-item-action flex-column align-items-start ">
-    <div class="container">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">Gửi lời chào khi có người dùng mới tham gia vào nhóm chat</h5>
-      </div>
-      <p class="mb-1">Tận dụng thông điệp chào mừng để thông báo cho những người mới đến về các quy tắc
-        nhóm chat, hoặc các sự kiện đang diễn ra của bạn. Bạn có thể thiết kế thiệp chào mừng của riêng
-        bạn hoặc giữ nó đơn giản.</p>
-    </div>
-  </a>
+<section id="thanks" class="bg-light py-5" onclick="window.location.href='/dashboard'" style="cursor: pointer;">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 mx-auto">
+				<h2 class="text-center mb-4">Cấp độ và exp trong box chat của bạn</h2>
+				<p class="text-center">Sử dụng hệ thống chúng tôi để xác định và thưởng cho các thành viên tích cực nhất
+					trong nhóm chat của bạn.</p>
+			</div>
+		</div>
+	</div>
+</section>
 
-  <a href="/dashboard" class="list-group-item list-group-item-action flex-column align-items-start active">
-    <div class="container">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">Dễ dàng tạo các lệnh tùy chỉnh của riêng bạn</h5>
-      </div>
-      <p class="mb-1">Goat Bot cung cấp cho bạn toàn quyền kiểm soát để tạo ra lệnh của riêng bạn.</p>
-    </div>
-  </a>
-
-  <a href="/dashboard" class="list-group-item list-group-item-action flex-column align-items-start">
-    <div class="container">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">Cấp độ và exp trong box chat của bạn</h5>
-      </div>
-      <p class="mb-1">Sử dụng hệ thống chúng tôi để xác định và thưởng cho các thành viên tích cực nhất
-        trong nhóm chat của bạn.</p>
-    </div>
-  </a>
-
-  <a href="/dashboard" class="list-group-item list-group-item-action flex-column align-items-start active">
-    <div class="container">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">Người dùng.</h5>
-      </div>
-      <p class="mb-1">Hiện tại bot đã được thêm vào tổng cộng <%=global.db.allThreadData.length%> nhóm
-        chat và được sử dụng bởi <%=global.db.allUserData.length%> người dùng.</p>
-    </div>
-  </a>
-
-</div>
+<section id="contact" class="py-5" onclick="window.location.href='/dashboard'" style="cursor: pointer;">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 mx-auto">
+				<h2 class="text-center mb-4">Người dùng</h2>
+				<p class="text-center">Hiện tại bot đã được thêm vào tổng cộng <b><%=global.db.allThreadData.length%> nhóm
+					chat</b> và được sử dụng bởi <b><%=global.db.allUserData.length%> người dùng</b>.</p>
+			</div>
+		</div>
+	</div>
+</section>
 
 
 <script type="text/javascript">
   (function() {
-    const btn = $('.addme');
-    btn.on("click", () => {
-      window.open("https://www.facebook.com/" + "<%= global.botID %>", "_blank");
-    });
+    const btn = $('#addme');
+		if (btn.length > 0) {
+			btn.on("click", () => {
+				window.open("https://www.facebook.com/" + "<%= global.botID %>", "_blank");
+			});
+		}
   })();
 </script>
 

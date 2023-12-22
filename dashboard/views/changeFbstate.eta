@@ -1,17 +1,15 @@
-<%~ includeFile("partials/header.eta") %>
-<div class="bg-primary text-white py-3">
-  <div class="container">
-    <h6 class="text-white">
-      <a class="text-white" href="/dashboard" style="text-decoration: none;"><i class="fas fa-cog "></i>
-        Change Facebook state</a>
-    </h6>
-  </div>
-</div>
-
+<%~ includeFile("partials/header.eta", {
+	user: user
+}); %>
 <%~ includeFile("partials/message.eta"); %>
+<%~ includeFile("partials/title.eta", {
+	icon: "fas fa-cog",
+	title: "Change Facebook state"
+}); %>
+
 <div class="container">
 	<p class="text-center mt-3">Change the Facebook state of the bot</p>
-	<textarea class="tinymce mt-3" id="fbstate" name="content" style="width: 100%; height: 500px;"> <%=E.currentFbstate%> </textarea>
+	<textarea class="tinymce mt-3" id="fbstate" name="content" style="width: 100%; height: 500px;"> <%=it.currentFbstate%> </textarea>
 	<button class="btn btn-primary btn-block mt-4" id="changeFbstate">Save and restart the bot</button>
 </div>
 

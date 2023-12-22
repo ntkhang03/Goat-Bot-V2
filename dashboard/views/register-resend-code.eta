@@ -1,13 +1,11 @@
-<%~ includeFile('partials/header.eta') %>
-
-<div id="toast"></div>
-<div class="bg-primary text-white py-3">
-  <div class="container">
-    <h6 class="text-white">
-      <i class="fas fa-user"></i> Resend Email Verification
-    </h6>
-  </div>
-</div>
+<%~ includeFile("partials/header.eta", {
+	user: user
+}); %>
+<%~ includeFile("partials/message.eta"); %>
+<%~ includeFile("partials/title.eta", {
+	icon: "fa-solid fa-envelope",
+	title: "Resend Email Verification"
+}); %>
 
 <section class="posts">
   <div class="container my-4">

@@ -1,0 +1,10 @@
+<% const title = it.title || 'Dashboard' %>
+<% const icon = it.icon || 'fas fa-cog' %>
+
+<div class="bg-100 py-3">
+  <div class="container">
+    <h1 class="bd-title">
+      <i class="<%= icon %>"></i> <%= title %>
+    </h1>
+  </div>
+</div>

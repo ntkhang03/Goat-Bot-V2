@@ -1,14 +1,11 @@
-<%~ includeFile("partials/header.eta") %>
+<%~ includeFile("partials/header.eta", {
+	user: user
+}); %>
 <%~ includeFile("partials/message.eta"); %>
-
-<div class="bg-primary text-white py-3">
-  <div class="container">
-    <h6 class="text-white">
-      <a class="text-white" href="/donate" style="text-decoration: none;"><i class="fas fa-cog "></i>
-        Donate</a>
-    </h6>
-  </div>
-</div>
+<%~ includeFile("partials/title.eta", {
+	icon: "fa-solid fa-hand-holding-dollar",
+	title: "Donate"
+}); %>
 
 <div class="container">
 <% /* Do not edit or replace this!! */ %>

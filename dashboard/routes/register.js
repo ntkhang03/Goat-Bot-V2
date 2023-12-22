@@ -1,21 +1,25 @@
-const bcrypt = require('bcrypt');
-const expres = require('express');
+const bcrypt = require("bcrypt");
+const expres = require("express");
 const router = expres.Router();
 
-module.exports = function ({ unAuthenticated_G, isWaitVerifyAccount_G, unAuthenticated_P, isWaitVerifyAccount_P, isVerifyRecaptcha, validateEmail, randomNumberApikey, transporter, generateEmailVerificationCode, dashBoardData, expireVerifyCode }) {
+module.exports = function ({
+	unAuthenticated, isWaitVerifyAccount, isVerifyRecaptcha,
+	validateEmail, randomNumberApikey, transporter,
+	generateEmailVerificationCode, dashBoardData, expireVerifyCode
+}) {
 	router
-		.get("/", unAuthenticated_G, (req, res) => {
-			res.render('register');
+		.get("/", unAuthenticated, (req, res) => {
+			res.render("register");
 		})
-		.get("/submit-code", [unAuthenticated_G, isWaitVerifyAccount_G], (req, res) => {
-			res.render('register-submit-code');
+		.get("/submit-code", [unAuthenticated, isWaitVerifyAccount], (req, res) => {
+			res.render("register-submit-code");
 		})
-		.get("/resend-code", [unAuthenticated_G, isWaitVerifyAccount_G], async (req, res) => {
-			res.render('register-resend-code');
+		.get("/resend-code", [unAuthenticated, isWaitVerifyAccount], async (req, res) => {
+			res.render("register-resend-code");
 		})
 
-		.post("/", unAuthenticated_P, async (req, res) => {
-			if (!await isVerifyRecaptcha(req.body['g-recaptcha-response']))
+		.post("/", unAuthenticated, async (req, res) => {
+			if (!await isVerifyRecaptcha(req.body["g-recaptcha-response"]))
 				return res.status(400).send({
 					status: "error",
 					message: "Captcha không hợp lệ"
@@ -58,21 +62,21 @@ module.exports = function ({ unAuthenticated_G, isWaitVerifyAccount_G, unAuthent
 				code
 			};
 			req.session.waitVerifyAccount = user;
-			res.redirect('/register/submit-code');
+			res.redirect("/register/submit-code");
 			setTimeout((() => {
 				delete req.session.waitVerifyAccount;
 			}), expireVerifyCode);
 		})
-		.post("/resend-code", [unAuthenticated_P, isWaitVerifyAccount_P], async (req, res) => {
+		.post("/resend-code", [unAuthenticated, isWaitVerifyAccount], async (req, res) => {
 			const email = req.body.email;
 			if (!validateEmail(email)) {
-				req.flash('errors', { msg: "Địa chỉ email không hợp lệ" });
+				req.flash("errors", { msg: "Địa chỉ email không hợp lệ" });
 				return res.status(400).send({ status: "error", message: "Địa chỉ email không hợp lệ" });
 			}
 
 			if (dashBoardData.get(email)) {
-				req.flash('errors', { msg: "Địa chỉ email này đã được sử dụng" });
-				return res.redirect('/register/resend-code');
+				req.flash("errors", { msg: "Địa chỉ email này đã được sử dụng" });
+				return res.redirect("/register/resend-code");
 			}
 
 			req.session.waitVerifyAccount.email = email;
@@ -87,32 +91,32 @@ module.exports = function ({ unAuthenticated_G, isWaitVerifyAccount_G, unAuthent
 				});
 			}
 			catch (err) {
-				req.flash('errors', { msg: "Có lỗi xảy ra, vui lòng thử lại sau" });
-				return res.redirect('/register/resend-code');
+				req.flash("errors", { msg: "Có lỗi xảy ra, vui lòng thử lại sau" });
+				return res.redirect("/register/resend-code");
 			}
 
 			req.session.waitVerifyAccount.code = code;
-			res.redirect('/register/submit-code');
+			res.redirect("/register/submit-code");
 		})
-		.post("/submit-code", [unAuthenticated_P, isWaitVerifyAccount_P], async (req, res, next) => {
+		.post("/submit-code", [unAuthenticated, isWaitVerifyAccount], async (req, res, next) => {
 			const { code } = req.body;
 			const { waitVerifyAccount } = req.session;
 			if (!waitVerifyAccount)
-				return res.redirect('/register');
+				return res.redirect("/register");
 			if (code !== waitVerifyAccount.code) {
-				req.flash('errors', { msg: 'Code is not correct' });
-				return res.redirect('/register/submit-code');
+				req.flash("errors", { msg: "Code is not correct" });
+				return res.redirect("/register/submit-code");
 			}
 			delete waitVerifyAccount.code;
 			const user = await dashBoardData.create(waitVerifyAccount);
-			const redirectLink = req.session.redirectTo || '/';
+			const redirectLink = req.session.redirectTo || "/";
 
 			req.logIn(user, (err) => {
 				if (err) {
 					return next(err);
 				}
 				delete req.session.redirectTo;
-				req.flash('success', { msg: 'Bạn đã đăng ký thành công' });
+				req.flash("success", { msg: "Bạn đã đăng ký thành công" });
 				res.redirect(redirectLink);
 			});
 		});

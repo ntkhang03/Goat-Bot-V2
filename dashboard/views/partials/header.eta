@@ -1,725 +1,191 @@
 <!DOCTYPE html>
-<html lang="vi">
-<% const { user }=E; %>
 
-	<head>
-		<meta charset="UTF-8">
-		<meta content="width=device-width, initial-scale=1" name="viewport" />
-		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<html data-bs-theme="dark" lang="vi">
+<head>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1" name="viewport" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
-			integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" /> -->
-		<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous"> -->
-		<link rel="stylesheet" href="https://bootswatch.com/5/flatly/bootstrap.min.css" id="bootstrap-css">
-		<link rel="stylesheet" href="/css/custom.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="/css/phoenix.css">
+	<link rel="stylesheet" href="/css/dropzone.css">
+	<link rel="stylesheet" href="/css/custom.css">
 
-		<title>Goat Bot</title>
-		<link rel="icon" href="/images/logo.png" type="image/icon type">
-		<script>
-			document.getElementById("bootstrap-css").href = localStorage.getItem("theme") || 'https://bootswatch.com/5/flatly/bootstrap.min.css';
-		</script>
-	</head>
+	<title>Goat Bot</title>
+	<link rel="icon" href="/images/logo.png" type="image/icon type">
+	
+	<!-- <script src="/js/bootstrap.min.js"></script> -->
+	<!-- <script src="/js/bootstrap.bundle.min.js"></script> -->
+	<!-- <script src="/js/poper.js"></script> -->
 
-	<body>
-		<header>
-			<nav class="navbar navbar-expand-lg navbar-dark bg-primary py-2">
-				<div class="container">
-					<a class="navbar-brand" href="/home">
-						<img src="/images/logo-non-bg.png" width="30" height="30" class="d-inline-block align-top rounded" alt="">
-						GoatBot
-					</a>
-					<button class="navbar-toggler collapsed" data-toggle="collapse" data-target="#navcollapse">
-						<span class="toggler-icon top-bar"></span>
-						<span class="toggler-icon middle-bar"></span>
-						<span class="toggler-icon bottom-bar"></span>
-					</button>
-					<div class="collapse navbar-collapse" id="navcollapse">
-						<ul class="navbar-nav me-auto">
-							<li class="nav-item">
-								<a href="/dashboard" class="nav-link px-3">Dashboard</a>
-							</li>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="/js/copyToClipboard.js"></script>
+	<script src="/js/list.min.js"></script>
+	<script src="/js/hwt.js"></script>
 
-							<li class="nav-item">
-								<a href="/stats" class="nav-link px-3">Bot stats</a>
-							</li>
+</head>
 
-							<li class="nav-item">
-								<a href="/donate" class="nav-link px-3">Donate</a>
-							</li>
+<body>
+	<header>
+		<%~ includeFile("./nav.eta", {
+			user: user
+		}); %>
+	</header>
 
-							<li class="nav-item dropdown">
-								<a class="nav-link px-3 dropdown-toggle" data-toggle="dropdown" id="themes">Themes </a>
-								<div class="dropdown-menu themes">
-									<a class="dropdown-item theme-list">Flatly</a>
-									<a class="dropdown-item theme-list">Cyborg</a>
-									<a class="dropdown-item theme-list">Darkly</a>
-									<a class="dropdown-item theme-list">Cosmo</a>
-									<a class="dropdown-item theme-list">Journal</a>
-									<a class="dropdown-item theme-list">Litera</a>
-									<a class="dropdown-item theme-list">Lumen</a>
-									<a class="dropdown-item theme-list">Lux</a>
-									<a class="dropdown-item theme-list">Materia</a>
-									<a class="dropdown-item theme-list">Minty</a>
-									<a class="dropdown-item theme-list">Morph</a>
-									<a class="dropdown-item theme-list">Quartz</a>
-									<a class="dropdown-item theme-list">Pulse</a>
-									<a class="dropdown-item theme-list">Sandstone</a>
-									<a class="dropdown-item theme-list">Simplex</a>
-									<a class="dropdown-item theme-list">Sketchy</a>
-									<a class="dropdown-item theme-list">Slate</a>
-									<a class="dropdown-item theme-list">Solar</a>
-									<a class="dropdown-item theme-list">Spacelab</a>
-									<a class="dropdown-item theme-list">Superhero</a>
-									<a class="dropdown-item theme-list">United</a>
-									<a class="dropdown-item theme-list">Vapor</a>
-									<a class="dropdown-item theme-list">Yeti</a>
-									<a class="dropdown-item theme-list">Zephyr</a>
-									<a class="dropdown-item theme-list">Cerulean</a>
-								</div>
-							</li>
-						</ul>
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+	<!-- <script src="/js/hwt.js"></script> -->
+	<script src="/js/toast.js"></script>
 
-						<ul class="navbar-nav ml-auto">
-							<% if (user) { %>
-								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" data-toggle="dropdown">
-										<i class="fas fa-user"></i>
-										<%= user.name %>
-									</a>
-									<div class="dropdown-menu">
-										<% if (!user.facebookUserID) { %>
-											<a href="/verifyfbid" class="dropdown-item">
-												<i class="fas fa-user-check"></i> Xác thực id facebook
-											</a>
-											<% } %>
-												<a href="/profile" class="dropdown-item">
-													<i class="fas fa-user-circle"></i> Profile
-												</a>
-												<a href="/change-password" class="dropdown-item">
-													<i class="fas fa-key"></i> Đổi mật khẩu
-												</a>
-												<a href="/logout" class="dropdown-item">
-													<i class="fas fa-sign-out-alt"></i> Logout
-												</a>
-									</div>
-								</li>
-								<%} else {%>
-									<li class="nav-item">
-										<a href="/login" class="nav-link px-3">Login</a>
-									</li>
-									<li class="nav-item">
-										<a href="/register" class="nav-link px-3">Register</a>
-									</li>
-									<%}%>
-						</ul>
-					</div>
-			</nav>
-
-		</header>
-
-		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-			integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-			crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
-			integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
-			crossorigin="anonymous"></script>
-
-		<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-		<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
-
-
-		<script>
-			/*
-			* highlight-within-textarea
-			*
-			* @author  Will Boyd
-			* @github  https://github.com/lonekorean/highlight-within-textarea
-			*/
-
-			(function ($) {
-				let ID = 'hwt';
-
-				let HighlightWithinTextarea = function ($el, config) {
-					this.init($el, config);
-				};
-
-				HighlightWithinTextarea.prototype = {
-					init: function ($el, config) {
-						this.$el = $el;
-
-						// backwards compatibility with v1 (deprecated)
-						if (this.getType(config) === 'function') {
-							config = { highlight: config };
-						}
-
-						if (this.getType(config) === 'custom') {
-							this.highlight = config;
-							this.generate();
-						} else {
-							console.error('valid config object not provided');
-						}
-					},
-
-					// returns identifier strings that aren't necessarily "real" JavaScript types
-					getType: function (instance) {
-						let type = typeof instance;
-						if (!instance) {
-							return 'falsey';
-						} else if (Array.isArray(instance)) {
-							if (instance.length === 2 && typeof instance[0] === 'number' && typeof instance[1] === 'number') {
-								return 'range';
-							} else {
-								return 'array';
-							}
-						} else if (type === 'object') {
-							if (instance instanceof RegExp) {
-								return 'regexp';
-							} else if (instance.hasOwnProperty('highlight')) {
-								return 'custom';
-							}
-						} else if (type === 'function' || type === 'string') {
-							return type;
-						}
-
-						return 'other';
-					},
-
-					generate: function () {
-						this.$el
-							.addClass(ID + '-input ' + ID + '-content')
-							.on('input.' + ID, this.handleInput.bind(this))
-							.on('scroll.' + ID, this.handleScroll.bind(this));
-
-						this.$highlights = $('<div>', { class: ID + '-highlights ' + ID + '-content' });
-
-						this.$backdrop = $('<div>', { class: ID + '-backdrop' })
-							.append(this.$highlights);
-
-						this.$container = $('<div>', { class: ID + '-container' })
-							.insertAfter(this.$el)
-							.append(this.$backdrop, this.$el) // moves $el into $container
-							.on('scroll', this.blockContainerScroll.bind(this));
-
-						this.browser = this.detectBrowser();
-						switch (this.browser) {
-							case 'firefox':
-								this.fixFirefox();
-								break;
-							case 'ios':
-								this.fixIOS();
-								break;
-						}
-
-						// plugin function checks this for success
-						this.isGenerated = true;
-
-						// trigger input event to highlight any existing input
-						this.handleInput();
-					},
-
-					// browser sniffing sucks, but there are browser-specific quirks to handle
-					// that are not a matter of feature detection
-					detectBrowser: function () {
-						let ua = window.navigator.userAgent.toLowerCase();
-						if (ua.indexOf('firefox') !== -1) {
-							return 'firefox';
-						}
-						else if (!!ua.match(/msie|trident\/7|edge/)) {
-							return 'ie';
-						}
-						else if (!!ua.match(/ipad|iphone|ipod/) && ua.indexOf('windows phone') === -1) {
-							// Windows Phone flags itself as "like iPhone", thus the extra check
-							return 'ios';
-						}
-						else {
-							return 'other';
-						}
-					},
-
-					// Firefox doesn't show text that scrolls into the padding of a textarea, so
-					// rearrange a couple box models to make highlights behave the same way
-					fixFirefox: function () {
-						// take padding and border pixels from highlights div
-						let padding = this.$highlights.css([
-							'padding-top', 'padding-right', 'padding-bottom', 'padding-left'
-						]);
-						let border = this.$highlights.css([
-							'border-top-width', 'border-right-width', 'border-bottom-width', 'border-left-width'
-						]);
-						this.$highlights.css({
-							'padding': '0',
-							'border-width': '0'
-						});
-
-						this.$backdrop
-							.css({
-								// give padding pixels to backdrop div
-								'margin-top': '+=' + padding['padding-top'],
-								'margin-right': '+=' + padding['padding-right'],
-								'margin-bottom': '+=' + padding['padding-bottom'],
-								'margin-left': '+=' + padding['padding-left'],
-							})
-							.css({
-								// give border pixels to backdrop div
-								'margin-top': '+=' + border['border-top-width'],
-								'margin-right': '+=' + border['border-right-width'],
-								'margin-bottom': '+=' + border['border-bottom-width'],
-								'margin-left': '+=' + border['border-left-width'],
-							});
-					},
-
-					// iOS adds 3px of (unremovable) padding to the left and right of a textarea,
-					// so adjust highlights div to match
-					fixIOS: function () {
-						this.$highlights.css({
-							'padding-left': '+=3px',
-							'padding-right': '+=3px'
-						});
-					},
-
-					handleInput: function () {
-						let input = this.$el.val();
-						let ranges = this.getRanges(input, this.highlight);
-						let unstaggeredRanges = this.removeStaggeredRanges(ranges);
-						let boundaries = this.getBoundaries(unstaggeredRanges);
-						this.renderMarks(boundaries);
-					},
-
-					getRanges: function (input, highlight) {
-						let type = this.getType(highlight);
-						switch (type) {
-							case 'array':
-								return this.getArrayRanges(input, highlight);
-							case 'function':
-								return this.getFunctionRanges(input, highlight);
-							case 'regexp':
-								return this.getRegExpRanges(input, highlight);
-							case 'string':
-								return this.getStringRanges(input, highlight);
-							case 'range':
-								return this.getRangeRanges(input, highlight);
-							case 'custom':
-								return this.getCustomRanges(input, highlight);
-							default:
-								if (!highlight) {
-									// do nothing for falsey values
-									return [];
-								} else {
-									console.error('unrecognized highlight type');
-								}
-						}
-					},
-
-					getArrayRanges: function (input, arr) {
-						let ranges = arr.map(this.getRanges.bind(this, input));
-						return Array.prototype.concat.apply([], ranges);
-					},
-
-					getFunctionRanges: function (input, func) {
-						return this.getRanges(input, func(input));
-					},
-
-					getRegExpRanges: function (input, regex) {
-						let ranges = [];
-						let match;
-						while (match = regex.exec(input), match !== null) {
-							ranges.push([match.index, match.index + match[0].length]);
-							if (!regex.global) {
-								// non-global regexes do not increase lastIndex, causing an infinite loop,
-								// but we can just break manually after the first match
-								break;
-							}
-						}
-						return ranges;
-					},
-
-					getStringRanges: function (input, str) {
-						let ranges = [];
-						let inputLower = input.toLowerCase();
-						let strLower = str.toLowerCase();
-						let index = 0;
-						while (index = inputLower.indexOf(strLower, index), index !== -1) {
-							ranges.push([index, index + strLower.length]);
-							index += strLower.length;
-						}
-						return ranges;
-					},
-
-					getRangeRanges: function (input, range) {
-						return [range];
-					},
-
-					getCustomRanges: function (input, custom) {
-						let ranges = this.getRanges(input, custom.highlight);
-						if (custom.className) {
-							ranges.forEach(function (range) {
-								// persist class name as a property of the array
-								if (range.className) {
-									range.className = custom.className + ' ' + range.className;
-								} else {
-									range.className = custom.className;
-								}
-							});
-						}
-						return ranges;
-					},
-
-					// prevent staggered overlaps (clean nesting is fine)
-					removeStaggeredRanges: function (ranges) {
-						let unstaggeredRanges = [];
-						ranges.forEach(function (range) {
-							let isStaggered = unstaggeredRanges.some(function (unstaggeredRange) {
-								let isStartInside = range[0] > unstaggeredRange[0] && range[0] < unstaggeredRange[1];
-								let isStopInside = range[1] > unstaggeredRange[0] && range[1] < unstaggeredRange[1];
-								return isStartInside !== isStopInside; // xor
-							});
-							if (!isStaggered) {
-								unstaggeredRanges.push(range);
-							}
-						});
-						return unstaggeredRanges;
-					},
-
-					getBoundaries: function (ranges) {
-						let boundaries = [];
-						ranges.forEach(function (range) {
-							boundaries.push({
-								type: 'start',
-								index: range[0],
-								className: range.className
-							});
-							boundaries.push({
-								type: 'stop',
-								index: range[1]
-							});
-						});
-
-						this.sortBoundaries(boundaries);
-						return boundaries;
-					},
-
-					sortBoundaries: function (boundaries) {
-						// backwards sort (since marks are inserted right to left)
-						boundaries.sort(function (a, b) {
-							if (a.index !== b.index) {
-								return b.index - a.index;
-							} else if (a.type === 'stop' && b.type === 'start') {
-								return 1;
-							} else if (a.type === 'start' && b.type === 'stop') {
-								return -1;
-							} else {
-								return 0;
-							}
-						});
-					},
-
-					renderMarks: function (boundaries) {
-						let input = this.$el.val();
-						boundaries.forEach(function (boundary, index) {
-							let markup;
-							if (boundary.type === 'start') {
-								markup = '{{hwt-mark-start|' + index + '}}';
-							} else {
-								markup = '{{hwt-mark-stop}}';
-							}
-							input = input.slice(0, boundary.index) + markup + input.slice(boundary.index);
-						});
-
-						// this keeps scrolling aligned when input ends with a newline
-						input = input.replace(/\n(\{\{hwt-mark-stop\}\})?$/, '\n\n$1');
-
-						// encode HTML entities
-						input = input.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-						if (this.browser === 'ie') {
-							// IE/Edge wraps whitespace differently in a div vs textarea, this fixes it
-							input = input.replace(/ /g, ' <wbr>');
-						}
-
-						// replace start tokens with opening <mark> tags with class name
-						input = input.replace(/\{\{hwt-mark-start\|(\d+)\}\}/g, function (match, submatch) {
-							var className = boundaries[+submatch].className;
-							if (className) {
-								return '<mark class="' + className + '">';
-							} else {
-								return '<mark>';
-							}
-						});
-
-						// replace stop tokens with closing </mark> tags
-						input = input.replace(/\{\{hwt-mark-stop\}\}/g, '</mark>');
-
-						this.$highlights.html(input);
-					},
-
-					handleScroll: function () {
-						let scrollTop = this.$el.scrollTop();
-						this.$backdrop.scrollTop(scrollTop);
-
-						// Chrome and Safari won't break long strings of spaces, which can cause
-						// horizontal scrolling, this compensates by shifting highlights by the
-						// horizontally scrolled amount to keep things aligned
-						let scrollLeft = this.$el.scrollLeft();
-						this.$backdrop.css('transform', (scrollLeft > 0) ? 'translateX(' + -scrollLeft + 'px)' : '');
-					},
-
-					// in Chrome, page up/down in the textarea will shift stuff within the
-					// container (despite the CSS), this immediately reverts the shift
-					blockContainerScroll: function () {
-						this.$container.scrollLeft(0);
-					},
-
-					destroy: function () {
-						this.$backdrop.remove();
-						this.$el
-							.unwrap()
-							.removeClass(ID + '-text ' + ID + '-input')
-							.off(ID)
-							.removeData(ID);
-					},
-				};
-
-				// register the jQuery plugin
-				$.fn.highlightWithinTextarea = function (options) {
-					return this.each(function () {
-						let $this = $(this);
-						let plugin = $this.data(ID);
-
-						if (typeof options === 'string') {
-							if (plugin) {
-								switch (options) {
-									case 'update':
-										plugin.handleInput();
-										break;
-									case 'destroy':
-										plugin.destroy();
-										break;
-									default:
-										console.error('unrecognized method string');
-								}
-							} else {
-								console.error('plugin must be instantiated first');
-							}
-						} else {
-							if (plugin) {
-								plugin.destroy();
-							}
-							plugin = new HighlightWithinTextarea($this, options);
-							if (plugin.isGenerated) {
-								$this.data(ID, plugin);
-							}
-						}
-					});
-				};
-			})(jQuery);
-
-			$.fn.highlight = function (words) {
-				var id = $(this).attr('id');
-				if (typeof words === "string") words = [words];
-				words = words.map(function (word) {
-					if (typeof word == "string") word = { name: word, desc: "" };
-					return word;
-				});
-				const el = $("#" + id);
-				let text = el.text();
-				for (const value of words) {
-					text = text.replace(new RegExp(value.name, "g"), `<span class="highlight">${value.name}</span>`);
-					el.html(text);
-				}
-				el.focusEnd();
-				return this;
+	<script>
+		$.fn.highlight = function (words) {
+			var id = $(this).attr('id');
+			if (typeof words === "string") words = [words];
+			words = words.map(function (word) {
+				if (typeof word == "string") word = { name: word, desc: "" };
+				return word;
+			});
+			const el = $("#" + id);
+			let text = el.text();
+			for (const value of words) {
+				text = text.replace(new RegExp(value.name, "g"), `<span class="highlight">${value.name}</span>`);
+				el.html(text);
 			}
+			el.focusEnd();
+			return this;
+		}
 
-			$.fn.focusEnd = function () {
-				$(this).focus();
-				var tmp = $('<span />').appendTo($(this)),
-					node = tmp.get(0),
-					range = null,
-					sel = null;
+		$.fn.focusEnd = function () {
+			$(this).focus();
+			var tmp = $('<span />').appendTo($(this)),
+				node = tmp.get(0),
+				range = null,
+				sel = null;
 
-				if (document.selection) {
-					range = document.body.createTextRange();
-					range.moveToElementText(node);
-					range.select();
-				}
-				else if (window.getSelection) {
-					range = document.createRange();
-					range.selectNode(node);
-					sel = window.getSelection();
-					sel.removeAllRanges();
-					sel.addRange(range);
-				}
-				tmp.remove();
-				return this;
+			if (document.selection) {
+				range = document.body.createTextRange();
+				range.moveToElementText(node);
+				range.select();
 			}
+			else if (window.getSelection) {
+				range = document.createRange();
+				range.selectNode(node);
+				sel = window.getSelection();
+				sel.removeAllRanges();
+				sel.addRange(range);
+			}
+			tmp.remove();
+			return this;
+		}
 
-			$.fn.autocomplete = function (arr) {
-				const el = $(this);
-				var id = el.attr('id');
-				var inp = document.getElementById(id);
-				if (typeof arr === "string") arr = [arr];
-				arr = arr.map(function (word) {
-					if (typeof word == "string") word = { name: word, desc: "" };
-					return word;
-				});
-				var currentFocus;
+		$.fn.autocomplete = function (arr) {
+			const el = $(this);
+			var id = el.attr('id');
+			var inp = document.getElementById(id);
+			if (typeof arr === "string") arr = [arr];
+			arr = arr.map(function (word) {
+				if (typeof word == "string") word = { name: word, desc: "" };
+				return word;
+			});
+			var currentFocus;
 
-				inp.addEventListener("input", function (e) {
-					var pos = inp.selectionStart;
-					var a, b, i, val = $("#" + this.id).val();
-					const val2 = val.slice(val.lastIndexOf("{"));
+			inp.addEventListener("input", function (e) {
+				var pos = inp.selectionStart;
+				var a, b, i, val = $("#" + this.id).val();
+				const val2 = val.slice(val.lastIndexOf("{"));
 
-					closeAllLists();
-					if (!val) { return false; }
-					currentFocus = -1;
+				closeAllLists();
+				if (!val) { return false; }
+				currentFocus = -1;
 
-					const newDiv = document.createElement("div");
-					newDiv.setAttribute("class", "autocomplete-list");
-					inp.parentNode.appendChild(newDiv);
-					if (pos != val.length) return;
-					for (const value of arr) {
-						if (value.name.slice(0, val2.length) == val2) {
-							a = document.createElement("div");
-							a.setAttribute("class", "autocomplete-items");
-							newDiv.appendChild(a);
-							b = document.createElement("div");
-							b.setAttribute("class", "change-item");
-							b.innerHTML = "<b>" + value.name.substr(0, val2.length) + "</b>";
-							b.innerHTML += value.name.substr(val2.length);
-							b.innerHTML += "<input type='hidden' value='" + value.name + "'>";
-							b.innerHTML += "<div class=\"desc\">" + value.desc + "</div>";
-							b.addEventListener("click", function (e) {
-								const newVal = val.slice(0, val.lastIndexOf(val2)) + this.getElementsByTagName("input")[0].value;
-								$("#" + inp.id).val(newVal);
-								closeAllLists();
-								el.highlightWithinTextarea({
-									highlight: arr.map(i => i.name)
-								});
-								el.focus();
-							});
-							a.appendChild(b);
-						}
-					}
-				});
-
-				inp.addEventListener("keydown", function (e) {
-					var x = document.getElementsByClassName("autocomplete-list")[0];
-					if (!x) return false;
-					x = x.getElementsByClassName("autocomplete-items");
-					if (!x.length) return false;
-					if (e.keyCode == 40) {
-						currentFocus++;
-						addActive(x);
-					}
-					else if (e.keyCode == 38) {
-						currentFocus--;
-						addActive(x);
-					}
-					else if (e.keyCode == 13) {
-						e.preventDefault();
-						if (currentFocus > -1) {
-							if (x) x[currentFocus].getElementsByClassName("change-item")[0].click();
+				const newDiv = document.createElement("div");
+				newDiv.setAttribute("class", "autocomplete-list");
+				inp.parentNode.appendChild(newDiv);
+				if (pos != val.length) return;
+				for (const value of arr) {
+					if (value.name.slice(0, val2.length) == val2) {
+						a = document.createElement("div");
+						a.setAttribute("class", "autocomplete-items");
+						newDiv.appendChild(a);
+						b = document.createElement("div");
+						b.setAttribute("class", "change-item");
+						b.innerHTML = "<b>" + value.name.substr(0, val2.length) + "</b>";
+						b.innerHTML += value.name.substr(val2.length);
+						b.innerHTML += "<input type='hidden' value='" + value.name + "'>";
+						b.innerHTML += "<div class=\"desc\">" + value.desc + "</div>";
+						b.addEventListener("click", function (e) {
+							const newVal = val.slice(0, val.lastIndexOf(val2)) + this.getElementsByTagName("input")[0].value;
+							$("#" + inp.id).val(newVal);
+							closeAllLists();
 							el.highlightWithinTextarea({
 								highlight: arr.map(i => i.name)
 							});
 							el.focus();
-						}
-					}
-				});
-
-				function addActive(x) {
-					if (!x) return false;
-					removeActive(x);
-					if (currentFocus >= x.length) currentFocus = 0;
-					if (currentFocus < 0) currentFocus = (x.length - 1);
-					x[currentFocus].getElementsByTagName("div")[0].classList.remove("autocomplete-item");
-					x[currentFocus].classList.add("autocomplete-active");
-				}
-
-				function removeActive(x) {
-					for (var i = 0; i < x.length; i++) {
-						if (!x[i].getElementsByTagName("div")[0].classList.value.includes("autocomplete-item")) {
-							x[i].getElementsByTagName("div")[0].classList.add("autocomplete-item");
-						}
-						x[i].classList.remove("autocomplete-active");
+						});
+						a.appendChild(b);
 					}
 				}
+			});
 
-				function closeAllLists(elmnt) {
-					$(".autocomplete-list").remove();
-					var x = document.getElementsByClassName("autocomplete-items");
-					for (var i = 0; i < x.length; i++) {
-						if (elmnt != x[i] && elmnt != inp) {
-							x[i].parentNode.removeChild(x[i]);
-						}
+			inp.addEventListener("keydown", function (e) {
+				var x = document.getElementsByClassName("autocomplete-list")[0];
+				if (!x) return false;
+				x = x.getElementsByClassName("autocomplete-items");
+				if (!x.length) return false;
+				if (e.keyCode == 40) {
+					currentFocus++;
+					addActive(x);
+				}
+				else if (e.keyCode == 38) {
+					currentFocus--;
+					addActive(x);
+				}
+				else if (e.keyCode == 13) {
+					e.preventDefault();
+					if (currentFocus > -1) {
+						if (x) x[currentFocus].getElementsByClassName("change-item")[0].click();
+						el.highlightWithinTextarea({
+							highlight: arr.map(i => i.name)
+						});
+						el.focus();
 					}
 				}
+			});
 
-				document.addEventListener("click", function (e) {
-					closeAllLists(e.target);
-				});
-				return this;
+			function addActive(x) {
+				if (!x) return false;
+				removeActive(x);
+				if (currentFocus >= x.length) currentFocus = 0;
+				if (currentFocus < 0) currentFocus = (x.length - 1);
+				x[currentFocus].getElementsByTagName("div")[0].classList.remove("autocomplete-item");
+				x[currentFocus].classList.add("autocomplete-active");
 			}
 
-			$.createToast = function ({ title = "", message = "", type = "info", duration = 3000 }) {
-				const main = document.getElementById("toast");
-				if (main) {
-					const toast = document.createElement("div");
-
-					// Auto remove toast
-					const autoRemoveId = setTimeout(function () {
-						main.removeChild(toast);
-					}, duration + 1000);
-
-					// Remove toast when clicked
-					toast.onclick = function (e) {
-						if (e.target.closest(".toast__close")) {
-							main.removeChild(toast);
-							clearTimeout(autoRemoveId);
-						}
-					};
-
-					const icons = {
-						success: "fas fa-check-circle",
-						info: "fas fa-info-circle",
-						warning: "fas fa-exclamation-circle",
-						error: "fas fa-exclamation-circle"
-					};
-					const icon = icons[type];
-					const delay = (duration / 1000).toFixed(2);
-
-					toast.classList.add("toast", `toast--${type}`);
-					toast.style.animation = `slideInLeft ease .3s, fadeOut linear 1s ${delay}s forwards`;
-
-					toast.innerHTML = `
-				<div class="toast__icon">
-						<i class="${icon}"></i>
-				</div>
-				<div class="toast__body">
-						<h3 class="toast__title">${title}</h3>
-						<p class="toast__msg">${message}</p>
-				</div>
-				<div class="toast__close">
-						<i class="fas fa-times"></i>
-				</div>`;
-					main.appendChild(toast);
+			function removeActive(x) {
+				for (var i = 0; i < x.length; i++) {
+					if (!x[i].getElementsByTagName("div")[0].classList.value.includes("autocomplete-item")) {
+						x[i].getElementsByTagName("div")[0].classList.add("autocomplete-item");
+					}
+					x[i].classList.remove("autocomplete-active");
 				}
 			}
 
-			const themeList = document.getElementsByClassName("theme-list");
-			for (let i = 0; i < themeList.length; i++) {
-				themeList[i].addEventListener("click", function (e) {
-					const theme = document.getElementById("bootstrap-css");
-					const themeName = this.text;
-					document.querySelector(".theme-list.active-theme").classList.remove("active-theme");
-					theme.href = `https://bootswatch.com/5/${themeName.toLowerCase()}/bootstrap.min.css`;
-					localStorage.setItem("theme", theme.href);
-					this.classList.add("active-theme");
-				});
-				if ((localStorage.getItem("theme") || "flatly").indexOf(themeList[i].text.toLowerCase()) > -1) themeList[i].classList.add("active-theme");
+			function closeAllLists(elmnt) {
+				$(".autocomplete-list").remove();
+				var x = document.getElementsByClassName("autocomplete-items");
+				for (var i = 0; i < x.length; i++) {
+					if (elmnt != x[i] && elmnt != inp) {
+						x[i].parentNode.removeChild(x[i]);
+					}
+				}
 			}
 
-		</script>
+			document.addEventListener("click", function (e) {
+				closeAllLists(e.target);
+			});
+			return this;
+		}
+	</script>
+
+	<div style="padding-top: calc(var(--phoenix-navbar-top-height))">

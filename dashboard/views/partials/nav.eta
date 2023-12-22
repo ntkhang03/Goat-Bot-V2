@@ -1,0 +1,108 @@
+<nav class="navbar navbar-expand-md fixed-top navbar-top">
+  <div class="container">
+    <div class="navbar-logo">
+      <a class="navbar-brand" href="/">
+        <div class="d-flex align-items-center">
+          <img src="/images/logo-non-bg.png" height="40px" width="40px" class="d-inline-block align-top rounded" alt="logo">
+          <span class="h4 mb-0 text-uppercase d-sm-block ms-2">GoatBot</span>
+        </div>
+      </a>
+    </div>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navcollapse" aria-controls="navcollapse" aria-expanded="true" aria-label="Toggle Navigation">
+      <span class="navbar-toggle-icon"><span class="toggle-line"></span></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navcollapse">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a href="/dashboard" class="nav-link px-2">
+            <i class="fas fa-cog"></i> Dashboard
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="/stats" class="nav-link px-2">
+            <i class="fas fa-chart-bar"></i>
+            Bot stats
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="/donate" class="nav-link px-2">
+            <i class="fas fa-donate"></i>
+            Donate
+          </a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link px-2" id="switch-mode" role="button">
+            <i class="fas fa-sun" id="switch-mode-icon" aria-hidden="true"></i>
+            <span class="d-md-none">Switch to <span id="switch-mode-text">light</span> Mode</span>
+          </a>
+        </li>
+
+        <% if (user) { %>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle px-2" data-bs-toggle="dropdown" href="#" role="button" id="userDropdown" aria-expanded="false">
+            <i class="fas fa-user"></i>
+            <%= user.name %>
+          </a>
+          <ul class="dropdown-menu mb-2" aria-labelledby="userDropdown">
+            <% if (!user.facebookUserID) { %>
+            <a href="/verifyfbid" class="dropdown-item">
+              <i class="fas fa-user-check"></i> Xác thực id facebook
+            </a>
+            <% } %>
+            <a href="/profile" class="dropdown-item">
+              <i class="fas fa-user-circle"></i> Profile
+            </a>
+            <a href="/change-password" class="dropdown-item">
+              <i class="fas fa-key"></i> Đổi mật khẩu
+            </a>
+            <a href="/logout" class="dropdown-item">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+          </ul>
+        </li>
+        <% } else { %>
+        <li class="nav-item">
+          <a href="/login" class="nav-link px-2">
+            <i class="fas fa-sign-in-alt"></i>
+            Login
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/register" class="nav-link px-2">
+            <i class="fas fa-user-plus"></i>
+            Register
+          </a>
+        </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<script>
+  (function() {
+    $(document).ready(function() {
+      $('#switch-mode').click(function() {
+        if (localStorage.getItem('theme') === 'dark') {
+          localStorage.setItem('theme', 'light');
+          $('#switch-mode-icon').removeClass('fa-moon');
+          $('#switch-mode-icon').addClass('fa-sun');
+          $('#switch-mode-text').text('light');
+        } else {
+          localStorage.setItem('theme', 'dark');
+          $('#switch-mode-icon').removeClass('fa-sun');
+          $('#switch-mode-icon').addClass('fa-moon');
+          $('#switch-mode-text').text('dark');
+        }
+        $('html').toggleClass('dark');
+      });
+    });
+  })();
+</script>

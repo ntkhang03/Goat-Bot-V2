@@ -1,65 +1,104 @@
-<%~ includeFile("partials/header.eta") %>
+<%~ includeFile("partials/header.eta", {
+	user: user
+}); %>
 <%~ includeFile("partials/message.eta"); %>
+<%~ includeFile("partials/title.eta", {
+	icon: "fas fa-cog",
+	title: "Dashboard"
+}); %>
 
-<div class="bg-primary text-white py-3">
-  <div class="container">
-    <h6 class="text-white">
-      <a class="text-white" href="/dashboard" style="text-decoration: none;"><i class="fas fa-cog "></i> Dashboard</a>
-    </h6>
-  </div>
-</div>
+<style>
+  .table>:not(caption)>*>* {
+    padding: 0.5rem 0.5rem;
+  }
+</style>
 
-<div class="container my-4">
-  <div class="row">
-    <div class="card">
-      <div class="card-header">
-        <h3>Thread List</h3>
-      </div>
-      <table class="table table-striped sortable" id="threads">
-        <thead>
-          <td>#</td>
-          <td>Box ID</td>
-          <td>Box Name</td>
-          <td>Members</td>
-          <td></td>
-        </thead>
+<div class="container">
 
-        <tbody>
-          <% for (let i=0; i < threads.length; i++) { %>
-          <tr>
-            <td>
-              <%= i + 1 %>
-            </td>
-            <td>
-              <%= threads[i].threadID %>
-            </td>
-            <td>
-              <%= threads[i].threadName || "null" %>
-            </td>
-            <td>
-              <%= threads[i].members.filter(m=> m.inGroup).length %>
-            </td>
-            <td><a href='/dashboard/<%=threads[i].threadID %>' class='btn btn-primary text-white'>Custom</td>
-          </tr>
-          <% } %>
-        </tbody>
+  <h3>Danh sách nhóm mà bạn quản lý</h3>
 
-      </table>
+  <div class="d-sm-flex d-block align-items-center my-3">
+    <div class="search-box me-2">
+      <input class="form-control search-input search" type="search" placeholder="Type to search" aria-label="Search" id="search-input">
+      <span class="fas fa-search search-box-icon" aria-hidden="true"></span>
     </div>
-
+    <div class="d-flex">
+      <select class="form-select w-auto me-2 mt-2 mt-sm-0" id="searchBy" aria-label="Search By">
+        <option value="thread_id" selected="selected">Box Id</option>
+        <option value="thread_name">Box Name</option>
+      </select>
+      <button class="btn btn-phoenix-primary text-nowrap mt-2 mt-sm-0" id="reset-button">
+        <i class="fas fa-sync"></i>
+        Reset
+      </button>
+    </div>
   </div>
-</div>
-<script type="text/javascript">
-  (function() {
-    $(document).ready(function() {
-      $('#threads').DataTable({
-        paging: false,
-        searching: false,
-        info: false
-      });
-      $('#threads').removeAttr('style');
-    });
-  })();
-</script>
 
-<%~ includeFile("partials/footer.eta") %>
+  <div data-list="" class="table-responsive" id="table-threads">
+    <table class="table table-bordered table-striped align-middle">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="sort" data-sort="thread_id">Box ID</th>
+          <th class="sort" data-sort="thread_name">Box Name</th>
+          <th class="sort" data-sort="members">Members</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody class="list">
+        <% for (let i=0; i < threads.length; i++) { %>
+        <tr>
+          <td class="ps-2">
+            <%= i + 1 %>
+          </td>
+          <td class="thread_id">
+            <%= threads[i].threadID %>
+          </td>
+          <td class="thread_name">
+            <%= threads[i].threadName || "null" %>
+          </td>
+          <td class="members">
+            <%= threads[i].members.filter(m=> m.inGroup).length %>
+          </td>
+          <td>
+            <a href='/dashboard/<%=threads[i].threadID %>' class='btn btn-phoenix-primary'>
+              <i class="fa-solid fa-wrench"></i>
+            </a>
+          </td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+    <ul class="pagination"></ul>
+  </div>
+
+  <script>
+    const options = {
+      valueNames: ["thread_id", "thread_name", "members"],
+      page: 10,
+      pagination: true
+    };
+
+    const listThread = new List("table-threads", options);
+
+    const resetButton = $("#reset-button");
+    const searchInput = $("#search-input");
+    const searchBy = $("#searchBy");
+
+    $("#search-input, #searchBy").on("keyup change paste", function(e) {
+      const searchValue = searchInput.val();
+      const searchByValue = searchBy.val();
+      if (searchByValue)
+        listThread.search(searchValue, [searchByValue]);
+      else
+        listThread.search();
+    });
+
+    resetButton.on("click", function(e) {
+      searchInput.val("");
+      listThread.search();
+    });
+  </script>
+
+  <%~ includeFile("partials/footer.eta") %>

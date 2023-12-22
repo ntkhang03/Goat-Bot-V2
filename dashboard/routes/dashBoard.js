@@ -1,19 +1,19 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-module.exports = function ({ isAuthenticated_G, isVeryfiUserIDFacebook_G, checkHasAndInThread_G, threadsData, checkAuthConfigDashboardOfThread, imageExt, videoExt, audioExt, convertSize, drive, isVideoFile }) {
+module.exports = function ({ isAuthenticated, isVeryfiUserIDFacebook, checkHasAndInThread, threadsData, checkAuthConfigDashboardOfThread, imageExt, videoExt, audioExt, convertSize, drive, isVideoFile }) {
 	router
-		.get("/", [isAuthenticated_G, isVeryfiUserIDFacebook_G], async (req, res) => {
+		.get("/", [isAuthenticated, isVeryfiUserIDFacebook], async (req, res) => {
 			let allThread = await threadsData.getAll();
 			allThread = allThread.filter(t => t.members.some(m => m.userID == req.user.facebookUserID && m.inGroup)/* && (api ? t.members.some(m => m.userID == api.getCurrentUserID()) : true)*/);
 			res.render("dashboard", { threads: allThread });
 		})
-		.get("/:threadID", [isAuthenticated_G, isVeryfiUserIDFacebook_G, checkHasAndInThread_G], async (req, res) => {
+		.get("/:threadID", [isAuthenticated, isVeryfiUserIDFacebook, checkHasAndInThread], async (req, res) => {
 			const { threadData } = req;
 			let authConfigDashboard = true;
 			const warnings = [];
 			if (!checkAuthConfigDashboardOfThread(threadData, req.user.facebookUserID)) {
-				warnings.push({ msg: '[!] Chỉ quản trị viên của nhóm chat hoặc những thành viên được cho phép mới có thể chỉnh sửa dashboard' });
+				warnings.push({ msg: "[!] Chỉ quản trị viên của nhóm chat hoặc những thành viên được cho phép mới có thể chỉnh sửa dashboard" });
 				authConfigDashboard = false;
 			}
 			delete req.threadData;
@@ -24,7 +24,7 @@ module.exports = function ({ isAuthenticated_G, isVeryfiUserIDFacebook_G, checkH
 				warnings
 			});
 		})
-		.get("/:threadID/:command", [isAuthenticated_G, isVeryfiUserIDFacebook_G, checkHasAndInThread_G], async (req, res) => {
+		.get("/:threadID/:command", [isAuthenticated, isVeryfiUserIDFacebook, checkHasAndInThread], async (req, res) => {
 			const command = req.params.command;
 			const threadData = req.threadData;
 			const threadDataJSON = encodeURIComponent(JSON.stringify(threadData)); // prevent xss attack
@@ -48,16 +48,18 @@ module.exports = function ({ isAuthenticated_G, isVeryfiUserIDFacebook_G, checkH
 					(threadData.data.welcomeAttachment || []).forEach(fileId => {
 						pending.push(drive.default.files.get({
 							fileId,
-							fields: 'name,mimeType,size,id'
+							fields: "name,mimeType,size,id,createdTime,webContentLink,fileExtension"
 						}));
 					});
 
 					pending = (await Promise.allSettled(pending))
-						.filter(item => item.status == 'fulfilled')
-						.map(({ value }) => ({
-							...value.data,
-							urlDownload: global.utils.drive.getUrlDownload(value.data.id)
-						}));
+						.filter(item => item.status == "fulfilled")
+						.map(({ value }) => {
+							return {
+								...value.data,
+								urlDownload: value.data.webContentLink
+							};
+						});
 					variables.defaultWelcomeMessage = global.GoatBot.configCommands.envEvents.welcome.defaultWelcomeMessage;
 					variables.welcomeAttachments = pending;
 					break;
@@ -68,15 +70,17 @@ module.exports = function ({ isAuthenticated_G, isVeryfiUserIDFacebook_G, checkH
 					(threadData.data.leaveAttachment || []).forEach(fileId => {
 						pending.push(drive.default.files.get({
 							fileId,
-							fields: 'name,mimeType,size,id'
+							fields: "name,mimeType,size,id,createdTime,webContentLink,fileExtension"
 						}));
 					});
 					pending = (await Promise.allSettled(pending))
-						.filter(item => item.status == 'fulfilled')
-						.map(({ value }) => ({
-							...value.data,
-							urlDownload: global.utils.drive.getUrlDownload(value.data.id)
-						}));
+						.filter(item => item.status == "fulfilled")
+						.map(({ value }) => {
+							return {
+								...value.data,
+								urlDownload: value.data.webContentLink
+							};
+						});
 					variables.defaultLeaveMessage = global.GoatBot.configCommands.envEvents.leave.defaultLeaveMessage;
 					variables.leaveAttachments = pending;
 					break;
@@ -90,8 +94,8 @@ module.exports = function ({ isAuthenticated_G, isVeryfiUserIDFacebook_G, checkH
 					break;
 				}
 				default: {
-					req.flash('errors', { msg: 'Command not found' });
-					return res.redirect('/dashboard');
+					req.flash("errors", { msg: "Command not found" });
+					return res.redirect("/dashboard");
 				}
 			}
 

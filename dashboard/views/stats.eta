@@ -1,72 +1,65 @@
-<%~ includeFile("partials/header") %>
-<div class="bg-light py-3">
-  <div class="container">
-    <h6 style="text-align: center;">
-      <i class=""></i>Bot Stats
-    </h6>
-  </div>
-</div>
+<%~ includeFile("partials/header", {
+	user: user
+}); %>
+<%~ includeFile("partials/message.eta"); %>
+<%~ includeFile("partials/title.eta", {
+	icon: "fas fa-robot",
+	title: "Bot stats"
+}); %>
 
 <section class="post my-4">
   <div class="container">
-    <table class="table d-table">
-      <thead class="thead has-text-centered">
-        <tr>
-          <th style="font-size: 20px;" scope="col">Type</th>
-          <th style="font-size: 20px;" scope="col">Data</th>
-        </tr>
-      </thead>
+    <table class="table table-borderless">
       <tbody>
-        <tr class="has-text-centered">
-          <td style="font-size: 15px;"><i class="fas fa-users"></i> Users</td>
-          <td style="font-size: 15px;">
+        <tr class="text-start">
+          <td><i class="fas fa-users"></i> Users</td>
+          <td>
             <%= totalUser %>
           </td>
         </tr>
-        <tr class="has-text-centered">
-          <td style="font-size: 15px;"><i class="fas fa-server"></i> Threads</td>
-          <td style="font-size: 15px;">
+        <tr class="text-start">
+          <td><i class="fas fa-server"></i> Threads</td>
+          <td>
             <%= totalThread %>
           </td>
         </tr>
-        <tr class="has-text-centered">
-          <td style="font-size: 15px;"><i class="fas fa-hashtag"></i> Prefix</td>
-          <td style="font-size: 15px;">
+        <tr class="text-start">
+          <td><i class="fas fa-hashtag"></i> Prefix</td>
+          <td>
             <%= prefix %>
           </td>
         </tr>
-        <tr class="has-text-centered">
-          <td style="font-size: 15px;"><i class="fa fa-clock"></i> Uptime</td>
-          <td style="font-size: 15px;" id="uptime">
+        <tr class="text-start">
+          <td><i class="fa fa-clock"></i> Uptime</td>
+          <td id="uptime">
             <%= uptime %>
           </td>
         </tr>
-        <tr class="has-text-centered">
-          <td style="font-size: 15px;"><i class="fab fa-facebook-square"></i> Fca Version</td>
-          <td style="font-size: 15px;">
-            <%= fcaVersion %>
-          </td>
-        </tr>
-        <tr class="has-text-centered">
-          <td style="font-size: 15px;"><i class="fab fa-node-js"></i> Node.js Version</td>
-          <td style="font-size: 15px;">
+        <tr class="text-start">
+          <td><i class="fab fa-node-js"></i> Node.js Version</td>
+          <td>
             <%= process.version %>
           </td>
         </tr>
-        <tr class="has-text-centered">
-          <td style="font-size: 15px;"><i class="fas fa-laptop"></i> Usage</td>
-          <td style="font-size: 15px;">
-            <ul>
-              <li id="memory">Memory: <%= (process.memoryUsage().rss / 1024 / 1024).toFixed(2) %> MB
-              </li>
-              <li id="cpu">CPU: <%= (process.cpuUsage().system / 1024 / 1024).toFixed(2) %>%</li>
-              <li id="nodeCpu">Node CPU: <%= (process.cpuUsage().user / 1024 / 1024).toFixed(2) %>%
-              </li>
-            </ul>
-
+        <tr class="text-start">
+          <td><i class="fa-solid fa-memory"></i> Memory</td>
+          <td>
+						<%= (process.memoryUsage().rss / 1024 / 1024).toFixed(2) %> MB
           </td>
         </tr>
-      </tbody>
+				<tr class="text-start">
+					<td style="font-size: 15px;"><i class="fa-solid fa-memory"></i> CPU</td>
+					<td style="font-size: 15px;">
+						<%= (process.cpuUsage().system / 1024 / 1024).toFixed(2) %>%
+					</td>
+				</tr>
+				<tr class="text-start">
+					<td style="font-size: 15px;"><i class="fa-solid fa-memory"></i> Node CPU</td>
+					<td style="font-size: 15px;">
+						<%= (process.cpuUsage().user / 1024 / 1024).toFixed(2) %>%
+					</td>
+				</tr>
+			</tbody>
     </table>
   </div>
 </section>

@@ -1,63 +1,51 @@
-<%~ includeFile("partials/header.eta") %>
+<%~ includeFile("partials/header.eta", {
+	user: user
+}); %>
 <%~ includeFile("partials/message.eta"); %>
+<%~ includeFile("partials/title.eta", {
+	icon: "fa-solid fa-right-to-bracket",
+	title: "Login"
+}); %>
 
-<div class="bg-primary text-white py-3">
-  <div class="container">
-    <h6 class="text-white">
-      <i class="fas fa-user"></i> Goat Bot Dashboard Login
-    </h6>
-  </div>
-</div>
+<div class="container">
+  <div class="row flex-center justify-content-center align-items-center">
+    <div class="p-4 col-12 col-md-8 col-lg-5 col-xl-4">
+      <div class="form-outline mb-4">
+        <label class="form-label" for="username">Email address</label>
+        <input type="email" id="username" class="form-control" id="username" />
+      </div>
 
-<!--posts-->
-<section class="post my-4">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-10 col-lg-5 col-xl-4 mx-auto">
-        <div class="card">
-          <div class="card-header">
-            <h4 class="text-center">Account login</h4>
-          </div>
-          <div class="card-body">
-            <form id="loginForm">
-              <div class="form-group">
+      <div class="form-outline mb-4">
+        <label class="form-label" for="password">Password</label>
+        <input type="password" id="password" class="form-control" />
+      </div>
 
-                <div class="input-group input-group-lg mb-5 mt-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                  </div>
-                  <input class="form-control" placeholder="Email" type="text" id="username" name="username">
-                </div>
+      <div class="g-recaptcha d-flex justify-content-center" data-sitekey="<%=it.gRecaptcha_siteKey%>">
+      </div>
 
-                <div class="input-group input-group-lg my-5">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-key"></i></span>
-                  </div>
-                  <input type="password" class="form-control" placeholder="Password" id="password" name="password">
-                </div>
-
-                <div class="g-recaptcha d-flex justify-content-center" data-sitekey="<%=it.gRecaptcha_siteKey%>">
-                </div>
-                <div class="d-flex justify-content-center">
-                  <button type="submit" class="btn btn-primary btn-block mt-4" id="login">Login</button>
-                </div>
-              </div>
-              <!-- button login -->
-              <!-- no account? create here-->
-              <p class="text-center" style="margin-top: 1rem;">
-                No Account? <a href="/register">Register Here</a>
-              </p>
-              <!-- forgot pass -->
-              <p class="text-center" style="margin-top: 1rem;">
-                Forgot Password? <a href="/forgot-password">Reset Password</a>
-              </p>
-            </form>
+      <div class="row mb-2 mt-2">
+        <div class="col d-flex justify-content-center">
+          <div class="form-check">
+            <label class="form-check-label" for="remember"> Remember me </label>
+            <input class="form-check-input" type="checkbox" id="remember" />
           </div>
         </div>
+
+        <div class="col">
+          <a href="/forgot-password">Forgot password?</a>
+        </div>
+      </div>
+
+			<div class="d-flex justify-content-center btn-block">
+				<button type="button" class="btn btn-phoenix-primary mb-4" id="login">Login</button>
+			</div>
+
+      <div class="text-center">
+        <p>No Account? <a href="/register">Register</a></p>
       </div>
     </div>
   </div>
-</section>
+</div>
 
 <script type="text/javascript">
   (function() {
@@ -65,6 +53,7 @@
       e.preventDefault();
       const username = $("#username").val();
       const password = $("#password").val();
+      const remember = $("#remember").is(":checked");
       const gRecaptcha = grecaptcha.getResponse();
       if (!gRecaptcha)
         return $.createToast({
@@ -76,12 +65,14 @@
       const btnLogin = this;
       btnLogin.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Login';
       btnLogin.disabled = true;
+
       $.ajax({
         url: "/login",
         type: "POST",
         data: {
           username: username,
           password: password,
+          remember: remember,
           "g-recaptcha-response": gRecaptcha
         },
         success: function(data) {

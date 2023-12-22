@@ -1,27 +1,22 @@
 <% /* <!-- NOTE: DO NOT EDIT/DELETE ANY CONTENTS HERE!! --> */ %>
 <% /* <!-- LƯU Ý: KHÔNG SỬA / XÓA BẤT KỲ NỘI DUNG NÀO TẠI ĐÂY!! --> */ %>
-
-<div class="mt-5">
-  <footer class="text-center text-white" style="background-color: #f1f1f1;">
-    <div class="container pt-2">
-      <section class="mb-2">
-        <a class="btn btn-link btn-floating btn-lg text-dark m-1" href="https://github.com/ntkhang03/Goat-Bot-V2" role="button" data-mdb-ripple-color="dark"><i class="fab fa-github"></i>
-        </a>
-      </section>
-    </div>
-
-    <!-- Copyright -->
-    <div class="text-center text-dark p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-      © <a id="year"></a> Copyright:
-      <a class="text-dark" href="https://github.com/ntkhang03">NTKhang</a>
-    </div>
-    <!-- Copyright -->
-  </footer>
-
 </div>
 
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 mt-4 border-top mx-4">
+<h3 class="fs-2 mb-md-0 text-muted align-middle" id="copy-right"></h3>
+
+	<ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+		<li class="ms-3"><a class="text-muted" href="https://www.facebook.com/ntkhang03">
+			<i class="fs-3 fab fa-facebook"></i>
+		</a></li>
+		<li class="ms-3"><a class="text-muted" href="https://github.com/ntkhang03/Goat-Bot-V2">
+			<i class="fs-3 fa-brands fa-github"></i>
+		</a></li>
+	</ul>
+</footer>
+
 <script>
-  document.getElementById('year').innerHTML = new Date().getFullYear();
+  document.getElementById('copy-right').innerHTML = `&copy; ${new Date().getFullYear()} NTKhang`;
 </script>
 </body>
 

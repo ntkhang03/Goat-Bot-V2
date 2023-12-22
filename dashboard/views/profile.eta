@@ -1,11 +1,11 @@
-<%~ includeFile("partials/header.eta") %>
-<div class="bg-primary text-white py-3">
-  <div class="container">
-    <h6 class="text-white">
-      <i class="fas fa-user"></i> User Profile
-    </h6>
-  </div>
-</div>
+<%~ includeFile("partials/header.eta", {
+	user: user
+}); %>
+<%~ includeFile("partials/message.eta"); %>
+<%~ includeFile("partials/title.eta", {
+	icon: "fa-solid fa-address-card",
+	title: "User Profile"
+}); %>
 
 <section class="post my-4" style="text-align: -webkit-center">
   <div class="wrapper">

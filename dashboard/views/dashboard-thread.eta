@@ -1,79 +1,95 @@
-<%~ includeFile("partials/header.eta"); %>
+<%~ includeFile("partials/header.eta", {
+	user: user
+}); %>
 <%~ includeFile("partials/message.eta"); %>
+<%~ includeFile("partials/title.eta", {
+	icon: "fas fa-cog",
+	title: "Dashboard"
+}); %>
 <%
 	const { threadID } = threadData; 
 %>
 
-<div class="bg-primary text-white py-3">
-  <div class="container">
-    <h6 class="text-white">
-      <a class="text-white" href="/dashboard" style="text-decoration: none;"><i class="fas fa-cog "></i>
-        Dashboard</a>
-    </h6>
-  </div>
-</div>
-
 <form id="setData" class="container">
-	<!-- show box name and box id -->
   <br>
-	<!-- border radius -->
-	<div class="alert alert-primary d-flex justify-content-center d-flex flex-column align-items-center rounded-5">
-		<h5 class="alert-heading">Box Name: <%= threadData.threadName %></h5>
-		<p class="mt-2">Box ID: <%= threadData.threadID %></p>
+	<div class="bg-300 rounded-5 py-4">
+		<h5 class="text-center">Box Name: <%= threadData.threadName %></h5>
+		<p class="mt-2 mb-0 text-center">Box ID: <%= threadData.threadID %></p>
 	</div>
 
-  <div class="jwvIWx">
-    <div class="dwztKr" href="<%= '/dashboard/' + threadID + '/welcome' %>">
-      <div class="jSrukW">
-        <label class="switch">
-          <input class="form-check-input" type="checkbox" id="sw-welcome" <%=
-						threadData.settings.sendWelcomeMessage ? 'checked' : '' %>>
-          <span class="slider round"></span>
-        </label>
-      </div>
-      <h5>👋 Welcome</h5>
-      <div class="bEBnTb ms-1">Gửi tin nhắn chào mừng thành viên mới!</div>
-    </div>
+	<hr>
 
-    <div class="dwztKr" href="<%= '/dashboard/' + threadID + '/leave' %>">
-      <div class="jSrukW">
-        <label class="switch">
-          <input type="checkbox" id="sw-leave" <%= threadData.settings.sendLeaveMessage ? 'checked' : '' %>>
-          <span class="slider round"></span>
-        </label>
-      </div>
-      <h5 class="bEBnTb">🤧 Leave</h5>
-      <div class="bEBnTb ms-1">Gửi tin nhắn tạm biệt thành viên rời khỏi nhóm!</div>
-    </div>
+	<div class="bg-300 rounded-5 py-4 px-4 mt-2" role="button" onclick="window.location.href='/dashboard/<%= threadID %>/welcome'">
+		<div class="row justify-content-between">
+			<div class="col-auto">
+				<h4>👋 Welcome</h4>
+			</div>
+			<div class="col-auto">
+				<label class="switch">
+					<div class="form-check form-switch">
+						<input class="form-check-input" id="sw-welcome" type="checkbox" <%= threadData.settings.sendWelcomeMessage ? 'checked' : '' %>/>
+						<span class="slider round"></span>
+					</div>
+				</label>
+			</div>
+		</div>
+		<p class="text-700 lead fs-1 ms-2 mb-0">Gửi tin nhắn chào mừng thành viên mới!</p>
+	</div>
 
-    <div class="dwztKr" href="<%= '/dashboard/' + threadID + '/rankup' %>">
-      <div class="jSrukW">
-        <label class="switch">
-          <input type="checkbox" id="sw-rankup" <%= threadData.settings.sendRankupMessage ? 'checked' : '' %>>
-          <span class="slider round"></span>
-        </label>
-      </div>
-      <h5 class="bEBnTb">🏆 Rankup</h5>
-      <div class="bEBnTb ms-1">Gửi tin nhắn thông báo thăng cấp!</div>
-    </div>
+	<div class="bg-300 rounded-5 py-4 px-4 mt-2" role="button" onclick="window.location.href='/dashboard/<%= threadID %>/leave'">
+		<div class="row justify-content-between">
+			<div class="col-auto">
+				<h4>🤧 Leave</h4>
+			</div>
+			<div class="col-auto">
+				<label class="switch">
+					<div class="form-check form-switch">
+						<input class="form-check-input" id="sw-leave" type="checkbox" <%= threadData.settings.sendLeaveMessage ? 'checked' : '' %>/>
+						<span class="slider round"></span>
+					</div>
+				</label>
+			</div>
+		</div>
+		<p class="text-700 lead fs-1 ms-2 mb-0">Gửi tin nhắn tạm biệt thành viên rời khỏi nhóm!</p>
+	</div>
 
-    <div class="dwztKr" href="<%= '/dashboard/' + threadID + '/custom-cmd' %>">
-      <div class="jSrukW">
-        <label class="switch">
-          <input type="checkbox" name="customCommand" id="sw-customcmd" <%= threadData.settings.customCommand
-						? 'checked' : '' %>>
-          <span class="slider round"></span>
-        </label>
+	<div class="bg-300 rounded-5 py-4 px-4 mt-2" role="button" onclick="window.location.href='/dashboard/<%= threadID %>/rankup'">
+		<div class="row justify-content-between">
+			<div class="col-auto">
+				<h4>🏆 Rankup</h4>
+			</div>
+			<div class="col-auto">
+				<label class="switch">
+					<div class="form-check form-switch">
+						<input class="form-check-input" id="sw-rankup" type="checkbox" <%= threadData.settings.sendRankupMessage ? 'checked' : '' %>/>
+						<span class="slider round"></span>
+					</div>
+				</label>
+			</div>
+		</div>
+		<p class="text-700 lead fs-1 ms-2 mb-0">Gửi tin nhắn thông báo thăng cấp!</p>
+	</div>
 
-      </div>
-      <h5 class="bEBnTb">⚙️ Custom command</h5>
-      <div class="bEBnTb ms-1">Tùy chỉnh lệnh của bot!</div>
-    </div>
+	<div class="bg-300 rounded-5 py-4 px-4 mt-2" role="button" onclick="window.location.href='/dashboard/<%= threadID %>/custom-cmd'">
+		<div class="row justify-content-between">
+			<div class="col-auto">
+				<h4>⚙️ Custom command</h4>
+			</div>
+			<div class="col-auto">
+				<label class="switch">
+					<div class="form-check form-switch">
+						<input class="form-check-input" id="sw-customcmd" type="checkbox" <%= threadData.settings.customCommand ? 'checked' : '' %>/>
+						<span class="slider round"></span>
+					</div>
+				</label>
+			</div>
+		</div>
+		<p class="text-700 lead fs-1 ms-2 mb-0">Tùy chỉnh lệnh của bot!</p>
+	</div>
 
-    <input type="hidden" name="threadID" value="<%= threadID %>">
-    <button type="submit" id="save" class="btn btn-primary btn-block" <%=authConfigDashboard ? '' : 'disabled'%>>Lưu</button>
+	<input type="hidden" name="threadID" value="<%= threadID %>">
+	<button type="submit" id="save" class="mt-2 btn btn-primary btn-block" <%=authConfigDashboard ? '' : 'disabled'%>>Lưu</button>
 
-  </div>
 </form>
 
 <script type="text/javascript">
@@ -118,10 +134,11 @@
       })
       '<% } %>'
     });
-
-    $(".dwztKr").on("click", function(e) {
-      if (e.target.type !== "checkbox" && e.target.className !== "slider round") window.location.href = this.getAttribute("href");
-    });
   })();
+
+	// kiểm tra nếu click vào input thì không chuyển trang
+	$("[type='checkbox']").on("click", function(e) {
+		e.stopPropagation();
+	});
 </script>
 <%~ includeFile("partials/footer.eta") %>

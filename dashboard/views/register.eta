@@ -1,13 +1,11 @@
-<%~ includeFile("partials/header.eta") %>
+<%~ includeFile("partials/header.eta", {
+	user: user
+}); %>
 <%~ includeFile("partials/message.eta"); %>
-
-<div class="bg-primary text-white py-3">
-  <div class="container">
-    <h6 class="text-white">
-      <i class="fas fa-user"></i> Goat Bot Dashboard Register
-    </h6>
-  </div>
-</div>
+<%~ includeFile("partials/title.eta", {
+	icon: "fa-solid fa-user-plus",
+	title: "Register"
+}); %>
 
 <!--posts-->
 <section class="post my-4">
@@ -42,7 +40,7 @@
 
               <div class="g-recaptcha mt-3  d-flex justify-content-center" data-sitekey="<%=it.gRecaptcha_siteKey%>"></div>
               <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary btn-block mt-4" id="register">Register</button>
+                <button type="submit" class="btn btn-phoenix-primary btn-block mt-4" id="register">Register</button>
               </div>
 
             </form>

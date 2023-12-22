@@ -1,14 +1,12 @@
-<%~ includeFile("partials/header.eta") %>
-<div class="bg-primary text-white py-3">
-  <div class="container">
-    <h6 class="text-white">
-      <a class="text-white" href="/dashboard" style="text-decoration: none;"><i class="fas fa-cog "></i>
-        Custom command</a>
-    </h6>
-  </div>
-</div>
-
+<%~ includeFile("partials/header.eta", {
+	user: user
+}); %>
 <%~ includeFile("partials/message.eta"); %>
+<%~ includeFile("partials/title.eta", {
+	icon: "fas fa-cog",
+	title: "Custom command"
+}); %>
+
 <div class="container">
   <div class="row mt-5">
     <div class="col-md-12">

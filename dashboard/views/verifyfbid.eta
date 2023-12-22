@@ -1,13 +1,11 @@
-<%~ includeFile("partials/header.eta"); %>
+<%~ includeFile("partials/header.eta", {
+	user: user
+}); %>
 <%~ includeFile("partials/message.eta"); %>
-
-<div class="bg-primary text-white py-3">
-  <div class="container">
-    <h6 class="text-white">
-      <i class="fas fa-cog"></i> Verify Facebook ID
-    </h6>
-  </div>
-</div>
+<%~ includeFile("partials/title.eta", {
+	icon: "fas fa-cog",
+	title: "Verify Facebook ID"
+}); %>
 
 <section class="addsection bg-light py-3" id="verifyfbid">
   <div class="container">

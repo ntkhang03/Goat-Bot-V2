@@ -1,0 +1,418 @@
+<%~ includeFile("partials/header.eta", {
+	user: user
+}); %>
+<%~ includeFile("partials/message.eta") %>
+<%~ includeFile("partials/title.eta", {
+	icon: "fas fa-cog",
+	title: "Dashboard"
+}); %>
+
+
+<div class="container">
+  <br>
+  <p class="text-success">Box Name: <%=threadData.threadName || "null" %>
+  </p>
+  <p class="text-info">Box ID: <%=threadID%>
+  </p>
+
+  <div class="jwvIWx">
+    <h3 class="text-center">Welcome Message 👋</h3>
+
+    <ul class="list" id="list-shortcut">
+      <h4 class="mb-3">Danh sách các shortcut có sẵn:</h4>
+    </ul>
+
+    <h4>Tin nhắn chào mừng thành viên mới:</h4>
+    <textarea class="textarea" id="message" spellcheck="false"><%=threadData.data.welcomeMessage || defaultWelcomeMessage%></textarea>
+
+    <!-- button save -->
+    <div class="jwvIwx" style="gap: 2px">
+      <button type="button" class="btn btn-primary" id="save-message">Lưu</button>
+      <button type="button" class="btn btn-warning" id="reset-message" value="<%=defaultWelcomeMessage%>">Reset</button>
+    </div>
+
+  </div>
+
+  <hr>
+
+  <p>Những tệp được gửi kèm tin nhắn chào mừng trong nhóm bạn:</p>
+
+  <br>
+
+  <div class="my-file">
+    <div class="row files card-deck" id="previewMediaWelcome">
+      <% for (const file of welcomeAttachments) { %>
+      <% const getExt = file.name.split('.').pop() %>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-2" file-name="<%=file.name%>" file-id="<%=file.id%>">
+        <div class="card preview">
+          <% if (imageExt.includes(getExt)) { %>
+          <img src="https://docs.google.com/uc?id=<%=file.id%>&export=download&confirm=t" alt="image" style="object-fit: contain; width: 100%; height: 150px;">
+          <% } else if (videoExt.includes(getExt)) { %>
+          <video src="https://docs.google.com/uc?id=<%=file.id%>&export=download&confirm=t" controls style="object-fit: contain; width: 100%; height: 150px;">
+            Your browser does not support the video tag.
+          </video>
+          <% } else if (audioExt.includes(getExt)) {%>
+          <audio src="https://docs.google.com/uc?id=<%=file.id%>&export=download&confirm=t" controls style="object-fit: contain; width: 100%; height: 150px;">
+            Your browser does not support the audio tag.
+          </audio>
+          <% } else { %>
+          <img src="https://www.pngrepo.com/png/332374/180/file-unknown.png" style="object-fit: contain; width: 100%; height: 150px;">
+          <% } %>
+          <div class="card-body">
+            <p class="card-text"><%=file.name%></p>
+            <p class="card-text"><small class="text-muted"><%=convertSize(file.size)%></small></p>
+
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="<%=file.id%>" name="myCheckboxes">
+              <label class="form-check-label" for="checkbox-<%=file.id%>">
+                Chọn để xóa
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+
+  <button class="btn btn-danger" style="margin-left: auto!important;" id="deleteFile"> <i class="fas fa-trash-alt"></i> </button>
+  <button class="btn btn-primary" id="select-all-delete">Select all</button>
+
+  <hr>
+
+  <input type="file" id="upload-multi" multiple hidden>
+  <label for="upload-multi" class="btn btn-primary mb-3"><i class="fa fa-upload"></i> Click to upload
+    file</label>
+
+  <div class="my-file">
+    <div class="row files card-deck" id="list-preview">
+    </div>
+  </div>
+
+</div>
+
+
+<script type="text/javascript">
+  (function() {
+    const shortcuts = [{
+      name: "{userName}",
+      desc: "tên thành viên mới vào nhóm"
+    }, {
+      name: "{userNameTag}",
+      desc: "tên thành viên mới vào nhóm (tag trong tin nhắn)"
+    }, {
+      name: "{threadName}",
+      desc: "tên nhóm chat của bạn"
+    }, {
+      name: "{boxName}",
+      desc: "tên nhóm chat của bạn"
+    }, {
+      name: "{session}",
+      desc: "buổi trong ngày"
+    }, {
+      name: "{multiple}",
+      desc: "bạn | các bạn"
+    }];
+
+
+    const message = $("#message");
+    message.highlightWithinTextarea({
+      highlight: shortcuts.map(i => i.name)
+    });
+    message.autocomplete(shortcuts);
+
+    const ul = document.getElementById("list-shortcut");
+    for (const item of shortcuts) {
+      const li = document.createElement("li");
+      li.className = "list-item";
+      li.innerHTML = "<div class=\"highlight\" style=\"display: initial;\">" + item.name + "</div>: " + item.desc;
+      ul.appendChild(li);
+    }
+
+    const btnResetMessage = $("#reset-message");
+    btnResetMessage.click(function() {
+      message.val(this.value);
+      message.highlightWithinTextarea({
+        highlight: shortcuts.map(i => i.name)
+      });
+    });
+    // get event click id save
+    $("#save-message").click(function() {
+      const threadID = "<%=threadID%>";
+      $.ajax({
+        url: "/api/thread/setData/welcomeMessage",
+        type: "POST",
+        data: {
+          threadID: threadID,
+          message: $("#message").val(),
+          type: 'update'
+        },
+        success: function(data) {
+          $.createToast({
+            title: "Success",
+            message: "Lưu thành công",
+            type: "success"
+          })
+        },
+        error: function(err) {
+          $.createToast({
+            title: "Error",
+            message: "Đã xảy ra lỗi, vui lòng thử lại",
+            type: "error"
+          })
+        }
+      });
+    });
+
+    let queueUpload = [];
+    const upload = document.getElementById("upload-multi");
+    const labelUpload = document.querySelector('label[for="upload-multi"]');
+
+    upload.addEventListener("change", function() {
+      if (document.getElementById("submit-upload") === null) {
+        const btnUpload = document.createElement("button");
+        btnUpload.type = "submit";
+        btnUpload.id = "submit-upload";
+        btnUpload.innerHTML = "Upload";
+        btnUpload.className = "btn btn-primary";
+        btnUpload.addEventListener("click", function() {
+          btnUpload.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Uploading...';
+          btnUpload.disabled = true;
+          labelUpload.classList.add("disabled");
+
+          const formData = new FormData();
+          for (const file of queueUpload)
+            formData.append(file.name, file);
+          formData.append("threadID", "<%=threadID%>");
+          formData.append("commandName", "setwelcome");
+
+          $.ajax({
+            url: "/api/upload/welcomeAttachment",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function(data) {
+              queueUpload = [];
+              const list = document.getElementById("list-preview");
+              const previewMediaWelcome = document.getElementById("previewMediaWelcome");
+              const listFileUpload = document.getElementsByClassName("list-file-upload");
+              for (const file of data.success) {
+                const fileName = file.rootName;
+                let card = '';
+                const getExt = fileName.slice(fileName.lastIndexOf('.') + 1);
+                const urlDownloadFile = `https://docs.google.com/uc?id=${file.id}&export=download&confirm=t`;
+                if ('<%=imageExt%>'.includes(getExt))
+                  card = `<img src="${urlDownloadFile}" alt="image" style="object-fit: contain; width: 100%; height: 150px;">`;
+                else if ('<%=videoExt%>'.includes(getExt))
+                  card = `<video src="${urlDownloadFile}" controls style="object-fit: contain; width: 100%; height: 150px;">
+										Your browser does not support the video tag.
+									</video>`;
+                else if ('<%=audioExt%>'.includes(getExt))
+                  card = `<audio src="${urlDownloadFile}" controls style="object-fit: contain; width: 100%; height: 150px;">
+										Your browser does not support the audio tag.
+									</audio>`;
+                else
+                  card = `<img src="https://www.pngrepo.com/png/332374/180/file-unknown.png" style="object-fit: contain; width: 100%; height: 150px;">`;
+
+                previewMediaWelcome.innerHTML += `<div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-2" file-name="${file.newFileName}" file-id="${file.id}">
+									<div class="card preview">
+										${card}
+											<div class="card-body"> 
+												<p class="card-text">${file.newFileName}</p>
+												<p class="card-text"><small class="text-muted">${file.size / 1024 / 1024 > 1 ? (file.size / 1024 / 1024).toFixed(2) + " MB" : (file.size / 1024).toFixed(2) + " KB"}</small></p>
+												<div class="form-check">
+													<input class="form-check-input" type="checkbox" value="${file.id}" id="checkbox-${file.id}" name="myCheckboxes">
+													<label class="form-check-label" for="checkbox-${file.id}">
+														Chọn để xóa
+													</label>
+												</div>
+											</div>
+									</div>`;
+
+                listFileUpload[file.count].style.display = 'none';
+              }
+
+              $.createToast({
+                title: "Success",
+                message: `Upload ${data.success.length} file thành công`,
+                type: "success",
+              });
+
+
+              const listFileUploadNonDisplay = document.querySelectorAll('li[class="list-file-upload"][style*="display: none;"]');
+              listFileUploadNonDisplay.forEach(el => el.remove());
+
+              for (const file of data.failed) {
+                $.createToast({
+                  title: "Error",
+                  message: `Xảy ra lỗi khi upload file "${file.rootName}": ${file.message}`,
+                  type: "error"
+                });
+              }
+            },
+            error: function(err) {
+              const list = document.getElementsByClassName("list-file-upload");
+              const div = document.createElement("div");
+              div.className = "alert alert-danger";
+              div.style.margin = "0.9rem 0 0 0";
+              div.innerHTML = "Error";
+              for (let i = 0; i < list.length; i++) list[i].appendChild(div);
+              $.createToast({
+                title: "Error",
+                message: "Đã xảy ra lỗi, vui lòng thử lại sau",
+                type: "error"
+              });
+            },
+            complete: function(data) {
+              btnUpload.remove();
+              labelUpload.classList.remove("disabled");
+            }
+          });
+        });
+        upload.parentNode.appendChild(btnUpload);
+      }
+
+      const ulList = document.getElementById("list-preview");
+      const files = this.files;
+
+      function isVideo(mimetype) {
+        return mimetype.includes("video");
+      }
+
+      for (const file of files) {
+        if (queueUpload.some(item => item.name === file.name)) continue;
+        queueUpload.push(file);
+        const div = document.createElement("div");
+        div.setAttribute("class", "col-12 col-sm-6 col-md-4 col-lg-3 mb-2 list-file-upload");
+        div.setAttribute("file-name", file.name);
+
+        const div2 = document.createElement("div");
+        div2.setAttribute("class", "card-preview");
+        const url = URL.createObjectURL(file);
+
+        if (file.type.indexOf("image") !== -1)
+          div2.innerHTML = `<img src="${url}" alt="image" style="object-fit: contain; width: 100%; height: 150px;">`;
+        else if (file.type.indexOf("video") !== -1)
+          div2.innerHTML = `<video src="${url}" controls="controls" style="object-fit: contain; width: 100%; height: 150px;"> </video>`;
+        else if (file.type.indexOf("audio") !== -1)
+          div2.innerHTML = `<audio src="${url}" controls="controls"> </audio>`;
+        const info = document.createElement("div");
+        info.setAttribute("class", "card-body");
+
+
+        const size = file.size / 1024 / 1024 > 1 ? (file.size / 1024 / 1024).toFixed(2) + " MB" : (file.size /
+          1024).toFixed(2) + " KB";
+        info.innerHTML = `<p class="card-text" style="word-wrap: break-word;">${file.name}</p>
+          <p class="card-text"><small class="text-muted">${size}</small></p>`;
+
+        if (file.size > 25 * 1024 * 1024 && !isVideo(file.type))
+          info.innerHTML += `<div class="alert alert-danger" role="alert" style="margin: 1rem 0 0 0">
+						File size max is 25MB.
+					</div>`;
+        else if (file.size > 83 * 1024 * 1024 && isVideo(file.type))
+          info.innerHTML += `<div class="alert alert-danger" role="alert" style="margin: 1rem 0 0 0">
+						Video file size max is 83MB.
+					</div>`;
+
+        // create button remove file
+        const btnRemove = document.createElement("button");
+        btnRemove.setAttribute("class", "btn btn-danger");
+        btnRemove.style.marginTop = "1rem";
+        btnRemove.innerHTML = "Remove";
+        btnRemove.addEventListener("click", function() {
+          ulList.removeChild(div);
+          queueUpload.splice(queueUpload.findIndex(item => item.name === file.name), 1);
+          if (queueUpload.length === 0) document.getElementById("submit-upload").remove();
+        });
+
+        info.appendChild(btnRemove);
+        div2.appendChild(info);
+        div.appendChild(div2);
+        ulList.appendChild(div);
+      }
+
+      upload.value = "";
+    });
+
+
+    const btnSelectAllCheckBoxDeleteFile = document.getElementById('select-all-delete');
+    btnSelectAllCheckBoxDeleteFile.onclick = function() {
+      let allCheckBoxNeedClick = document.querySelectorAll('input[type="checkbox"]:not(:checked)');
+      if (allCheckBoxNeedClick.length == 0)
+        allCheckBoxNeedClick = document.querySelectorAll('input[name=myCheckboxes]:checked');
+      allCheckBoxNeedClick.forEach(e => e.click());
+    };
+
+    const btnDelete = document.getElementById("deleteFile");
+    btnDelete.onclick = function() {
+      btnDelete.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    		<span class="visually-hidden">Loading...</span>`;
+      btnDelete.disabled = true;
+
+      const allChecked = document.querySelectorAll('input[name=myCheckboxes]:checked');
+      const fileIDs = Array.from(allChecked).map(checkbox => checkbox.value);
+      if (fileIDs.length == 0) {
+        $.createToast({
+          title: "Warning",
+          message: "Please select a file to delete",
+          type: "warning"
+        });
+        btnDelete.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        btnDelete.disabled = false;
+        return;
+      }
+
+
+      $.ajax({
+        url: '/api/delete/welcomeAttachment',
+        type: 'POST',
+        data: {
+          fileIDs,
+          threadID: "<%=threadID%>",
+          location: "data.welcomeAttachment",
+        },
+        success: function(data) {
+          if (data.status == 'error')
+            return $.createToast({
+              title: "Error",
+              message: "Đã xảy ra lỗi, vui lòng thử lại",
+              type: "error"
+            });
+
+          for (const fileID of data.success)
+            document.querySelector(`[file-id="${fileID}"]`).remove();
+
+          $.createToast({
+            title: "Success",
+            message: `Xóa ${data.success.length} file thành công`,
+            type: "success"
+          });
+
+          if (data.failed.length)
+            $.createToast({
+              title: "Success",
+              message: `Xóa ${data.failed.length} file thất bại`,
+              type: "error"
+            });
+          btnDelete.disabled = false;
+        },
+        error: function() {
+          $.createToast({
+            title: "Error",
+            message: `Xóa file thất bại, vui lòng thử lại sau`,
+            type: "error"
+          });
+          btnDelete.disabled = false;
+        },
+        complete: function() {
+          btnDelete.innerHTML = '<i class="fas fa-trash-alt"></i>';
+          btnDelete.disabled = false;
+        }
+      });
+    }
+
+  })();
+</script>
+
+<%~ includeFile("partials/footer.eta") %>
