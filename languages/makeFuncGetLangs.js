@@ -13,6 +13,7 @@ const languageData = readLanguage
 	.filter(line => line && !line.trim().startsWith("#") && !line.trim().startsWith("//") && line != "");
 
 global.language = convertLangObj(languageData);
+
 function convertLangObj(languageData) {
 	const obj = {};
 	for (const sentence of languageData) {
