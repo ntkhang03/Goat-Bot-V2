@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: "setleave",
 		aliases: ["setl"],
-		version: "1.5",
+		version: "1.6",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -118,7 +118,7 @@ module.exports = {
 					});
 					message.reply(getLang("resetedFile"));
 				}
-				else if (event.attachments.length == 0 && (!event.messageReply || event.messageReply.attachments.length == 0))
+				else if (event.attachments.length == 0 && (!event.messageReply || event.messageReply.attachments.length == 0)) {
 					return message.reply(getLang("missingFile"), (err, info) => {
 						global.GoatBot.onReply.set(info.messageID, {
 							messageID: info.messageID,
@@ -126,6 +126,7 @@ module.exports = {
 							commandName
 						});
 					});
+				}
 				else {
 					saveChanges(message, event, threadID, senderID, threadsData, getLang);
 				}
@@ -161,13 +162,14 @@ async function saveChanges(message, event, threadID, senderID, threadsData, getL
 	if (!data.leaveAttachment)
 		data.leaveAttachment = [];
 
-	for (const attachment of attachments) {
+	await Promise.all(attachments.map(async attachment => {
 		const { url } = attachment;
 		const ext = getExtFromUrl(url);
 		const fileName = `${getTime()}.${ext}`;
 		const infoFile = await drive.uploadFile(`setleave_${threadID}_${senderID}_${fileName}`, await getStreamFromURL(url));
 		data.leaveAttachment.push(infoFile.id);
-	}
+	}));
+
 	await threadsData.set(threadID, {
 		data
 	});
