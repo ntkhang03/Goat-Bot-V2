@@ -1,7 +1,7 @@
 const axios = require("axios");
 const ytdl = require("@distube/ytdl-core");
 const fs = require("fs-extra");
-const { getStreamFromURL, downloadFile } = global.utils;
+const { getStreamFromURL, downloadFile, formatNumber } = global.utils;
 async function getStreamAndSize(url, path = "") {
 	const response = await axios({
 		method: "GET",
@@ -23,7 +23,7 @@ async function getStreamAndSize(url, path = "") {
 module.exports = {
 	config: {
 		name: "ytb",
-		version: "1.13",
+		version: "1.14",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -109,7 +109,7 @@ module.exports = {
 			handle({ type, infoVideo, message, downloadFile, getLang });
 			return;
 		}
-		
+
 		let keyWord = args.slice(1).join(" ");
 		keyWord = keyWord.includes("?feature=share") ? keyWord.replace("?feature=share", "") : keyWord;
 		const maxResults = 6;
@@ -167,7 +167,7 @@ async function handle({ type, infoVideo, message, getLang }) {
 	const { title, videoId } = infoVideo;
 
 	if (type == "video") {
-		const MAX_SIZE = 87031808; // 83MB (max size of video that can be sent on fb)
+		const MAX_SIZE = 83 * 1024 * 1024; // 83MB (max size of video that can be sent on fb)
 		const msgSend = message.reply(getLang("downloading", getLang("video"), title));
 		const { formats } = await ytdl.getInfo(videoId);
 		const getFormat = formats
@@ -265,7 +265,8 @@ async function handle({ type, infoVideo, message, getLang }) {
 		const hours = Math.floor(lengthSeconds / 3600);
 		const minutes = Math.floor(lengthSeconds % 3600 / 60);
 		const seconds = Math.floor(lengthSeconds % 3600 % 60);
-		let msg = getLang("info", title, channel.name, (channel.subscriberCount || 0), `${hours}:${minutes}:${seconds}`, viewCount, likes, uploadDate, videoId, `https://youtu.be/${videoId}`);
+		const time = `${hours ? hours + ":" : ""}${minutes < 10 ? "0" + minutes : minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
+		let msg = getLang("info", title, channel.name, formatNumber(channel.subscriberCount || 0), time, formatNumber(viewCount), formatNumber(likes), uploadDate, videoId, `https://youtu.be/${videoId}`);
 		// if (chapters.length > 0) {
 		// 	msg += getLang("listChapter")
 		// 		+ chapters.reduce((acc, cur) => {
@@ -334,6 +335,7 @@ async function getVideoInfo(id) {
 		getChapters = [];
 	}
 	const owner = json2.contents.twoColumnWatchNextResults.results.results.contents.find(x => x.videoSecondaryInfoRenderer).videoSecondaryInfoRenderer.owner;
+
 	const result = {
 		videoId,
 		title,
@@ -341,7 +343,8 @@ async function getVideoInfo(id) {
 		lengthSeconds: lengthSeconds.match(/\d+/)[0],
 		viewCount: viewCount.match(/\d+/)[0],
 		uploadDate: json.microformat.playerMicroformatRenderer.uploadDate,
-		likes: json2.contents.twoColumnWatchNextResults.results.results.contents.find(x => x.videoPrimaryInfoRenderer).videoPrimaryInfoRenderer.videoActions.menuRenderer.topLevelButtons.find(x => x.segmentedLikeDislikeButtonRenderer).segmentedLikeDislikeButtonRenderer.likeButton.toggleButtonRenderer.defaultText.accessibility?.accessibilityData.label.replace(/\.|,/g, '').match(/\d+/)?.[0] || 0,
+		// contents.twoColumnWatchNextResults.results.results.contents[0].videoPrimaryInfoRenderer.videoActions.menuRenderer.topLevelButtons[0].segmentedLikeDislikeButtonViewModel.likeButtonViewModel.likeButtonViewModel.toggleButtonViewModel.toggleButtonViewModel.defaultButtonViewModel.buttonViewModel.accessibilityText
+		likes: json2.contents.twoColumnWatchNextResults.results.results.contents.find(x => x.videoPrimaryInfoRenderer).videoPrimaryInfoRenderer.videoActions.menuRenderer.topLevelButtons.find(x => x.segmentedLikeDislikeButtonViewModel).segmentedLikeDislikeButtonViewModel.likeButtonViewModel.likeButtonViewModel.toggleButtonViewModel.toggleButtonViewModel.defaultButtonViewModel.buttonViewModel.accessibilityText.replace(/\.|,/g, '').match(/\d+/)?.[0] || 0,
 		chapters: getChapters.map((x, i) => {
 			const start_time = x.chapterRenderer.timeRangeStartMillis;
 			const end_time = getChapters[i + 1]?.chapterRenderer?.timeRangeStartMillis || lengthSeconds.match(/\d+/)[0] * 1000;
