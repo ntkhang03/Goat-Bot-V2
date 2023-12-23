@@ -83,6 +83,15 @@ fs.copyFileSync = function (src, dest) {
 
 (async () => {
 	const { data: versions } = await axios.get('https://raw.githubusercontent.com/ntkhang03/Goat-Bot-V2/main/versions.json');
+	const { data: lastCommit } = await axios.get('https://api.github.com/repos/ntkhang03/Goat-Bot-V2/commits/main');
+	const lastCommitDate = new Date(lastCommit.commit.committer.date);
+	// if < 5min then stop update and show message
+	if (new Date().getTime() - lastCommitDate.getTime() < 5 * 60 * 1000) {
+		const minutes = Math.floor((5 * 60 * 1000 - (new Date().getTime() - lastCommitDate.getTime())) / 1000 / 60);
+		const seconds = Math.floor((5 * 60 * 1000 - (new Date().getTime() - lastCommitDate.getTime())) / 1000 % 60);
+		return log.error("ERROR", getText("updater", "updateTooFast", minutes, seconds));
+	}
+
 	const currentVersion = require('./package.json').version;
 	const indexCurrentVersion = versions.findIndex(v => v.version === currentVersion);
 	if (indexCurrentVersion === -1)
