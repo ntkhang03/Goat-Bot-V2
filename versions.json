@@ -2203,5 +2203,21 @@
 			"scripts/cmds/list.js": ""
 		},
 		"reinstallDependencies": true
+	},
+	{
+		"version": "1.5.18",
+		"files": {
+			"README.md": "Update README.md",
+			"bot/handler/handlerEvents.js": "code optimization",
+			"bot/login/login.js": "code optimization",
+			"dashboard/views/home.eta": "Update home.eta",
+			"dashboard/views/partials/nav.eta": "Fix theme changes not saving for later",
+			"languages/en.lang": "languages update",
+			"languages/vi.lang": "languages update",
+			"scripts/cmds/cmd.js": "code optimization"
+		},
+		"deleteFiles": {
+			"scripts/cmds/list.js": ""
+		}
 	}
 ]
