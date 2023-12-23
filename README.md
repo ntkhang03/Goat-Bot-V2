@@ -176,43 +176,45 @@ If you have major coding issues with this bot, please join and ask for help.
 	<summary>
  		Home:
 	</summary>
-	<p><img src="https://i.ibb.co/xzv6s2j/dbHome.png" width="399px"></p>
+	<p><img src="https://i.ibb.co/HV91MbH/image.png" width="399px"></p>
+	<p><img src="https://i.ibb.co/DRr97R9/image.png" width="399px"></p>
 </details>
 
 <details>
 	<summary>
  		Stats:
 	</summary>
-	<p><img src="https://i.ibb.co/zVZv9LF/dbStats.png" width="399px"></p>
+	<p><img src="https://i.ibb.co/NyCMYxS/image.png" width="399px"></p>
 </details>
 
 <details>
 	<summary>
  		Login/Register:
 	</summary>
-	<p><img src="https://i.ibb.co/SK61MRx/dbLogin.png" width="399px"></p>
-	<p><img src="https://i.ibb.co/1rchbb1/db-Register.png" width="399px"></p>
+	<p><img src="https://i.ibb.co/2Z2L6p4/image.png" width="399px"></p>
+	<p><img src="https://i.ibb.co/KF1ftGw/image.png" width="399px"></p>
 </details>
 
 <details>
 	<summary>
  		Dashboard Thread:
 	</summary>
-	<p><img src="https://i.ibb.co/NK5yYwx/dbThread.png" width="399px"></p>
+	<p><img src="https://i.ibb.co/tHNqtyy/image.png" width="399px"></p>
 </details>
 
 <details>
 	<summary>
  		Custom on/off:
 	</summary>
-	<p><img src="https://i.ibb.co/mJqsP2L/dbCustom.png" width="399px"></p>
+	<p><img src="https://i.ibb.co/McDRhmX/image.png" width="399px"></p>
 </details>
 
 <details>
 	<summary>
  		Custom welcome message (similar with leave, rankup (coming soon), custom command (coming soon))
 	</summary>
-	<p><img src="https://i.ibb.co/3SyfQkz/db-Custom-Welcome.png" width="399px"></p>
+	<p><img src="https://i.ibb.co/6ZrQqc1/image.png" width="399px"></p>
+	<p><img src="https://i.ibb.co/G53JsXm/image.png" width="399px"></p>
 </details>
 
 ## ✨ **Copyright (C)**
