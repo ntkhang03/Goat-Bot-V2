@@ -7,7 +7,7 @@
 	title: "Home"
 }); %>
 
-<h1 class="text-center">Welcome to Goat Bot!</h1>
+<h1 class="text-center mt-3">Welcome to Goat Bot!</h1>
 
 <ul class="text-center d-block list-unstyled">
 	<li> <i class="fas fa-user-shield"></i> Moderation</li>
