@@ -2219,5 +2219,14 @@
 		"deleteFiles": {
 			"scripts/cmds/list.js": ""
 		}
+	},
+	{
+		"version": "1.5.19",
+		"files": {
+			"scripts/events/welcome.js": "fix `ReferenceError: Cannot access 'threadData' before initialization`"
+		},
+		"deleteFiles": {
+			"scripts/cmds/list.js": ""
+		}
 	}
 ]
