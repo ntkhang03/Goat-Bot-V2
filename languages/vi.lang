@@ -59,6 +59,7 @@ login.refreshCookieAfter=Đã bật tự động làm mới cookie sau mỗi %1
 login.listenMqttClose=Đã ngắt kết nối với server MQTT
 login.listenMqttCloseByUser=Đã ngắt kết nối với server MQTT bởi người dùng
 login.retryCheckLiveCookie=Đang kiểm tra lại cookie... %1
+login.startBotSuccess=Đã khởi động bot thành công, bắt đầu nhận tin nhắn từ người dùng
 
 version.tooOldVersion=Bạn đang sử dụng phiên bản quá cũ của Goat-Bot, vui lòng cập nhật lên phiên bản mới nhất bằng cách gõ lệnh: %1 vào cmd/console/terminal/shell
 
