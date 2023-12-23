@@ -1,3 +1,19 @@
+<script>
+  $(document).ready(function() {
+    if (localStorage.getItem('theme') === 'dark') {
+      $('html').addClass('dark');
+      $('#switch-mode-icon').removeClass('fa-sun');
+      $('#switch-mode-icon').addClass('fa-moon');
+      $('#switch-mode-text').text('light');
+    } else {
+      $('html').removeClass('dark');
+      $('#switch-mode-icon').removeClass('fa-moon');
+      $('#switch-mode-icon').addClass('fa-sun');
+      $('#switch-mode-text').text('dark');
+    }
+  });
+</script>
+
 <nav class="navbar navbar-expand-md fixed-top navbar-top">
   <div class="container">
     <div class="navbar-logo">
@@ -39,8 +55,8 @@
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
           <a class="nav-link px-2" id="switch-mode" role="button">
-            <i class="fas fa-sun" id="switch-mode-icon" aria-hidden="true"></i>
-            <span class="d-md-none">Switch to <span id="switch-mode-text">light</span> Mode</span>
+            <i class="fas " id="switch-mode-icon" aria-hidden="true"></i>
+            <span class="d-md-none">Switch to <span id="switch-mode-text">light</span> mode</span>
           </a>
         </li>
 
@@ -92,16 +108,18 @@
       $('#switch-mode').click(function() {
         if (localStorage.getItem('theme') === 'dark') {
           localStorage.setItem('theme', 'light');
+					$('html').removeClass('dark');
           $('#switch-mode-icon').removeClass('fa-moon');
-          $('#switch-mode-icon').addClass('fa-sun');
-          $('#switch-mode-text').text('light');
-        } else {
-          localStorage.setItem('theme', 'dark');
-          $('#switch-mode-icon').removeClass('fa-sun');
-          $('#switch-mode-icon').addClass('fa-moon');
-          $('#switch-mode-text').text('dark');
+					$('#switch-mode-icon').addClass('fa-sun');
+					$('#switch-mode-text').text('dark');
+					
+				} else {
+					localStorage.setItem('theme', 'dark');
+					$('html').addClass('dark');
+					$('#switch-mode-icon').removeClass('fa-sun');
+					$('#switch-mode-icon').addClass('fa-moon');
+					$('#switch-mode-text').text('light');
         }
-        $('html').toggleClass('dark');
       });
     });
   })();
