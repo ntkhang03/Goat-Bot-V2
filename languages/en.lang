@@ -125,6 +125,7 @@ indexController.connectMySQLSuccess=Successfully connected SQLITE database!
 indexController.connectMySQLError=An error occurred while connecting to a SQLITE database:
 
 # updater.js
+updater.updateTooFast=Please wait at least 5 minutes after the latest commit to update without error, %1 minutes %2 seconds left
 updater.latestVersion=You are using the latest version
 updater.cantFindVersion=You are using an undefined version (%1), please check your package.json file again
 updater.newVersions=There are %1 new versions to update, starting to update...
