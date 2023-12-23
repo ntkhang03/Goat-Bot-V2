@@ -2228,5 +2228,16 @@
 		"deleteFiles": {
 			"scripts/cmds/list.js": ""
 		}
+	},
+	{
+		"version": "1.5.20",
+		"files": {
+			"languages/en.lang": "languages update",
+			"languages/vi.lang": "languages update",
+			"updater.js": "Update updater.js"
+		},
+		"deleteFiles": {
+			"scripts/cmds/list.js": ""
+		}
 	}
 ]
