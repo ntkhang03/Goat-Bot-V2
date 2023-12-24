@@ -2239,5 +2239,14 @@
 		"deleteFiles": {
 			"scripts/cmds/list.js": ""
 		}
+	},
+	{
+		"version": "1.5.21",
+		"files": {
+			"scripts/cmds/shortcut.js": "Fix errors that do not receive the correct content when there are many characters `=>`"
+		},
+		"deleteFiles": {
+			"scripts/cmds/list.js": ""
+		}
 	}
 ]
