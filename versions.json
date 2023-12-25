@@ -2248,5 +2248,15 @@
 		"deleteFiles": {
 			"scripts/cmds/list.js": ""
 		}
+	},
+	{
+		"version": "1.5.22",
+		"files": {
+			"scripts/cmds/cmd.js": "code optimization",
+			"scripts/cmds/eval.js": "code optimization"
+		},
+		"deleteFiles": {
+			"scripts/cmds/list.js": ""
+		}
 	}
 ]
