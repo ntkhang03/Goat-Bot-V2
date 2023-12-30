@@ -2258,5 +2258,20 @@
 		"deleteFiles": {
 			"scripts/cmds/list.js": ""
 		}
+	},
+	{
+		"version": "1.5.23",
+		"files": {
+			"bot/handler/handlerEvents.js": "code optimization",
+			"bot/login/login.js": "code optimization",
+			"scripts/cmds/adminonly.js": "fix command not working",
+			"scripts/cmds/help.js": "language update",
+			"scripts/cmds/ignoreonlyad.js": "language update",
+			"scripts/cmds/ignoreonlyadbox.js": "language update",
+			"scripts/cmds/update.js": "prevent updating too quickly (less than 5 minutes after the latest release is released)"
+		},
+		"deleteFiles": {
+			"scripts/cmds/list.js": ""
+		}
 	}
 ]
