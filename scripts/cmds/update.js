@@ -6,7 +6,7 @@ const dirBootLogTemp = `${__dirname}/tmp/rebootUpdated.txt`;
 module.exports = {
 	config: {
 		name: "update",
-		version: "1.1",
+		version: "1.3",
 		author: "Chat GPT, NTKhang",
 		role: 2,
 		shortDescription: {
@@ -31,7 +31,8 @@ module.exports = {
 			fileWillDelete: "\nCác tệp/thư mục sau sẽ bị xóa:\n%1",
 			andMore: " - ...và %1 tệp khác",
 			updateConfirmed: "Đã xác nhận, đang cập nhật...",
-			updateComplete: "Cập nhật thành công! Chatbot sẽ khởi động lại để áp dụng thay đổi."
+			updateComplete: "Cập nhật thành công! Chatbot sẽ khởi động lại để áp dụng thay đổi.",
+			updateTooFast: "Vì bản cập nhật gần nhất được thực phát hành cách đây %1 phút %2 giây nên không thể cập nhật. Vui lòng thử lại sau %3 phút %4 giây nữa để cập nhật không bị lỗi."
 		},
 		en: {
 			noUpdates: "You are using the latest version of GoatBot V2 (v%1).",
@@ -39,7 +40,8 @@ module.exports = {
 			fileWillDelete: "\nThe following files/folders will be deleted:\n%1",
 			andMore: " - ...and %1 more files",
 			updateConfirmed: "Confirmed, updating...",
-			updateComplete: "Update completed! The chatbot will restart to apply changes."
+			updateComplete: "Update completed! The chatbot will restart to apply changes.",
+			updateTooFast: "Because the latest update was released %1 minutes %2 seconds ago, it cannot be updated. Please try again after %3 minutes %4 seconds to update without errors."
 		}
 	},
 
@@ -55,6 +57,7 @@ module.exports = {
 		// Check for updates
 		const { data: { version } } = await axios.get("https://raw.githubusercontent.com/ntkhang03/Goat-Bot-V2/main/package.json");
 		const { data: versions } = await axios.get("https://raw.githubusercontent.com/ntkhang03/Goat-Bot-V2/main/versions.json");
+
 		const currentVersion = require("../../package.json").version;
 		if (compareVersion(version, currentVersion) < 1)
 			return message.reply(getLang("noUpdates", currentVersion));
@@ -95,6 +98,18 @@ module.exports = {
 		const { userID } = event;
 		if (userID != Reaction.authorID)
 			return;
+
+		const { data: lastCommit } = await axios.get('https://api.github.com/repos/ntkhang03/Goat-Bot-V2/commits/main');
+		const lastCommitDate = new Date(lastCommit.commit.committer.date);
+		// if < 5min then stop update and show message
+		if (new Date().getTime() - lastCommitDate.getTime() < 5 * 60 * 1000) {
+			const minutes = Math.floor((new Date().getTime() - lastCommitDate.getTime()) / 1000 / 60);
+			const seconds = Math.floor((new Date().getTime() - lastCommitDate.getTime()) / 1000 % 60);
+			const minutesCooldown = Math.floor((5 * 60 * 1000 - (new Date().getTime() - lastCommitDate.getTime())) / 1000 / 60);
+			const secondsCooldown = Math.floor((5 * 60 * 1000 - (new Date().getTime() - lastCommitDate.getTime())) / 1000 % 60);
+			return message.reply(getLang("updateTooFast", minutes, seconds, minutesCooldown, secondsCooldown));
+		}
+
 		await message.reply(getLang("updateConfirmed"));
 		// Update chatbot
 		execSync("node update", {
