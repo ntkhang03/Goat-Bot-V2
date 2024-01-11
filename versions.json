@@ -2273,5 +2273,14 @@
 		"deleteFiles": {
 			"scripts/cmds/list.js": ""
 		}
+	},
+	{
+		"version": "1.5.24",
+		"files": {
+			"bot/login/login.js": "fix `RangeError: Invalid array length` when deployed on `heroku` or `pm2`"
+		},
+		"deleteFiles": {
+			"scripts/cmds/list.js": ""
+		}
 	}
 ]
