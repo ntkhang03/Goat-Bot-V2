@@ -6,7 +6,7 @@ module.exports = {
 	config: {
 		name: "adminonly",
 		aliases: ["adonly", "onlyad", "onlyadmin"],
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
@@ -60,7 +60,7 @@ module.exports = {
 			return message.SyntaxError();
 
 		if (isSetNoti) {
-			config.adminOnly.hideNotiMessage = !value;
+			config.hideNotiMessage.adminOnly = !value;
 			message.reply(getLang(value ? "turnedOnNoti" : "turnedOffNoti"));
 		}
 		else {
