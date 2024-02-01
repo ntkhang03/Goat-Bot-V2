@@ -1990,7 +1990,7 @@
 		"version": "1.5.1",
 		"files": {
 			".gitignore": "Update .gitignore",
-			".vscode/GoatBot.code-snippets": "add new snippet: `LogDev`: \"Create template for log dev",
+			".vscode/GoatBot.code-snippets": "add new snippet: `LogDev`: \"Create template for log dev\"",
 			"dashboard/routes/verifyfbid.js": "fix can't verify uid facebook",
 			"fb-chat-api/src/addUserToGroup.js": "Update addUserToGroup.js",
 			"fb-chat-api/src/listenMqtt.js": "Update listenMqtt.js",
@@ -2026,14 +2026,20 @@
 			"scripts/cmds/cmd.js": "fix failed to install command from url",
 			"scripts/cmds/weather.js": "added areaName in message body - by `Sadman-11`",
 			"scripts/cmds/ytb.js": "Fix cant downloads shorts - by `Sadman-11`"
-		}
+		},
+		"contributors": [
+			"Sadman-11"
+		]
 	},
 	{
 		"version": "1.5.5",
 		"files": {
 			"fb-chat-api/src/listenMqtt.js": "fix `event.participantIDs` not displaying correctly in thread",
 			"scripts/cmds/videofb.js": "Fixed can't download by `illusionghost3`\n\nFixed Sorry, we can't download the video for you because the size is larger than 83MB. Api changed."
-		}
+		},
+		"contributors": [
+			"illusionghost3"
+		]
 	},
 	{
 		"version": "1.5.6",
@@ -2281,6 +2287,29 @@
 		},
 		"deleteFiles": {
 			"scripts/cmds/list.js": ""
+		},
+		"contributors": [
+			"ntkhang03"
+		]
+	},
+	{
+		"version": "1.5.25",
+		"files": {
+			".eslintrc.json": "use config eslint in file `.eslintrc.json` instead of `package.json`",
+			"bot/login/handlerWhenListenHasError.js": "code optimization",
+			"dashboard/routes/changePassword.js": "Update changePassword.js",
+			"database/models/mongodb/global.js": "correct the variable name",
+			"database/models/mongodb/userDashBoard.js": "correct the variable name",
+			"scripts/cmds/emojimean.js": "fix unusable error",
+			"scripts/cmds/shortcut.js": "language update",
+			"scripts/cmds/ytb.js": "fix: audio cannot be heard on iOS"
+		},
+		"deleteFiles": {
+			"scripts/cmds/batslap.js": "Remove `unnecessary` commands\n\nThese commands are really not necessary, it often crashes due to blocking by 3rd party api, visit the websites to make this smoother, although these commands have been removed from the source code in version new, but if you want to edit it, you can still get it back at the old commit, (of course these commands will no longer be updated) https://github.com/ntkhang03/Goat-Bot-V2/tree/8ac704f08e70abcaaf663e4127c4e05e4874c588",
+			"scripts/cmds/list.js": "",
+			"scripts/cmds/tik.js": "Remove `unnecessary` commands\n\nThese commands are really not necessary, it often crashes due to blocking by 3rd party api, visit the websites to make this smoother, although these commands have been removed from the source code in version new, but if you want to edit it, you can still get it back at the old commit, (of course these commands will no longer be updated) https://github.com/ntkhang03/Goat-Bot-V2/tree/8ac704f08e70abcaaf663e4127c4e05e4874c588",
+			"scripts/cmds/trigger.js": "Remove `unnecessary` commands\n\nThese commands are really not necessary, it often crashes due to blocking by 3rd party api, visit the websites to make this smoother, although these commands have been removed from the source code in version new, but if you want to edit it, you can still get it back at the old commit, (of course these commands will no longer be updated) https://github.com/ntkhang03/Goat-Bot-V2/tree/8ac704f08e70abcaaf663e4127c4e05e4874c588",
+			"scripts/cmds/videofb.js": "Remove `unnecessary` commands\n\nThese commands are really not necessary, it often crashes due to blocking by 3rd party api, visit the websites to make this smoother, although these commands have been removed from the source code in version new, but if you want to edit it, you can still get it back at the old commit, (of course these commands will no longer be updated) https://github.com/ntkhang03/Goat-Bot-V2/tree/8ac704f08e70abcaaf663e4127c4e05e4874c588"
 		}
 	}
 ]
