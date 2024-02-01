@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const userModel = new Schema({
+const globalModel = new Schema({
 	key: {
 		type: String,
 		unique: true
@@ -15,4 +15,4 @@ const userModel = new Schema({
 	minimize: false
 });
 
-module.exports = mongoose.model("globals", userModel);
+module.exports = mongoose.model("globals", globalModel);
