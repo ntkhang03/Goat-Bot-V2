@@ -2,13 +2,20 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const Canvas = require("canvas");
 const fs = require("fs-extra");
-const langsSupported = ['sq', 'ar', 'az', 'bn', 'bs', 'bg', 'my', 'zh-hans', 'zh-hant', 'hr', 'cs', 'da', 'nl', 'en', 'et', 'fil', 'fi', 'fr', 'ka', 'de', 'el', 'he', 'hi', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lv', 'lt', 'ms', 'nb', 'fa', 'pl', 'pt', 'ro', 'ru', 'sr', 'sk', 'sl', 'es', 'sv', 'th', 'tr', 'uk', 'vi'];
+const langsSupported = [
+	'sq', 'ar', 'az', 'bn', 'bs', 'bg', 'my', 'zh-hans',
+	'zh-hant', 'hr', 'cs', 'da', 'nl', 'en', 'et', 'fil',
+	'fi', 'fr', 'ka', 'de', 'el', 'he', 'hi', 'hu', 'id',
+	'it', 'ja', 'kk', 'ko', 'lv', 'lt', 'ms', 'nb', 'fa',
+	'pl', 'pt', 'ro', 'ru', 'sr', 'sk', 'sl', 'es', 'sv',
+	'th', 'tr', 'uk', 'vi'
+];
 
 module.exports = {
 	config: {
 		name: "emojimean",
 		alias: ["em", "emojimeaning", "emojimean"],
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -119,12 +126,28 @@ module.exports = {
 		ctx.fillRect(0, 0, witdhTable, heightTable);
 
 		images = await Promise.all(images.map(async (el) => {
-			const imageLoaded = await Canvas.loadImage(`https://www.emojiall.com/${el.url}`);
+			let imageLoaded;
+			const url = `https://www.emojiall.com/${el.url}`;
+			try {
+				imageLoaded = await Canvas.loadImage(url);
+				// https://www.emojiall.com/en/svg-to-png/openmoji-black/640/1F97A.png
+				// https://www.emojiall.com/images/svg/openmoji-black/1F97A.svg
+			}
+			catch (e) {
+				try {
+					const splitUrl = url.split("/");
+					imageLoaded = await Canvas.loadImage(`https://www.emojiall.com/images/svg/${splitUrl[splitUrl.length - 2]}/${splitUrl[splitUrl.length - 1].replace(".png", ".svg")}`);
+				}
+				catch (e) {
+					imageLoaded = null;
+				}
+			}
 			return {
 				...el,
 				imageLoaded
 			};
 		}));
+		images = images.filter(item => item.imageLoaded);
 
 		let xStart = paddingOfTable + marginImage;
 		let yStart = paddingOfTable + marginImage;
