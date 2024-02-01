@@ -23,7 +23,7 @@ async function getStreamAndSize(url, path = "") {
 module.exports = {
 	config: {
 		name: "ytb",
-		version: "1.14",
+		version: "1.15",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -171,7 +171,7 @@ async function handle({ type, infoVideo, message, getLang }) {
 		const msgSend = message.reply(getLang("downloading", getLang("video"), title));
 		const { formats } = await ytdl.getInfo(videoId);
 		const getFormat = formats
-			.filter(f => f.hasVideo && f.hasAudio)
+			.filter(f => f.hasVideo && f.hasAudio && f.quality == 'tiny' && f.audioBitrate == 128)
 			.sort((a, b) => b.contentLength - a.contentLength)
 			.find(f => f.contentLength || 0 < MAX_SIZE);
 		if (!getFormat)
