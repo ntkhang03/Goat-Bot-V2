@@ -10,7 +10,7 @@ module.exports = async function ({ api, threadModel, userModel, dashBoardModel, 
 	const configNotiWhenListenMqttError = config.notiWhenListenMqttError || {};
 	// YOUR CODE HERE
 
-	/* ___ Example send a mail to admin when bot has error ___ */
+	/* ___ Example send a MAIL to admin when bot has error ___ */
 	if (configNotiWhenListenMqttError.gmail?.enable == true) {
 		const { utils } = global;
 		const { sendMail, Prism } = utils;
@@ -26,16 +26,18 @@ module.exports = async function ({ api, threadModel, userModel, dashBoardModel, 
 				continue;
 			sendMail({
 				to: mail,
-				subject: "Report error",
+				subject: "Report error when listen message in Goat Bot",
 				text: "",
 				html: `<h2>Has error when listen message in Goat Bot id: ${botID}</h2><div><pre style="background:#272822;position: relative;padding: 1em 0 1em 1em;"><code style="color:#272822;background:#272822;text-shadow:0 1px rgba(0,0,0,.3);font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;">${highlightCode}</code></pre></div>`
 			})
-				.then()
+				.then(data => {
+					// CUSTOM YOUR CODE HERE
+				})
 				.catch(err => log.err("handlerWhenListenHasError", "Can not send mail to admin", err));
 		}
 	}
 
-	/* ___ Example send a message to telegram when bot has error ___ */
+	/* ___ Example send a message to TELEGRAM when bot has error ___ */
 	if (configNotiWhenListenMqttError.telegram?.enable == true) {
 		const TELEBOT_TOKEN = configNotiWhenListenMqttError.telegram.botToken;
 		let highlightCode = error;
@@ -48,29 +50,41 @@ module.exports = async function ({ api, threadModel, userModel, dashBoardModel, 
 		for (const ADMIN_ID_TELEGRAM of ADMIN_IDS_TELEGRAM) {
 			if (!ADMIN_ID_TELEGRAM)
 				continue;
+			const MAX_LENGTH_TELEGRAM_MESSAGE = 4096; // 4096 is max length of message in telegram
+			const message = `Has error when listen message in Goat Bot id: ${botID}:\n`;
+			let messageError = `\`\`\`json\n${highlightCode}\n\`\`\``;
+
+			if (message.length + messageError.length > MAX_LENGTH_TELEGRAM_MESSAGE) {
+				const lastString = "\n\n... (Too long to show)```";
+				messageError = messageError.slice(0, MAX_LENGTH_TELEGRAM_MESSAGE - message.length - lastString.length) + lastString;
+			}
+
 			axios.post(`https://api.telegram.org/bot${TELEBOT_TOKEN}/sendMessage`, {
 				chat_id: ADMIN_ID_TELEGRAM,
-				text: `Has error when listen message in Goat Bot id: ${botID}:\n\`\`\`\n${highlightCode}\n\`\`\``,
+				text: message + messageError,
 				parse_mode: "Markdown"
 			})
-				.then()
+				.then(data => {
+					// CUSTOM YOUR CODE HERE
+				})
 				.catch(err => log.err("handlerWhenListenHasError", "Can not send message to telegram", err.response?.data));
 		}
 	}
 
-	/* ___ Example send a message to webhook discord when bot has error ___ */
+	/* ___ Example send a message to WEBHOOK DISCORD when bot has error ___ */
 	if (configNotiWhenListenMqttError.discordHook?.enable == true) {
 		let highlightCode = error;
-		const content = `**Has error when listen message in Goat Bot id: ${botID}:**\n\`\`\`\n{highlightCode}\n\`\`\``;
+		const content = `**Has error when listen message in Goat Bot id: ${botID}:**\n\`\`\`json\n{highlightCode}\n\`\`\``;
 		const contentLength = content.replace("{highlightCode}").length;
 		if (typeof error == "object" && !error.stack)
 			highlightCode = JSON.stringify(error, null, 2);
 		else if (error.stack)
 			highlightCode = error.stack;
 
-		if (highlightCode.length + contentLength > 2000) { // 2000 is max length of message in discord webhook
-			const lastString = "\n\n... (Too long to show)";
-			highlightCode = highlightCode.slice(0, 2000 - contentLength - lastString.length) + lastString;
+		const MAX_LENGTH_DISCORD_MESSAGE = 2000; // 2000 is max length of message in discord webhook
+		if (highlightCode.length + contentLength > MAX_LENGTH_DISCORD_MESSAGE) {
+			const lastString = "\n\n... (Too long to show)```";
+			highlightCode = highlightCode.slice(0, MAX_LENGTH_DISCORD_MESSAGE - contentLength - lastString.length) + lastString;
 		}
 
 		const jsonHook = {
@@ -84,7 +98,9 @@ module.exports = async function ({ api, threadModel, userModel, dashBoardModel, 
 			if (!WEBHOOK)
 				continue;
 			axios.post(WEBHOOK, jsonHook)
-				.then()
+				.then(data => {
+					// CUSTOM YOUR CODE HERE
+				})
 				.catch(err => log.err("handlerWhenListenHasError", "Can not send message to discord webhook", err.response?.data));
 		}
 	}
