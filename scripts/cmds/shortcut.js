@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: 'shortcut',
 		aliases: ['short'],
-		version: '1.12',
+		version: '1.13',
 		author: 'NTKhang',
 		countDown: 5,
 		role: 0,
@@ -24,7 +24,7 @@ module.exports = {
 				+ '\n   {pn} del <word>: xóa một phím tắt'
 				+ '\n   Ví dụ:\n    {pn} del hi'
 				+ '\n'
-				+ '\n   {pn} [reomve | reset]: xóa bỏ tất cả các phím tắt trong nhóm chat của bạn'
+				+ '\n   {pn} [remove | reset]: xóa bỏ tất cả các phím tắt trong nhóm chat của bạn'
 				+ '\n'
 				+ '\n   {pn} list: xem danh sách tất cả các phím tắt của bạn'
 				+ '\n   {pn} list start <keyword>: xem danh sách các phím tắt của bạn bắt đầu bằng từ khóa <keyword>'
@@ -36,7 +36,7 @@ module.exports = {
 				+ '\n   {pn} del <word>: delete a shortcut'
 				+ '\n   Example:\n    {pn} del hi'
 				+ '\n'
-				+ '\n   {pn} reomve: remove all shortcuts in your group chat'
+				+ '\n   {pn} remove: remove all shortcuts in your group chat'
 				+ '\n'
 				+ '\n   {pn} list: view your shortcuts list'
 				+ '\n   {pn} list start <keyword>: view your shortcuts list start with <keyword>'
