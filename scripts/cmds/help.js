@@ -13,7 +13,7 @@ const doNotDelete = "[ 🐐 | Goat Bot V2 ]";
 module.exports = {
 	config: {
 		name: "help",
-		version: "1.18",
+		version: "1.19",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -166,7 +166,7 @@ module.exports = {
 		}
 	},
 
-	onStart: async function ({ message, args, event, threadsData, getLang, role }) {
+	onStart: async function ({ message, args, event, threadsData, getLang, role, globalData }) {
 		const langCode = await threadsData.get(event.threadID, "data.lang") || global.GoatBot.config.language;
 		let customLang = {};
 		const pathCustomLang = path.normalize(`${process.cwd()}/languages/cmds/${langCode}.js`);
@@ -180,7 +180,32 @@ module.exports = {
 		if (!["category", "name"].includes(sortHelp))
 			sortHelp = "name";
 		const commandName = (args[0] || "").toLowerCase();
-		const command = commands.get(commandName) || commands.get(aliases.get(commandName));
+		let command = commands.get(commandName) || commands.get(aliases.get(commandName));
+		const aliasesData = threadData.data.aliases || {
+			// uid: ["userid", "id"]
+		};
+		if (!command) {
+			for (const cmdName in aliasesData) {
+				if (aliasesData[cmdName].includes(commandName)) {
+					command = commands.get(cmdName);
+					break;
+				}
+			}
+		}
+
+		if (!command) {
+			const globalAliasesData = await globalData.get('setalias', 'data', []);
+			// [{
+			// 	commandName: "uid",
+			// 	aliases: ["uid", "id]
+			// }]
+			for (const item of globalAliasesData) {
+				if (item.aliases.includes(commandName)) {
+					command = commands.get(item.commandName);
+					break;
+				}
+			}
+		}
 
 		// ———————————————— LIST ALL COMMAND ——————————————— //
 		if (!command && !args[0] || !isNaN(args[0])) {
