@@ -1,3 +1,26 @@
+## 📦 Version 1.5.26
+### What's Changed
+- **fb-chat-api/src/editMessage.js**: add new api `editMessage`: edit message
+- **fb-chat-api/index.js**: add new api `editMessage`: edit message
+### Contributors
+- <div style="display: flex; align-items: center;"><a href="https://github.com/Tanvir0999">Tanvir0999&nbsp;&nbsp;</a> <img src="https://github.com/Tanvir0999.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="Tanvir0999"></div>
+- <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
+
+---
+## 📦 Version 1.5.25
+### What's Changed
+- **.eslintrc.json**: use config eslint in file `.eslintrc.json` instead of `package.json`
+- **bot/login/handlerWhenListenHasError.js**: code optimization
+- **dashboard/routes/changePassword.js**: Update changePassword.js
+- **database/models/mongodb/global.js**: correct the variable name
+- **database/models/mongodb/userDashBoard.js**: correct the variable name
+- **scripts/cmds/emojimean.js**: fix unusable error
+- **scripts/cmds/shortcut.js**: language update
+- **scripts/cmds/ytb.js**: fix: audio cannot be heard on iOS
+### Contributors
+- <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
+
+---
 ## 📦 Version 1.5.24
 ### What's Changed
 - **bot/login/login.js**: fix `RangeError: Invalid array length` when deployed on `heroku` or `pm2`

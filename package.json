@@ -1,6 +1,6 @@
 {
 	"name": "goat-bot-v2",
-	"version": "1.5.25",
+	"version": "1.5.26",
 	"description": "A simple Bot chat messenger using personal account. Made by NTKhang.",
 	"main": "index.js",
 	"engines": {
@@ -50,7 +50,7 @@
 		"websocket-stream": "^5.5.2"
 	},
 	"scripts": {
-		"start": "node index.js",
+		"start": "set NODE_ENV=&& node index.js",
 		"dev": "set NODE_ENV=development&& node index.js",
 		"prod": "set NODE_ENV=production&& node index.js"
 	},

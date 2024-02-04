@@ -2311,5 +2311,15 @@
 			"scripts/cmds/trigger.js": "Remove `unnecessary` commands\n\nThese commands are really not necessary, it often crashes due to blocking by 3rd party api, visit the websites to make this smoother, although these commands have been removed from the source code in version new, but if you want to edit it, you can still get it back at the old commit, (of course these commands will no longer be updated) https://github.com/ntkhang03/Goat-Bot-V2/tree/8ac704f08e70abcaaf663e4127c4e05e4874c588",
 			"scripts/cmds/videofb.js": "Remove `unnecessary` commands\n\nThese commands are really not necessary, it often crashes due to blocking by 3rd party api, visit the websites to make this smoother, although these commands have been removed from the source code in version new, but if you want to edit it, you can still get it back at the old commit, (of course these commands will no longer be updated) https://github.com/ntkhang03/Goat-Bot-V2/tree/8ac704f08e70abcaaf663e4127c4e05e4874c588"
 		}
+	},
+	{
+		"version": "1.5.26",
+		"files": {
+			"fb-chat-api/src/editMessage.js": "add new api `editMessage`: edit message",
+			"fb-chat-api/index.js": "add new api `editMessage`: edit message"
+		},
+		"contributors": [
+			"Tanvir0999"
+		]
 	}
 ]
