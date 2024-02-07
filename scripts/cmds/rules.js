@@ -3,7 +3,7 @@ const { getPrefix } = global.utils;
 module.exports = {
 	config: {
 		name: "rules",
-		version: "1.4",
+		version: "1.5",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -59,8 +59,9 @@ module.exports = {
 			successEdit: "Đã chỉnh sửa nội quy thứ %1 thành: %2",
 			noPermissionMove: "Chỉ quản trị viên mới có thể đổi vị trí nội quy của nhóm",
 			invalidNumberMove: "Vui lòng nhập số thứ tự của 2 nội quy nhóm bạn muốn chuyển đổi vị trí với nhau",
+			sameNumberMove: "Không thể chuyển đổi vị trí của 2 nội quy giống nhau",
 			rulesNotExistMove2: "Không tồn tại nội quy thứ %1 và %2",
-			successMove: "Đã chuyển đổi vị trí của 2 nội quy thứ %1 và %2",
+			successMove: "Đã chuyển đổi vị trí của 2 nội quy thứ %1 và %2 thành công",
 			noPermissionDelete: "Chỉ quản trị viên mới có thể xóa nội quy của nhóm",
 			invalidNumberDelete: "Vui lòng nhập số thứ tự của nội quy bạn muốn xóa",
 			rulesNotExistDelete: "Không tồn tại nội quy thứ %1",
@@ -84,8 +85,9 @@ module.exports = {
 			successEdit: "Edited rule number %1 to: %2",
 			noPermissionMove: "Only admins can move group rules",
 			invalidNumberMove: "Please enter the number of 2 group rules you want to swap",
+			sameNumberMove: "Cannot swap position of 2 same rules",
 			rulesNotExistMove2: "Rule number %1 and %2 does not exist",
-			successMove: "Swapped position of rule number %1 and %2",
+			successMove: "Swapped position of rule number %1 and %2 successfully",
 			noPermissionDelete: "Only admins can delete group rules",
 			invalidNumberDelete: "Please enter the number of the rule you want to delete",
 			rulesNotExistDelete: "Rule number %1 does not exist",
@@ -153,24 +155,27 @@ module.exports = {
 		else if (["move", "-m"].includes(type)) {
 			if (role < 1)
 				return message.reply(getLang("noPermissionMove"));
-			const stt1 = parseInt(args[1]);
-			const stt2 = parseInt(args[2]);
-			if (isNaN(stt1) || isNaN(stt2))
+			const num1 = parseInt(args[1]);
+			const num2 = parseInt(args[2]);
+			if (isNaN(num1) || isNaN(num2))
 				return message.reply(getLang("invalidNumberMove"));
-			if (!rulesOfThread[stt1 - 1] || !rulesOfThread[stt2 - 1]) {
-				let msg = !rulesOfThread[stt1 - 1] ?
-					!rulesOfThread[stt2 - 1] ?
-						message.reply(getLang("rulesNotExistMove2", stt1, stt2)) :
-						message.reply(getLang("rulesNotExistMove", stt1)) :
-					message.reply(getLang("rulesNotExistMove", stt2));
+			if (!rulesOfThread[num1 - 1] || !rulesOfThread[num2 - 1]) {
+				let msg = !rulesOfThread[num1 - 1] ?
+					!rulesOfThread[num2 - 1] ?
+						message.reply(getLang("rulesNotExistMove2", num1, num2)) :
+						message.reply(getLang("rulesNotExistMove", num1)) :
+					message.reply(getLang("rulesNotExistMove", num2));
 				msg += `, ${totalRules == 0 ? getLang("noRules") : getLang("numberRules", totalRules)}`;
 				return message.reply(msg);
 			}
+			if (num1 == num2)
+				return message.reply(getLang("sameNumberMove"));
+
 			// swap
-			[rulesOfThread[stt1 - 1], rulesOfThread[stt2 - 1]] = [rulesOfThread[stt2 - 1], rulesOfThread[stt1 - 1]];
+			[rulesOfThread[num1 - 1], rulesOfThread[num2 - 1]] = [rulesOfThread[num2 - 1], rulesOfThread[num1 - 1]];
 			try {
 				await threadsData.set(threadID, rulesOfThread, "data.rules");
-				message.reply(getLang("successMove"));
+				message.reply(getLang("successMove", num1, num2));
 			}
 			catch (err) {
 				message.err(err);
