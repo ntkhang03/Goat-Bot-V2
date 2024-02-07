@@ -3,7 +3,7 @@ const { getStreamsFromAttachment } = global.utils;
 module.exports = {
 	config: {
 		name: "notification",
-		aliases: ["notify", "noti"],
+		aliases: ["notii", "noti"],
 		version: "1.6",
 		author: "NTKhang",
 		countDown: 5,
