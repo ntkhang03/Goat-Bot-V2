@@ -4,7 +4,7 @@ const path = require("path");
 const { getPrefix } = global.utils;
 const { commands, aliases } = global.GoatBot;
 const doNotDelete = "[ 🐐 | Goat Bot V2 ]";
-/** 
+/**
 * @author NTKhang
 * @author: do not delete it
 * @message if you delete or edit it you will get a global ban
@@ -13,7 +13,7 @@ const doNotDelete = "[ 🐐 | Goat Bot V2 ]";
 module.exports = {
 	config: {
 		name: "help",
-		version: "1.19",
+		version: "1.20",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
