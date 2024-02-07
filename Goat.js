@@ -159,12 +159,15 @@ const watchAndReloadConfig = (dir, type, prop, logName) => {
 		if (eventType === type) {
 			const oldConfig = global.GoatBot[prop];
 
+			// wait 200ms to reload config
 			setTimeout(() => {
 				try {
+					// if file change first time (when start bot, maybe you know it's called when start bot?) => not reload
 					if (isFirstModified) {
 						isFirstModified = false;
 						return;
 					}
+					// if file not change => not reload
 					if (lastModified === fs.statSync(dir).mtimeMs) {
 						return;
 					}
