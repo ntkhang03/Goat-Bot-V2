@@ -1,3 +1,26 @@
+## 📦 Version 1.5.27
+### What's Changed
+- **.eslintrc.json**: add new rules: `indent`
+- **Goat.js**: nothing changed, just added comment code
+- **bot/login/login.js**: add `whiteListModeThread` handling
+- **config.json**: 
+```json
+{
+  "whiteListModeThread": {
+    "enable": false,
+    "whiteListThreadIds": [],
+    "notes": "if you enable this feature, only the thread in the whiteListThreadIds list can use the bot",
+    "how_it_work": "if you enable both whiteListMode and whiteListModeThread, the system will check if the user is in whiteListIds, then check if the thread is in whiteListThreadIds, if one of the conditions is true, the user can use the bot"
+  }
+}
+```
+- **scripts/cmds/help.js**: nothing change
+- **scripts/cmds/rules.js**: language update
+- **utils.js**: edit the `translateAPI` and `downloadFile` functions
+### Contributors
+- <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
+
+---
 ## 📦 Version 1.5.26
 ### What's Changed
 - **fb-chat-api/src/editMessage.js**: add new api `editMessage`: edit message
