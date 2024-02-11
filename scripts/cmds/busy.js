@@ -4,6 +4,7 @@ if (!global.client.busyList)
 module.exports = {
 	config: {
 		name: "busy",
+		aliases: ["afk"],
 		version: "1.5",
 		author: "NTKhang",
 		countDown: 5,
@@ -63,8 +64,16 @@ module.exports = {
 		);
 	},
 
-	onChat: async ({ event, message, getLang }) => {
-		const { mentions } = event;
+	onChat: async ({ event, message, usersData, getLang }) => {
+		const { mentions, senderID } = event;
+
+		const isAfk = global.db.allUserData.find(item => item.userID == senderID)?.data.busy || false;
+		if (isAfk) {
+			const { data } = await usersData.get(senderID);
+			delete data.busy;
+			await usersData.set(senderID, data, "data");
+			return message.reply(getLang("turnedOff"));
+		}
 
 		if (!mentions || Object.keys(mentions).length == 0)
 			return;
