@@ -5,7 +5,7 @@ const yts = require("yt-search");
 const ytdl = require("@distube/ytdl-core");
 
 module.exports = {
-  sentMusic: { english: [], nepali: [], hindi: [], batman:[], legend: [], lovely:[], norzum:[], baig:[], talha:[], taylor:[] },
+  sentMusic: { english: [], nepali: [], hindi: [], batman:[], legend: [], lovely:[], norzum:[], baig:[], talha:[], taylor:[], tribal:[], arjit:[], jubin:[], anuv:[], hchill:[], sky1:[]},
 
   music: {
     english: ["PLMC9KNkIncKseYxDN2niH6glGRWKsLtde"],//yeutai song maa aru playlist id halna ["", "", ""],
@@ -19,6 +19,12 @@ module.exports = {
     baig: ["PL-VHaeKT1xxMZAkHXPsGH1FGn7KjaO_MP"],
     talha: ["PLRfp0rC-SGyKmLT6vFiqvj-XerWYoBujc"],
     taylor: ["PLc8BjX57_to8WP2WO6HlzL9R-TTX21oBM"], 
+    tribal: ["PLaPLzpOlr3JQ3M5rmV6oKYDg_L1uGRNtm"],
+    arjit: ["PLizEqzsgQvPp8kTHGV9o6bjkz6t0TJtjm"],
+    jubin: ["PLu32IobdMrfJvuJikP22IEbz27kLrjq2h"],
+    anuv: ["PLLKP-hLXioCvo0uNvubn-faiHc6TdNZM8"],
+    hchill: ["PLyal44ee1xsrL6bCrDtofC9e5infNHIvr"],
+    sky1: ["PLNCQaR6UnxPL_F9gMiL1D6XHDHr6CRAL3"],
   },
 
   config: {
