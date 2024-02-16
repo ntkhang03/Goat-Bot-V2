@@ -21,6 +21,7 @@
 "adminBot": [
     "100094335527121",
     "100074772216830",
+]
 	"whiteListMode": {
 		"enable": false,
 		"whiteListIds": [],
