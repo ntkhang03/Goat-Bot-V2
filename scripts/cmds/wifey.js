@@ -1,53 +1,45 @@
 const axios = require("axios");
-const request = require("request");
 const fs = require("fs");
+const path = require("path");
 
 module.exports = {
   config: {
     name: "wifey",
-    aliases: [],
+    aliases: ["shoti"],
+    author: "Kshitiz",
     version: "1.0",
-    author: "kshitiz",
-    countDown: 20,
+    cooldowns: 10,
     role: 0,
-    shortDescription: "get a temporary wifey haha",
-    longDescription: "get a temporary wife",
+    shortDescription: "Get random wifey ",
+    longDescription: "Get random wifey video",
     category: "fun",
-    guide: "{pn} wifey",
+    guide: "{p}wifey",
   },
-  onStart: async function ({ api, event, message }) {
+
+  onStart: async function ({ api, event, args, message }) {
+    api.setMessageReaction("🕐", event.messageID, (err) => {}, true);
+
     try {
-      message.reply("Generating your temporary wifey...");
+      const response = await axios.get(`https://wifey-shoti.onrender.com/kshitiz`, { responseType: "stream" });
 
-      const response = await axios.post("https://your-shoti-api.vercel.app/api/v1/get", {
-        apikey: "$shoti-1hecj3cvm6r1mf91948",
+      const tempVideoPath = path.join(__dirname, "cache", `${Date.now()}.mp4`);
+
+      const writer = fs.createWriteStream(tempVideoPath);
+      response.data.pipe(writer);
+
+      writer.on("finish", async () => {
+        const stream = fs.createReadStream(tempVideoPath);
+
+        message.reply({
+          body: `Random Wifey Vidoes.`,
+          attachment: stream,
+        });
+
+        api.setMessageReaction("✅", event.messageID, (err) => {}, true);
       });
-
-      if (response.data && response.data.data && response.data.data.url) {
-        const file = fs.createWriteStream(__dirname + "/cache/shoti.mp4");
-        const rqs = request(encodeURI(response.data.data.url));
-
-        rqs.pipe(file);
-
-        file.on("finish", async () => {
-          await api.sendMessage(
-            {
-              body: `@${response.data.data.user.username}\nHere's your temporary wifey 🥵`,
-              attachment: fs.createReadStream(__dirname + "/cache/shoti.mp4"),
-            },
-            event.threadID,
-            event.messageID
-          );
-        });
-
-        file.on("error", (err) => {
-          api.sendMessage(`Error downloading video: ${err}`, event.threadID, event.messageID);
-        });
-      } else {
-        api.sendMessage("Failed to fetch wifey information from the API.", event.threadID, event.messageID);
-      }
     } catch (error) {
-      api.sendMessage(`An error occurred while generating video: ${error}`, event.threadID, event.messageID);
+      console.error(error);
+      message.reply("Sorry, an error occurred while processing your request.");
     }
-  },
+  }
 };
