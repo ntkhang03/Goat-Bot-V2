@@ -24,11 +24,7 @@
 		"no-async-promise-executor": 0,
 		"no-unreachable": 1,
 		"no-var": 1,
-		"no-fallthrough": 1,
-		"indent": [
-			1,
-			"tab"
-		]
+		"no-fallthrough": 1
 	},
 	"ignorePatterns": [
 		"*.eta"
