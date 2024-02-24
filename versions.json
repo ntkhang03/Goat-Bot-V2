@@ -2343,5 +2343,18 @@
 		"deleteFiles": {
 			"scripts/cmds/list.js": ""
 		}
+	},
+	{
+		"version": "1.5.28",
+		"files": {
+			".eslintrc.json": "Update .eslintrc.json",
+			"README.md": "add `How it works?`",
+			"bot/handler/handlerEvents.js": "code optimization",
+			"scripts/cmds/shortcut.js": "code optimization",
+			"scripts/cmds/warn.js": "language update"
+		},
+		"deleteFiles": {
+			"scripts/cmds/list.js": ""
+		}
 	}
 ]

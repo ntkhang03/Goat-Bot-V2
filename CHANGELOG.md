@@ -1,3 +1,14 @@
+## 📦 Version 1.5.28
+### What's Changed
+- **.eslintrc.json**: Update .eslintrc.json
+- **README.md**: add `How it works?`
+- **bot/handler/handlerEvents.js**: code optimization
+- **scripts/cmds/shortcut.js**: code optimization
+- **scripts/cmds/warn.js**: language update
+### Contributors
+- <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
+
+---
 ## 📦 Version 1.5.27
 ### What's Changed
 - **.eslintrc.json**: add new rules: `indent`
