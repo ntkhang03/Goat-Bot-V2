@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: 'shortcut',
 		aliases: ['short'],
-		version: '1.13',
+		version: '1.14',
 		author: 'NTKhang',
 		countDown: 5,
 		role: 0,
@@ -198,9 +198,17 @@ module.exports = {
 
 				const list = (
 					await Promise.all(
-						shortCutList.map(async (x, index) =>
-							`[${index + 1}] ${x.key} => ${x.content ? 1 : 0} ${getLang("message")}, ${x.attachments.length} ${getLang('attachment')} (${await usersData.getName(x.author)})`
-						)
+						shortCutList.map(async (x, index) => {
+							const num = index + 1;
+							const keyword = x.key;
+							const numMessage = x.content ? 1 : 0;
+							const msgContent = numMessage ? `${numMessage} ${getLang("message")}, ` : "";
+							const numAttachments = x.attachments.length;
+							const msgAttachments = numAttachments ? `${x.attachments.length} ${getLang('attachment')}` : "";
+							const authorName = await usersData.getName(x.author);
+
+							return `[${num}] ${keyword} => ${msgContent}${msgAttachments} (${authorName})`;
+						})
 					)
 				).join('\n');
 				message.reply(stringType + '\n' + list);
@@ -247,7 +255,16 @@ module.exports = {
 			else
 				shortCutData[index] = Reaction.newShortcut;
 			await threadsData.set(threadID, shortCutData, 'data.shortcut');
-			return message.reply(getLang('added', Reaction.newShortcut.key, Reaction.newShortcut.content) + (Reaction.newShortcut.attachments.length > 0 ? `\n${getLang('addedAttachment', Reaction.newShortcut.attachments.length)}` : ''));
+			return message.reply(getLang(
+				'added',
+				Reaction.newShortcut.key,
+				Reaction.newShortcut.content
+			)
+				+ (Reaction.newShortcut.attachments.length > 0 ? `\n${getLang(
+					'addedAttachment',
+					Reaction.newShortcut.attachments.length
+				)} ` : '')
+			);
 		}
 	},
 
