@@ -3,15 +3,11 @@ const { getPrefix } = global.utils;
 module.exports = {
 	config: {
 		name: "rules",
-		version: "1.5",
+		version: "1.6",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: {
-			vi: "Quy tắc của nhóm",
-			en: "Group rules"
-		},
-		longDescription: {
+		description: {
 			vi: "Tạo/xem/thêm/sửa/đổi vị trí/xóa nội quy nhóm của bạn",
 			en: "Create/view/add/edit/change position/delete group rules of you"
 		},

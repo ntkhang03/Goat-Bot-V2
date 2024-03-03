@@ -4,15 +4,11 @@ const moment = require("moment-timezone");
 module.exports = {
 	config: {
 		name: "ban",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 1,
-		shortDescription: {
-			vi: "Cấm thành viên khỏi box chat",
-			en: "Ban user from box chat"
-		},
-		longDescription: {
+		description: {
 			vi: "Cấm thành viên khỏi box chat",
 			en: "Ban user from box chat"
 		},

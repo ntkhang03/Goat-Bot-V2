@@ -3,15 +3,11 @@ const { getStreamsFromAttachment, getTime } = global.utils;
 module.exports = {
 	config: {
 		name: "sendnoti",
-		version: "1.4",
+		version: "1.5",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: {
-			vi: "Tạo và gửi thông báo đến các nhóm",
-			en: "Create and send notification to groups"
-		},
-		longDescription: {
+		description: {
 			vi: "Tạo và gửi thông báo đến các nhóm do bạn quản lý",
 			en: "Create and send notification to groups that you manage"
 		},

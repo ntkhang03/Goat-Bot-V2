@@ -22,15 +22,11 @@ function formatHours(hours) {
 module.exports = {
 	config: {
 		name: "weather",
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: {
-			vi: "dự báo thời tiết",
-			en: "weather forecast"
-		},
-		longDescription: {
+		description: {
 			vi: "xem dự báo thời tiết hiện tại và 5 ngày sau",
 			en: "view the current and next 5 days weather forecast"
 		},

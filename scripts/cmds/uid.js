@@ -4,15 +4,11 @@ const regExCheckURL = /^(http|https):\/\/[^ "]+$/;
 module.exports = {
 	config: {
 		name: "uid",
-		version: "1.2",
+		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: {
-			vi: "Xem uid",
-			en: "View uid"
-		},
-		longDescription: {
+		description: {
 			vi: "Xem user id facebook của người dùng",
 			en: "View facebook user id of user"
 		},

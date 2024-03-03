@@ -1,8 +1,7 @@
 module.exports = {
 	// You can customize the language here or directly in the command files
 	onlyadminbox: {
-		shortDescription: "turn on/off only admin box can use bot",
-		longDescription: "turn on/off only admin box can use bot",
+		description: "turn on/off only admin box can use bot",
 		guide: "   {pn} [on | off]",
 		text: {
 			turnedOn: "Turned on the mode only admin of group can use bot",
@@ -11,8 +10,7 @@ module.exports = {
 		}
 	},
 	adduser: {
-		shortDescription: "Add user to box chat",
-		longDescription: "Add user to box chat of you",
+		description: "Add user to box chat of you",
 		guide: "   {pn} [link profile | uid]",
 		text: {
 			alreadyInGroup: "Already in group",
@@ -26,8 +24,7 @@ module.exports = {
 		}
 	},
 	admin: {
-		shortDescription: "Add, remove, edit admin role",
-		longDescription: "Add, remove, edit admin role",
+		description: "Add, remove, edit admin role",
 		guide: "   {pn} [add | -a] <uid>: Add admin role for user\n\t  {pn} [remove | -r] <uid>: Remove admin role of user\n\t  {pn} [list | -l]: List all admins",
 		text: {
 			added: "✅ | Added admin role for %1 users:\n%2",
@@ -40,8 +37,7 @@ module.exports = {
 		}
 	},
 	adminonly: {
-		shortDescription: "turn on/off only admin can use bot",
-		longDescription: "turn on/off only admin can use bot",
+		description: "turn on/off only admin can use bot",
 		guide: "{pn} [on | off]",
 		text: {
 			turnedOn: "Turned on the mode only admin can use bot",
@@ -50,13 +46,11 @@ module.exports = {
 		}
 	},
 	all: {
-		shortDescription: "Tag all members",
-		longDescription: "Tag all members in your group chat",
+		description: "Tag all members in your group chat",
 		guide: "{pn} [content | empty]"
 	},
 	anime: {
-		shortDescription: "random anime image",
-		longDescription: "random anime image",
+		description: "random anime image",
 		guide: "{pn} <endpoint>\n   List of endpoint: neko, kitsune, hug, pat, waifu, cry, kiss, slap, smug, punch",
 		text: {
 			loading: "Initializing image, please wait...",
@@ -64,8 +58,7 @@ module.exports = {
 		}
 	},
 	antichangeinfobox: {
-		shortDescription: "Anti change info box",
-		longDescription: "Turn on/off anti change info box",
+		description: "Turn on/off anti change info box",
 		guide: "   {pn} avt [on | off]: anti change avatar box chat\n   {pn} name [on | off]: anti change name box chat\n   {pn} theme [on | off]: anti change theme (chủ đề) box chat\n   {pn} emoji [on | off]: anti change emoji box chat",
 		text: {
 			antiChangeAvatarOn: "Turn on anti change avatar box chat",
@@ -84,16 +77,14 @@ module.exports = {
 		}
 	},
 	appstore: {
-		shortDescription: "Search app on appstore",
-		longDescription: "Search app on appstore",
+		description: "Search app on appstore",
 		text: {
 			missingKeyword: "You haven't entered any keyword",
 			noResult: "No result found for keyword %1"
 		}
 	},
 	autosetname: {
-		shortDescription: "Auto change nickname of new member",
-		longDescription: "Auto change nickname of new member",
+		description: "Auto change nickname of new member",
 		guide: "   {pn} set <nickname>: use to set config to auto change nickname, with some shortcuts:\n   + {userName}: name of new member\n   + {userID}: member id\n   Example:\n    {pn} set {userName} 🚀\n\n   {pn} [on | off]: use to turn on/off this feature\n\n   {pn} [view | info]: show current config",
 		text: {
 			missingConfig: "Please enter the required configuration",
@@ -107,8 +98,7 @@ module.exports = {
 		}
 	},
 	avatar: {
-		shortDescription: "create anime avatar",
-		longDescription: "create anime avatar with signature",
+		description: "create anime avatar with signature",
 		guide: "{p}{n} <character id or character name> | <background text> | <signature> | <background color name or hex color>\n{p}{n} help: view how to use this command",
 		text: {
 			initImage: "Initializing image, please wait...",
@@ -121,8 +111,7 @@ module.exports = {
 		}
 	},
 	badwords: {
-		shortDescription: "Turn on/off bad words warning",
-		longDescription: "Turn on/off/add/remove bad words warning, if a member violates, he will be warned, the second time he will be kicked out of the chat box",
+		description: "Turn on/off/add/remove bad words warning, if a member violates, he will be warned, the second time he will be kicked out of the chat box",
 		guide: "   {pn} add <words>: add banned words (you can add multiple words separated by commas \",\" or vertical bars \"|\")\n   {pn} delete <words>: delete banned words (you can delete multiple words separated by commas \",\" or vertical bars \"|\")\n   {pn} list <hide | leave blank>: turn off warning (add \"hide\" to hide banned words)\n   {pn} unwarn [<userID> | <@tag>]: remove 1 warning of 1 member\n   {pn} on: turn off warning\n   {pn} off: turn on warning",
 		text: {
 			onText: "on",
@@ -151,8 +140,7 @@ module.exports = {
 		}
 	},
 	balance: {
-		shortDescription: "view your money",
-		longDescription: "view your money or the money of the tagged person",
+		description: "view your money or the money of the tagged person",
 		guide: "   {pn}: view your money\n   {pn} <@tag>: view the money of the tagged person",
 		text: {
 			money: "You have %1$",
@@ -160,15 +148,13 @@ module.exports = {
 		}
 	},
 	batslap: {
-		shortDescription: "Batslap image",
-		longDescription: "Batslap image",
+		description: "Batslap image",
 		text: {
 			noTag: "You must tag the person you want to slap"
 		}
 	},
 	busy: {
-		shortDescription: "turn on do not disturb mode",
-		longDescription: "turn on do not disturb mode, when you are tagged bot will notify",
+		description: "turn on do not disturb mode, when you are tagged bot will notify",
 		guide: "   {pn} [empty | <reason>]: turn on do not disturb mode\n   {pn} off: turn off do not disturb mode",
 		text: {
 			turnedOff: "✅ | Do not disturb mode has been turned off",
@@ -179,8 +165,7 @@ module.exports = {
 		}
 	},
 	callad: {
-		shortDescription: "send message to admin bot",
-		longDescription: "send report, feedback, bug,... to admin bot",
+		description: "send report, feedback, bug,... to admin bot",
 		guide: "   {pn} <message>",
 		text: {
 			missingMessage: "Please enter the message you want to send to admin",
@@ -195,8 +180,7 @@ module.exports = {
 		}
 	},
 	cmd: {
-		shortDescription: "Manage command",
-		longDescription: "Manage your command files",
+		description: "Manage your command files",
 		guide: "{pn} load <command file name>\n{pn} loadAll\n{pn} install <url> <command file name>: Download and install a command file from a url, url is the path to the file (raw)",
 		text: {
 			missingFileName: "⚠️ | Please enter the command name you want to reload",
@@ -220,8 +204,7 @@ module.exports = {
 		}
 	},
 	count: {
-		shortDescription: "View group messages",
-		longDescription: "View the number of messages of all members or yourself (since the bot joined the group)",
+		description: "View the number of messages of all members or yourself (since the bot joined the group)",
 		guide: "   {pn}: used to view the number of messages of you\n   {pn} @tag: used to view the number of messages of those tagged\n   {pn} all: used to view the number of messages of all members",
 		text: {
 			count: "Number of messages of members:",
@@ -234,8 +217,7 @@ module.exports = {
 		}
 	},
 	customrankcard: {
-		shortDescription: "Design rank card",
-		longDescription: "Design rank card by your own",
+		description: "Design rank card by your own",
 		guide: {
 			body: "   {pn} [maincolor | subcolor | linecolor | progresscolor | alphasubcolor | textcolor | namecolor | expcolor | rankcolor | levelcolor | reset] <value>"
 				+ "\n   In which: "
@@ -273,8 +255,7 @@ module.exports = {
 		}
 	},
 	dhbc: {
-		shortDescription: "game catch the word",
-		longDescription: "play game catch the word",
+		description: "play game catch the word",
 		guide: "{pn}",
 		text: {
 			reply: "Please reply this message with the answer\n%1",
@@ -285,21 +266,18 @@ module.exports = {
 		}
 	},
 	emojimix: {
-		shortDescription: "Mix 2 emoji",
-		longDescription: "Mix 2 emoji together",
+		description: "Mix 2 emoji together",
 		guide: "   {pn} <emoji1> <emoji2>\n   Example:  {pn} 🤣 🥰"
 	},
 	eval: {
-		shortDescription: "Test code quickly",
-		longDescription: "Test code quickly",
+		description: "Test code quickly",
 		guide: "{pn} <code to test>",
 		text: {
 			error: "❌ An error occurred:"
 		}
 	},
 	event: {
-		shortDescription: "Manage event command",
-		longDescription: "Manage your event command files",
+		description: "Manage your event command files",
 		guide: "{pn} load <command file name>\n{pn} loadAll\n{pn} install <url> <command file name>: Download and load event command, url is the path to the command file (raw)",
 		text: {
 			missingFileName: "⚠️ | Please enter the command name you want to reload",
@@ -323,8 +301,7 @@ module.exports = {
 		}
 	},
 	filteruser: {
-		shortDescription: "filter group members",
-		longDescription: "filter group members by number of messages or locked account",
+		description: "filter group members by number of messages or locked account",
 		guide: "   {pn} [<number of messages> | die]",
 		text: {
 			needAdmin: "⚠️ | Please add the bot as a group admin to use this command",
@@ -337,16 +314,14 @@ module.exports = {
 		}
 	},
 	getfbstate: {
-		shortDescription: "Get current fbstate",
-		longDescription: "Get current fbstate",
+		description: "Get current fbstate",
 		guide: "{pn}",
 		text: {
 			success: "Sent fbstate to you, please check bot's private message"
 		}
 	},
 	grouptag: {
-		shortDescription: "Tag by group",
-		longDescription: "Tag members by group",
+		description: "Tag members by group",
 		guide: "   {pn} add <groupTagName> <@tags>: use to add new group tag or add members to group tag\n   Example:\n    {pn} TEAM1 @tag1 @tag2\n\n   {pn} del <groupTagName> <@tags>: use to remove members from group tag\n   Example:\n    {pn} del TEAM1 @tag1 @tag2\n\n   {pn} remove <groupTagName>: use to remove group tag\n   Example:\n    {pn} remove TEAM1\n\n   {pn} rename <groupTagName> | <newGroupTagName>: use to rename group tag\n\n   {pn} [list | all]: use to view list of group tag in your group chat\n\n   {pn} info <groupTagName>: use to view info of group tag",
 		text: {
 			noGroupTagName: "Please enter group tag name",
@@ -367,8 +342,7 @@ module.exports = {
 		}
 	},
 	help: {
-		shortDescription: "View command usage",
-		longDescription: "View command usage",
+		description: "View command usage",
 		guide: "{pn} [empty | <page number> | <command name>]",
 		text: {
 			help: "╭─────────────⭓\n%1\n├─────⭔\n│ Page [ %2/%3 ]\n│ Currently, the bot has %4 commands that can be used\n│ » Type %5help <page> to view the command list\n│ » Type %5help to view the details of how to use that command\n├────────⭔\n│ %6\n╰─────────────⭓",
@@ -385,17 +359,14 @@ module.exports = {
 		}
 	},
 	kick: {
-		shortDescription: "Kick member",
-		longDescription: "Kick member out of chat box",
+		description: "Kick member out of chat box",
 		guide: "{pn} @tags: use to kick members who are tagged"
 	},
 	loadconfig: {
-		shortDescription: "Reload config",
-		longDescription: "Reload config of bot"
+		description: "Reload config of bot"
 	},
 	moon: {
-		shortDescription: "view moon image",
-		longDescription: "view moon image on the night you choose (dd/mm/yyyy)",
+		description: "view moon image on the night you choose (dd/mm/yyyy)",
 		guide: "  {pn} <day/month/year>\n   {pn} <day/month/year> <caption>",
 		text: {
 			invalidDateFormat: "Please enter a valid date in DD/MM/YYYY format",
@@ -405,8 +376,7 @@ module.exports = {
 		}
 	},
 	notification: {
-		shortDescription: "Send notification from admin to all box",
-		longDescription: "Send notification from admin to all box",
+		description: "Send notification from admin to all box",
 		guide: "{pn} <tin nhắn>",
 		text: {
 			missingMessage: "Please enter the message you want to send to all groups",
@@ -417,8 +387,7 @@ module.exports = {
 		}
 	},
 	prefix: {
-		shortDescription: "Thay đổi prefix của bot",
-		longDescription: "Thay đổi dấu lệnh của bot trong box chat của bạn hoặc cả hệ thống bot (chỉ admin bot)",
+		description: "Thay đổi dấu lệnh của bot trong box chat của bạn hoặc cả hệ thống bot (chỉ admin bot)",
 		guide: "   {pn} <new prefix>: change new prefix in your box chat\n   Example:\n    {pn} #\n\n   {pn} <new prefix> -g: change new prefix in system bot (only admin bot)\n   Example:\n    {pn} # -g\n\n   {pn} reset: change prefix in your box chat to default",
 		text: {
 			reset: "Your prefix has been reset to default: %1",
@@ -431,12 +400,10 @@ module.exports = {
 		}
 	},
 	rank: {
-		shortDescription: "View level of user",
-		longDescription: "View your level or the level of the tagged person. You can tag many people"
+		description: "View your level or the level of the tagged person. You can tag many people"
 	},
 	rankup: {
-		shortDescription: "Turn on/off level up notification",
-		longDescription: "Turn on/off level up notification",
+		description: "Turn on/off level up notification",
 		guide: "{pn} [on | off]",
 		text: {
 			syntaxError: "Syntax error, only use {pn} on or {pn} off",
@@ -446,8 +413,7 @@ module.exports = {
 		}
 	},
 	refresh: {
-		shortDescription: "refresh information",
-		longDescription: "refresh information of group chat or user",
+		description: "refresh information of group chat or user",
 		guide: "   {pn} [thread | group]: refresh information of your group chat\n   {pn} group <threadID>: refresh information of group chat by ID\n\n   {pn} user: refresh information of your user\n   {pn} user [<userID> | @tag]: refresh information of user by ID",
 		text: {
 			refreshMyThreadSuccess: "✅ | Refresh information of your group chat successfully!",
@@ -455,13 +421,11 @@ module.exports = {
 		}
 	},
 	rules: {
-		shortDescription: "Group rules",
-		longDescription: "Create/view/add/edit/change position/delete group rules of you",
+		description: "Create/view/add/edit/change position/delete group rules of you",
 		guide: "   {pn} [add | -a] <rule to add>: add rule for group.\n   {pn}: view group rules.\n   {pn} [edit | -e] <n> <content after edit>: edit rule number n.\n   {pn} [move | -m] <stt1> <stt2> swap position of rule number <stt1> and <stt2>.\n   {pn} [delete | -d] <n>: delete rule number n.\n   {pn} [remove | -r]: delete all rules of group.\n\n   Example:\n    {pn} add don't spam\n    {pn} move 1 3\n    {pn} -e 1 don't spam message in group\n    {pn} -r"
 	},
 	sendnoti: {
-		shortDescription: "Create and send notification to groups",
-		longDescription: "Create and send notification to groups that you manage",
+		description: "Create and send notification to groups that you manage",
 		guide: "   {pn} create <groupName>: Create a new notification group with name <groupName>\n   Example:\n    {pn} create TEAM1\n\n   {pn} add <groupName>: add current box chat to notification group <groupName> (you must be admin of this box chat)\n   Example:\n    {pn} add TEAM1\n\n   {pn} delete: remove current box chat from notification group <groupName> (you must be creator of this group)\n   Example:\n    {pn} delete TEAM1\n\n   {pn} send <groupName> | <message>: send notification to all groups in notification group <groupName> (you must be admin of those groups)\n   Example:\n    {pn} remove TEAM1\n\n   {pn} remove <groupName>: remove notification group <groupName> (you must be creator of notification group <groupName>)\n   Example:\n    {pn} remove TEAM1",
 		text: {
 			missingGroupName: "Please enter groupNoti name",
@@ -489,13 +453,11 @@ module.exports = {
 		}
 	},
 	setalias: {
-		shortDescription: "Add an alias for the command",
-		longDescription: "Add an alias for any command in your group",
+		description: "Add an alias for any command in your group",
 		guide: "  This command is used to add/remove alias for any command in your group\n   {pn} add <alias> <command>: add an alias for the command in your group\n   {pn} add <alias> <command> -g: add an alias for the command in the whole system (only bot admin)\nExample:\n    {pn} add ctrk customrankcard\n\n   {pn} [remove | rm] <alias> <command>: remove an alias for the command in your group\n   {pn} [remove | rm] <alias> <command> -g: remove an alias for the command in the whole system (only bot admin)\nExample:\n    {pn} rm ctrk customrankcard\n\n   {pn} list: list all alias for commands in your group\n   {pn} list -g: list all alias for commands in the whole system"
 	},
 	setavt: {
-		shortDescription: "Change bot avatar",
-		longDescription: "Change bot avatar",
+		description: "Change bot avatar",
 		text: {
 			cannotGetImage: "❌ | An error occurred while querying the image url",
 			invalidImageFormat: "❌ | Invalid image format",
@@ -503,8 +465,7 @@ module.exports = {
 		}
 	},
 	setlang: {
-		shortDescription: "Set default language",
-		longDescription: "Set default language of bot for current chat or all chats",
+		description: "Set default language of bot for current chat or all chats",
 		guide: "   {pn} <language code ISO 639-1\n   Example:    {pn} en    {pn} vi    {pn} ja",
 		text: {
 			setLangForAll: "Set default language for all chats: %1",
@@ -513,8 +474,7 @@ module.exports = {
 		}
 	},
 	setleave: {
-		shortDescription: "Edit leave message",
-		longDescription: "Edit content/turn on/off leave message when member leave your group chat",
+		description: "Edit content/turn on/off leave message when member leave your group chat",
 		guide: {
 			body: "   {pn} on: Turn on leave message\n   {pn} off: Turn off leave message\n   {pn} text [<content> | reset]: edit text content or reset to default, available shortcuts:\n  + {userName}: name of member who leave group\n  + {userNameTag}: name of member who leave group (tag)\n  + {boxName}: name of group chat\n  + {type}: leave/kicked by admin\n  + {session}: session in day\n\n   Example:\n    {pn} text {userName} has {type} group, see you again 🤧\n\n   Reply or send a message with file with content {pn} file: to add attachment file to leave message (image, video, audio)\n\nExample:\n   {pn} file reset: reset file",
 			attachment: {
@@ -532,8 +492,7 @@ module.exports = {
 		}
 	},
 	setname: {
-		shortDescription: "Change nickname",
-		longDescription: "Change nickname of all members in chat or members tagged by a format",
+		description: "Change nickname of all members in chat or members tagged by a format",
 		guide: {
 			body: "   {pn} <nick name>: change nickname of yourself\n   {pn} @tags <nick name>: change nickname of members tagged\n   {pn} all <nick name>: change nickname of all members in chat\n\nWith available shortcuts:\n   + {userName}: name of member\n   + {userID}: ID of member\n\n   Example: (see image)",
 			attachment: {
@@ -546,8 +505,7 @@ module.exports = {
 		}
 	},
 	setrole: {
-		shortDescription: "Edit role of command",
-		longDescription: "Edit role of command (commands with role < 2)",
+		description: "Edit role of command (commands with role < 2)",
 		guide: "   {pn} <commandName> <new role>: set new role for command\n   With:\n   + <commandName>: command name\n   + <new role>: new role of command with:\n   + <new role> = 0: command can be used by all members in group\n   + <new role> = 1: command can be used by admin only\n   + <new role> = default: reset role of command to default\n   Example:\n    {pn} rank 1: (command rank can be used by admin only)\n    {pn} rank 0: (command rank can be used by all members in group)\n    {pn} rank default: reset to default\n—————\n   {pn} [viewrole|view|show]: view role of edited commands",
 		text: {
 			noEditedCommand: "✅ Your group has no edited command",
@@ -560,8 +518,7 @@ module.exports = {
 		}
 	},
 	setwelcome: {
-		shortDescription: "Edit welcome message content",
-		longDescription: "Edit welcome message content when new member join your group chat",
+		description: "Edit welcome message content when new member join your group chat",
 		guide: {
 			body: "   {pn} text [<content> | reset]: edit text content or reset to default, with some shortcuts:\n  + {userName}: new member name\n  + {userNameTag}: new member name (tag)\n  + {boxName}:  group chat name\n  + {multiple}: you || you guys\n  + {session}:  session in day\n\n   Example:\n    {pn} text Hello {userName}, welcome to {boxName}, have a nice day {multiple}\n\n   Reply (phản hồi) or send a message with file with content {pn} file: to add file attachments to welcome message (image, video, audio)\n\n   Example:\n    {pn} file reset: delete file attachments",
 			attachment: {
@@ -579,8 +536,7 @@ module.exports = {
 		}
 	},
 	shortcut: {
-		shortDescription: "Add a shortcut for you",
-		longDescription: "Add a shortcut for your message in group chat",
+		description: "Add a shortcut for your message in group chat",
 		text: {
 			missingContent: 'Please enter the message content',
 			shortcutExists: 'Shortcut "%1" already exists, react to this message to replace the content of the shortcut',
@@ -601,8 +557,7 @@ module.exports = {
 		}
 	},
 	simsimi: {
-		shortDescription: "Simsimi",
-		longDescription: "Chat with simsimi",
+		description: "Chat with simsimi",
 		guide: "   {pn} [on | off]: turn on/off simsimi\n\n   {pn} <word>: chat with simsimi\n   Example:\n    {pn} hi",
 		text: {
 			turnedOn: "Turned on simsimi successfully!",
@@ -612,8 +567,7 @@ module.exports = {
 		}
 	},
 	sorthelp: {
-		shortDescription: "Sort help list",
-		longDescription: "Sort help list",
+		description: "Sort help list",
 		guide: "{pn} [name | category]",
 		text: {
 			savedName: "Saved sort help list by name",
@@ -621,8 +575,7 @@ module.exports = {
 		}
 	},
 	thread: {
-		shortDescription: "Manage group chat",
-		longDescription: "Manage group chat in bot system",
+		description: "Manage group chat in bot system",
 		guide: "   {pn} [find | -f | search | -s] <name to find>: search group chat in bot data by name\n   {pn} [find | -f | search | -s] [-j | joined] <name to find>: search group chat in bot data that bot still joined by name\n   {pn} [ban | -b] [<tid> | leave blank] <reason>: use to ban group with id <tid> or current group using bot\n   Example:\n    {pn} ban 3950898668362484 spam bot\n    {pn} ban spam too much\n    {pn} unban [<tid> | leave blank] to unban group with id <tid> or current group",
 		text: {
 			noPermission: "You don't have permission to use this feature",
@@ -637,13 +590,11 @@ module.exports = {
 		}
 	},
 	tid: {
-		shortDescription: "View threadID",
-		longDescription: "View threadID of your group chat",
+		description: "View threadID of your group chat",
 		guide: "{pn}"
 	},
 	tik: {
-		shortDescription: "Tiktok",
-		longDescription: "Download video/slide (image), audio from tiktok link",
+		description: "Download video/slide (image), audio from tiktok link",
 		guide: "   {pn} [video|-v|v] <url>: use to download video/slide (image) from tiktok link.\n   {pn} [audio|-a|a] <url>: use to download audio from tiktok link",
 		text: {
 			invalidUrl: "Please enter a valid tiktok url",
@@ -655,29 +606,25 @@ module.exports = {
 		}
 	},
 	trigger: {
-		shortDescription: "Trigger image",
-		longDescription: "Trigger image",
+		description: "Trigger image",
 		guide: "{pn} [@tag | empty]"
 	},
 	uid: {
-		shortDescription: "View uid",
-		longDescription: "View facebook user id of user",
+		description: "View facebook user id of user",
 		guide: "   {pn}: use to view your facebook user id\n   {pn} @tag: view facebook user id of tagged people\n   {pn} <profile link>: view facebook user id of profile link",
 		text: {
 			syntaxError: "Please tag the person you want to view uid or leave it blank to view your own uid"
 		}
 	},
 	unsend: {
-		shortDescription: "Unsend bot's message",
-		longDescription: "Unsend bot's message",
+		description: "Unsend bot's message",
 		guide: "reply the message you want to unsend and call the command {pn}",
 		text: {
 			syntaxError: "Please reply the message you want to unsend"
 		}
 	},
 	user: {
-		shortDescription: "Manage users",
-		longDescription: "Manage users in bot system",
+		description: "Manage users in bot system",
 		guide: "   {pn} [find | -f | search | -s] <name to find>: search for users in bot data by name\n\n   {pn} [ban | -b] [<uid> | @tag | reply message] <reason>: to ban user with id <uid> or tagged user or sender of message replied using bot\n\n   {pn} unban [<uid> | @tag | reply message]: to unban user using bot",
 		text: {
 			noUserFound: "❌ No user found with name matching keyword: \"%1\" in bot data",
@@ -692,8 +639,7 @@ module.exports = {
 		}
 	},
 	videofb: {
-		shortDescription: "Download video from facebook",
-		longDescription: "Download video/story from facebook (public)",
+		description: "Download video/story from facebook (public)",
 		guide: "   {pn} <url video/story>: tải video từ facebook",
 		text: {
 			missingUrl: "Please enter the facebook video/story (public) url you want to download",
@@ -703,8 +649,7 @@ module.exports = {
 		}
 	},
 	warn: {
-		shortDescription: "warn member",
-		longDescription: "warn member in group, if they have 3 warns, they will be banned",
+		description: "warn member in group, if they have 3 warns, they will be banned",
 		guide: "   {pn} @tag <reason>: warn member\n   {pn} list: view list of warned members\n   {pn} listban: view list of banned members\n   {pn} info [@tag | <uid> | leave blank]: view warn info of tagged member or uid or yourself\n   {pn} unban <uid>: unban member by uid\n   {pn} unwarn <uid> [<warn number> | leave blank]: unwarn member by uid and warn number\n   {pn} warn reset: reset all warn data\n⚠️ You need to set admin for bot to auto kick banned members",
 		text: {
 			list: "List of members who have been warned:\n%1\n\nTo view the details of the warnings, use the \"%2warn info [@tag | <uid> | leave blank]\" command: to view the warning information of the tagged person or uid or yourself",
@@ -734,8 +679,7 @@ module.exports = {
 		}
 	},
 	weather: {
-		shortDescription: "weather forecast",
-		longDescription: "view the current and next 5 days weather forecast",
+		description: "view the current and next 5 days weather forecast",
 		guide: "{pn} <location>",
 		text: {
 			syntaxError: "Please enter a location",
@@ -745,8 +689,7 @@ module.exports = {
 		}
 	},
 	ytb: {
-		shortDescription: "YouTube",
-		longDescription: "Download video, audio or view video information on YouTube",
+		description: "Download video, audio or view video information on YouTube",
 		guide: "   {pn} [video|-v] [<video name>|<video link>]: use to download video from youtube.\n   {pn} [audio|-a] [<video name>|<video link>]: use to download audio from youtube\n   {pn} [info|-i] [<video name>|<video link>]: use to view video information from youtube\n   Example:\n    {pn} -v Fallen Kingdom\n    {pn} -a Fallen Kingdom\n    {pn} -i Fallen Kingdom",
 		text: {
 			error: "An error has occurred: %1",

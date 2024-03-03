@@ -5,15 +5,11 @@ module.exports = {
 	config: {
 		name: "translate",
 		aliases: ["trans"],
-		version: "1.4",
+		version: "1.5",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: {
-			vi: "Dịch văn bản",
-			en: "Translate text"
-		},
-		longDescription: {
+		description: {
 			vi: "Dịch văn bản sang ngôn ngữ mong muốn",
 			en: "Translate text to the desired language"
 		},

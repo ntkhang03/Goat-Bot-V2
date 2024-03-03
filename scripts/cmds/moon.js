@@ -12,15 +12,11 @@ const { getStreamFromURL } = global.utils;
 module.exports = {
 	config: {
 		name: "moon",
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: {
-			vi: "xem ảnh mặt trăng",
-			en: "view moon image"
-		},
-		longDescription: {
+		description: {
 			vi: "xem ảnh mặt trăng vào đêm bạn chọn (dd/mm/yyyy)",
 			en: "view moon image on the night you choose (dd/mm/yyyy)"
 		},

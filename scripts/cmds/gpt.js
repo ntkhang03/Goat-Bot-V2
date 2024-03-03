@@ -16,15 +16,11 @@ const { openAIUsing, openAIHistory } = global.temp;
 module.exports = {
 	config: {
 		name: "gpt",
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: {
-			vi: "GPT chat",
-			en: "GPT chat"
-		},
-		longDescription: {
+		description: {
 			vi: "GPT chat",
 			en: "GPT chat"
 		},

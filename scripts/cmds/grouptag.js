@@ -2,15 +2,11 @@ module.exports = {
 	config: {
 		name: "grouptag",
 		aliases: ["grtag"],
-		version: "1.4",
+		version: "1.5",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: {
-			vi: "Tag theo nhóm",
-			en: "Tag by group"
-		},
-		longDescription: {
+		description: {
 			vi: "Tag thành viên theo nhóm",
 			en: "Tag members by group"
 		},

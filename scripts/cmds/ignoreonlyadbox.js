@@ -2,15 +2,11 @@ module.exports = {
 	config: {
 		name: "ignoreonlyadbox",
 		aliases: ["ignoreadboxonly", "ignoreadminboxonly"],
-		version: "1.1",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
-		shortDescription: {
-			vi: "Bỏ qua lệnh trong adminonly",
-			en: "Ignore command in adminonly"
-		},
-		longDescription: {
+		description: {
 			vi: "Bỏ qua lệnh trong adminonly (khi bật adminonly, các lệnh được thêm từ lệnh này người dùng vẫn có thể sử dụng)",
 			en: "Ignore command in adminonly (when turn on adminonly, user can use command added from this command)"
 		},
