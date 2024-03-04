@@ -61,6 +61,48 @@ function checkAndAutoCreateFolder(pathFolder) {
 	}
 }
 
+function sortObj(obj, parentObj, rootKeys, stringKey = "") {
+	const root = sortObjAsRoot(obj, rootKeys);
+	stringKey = stringKey || "";
+	if (stringKey) {
+		stringKey += ".";
+	}
+	for (const key in root) {
+		if (
+			typeof root[key] == "object"
+			&& !Array.isArray(root[key])
+			&& root[key] != null
+		) {
+			stringKey += key;
+
+			root[key] = sortObj(
+				root[key],
+				parentObj,
+				Object.keys(_.get(parentObj, stringKey) || {}),
+				stringKey
+			);
+
+			stringKey = "";
+		}
+	}
+	return root;
+}
+
+function sortObjAsRoot(subObj, rootKeys) {
+	const _obj = {};
+	for (const key in subObj) {
+		const indexInRootObj = rootKeys.indexOf(key);
+		_obj[key] = indexInRootObj == -1 ? 9999 : indexInRootObj;
+	}
+	const sortedSubObjKeys = Object.keys(_obj).sort((a, b) => _obj[a] - _obj[b]);
+	const sortedSubObj = {};
+	for (const key of sortedSubObjKeys) {
+		sortedSubObj[key] = subObj[key];
+	}
+
+	return sortedSubObj;
+}
+
 // override fs.writeFileSync and fs.copyFileSync to auto create folder if not exist
 fs.writeFileSync = function (fullPath, data) {
 	fullPath = path.normalize(fullPath);
@@ -179,9 +221,11 @@ fs.copyFileSync = function (src, dest) {
 					_.set(currentConfig, key, value);
 			}
 
+			const currentConfigSorted = sortObj(currentConfig, currentConfig, Object.keys(currentConfig));
+
 			if (fs.existsSync(fullPath))
 				fs.copyFileSync(fullPath, `${folderBackup}/${filePath}`);
-			fs.writeFileSync(fullPath, JSON.stringify(currentConfig, null, 2));
+			fs.writeFileSync(fullPath, JSON.stringify(currentConfigSorted, null, 2));
 
 			console.log(chalk.bold.blue('[↑]'), filePath);
 			console.log(chalk.bold.yellow('[!]'), getText("updater", "configChanged", chalk.yellow(filePath)));
@@ -204,10 +248,17 @@ fs.copyFileSync = function (src, dest) {
 			else {
 				fs.writeFileSync(fullPath, Buffer.from(getFile));
 
-				if (fileExists)
-					console.log(chalk.bold.blue('[↑]'), `${filePath}:`, chalk.hex('#858585')(typeof description == "string" ? description : typeof description == "object" ? JSON.stringify(description, null, 2) : description));
-				else
-					console.log(chalk.bold.green('[+]'), `${filePath}:`, chalk.hex('#858585')(typeof description == "string" ? description : typeof description == "object" ? JSON.stringify(description, null, 2) : description));
+				console.log(
+					fileExists ? chalk.bold.blue('[↑]') : chalk.bold.green('[+]'),
+					`${filePath}:`,
+					chalk.hex('#858585')(
+						typeof description == "string" ?
+							description :
+							typeof description == "object" ?
+								JSON.stringify(description, null, 2) :
+								description
+					)
+				);
 			}
 		}
 	}
