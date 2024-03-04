@@ -1,16 +1,102 @@
+## 📦 Version 1.5.29
+### ⬆️ What's Changed
+- **.vscode/GoatBot.code-snippets**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **.vscode/settings.json**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **Goat.js**: code optimization
+- **bot/login/login.js**: code optimization
+- **fb-chat-api/src/addExternalModule.js**: add 2 more parameters: `utils` and `log` when calling the function in `moduleObj`
+- **languages/cmds/en.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **languages/en.lang**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **languages/vi.lang**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/adboxonly.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/adduser.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/admin.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/adminonly.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/all.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/antichangeinfobox.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/appstore.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/autosetname.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/avatar.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/backupdata.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/badwords.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/balance.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/ban.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/busy.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/callad.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/count.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/customrankcard.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/daily.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/dhbc.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/emojimean.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/emojimix.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/eval.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/event.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/filteruser.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/getfbstate.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/gpt.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/grouptag.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/guessnumber.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/help.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/hubble.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/ignoreonlyad.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/ignoreonlyadbox.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/jsontomongodb.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/jsontosqlite.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/kick.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/loadconfig.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/moon.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/newcommand.eg.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/notification.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/prefix.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/rank.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/rankup.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/refresh.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/restart.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/rules.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/sendnoti.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/setalias.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/setavt.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/setlang.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/setleave.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/setname.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/setrankup.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/setrole.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/setwelcome.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/shortcut.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/sorthelp.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/texttoimage.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/thread.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/tid.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/translate.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/uid.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/unsend.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/update.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/user.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/warn.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/weather.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **scripts/cmds/ytb.js**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
+- **updater.js**: code optimization
+### 🗑️ Files Deleted
+- **scripts/cmds/list.js**: 
+### Contributors
+- <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
+
+---
 ## 📦 Version 1.5.28
-### What's Changed
+### ⬆️ What's Changed
 - **.eslintrc.json**: Update .eslintrc.json
 - **README.md**: add `How it works?`
 - **bot/handler/handlerEvents.js**: code optimization
 - **scripts/cmds/shortcut.js**: code optimization
 - **scripts/cmds/warn.js**: language update
+### 🗑️ Files Deleted
+- **scripts/cmds/list.js**: 
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.5.27
-### What's Changed
+### ⬆️ What's Changed
 - **.eslintrc.json**: add new rules: `indent`
 - **Goat.js**: nothing changed, just added comment code
 - **bot/login/login.js**: add `whiteListModeThread` handling
@@ -28,12 +114,14 @@
 - **scripts/cmds/help.js**: nothing change
 - **scripts/cmds/rules.js**: language update
 - **utils.js**: edit the `translateAPI` and `downloadFile` functions
+### 🗑️ Files Deleted
+- **scripts/cmds/list.js**: 
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.5.26
-### What's Changed
+### ⬆️ What's Changed
 - **fb-chat-api/src/editMessage.js**: add new api `editMessage`: edit message
 - **fb-chat-api/index.js**: add new api `editMessage`: edit message
 ### Contributors
@@ -42,7 +130,7 @@
 
 ---
 ## 📦 Version 1.5.25
-### What's Changed
+### ⬆️ What's Changed
 - **.eslintrc.json**: use config eslint in file `.eslintrc.json` instead of `package.json`
 - **bot/login/handlerWhenListenHasError.js**: code optimization
 - **dashboard/routes/changePassword.js**: Update changePassword.js
@@ -51,19 +139,35 @@
 - **scripts/cmds/emojimean.js**: fix unusable error
 - **scripts/cmds/shortcut.js**: language update
 - **scripts/cmds/ytb.js**: fix: audio cannot be heard on iOS
+### 🗑️ Files Deleted
+- **scripts/cmds/batslap.js**: Remove `unnecessary` commands
+
+These commands are really not necessary, it often crashes due to blocking by 3rd party api, visit the websites to make this smoother, although these commands have been removed from the source code in version new, but if you want to edit it, you can still get it back at the old commit, (of course these commands will no longer be updated) https://github.com/ntkhang03/Goat-Bot-V2/tree/8ac704f08e70abcaaf663e4127c4e05e4874c588
+- **scripts/cmds/list.js**: 
+- **scripts/cmds/tik.js**: Remove `unnecessary` commands
+
+These commands are really not necessary, it often crashes due to blocking by 3rd party api, visit the websites to make this smoother, although these commands have been removed from the source code in version new, but if you want to edit it, you can still get it back at the old commit, (of course these commands will no longer be updated) https://github.com/ntkhang03/Goat-Bot-V2/tree/8ac704f08e70abcaaf663e4127c4e05e4874c588
+- **scripts/cmds/trigger.js**: Remove `unnecessary` commands
+
+These commands are really not necessary, it often crashes due to blocking by 3rd party api, visit the websites to make this smoother, although these commands have been removed from the source code in version new, but if you want to edit it, you can still get it back at the old commit, (of course these commands will no longer be updated) https://github.com/ntkhang03/Goat-Bot-V2/tree/8ac704f08e70abcaaf663e4127c4e05e4874c588
+- **scripts/cmds/videofb.js**: Remove `unnecessary` commands
+
+These commands are really not necessary, it often crashes due to blocking by 3rd party api, visit the websites to make this smoother, although these commands have been removed from the source code in version new, but if you want to edit it, you can still get it back at the old commit, (of course these commands will no longer be updated) https://github.com/ntkhang03/Goat-Bot-V2/tree/8ac704f08e70abcaaf663e4127c4e05e4874c588
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.5.24
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: fix `RangeError: Invalid array length` when deployed on `heroku` or `pm2`
+### 🗑️ Files Deleted
+- **scripts/cmds/list.js**: 
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.5.23
-### What's Changed
+### ⬆️ What's Changed
 - **bot/handler/handlerEvents.js**: code optimization
 - **bot/login/login.js**: code optimization
 - **scripts/cmds/adminonly.js**: fix command not working
@@ -71,43 +175,53 @@
 - **scripts/cmds/ignoreonlyad.js**: language update
 - **scripts/cmds/ignoreonlyadbox.js**: language update
 - **scripts/cmds/update.js**: prevent updating too quickly (less than 5 minutes after the latest release is released)
+### 🗑️ Files Deleted
+- **scripts/cmds/list.js**: 
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.5.22
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/cmd.js**: code optimization
 - **scripts/cmds/eval.js**: code optimization
+### 🗑️ Files Deleted
+- **scripts/cmds/list.js**: 
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.5.21
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/shortcut.js**: Fix errors that do not receive the correct content when there are many characters `=>`
+### 🗑️ Files Deleted
+- **scripts/cmds/list.js**: 
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.5.20
-### What's Changed
+### ⬆️ What's Changed
 - **languages/en.lang**: languages update
 - **languages/vi.lang**: languages update
 - **updater.js**: Update updater.js
+### 🗑️ Files Deleted
+- **scripts/cmds/list.js**: 
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.5.19
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/events/welcome.js**: fix `ReferenceError: Cannot access 'threadData' before initialization`
+### 🗑️ Files Deleted
+- **scripts/cmds/list.js**: 
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.5.18
-### What's Changed
+### ⬆️ What's Changed
 - **README.md**: Update README.md
 - **bot/handler/handlerEvents.js**: code optimization
 - **bot/login/login.js**: code optimization
@@ -116,6 +230,8 @@
 - **languages/en.lang**: languages update
 - **languages/vi.lang**: languages update
 - **scripts/cmds/cmd.js**: code optimization
+### 🗑️ Files Deleted
+- **scripts/cmds/list.js**: 
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
@@ -123,7 +239,7 @@
 ## 📦 Version 1.5.17
 ### Reinstall Dependencies
 Dependencies will be reinstalled for this version.
-### What's Changed
+### ⬆️ What's Changed
 - **.gitignore**: Update .gitignore
 - **dashboard/app.js**: remake dashboard
 - **dashboard/css/custom.css**: remake dashboard
@@ -185,19 +301,23 @@ Dependencies will be reinstalled for this version.
 - **scripts/cmds/ytb.js**: fix error "TypeError: Cannot read properties of undefined (reading 'segmentedLikeDislikeButtonRenderer')"
 - **scripts/events/welcome.js**: code optimization
 - **utils.js**: code optimization
+### 🗑️ Files Deleted
+- **dashboard/middleware/get.js**: remake dashboard
+- **dashboard/middleware/post.js**: remake dashboard
+- **scripts/cmds/list.js**: 
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.5.16
-### What's Changed
+### ⬆️ What's Changed
 - **languages/makeFuncGetLangs.js**: Fix error of language file not found
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.5.15
-### What's Changed
+### ⬆️ What's Changed
 - **Goat.js**: Update Goat.js
 - **database/controller/usersData.js**: added function `getNameInDB`
 - **languages/en.lang**: languages update
@@ -209,7 +329,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.5.14
-### What's Changed
+### ⬆️ What's Changed
 - **fb-chat-api/src/listenMqtt.js**: fix event `log:thread-icon` not working
 - **fb-chat-api/utils.js**: fix event `log:thread-icon` not working
 ### Contributors
@@ -217,7 +337,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.5.13
-### What's Changed
+### ⬆️ What's Changed
 - **bot/handler/handlerCheckData.js**: Update handlerCheckData.js
 - **bot/login/loadScripts.js**: Update loadScripts.js
 - **database/controller/threadsData.js**: change error name from `DATA_EXISTS` to `DATA_ALREADY_EXISTS`
@@ -232,7 +352,7 @@ Dependencies will be reinstalled for this version.
 ## 📦 Version 1.5.12
 ### Reinstall Dependencies
 Dependencies will be reinstalled for this version.
-### What's Changed
+### ⬆️ What's Changed
 - **config.json**: 
 ```json
 {
@@ -251,21 +371,21 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.5.11
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/loadScripts.js**: fix `TypeError: Cannot read properties of null (reading '_host')` (2)
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.5.10
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: fix `TypeError: Cannot read properties of null (reading '_host')`
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.5.9
-### What's Changed
+### ⬆️ What's Changed
 - **fb-chat-api/src/sendMessage.js**: add function `removeSpecialChar`: remove forbidden characters sent via facebook messages
 - **scripts/cmds/callad.js**: language update, log update
 - **scripts/cmds/gpt.js**: fix cannot use gpt chat when there is only one character
@@ -274,14 +394,14 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.5.8
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/warn.js**: language update, Fixed a bug that occurred when warning more than 3 times
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.5.7
-### What's Changed
+### ⬆️ What's Changed
 - **.gitignore**: Update .gitignore
 - **bot/login/login.js**: Update login.js
 - **scripts/cmds/setalias.js**: fix not applicable to the whole system
@@ -290,7 +410,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.5.6
-### What's Changed
+### ⬆️ What's Changed
 - **fb-chat-api/index.js**: fca upadte
 - **fb-chat-api/src/getFriendsList.js**: fca upadte
 - **fb-chat-api/src/sendMessage.js**: fca upadte
@@ -302,7 +422,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.5.5
-### What's Changed
+### ⬆️ What's Changed
 - **fb-chat-api/src/listenMqtt.js**: fix `event.participantIDs` not displaying correctly in thread
 - **scripts/cmds/videofb.js**: Fixed can't download by `illusionghost3`
 
@@ -313,7 +433,7 @@ Fixed Sorry, we can't download the video for you because the size is larger than
 
 ---
 ## 📦 Version 1.5.4
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/cmd.js**: fix failed to install command from url
 - **scripts/cmds/weather.js**: added areaName in message body - by `Sadman-11`
 - **scripts/cmds/ytb.js**: Fix cant downloads shorts - by `Sadman-11`
@@ -323,14 +443,14 @@ Fixed Sorry, we can't download the video for you because the size is larger than
 
 ---
 ## 📦 Version 1.5.3
-### What's Changed
+### ⬆️ What's Changed
 - **fb-chat-api/src/listenMqtt.js**: fix "TypeError: Cannot read properties of undefined (reading 'get')" when listenMqtt is closed
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.5.2
-### What's Changed
+### ⬆️ What's Changed
 - **Goat.js**: Update Goat.js
 - **dashboard/routes/verifyfbid.js**: fix can't verify facebook id
 - **dashboard/views/verifyfbid-submit-code.eta**: fix can't verify facebook id
@@ -345,7 +465,7 @@ Fixed Sorry, we can't download the video for you because the size is larger than
 
 ---
 ## 📦 Version 1.5.1
-### What's Changed
+### ⬆️ What's Changed
 - **.gitignore**: Update .gitignore
 - **.vscode/GoatBot.code-snippets**: add new snippet: `LogDev`: "Create template for log dev"
 - **dashboard/routes/verifyfbid.js**: fix can't verify uid facebook
@@ -360,7 +480,7 @@ Fixed Sorry, we can't download the video for you because the size is larger than
 
 ---
 ## 📦 Version 1.5.0
-### What's Changed
+### ⬆️ What's Changed
 - **Copyright.txt**: Copyright update 😮‍💨
 - **Goat.js**: Copyright update 😮‍💨
 - **bot/handler/handlerEvents.js**: Update handlerEvents.js
@@ -375,14 +495,14 @@ Fixed Sorry, we can't download the video for you because the size is larger than
 
 ---
 ## 📦 Version 1.4.28
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/jsontomongodb.js**: fix incorrect database type recognition
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.4.27
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/getFbstate1.js**: change package `request-promise` to `request`
 - **bot/login/loadScripts.js**: change package `request-promise` to `request`
 - **fb-chat-api/src/changeAvatar.js**: remove package `bluebird`
@@ -398,21 +518,21 @@ Fixed Sorry, we can't download the video for you because the size is larger than
 
 ---
 ## 📦 Version 1.4.26
-### What's Changed
+### ⬆️ What's Changed
 - **Goat.js**: fix jsonlint not working with folder names with spaces
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.4.25
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/loadData.js**: fix console freezing
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.4.24
-### What's Changed
+### ⬆️ What's Changed
 - **Goat.js**: remove home path in log auto update config
 - **bot/login/loadData.js**: database optimization
 - **bot/login/login.js**: database optimization
@@ -425,7 +545,7 @@ Fixed Sorry, we can't download the video for you because the size is larger than
 
 ---
 ## 📦 Version 1.4.23
-### What's Changed
+### ⬆️ What's Changed
 - **Goat.js**: automatically update changes of dirConfigCommands and dirConfig
 - **bot/login/loadData.js**: optimization code
 - **bot/login/login.js**: optimization code
@@ -447,7 +567,7 @@ Fixed Sorry, we can't download the video for you because the size is larger than
 
 ---
 ## 📦 Version 1.4.22
-### What's Changed
+### ⬆️ What's Changed
 - **dashboard/passport-config.js**: fix can't register dashboard account
 - **database/controller/dashBoardData.js**: fix can't register dashboard account
 ### Contributors
@@ -455,7 +575,7 @@ Fixed Sorry, we can't download the video for you because the size is larger than
 
 ---
 ## 📦 Version 1.4.21
-### What's Changed
+### ⬆️ What's Changed
 - **database/controller/dashBoardData.js**: add new method: `deleteKey`
 - **database/controller/globalData.js**: add new method: `deleteKey`
 - **database/controller/threadsData.js**: add new method: `deleteKey`
@@ -467,7 +587,7 @@ Fixed Sorry, we can't download the video for you because the size is larger than
 
 ---
 ## 📦 Version 1.4.20
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/antichangeinfobox.js**: change photo storage method
 - **utils.js**: fix can't uploadImgbb with url
 ### Contributors
@@ -475,7 +595,7 @@ Fixed Sorry, we can't download the video for you because the size is larger than
 
 ---
 ## 📦 Version 1.4.19
-### What's Changed
+### ⬆️ What's Changed
 - **dashboard/routes/register.js**: fix can't register dashboard account
 - **database/models/sqlite/global.js**: fix can't register dashboard account
 ### Contributors
@@ -483,7 +603,7 @@ Fixed Sorry, we can't download the video for you because the size is larger than
 
 ---
 ## 📦 Version 1.4.18
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: fix handlerWhenListenHasError not working
 - **config.json**: 
 ```json
@@ -502,7 +622,7 @@ Fixed Sorry, we can't download the video for you because the size is larger than
 
 ---
 ## 📦 Version 1.4.17
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: fix cannot install custom command with `cmd` command
 - **dashboard/views/dashboard-thread.eta**: Update dashboard-thread.eta
 - **scripts/cmds/cmd.js**: fix cannot install custom command with `cmd` command
@@ -511,7 +631,7 @@ Fixed Sorry, we can't download the video for you because the size is larger than
 
 ---
 ## 📦 Version 1.4.16
-### What's Changed
+### ⬆️ What's Changed
 - **Goat.js**: add new handle `onAnyEvent`: handling for all types of events
 - **bot/custom.js**: add new script bot/custom.js
 - **bot/handler/handlerAction.js**: add new handle `onAnyEvent`: handling for all types of events
@@ -535,7 +655,7 @@ Fixed Sorry, we can't download the video for you because the size is larger than
 ## 📦 Version 1.4.15
 ### Reinstall Dependencies
 Dependencies will be reinstalled for this version.
-### What's Changed
+### ⬆️ What's Changed
 - **fb-chat-api/src/getThreadList.js**: Update getThreadList.js
 - **utils.js**: fix `certificate has expired` error when uploading Zippyshare
 - **package.json**: Update package.json
@@ -545,7 +665,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.4.14
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: code optimization
 - **dashboard/app.js**: change the `getAll` method of controller data to asynchronous
 - **dashboard/middleware/get.js**: change the `getAll` method of controller data to asynchronous
@@ -562,14 +682,14 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.4.13
-### What's Changed
+### ⬆️ What's Changed
 - **database/controller/threadsData.js**: hide console.log
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.4.12
-### What's Changed
+### ⬆️ What's Changed
 - **database/controller/dashBoardData.js**: change queue handling
 - **database/controller/globalData.js**: change queue handling
 - **database/controller/threadsData.js**: change queue handling
@@ -581,7 +701,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.4.11
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/loadScripts.js**: code optimization
 - **bot/login/login.js**: code optimization
 - **fb-chat-api/src/addUserToGroup.js**: add `CustomError` class to fb-chat-api - easy for debugging
@@ -598,7 +718,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.4.10
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/loadScripts.js**: code optimization
 - **bot/login/login.js**: code optimization
 - **database/controller/dashBoardData.js**: return data with _`.cloneDeep`
@@ -622,21 +742,21 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.4.9
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/texttoimage.js**: update styleId
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.4.8
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/texttoimage.js**: new command `texttoimage`: create image with your prompt
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.4.7
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/loadScripts.js**: fix console freezing
 - **bot/login/login.js**: fix console freezing
 ### Contributors
@@ -644,15 +764,18 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.4.6
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/loadScripts.js**: ignore the file's command extension `eg.js`
 - **bot/login/login.js**: ignore the file's command extension `eg.js`
+### 🗑️ Files Deleted
+- **scripts/cmds/art.js**: api is no longer working
+- **scripts/cmds/openjourney.js**: api is no longer working
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.4.5
-### What's Changed
+### ⬆️ What's Changed
 - **database/controller/dashBoardData.js**: add new prototype `existsSync` for dashBoardData, globalData, threadsData and usersData
 - **database/controller/globalData.js**: add new prototype `existsSync` for dashBoardData, globalData, threadsData and usersData
 - **database/controller/threadsData.js**: add new prototype `existsSync` for dashBoardData, globalData, threadsData and usersData
@@ -666,7 +789,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.4.4
-### What's Changed
+### ⬆️ What's Changed
 - **Goat.js**: auto convert data type uid in config to string
 - **bot/handler/handlerEvents.js**: update option `hideNotiMessage`
 - **bot/login/loadScripts.js**: update option `hideNotiMessage`
@@ -690,7 +813,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.4.3
-### What's Changed
+### ⬆️ What's Changed
 - **fb-chat-api/utils.js**: change key `participants` to `participantIDs` in callback `event` type in mqtt
 - **languages/en.lang**: languages update
 - **languages/vi.lang**: languages update
@@ -700,21 +823,21 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.4.2
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: hide participantIDs from log
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.4.1
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: fix `Please restore the crypto.c reateCipher function to the original!`
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.4.0
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: Update gban system
 - **languages/en.lang**: languages update
 - **languages/vi.lang**: languages update
@@ -725,7 +848,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.22
-### What's Changed
+### ⬆️ What's Changed
 - **README.md**: Update README.md
 - **scripts/cmds/warn.js**: fix checkwarn not working
 - **scripts/events/checkwarn.js**: fix checkwarn not working
@@ -735,7 +858,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.21
-### What's Changed
+### ⬆️ What's Changed
 - **bot/handler/handlerEvents.js**: fixes error: `TypeError: onFirstChat is not a function`
 - **bot/login/loadScripts.js**: fixes error: `TypeError: onFirstChat is not a function`
 - **bot/login/login.js**: fixes error: `TypeError: onFirstChat is not a function`
@@ -744,14 +867,14 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.20
-### What's Changed
+### ⬆️ What's Changed
 - **bot/handler/handlerEvents.js**: fixes error: `TypeError: onFirstChat is not a function`
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.3.19
-### What's Changed
+### ⬆️ What's Changed
 - **.gitignore**: Update .gitignore
 - **.vscode/GoatBot.code-snippets**: add new snippets: `GoatBotCommandSetOnReply`, `GoatBotCommandSetOnReaction`, `GoatBotCommandPushOnEvent`, `GoatBotCommandSetOnChat`
 - **Goat.js**: add new handle: `onFirstChat`
@@ -774,7 +897,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.18
-### What's Changed
+### ⬆️ What's Changed
 - **fb-chat-api/src/listenMqtt.js**: fix infinite loop Stop listenMqtt
 - **scripts/cmds/getfbstate.js**: add new alias `getcookie`
 ### Contributors
@@ -782,7 +905,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.17
-### What's Changed
+### ⬆️ What's Changed
 - **database/controller/dashBoardData.js**: fix bug `cannot read property 'name' of undefined`
 - **database/controller/globalData.js**: fix bug `cannot read property 'name' of undefined`
 - **database/controller/threadsData.js**: fix bug `cannot read property 'name' of undefined`
@@ -795,7 +918,7 @@ Dependencies will be reinstalled for this version.
 ## 📦 Version 1.3.16
 ### Reinstall Dependencies
 Dependencies will be reinstalled for this version.
-### What's Changed
+### ⬆️ What's Changed
 - **database/controller/dashBoardData.js**: add message queue for save data
 - **database/controller/globalData.js**: add message queue for save data
 - **database/controller/threadsData.js**: add message queue for save data
@@ -806,7 +929,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.15
-### What's Changed
+### ⬆️ What's Changed
 - **bot/handler/handlerEvents.js**: fix mqtt bug
 - **bot/login/login.js**: fix mqtt bug
 - **config.json**: 
@@ -833,7 +956,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.14
-### What's Changed
+### ⬆️ What's Changed
 - **config.json**: 
 ```json
 {
@@ -848,7 +971,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.13
-### What's Changed
+### ⬆️ What's Changed
 - **languages/en.lang**: language update
 - **languages/vi.lang**: language update
 - **updater.js**: Update updater.js
@@ -857,7 +980,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.12
-### What's Changed
+### ⬆️ What's Changed
 - **STEP_INSTALL.md**: Update STEP_INSTALL.md
 - **bot/login/login.js**: fixes `getSeqId`
 - **config.json**: 
@@ -880,7 +1003,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.11
-### What's Changed
+### ⬆️ What's Changed
 - **LICENSE**: Update LICENSE
 - **bot/login/login.js**: Update login.js
 - **index.js**: Update index.js
@@ -889,7 +1012,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.10
-### What's Changed
+### ⬆️ What's Changed
 - **README.md**: Update README.md
 - **scripts/cmds/gpt.js**: Don't let others interfere with your chats and gpt
 - **scripts/cmds/rank.js**: language update
@@ -898,7 +1021,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.9
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: code optimization
 - **fb-chat-api/index.js**: fix duplicate values in getAppState()
 - **fb-chat-api/src/addUserToGroup.js**: can use `i_user` (another profile in facebook account)
@@ -911,7 +1034,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.8
-### What's Changed
+### ⬆️ What's Changed
 - **Goat.js**: Update Goat.js
 - **fb-chat-api/src/listenMqtt.js**: Update listenMqtt.js
 - **scripts/cmds/gpt.js**: new command `gpt`: use open ai api model `gpt-3.5-turbo`
@@ -920,7 +1043,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.7
-### What's Changed
+### ⬆️ What's Changed
 - **Goat.js**: Update Goat.js
 - **bot/login/handlerWhenListenHasError.js**: Update handlerWhenListenHasError.js
 - **fb-chat-api/src/sendMessage.js**: Update sendMessage.js
@@ -932,7 +1055,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.6
-### What's Changed
+### ⬆️ What's Changed
 - **Goat.js**: fix listenMqtt loop issues
 - **bot/handler/handlerAction.js**: fix events not working when `antiInbox is on`
 - **bot/login/loadScripts.js**: code optimization
@@ -967,7 +1090,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.5
-### What's Changed
+### ⬆️ What's Changed
 - **Goat.js**: added the feature to disable bot in inbox and automatically load the scripts when there is a change
 - **bot/handler/handlerAction.js**: added the feature to disable bot in inbox and automatically load the scripts when there is a change
 - **bot/login/loadData.js**: added the feature to disable bot in inbox and automatically load the scripts when there is a change
@@ -991,7 +1114,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.4
-### What's Changed
+### ⬆️ What's Changed
 - **.gitignore**: Update .gitignore
 - **Goat.js**: Update Goat.js
 - **bot/login/handlerWhenListenHasError.js**: trim content to 2000 characters for discord hook (maximum limit)
@@ -1007,7 +1130,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.3
-### What's Changed
+### ⬆️ What's Changed
 - **bot/handler/handlerEvents.js**: fix can't use alias for ignoreadboxonly
 - **bot/login/loadScripts.js**: fix cannot use database sqlite
 - **bot/login/login.js**: i hope can fix listenMqtt error
@@ -1019,7 +1142,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.2
-### What's Changed
+### ⬆️ What's Changed
 - **config.json**: 
 ```json
 {
@@ -1039,7 +1162,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.1
-### What's Changed
+### ⬆️ What's Changed
 - **config.json**: 
 ```json
 {
@@ -1051,7 +1174,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.3.0
-### What's Changed
+### ⬆️ What's Changed
 - **fb-chat-api/index.js**: remove dependency package `fb-chat-api-temp`
 - **fb-chat-api/utils.js**: remove dependency package `fb-chat-api-temp`
 - **fb-chat-api/src/addExternalModule.js**: remove dependency package `fb-chat-api-temp`
@@ -1126,7 +1249,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.43
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: code optimization
 - **bot/handler/handlerEvents.js**: code optimization
 - **scripts/cmds/setalias.js**: code optimization
@@ -1142,7 +1265,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.42
-### What's Changed
+### ⬆️ What's Changed
 - **utils.js**: update function `randomString`
 - **scripts/events/welcome.js**: disable greetings for members banned by the `ban` command
 - **scripts/cmds/guessnumber.js**: new command game `guessnumber`
@@ -1155,7 +1278,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.41
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/checkLiveCookie.js**: update handler check live cookie
 - **package-lock.json**: change the fca dependency package
 - **package.json**: change the fca dependency package
@@ -1165,7 +1288,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.40
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/events/autoUpdateInfoThread.js**: add category
 - **scripts/events/checkwarn.js**: add category
 - **scripts/events/leave.js**: add category
@@ -1178,7 +1301,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.39
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/ytb.js**: nothing change
 - **bot/login/loadScripts.js**: 
 - **scripts/cmds/openjourney.js**: fix error can't create image
@@ -1187,7 +1310,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.38
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/ytb.js**: nothing change
 - **bot/login/login.js**: fix console freezing when login
 ### Contributors
@@ -1195,7 +1318,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.37
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: fix repeated feedback
 - **Goat.js**: fix repeated feedback
 - **func/prism.js**: 
@@ -1208,14 +1331,14 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.36
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: fix bug
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.2.35
-### What's Changed
+### ⬆️ What's Changed
 - **database/controller/globalData.js**: convert `global.client.globalData` to `global.db.allGlobalData`
 - **database/controller/dashBoardData.js**: convert `global.client.dashBoardData` to `global.db.allDashBoardData`
 - **bot/login/login.js**: fix cannot automatically reconnect listenMqtt
@@ -1257,7 +1380,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.34
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/events/autoUpdateInfoThread.js**: fix error `cannot read properties of undefined (reading 'gender')`
 - **scripts/events/logsbot.js**: nothing change
 - **scripts/cmds/ban.js**: add unban feature
@@ -1266,7 +1389,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.33
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/shortcut.js**: fix `shortcut start xxx` not work
 - **bot/handler/handlerEvents.js**: code optimization
 - **bot/login/loadScripts.js**: code optimization
@@ -1283,7 +1406,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.32
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/handlerWhenListenHasError.js**: 
 - **bot/login/login.js**: code optimization
 - **utils.js**: code optimization
@@ -1298,7 +1421,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.31
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/getFbstate1.js**: detect and notify if the facebook account is checkpointed
 - **bot/login/login.js**: detect and notify if the facebook account is checkpointed
 - **func/colors.js**: added new func
@@ -1320,7 +1443,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.30
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/grouptag.js**: fixed bugs, language update
 - **config.json**: 
 ```json
@@ -1340,23 +1463,25 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.29
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/cmd.js**: fixed bugs
 - **scripts/cmds/event.js**: fixed bugs
 - **scripts/cmds/translate.js**: fixed bugs
+### 🗑️ Files Deleted
+- **scripts/cmds/videofb.js**: 
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.2.28
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/filteruser.js**: fix bug kick admin
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.2.27
-### What's Changed
+### ⬆️ What's Changed
 - **bot/autoUptime.js**: language update
 - **scripts/cmds/user.js**: language update
 - **languages/en.lang**: language update
@@ -1366,7 +1491,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.26
-### What's Changed
+### ⬆️ What's Changed
 - **languages/cmds/en.js**: language update
 - **scripts/cmds/cmd.js**: fixed bugs and add new feature: `cmd install <fileName> <code>`: install new command with code
 - **scripts/cmds/event.js**: fixed bugs and add new feature: `event install <fileName> <code>`: install new event command with code
@@ -1376,14 +1501,14 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.25
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/update.js**: new command 'Check for and install updates for the chatbot' made by `Chat GPT`
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.2.24
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/events/welcome.js**: language update
 - **bot/handler/handlerEvents.js**: language update
 ### Contributors
@@ -1391,14 +1516,14 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.23
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/ytb.js**: fixed error `An error has occurred: ETIMEDOUT`
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.2.22
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/admin.js**: language update
 - **scripts/cmds/videofb.js**: fixed can't download video
 - **bot/login/getFbstate1.js**: fixed can't login
@@ -1409,23 +1534,25 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.21
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/antichangeinfobox.js**: fixes error
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.2.20
-### What's Changed
+### ⬆️ What's Changed
 - **package.json**: update package `fb-chat-api-temporary`
 - **package-lock.json**: update package `fb-chat-api-temporary`
 - **bot/login/login.js**: update package `fb-chat-api-temporary`
+### 🗑️ Files Deleted
+- **fb-chat-api**: 
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.2.19
-### What's Changed
+### ⬆️ What's Changed
 - **fb-chat-api/src/addExternalModule.js**: 
 - **fb-chat-api/src/addUserToGroup.js**: 
 - **fb-chat-api/src/changeAdminStatus.js**: 
@@ -1484,7 +1611,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.18
-### What's Changed
+### ⬆️ What's Changed
 - **package.json**: package `fb-chat-api` no longer exists
 - **package-lock.json**: package `fb-chat-api` no longer exists
 ### Contributors
@@ -1492,14 +1619,14 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.17
-### What's Changed
+### ⬆️ What's Changed
 - **package.json**: change package `fb-chat-api` to github repo
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.2.16
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/ytb.js**: fixes error: TypeError: Cannot read property 'accessibilityData' of undefined
 - **scripts/cmds/newcommand.eg.js**: template for create new command
 - **scripts/events/newcommandevent.eg.js**: template for create new command event
@@ -1513,7 +1640,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.15
-### What's Changed
+### ⬆️ What's Changed
 - **config.json**: 
 ```json
 {
@@ -1528,14 +1655,14 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.14
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: fixed error gban check
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.2.13
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: language update
 - **scripts/cmds/badwords.js**: language update
 - **languages/cmds/en.js**: language update
@@ -1545,28 +1672,28 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.12
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/ytb.js**: fixes error can't download video
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.2.11
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/shortcut.js**: language update
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.2.10
-### What's Changed
+### ⬆️ What's Changed
 - **utils.js**: update shorten url function
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.2.9
-### What's Changed
+### ⬆️ What's Changed
 - **.vscode/GoatBot.code-snippets**: add code snippets
 - **bot/login/login.js**: languages update
 - **languages/cmds/en.js**: languages update
@@ -1577,7 +1704,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.8
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/callad.js**: language update
 - **languages/cmds/en.js**: language update
 ### Contributors
@@ -1585,7 +1712,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.7
-### What's Changed
+### ⬆️ What's Changed
 - **languages/cmds/en.js**: language update
 - **languages/cmds/vi.js**: language update
 - **scripts/cmds/warn.js**: language update
@@ -1594,7 +1721,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.6
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: easy login with terminal and auto-login again when cookie expires (if there is account configuration, password in config.json file)
 - **config.json**: 
 ```json
@@ -1610,28 +1737,28 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.5
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/ytb.js**: fixes error `An error occurred when executing onReply at command "ytb"`
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.2.4
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/tik.js**: fixes error `❌ An error occurred, please try again later`
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.2.3
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/ytb.js**: fixes error `An error occured when executing command "ytb"`
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.2.2
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/art.js**: fixes error when reply message no pictures attached
 - **languages/cmds/en.js**: language update
 - **package.json**: add gradient-string package
@@ -1647,7 +1774,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.1
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: update & code optimization
 - **database/controller/dashBoardData.js**: update & code optimization
 - **database/controller/globalData.js**: update & code optimization
@@ -1660,7 +1787,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.2.0
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: change my server domain
 - **scripts/cmds/antichangeinfobox.js**: change my server domain
 - **scripts/cmds/avatar.js**: change my server domain
@@ -1672,7 +1799,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.40
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/customrankcard.js**: fixes can't select photo by replying to message
 - **scripts/cmds/rank.js**: fixes not being able to optional alphaSubcolor = 0
 ### Contributors
@@ -1680,7 +1807,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.39
-### What's Changed
+### ⬆️ What's Changed
 - **updater.js**: update updater
 - **scripts/cmds/help.js**: fix can't automatically create new folder when it doesn't exist
 ### Contributors
@@ -1688,17 +1815,24 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.38
-### What's Changed
+### ⬆️ What's Changed
 - **languages/cmds/en.js**: language update and change the image storage address of some commands
 - **scripts/cmds/setwelcome.js**: change photo storage address
 - **scripts/cmds/setleave.js**: change photo storage address
 - **scripts/cmds/setname.js**: change photo storage address
+### 🗑️ Files Deleted
+- **scripts/cmds/assets/guide/customrankcard/guide1.jpg**: change photo storage address
+- **scripts/cmds/assets/guide/customrankcard/guide2.png**: change photo storage address
+- **scripts/cmds/assets/guide/setleave/guide1.png**: change photo storage address
+- **scripts/cmds/assets/guide/setname/guide1.png**: change photo storage address
+- **scripts/cmds/assets/guide/setname/guide2.png**: change photo storage address
+- **scripts/cmds/assets/guide/setwelcome/guide1.png**: change photo storage address
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.1.37
-### What's Changed
+### ⬆️ What's Changed
 - **languages/cmds/en.js**: language update
 - **bot/handler/handlerEvents.js**: fixes error `TypeError: Cannot read property 'config' of undefined`
 - **bot/login/login.js**: fixes auto restart bot when calling `cmd loadAll`
@@ -1715,14 +1849,14 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.36
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/emojimean.js**: automatically select the highest resolution image
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.1.35
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/getFbstate1.js**: can detect using old password when logging in
 - **bot/handler/handlerEvents.js**: language update
 - **languages/cmds/en.js**: language update
@@ -1736,7 +1870,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.34
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/tik.js**: fixes error: `Error: connect ECONNREFUSED 0.0.0.0:443`
 - **utils.js**: add `shortenURL` feature
 ### Contributors
@@ -1744,7 +1878,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.33
-### What's Changed
+### ⬆️ What's Changed
 - **bot/handler/handlerEvents.js**: Fixed a error that failed to generate data when adding a bot to a new chat box
 - **database/controller/threadsData.js**: Fixed a error that failed to generate data when adding a bot to a new chat box
 - **database/controller/dashBoardData.js**: minor bug fixes
@@ -1756,7 +1890,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.32
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: fixes facebook login problem
 - **bot/login/getFbstate1.js**: fixes facebook login problem
 - **config.json**: 
@@ -1780,7 +1914,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.31
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/avatar.js**: fixes error: `TypeError: Cannot read properties of undefined (reading 'data')`
 - **scripts/cmds/cmd.js**: 
 - **scripts/cmds/restart.js**: 
@@ -1793,14 +1927,14 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.30
-### What's Changed
+### ⬆️ What's Changed
 - **Goat.js**: fixed `TypeError: Cannot read property 'match' of null`
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.1.29
-### What's Changed
+### ⬆️ What's Changed
 - **Goat.js**: 
 - **index.js**: 
 - **bot/handler/handlerEvents.js**: languages update
@@ -1822,14 +1956,14 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.28
-### What's Changed
+### ⬆️ What's Changed
 - **database/controller/threadsData.js**: bug fixes refreshInfo function: missing `userID` parameter when refreshing members information leads to huge data generation
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.1.27
-### What's Changed
+### ⬆️ What's Changed
 - **languages/cmds/en.js**: language update
 - **scripts/cmds/help.js**: language update
 - **scripts/cmds/notification.js**: more precise group filtering
@@ -1843,7 +1977,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.26
-### What's Changed
+### ⬆️ What's Changed
 - **bot/handler/handlerEvents.js**: code optimization & bug fixes & add feature autoRefreshThreadInfoFirstTime: when you set autoRefreshThreadInfoFirstTime to true on config, the bot will automatically refresh the thread information when get first message from the thread since starting the bot
 - **config.json**: 
 ```json
@@ -1861,7 +1995,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.25
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: code optimization
 - **bot/login/getFbstate1.js**: code optimization
 - **scripts/cmds/jsontosqlite.js**: fixed error: `TypeError: Cannot read property 'globalData' of undefined` when convert global data
@@ -1871,7 +2005,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.24
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/user.js**: code optimization
 - **scripts/cmds/thread.js**: code optimization
 - **scripts/cmds/moon.js**: the structure of the source web has changed, I fixed it
@@ -1886,7 +2020,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.23
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/adduser.js**: bugs fixes & language update
 - **scripts/cmds/callad.js**: bugs fixes & language update
 - **scripts/cmds/jsontomongodb.js**: bugs fixes & language update
@@ -1899,7 +2033,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.22
-### What's Changed
+### ⬆️ What's Changed
 - **database/controller/dashBoardData.js**: bug fixes & code optimization
 - **database/controller/globalData.js**: bug fixes & code optimization
 - **database/controller/threadsData.js**: bug fixes & code optimization
@@ -1911,7 +2045,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.21
-### What's Changed
+### ⬆️ What's Changed
 - **configCommands.json**: youtube api key not used
 - **database/controller/dashBoardData.js**: Bug fixes & code optimization
 - **database/controller/globalData.js**: Bug fixes & code optimization
@@ -1925,7 +2059,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.20
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/filteruser.js**: fixes bugs bot listening members reaction message and kick members
 - **config.json**: 
 ```json
@@ -1939,7 +2073,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.19
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/customrankcard.js**: language update
 - **scripts/cmds/hubble.js**: language update
 - **scripts/cmds/thread.js**: more precise search feature
@@ -1957,7 +2091,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.18
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/ignoreonlyad.js**: add new command
 - **scripts/cmds/ignoreonlyadbox.js**: add new command
 - **scripts/cmds/jsontomongodb.js**: add new command
@@ -1981,7 +2115,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.17
-### What's Changed
+### ⬆️ What's Changed
 - **database/models/sqlite/userDashBoard.js**: edit filename
 - **database/controller/index.js**: fixes bugs
 - **database/connectDB/connectSqlite.js**: 
@@ -2001,7 +2135,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.16
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/hubble.js**: update hubble data url
 - **scripts/cmds/assets/font/BeVietnamPro-Bold.ttf**: add font
 ### Contributors
@@ -2009,14 +2143,14 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.15
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/rank.js**: remove rank card creation with api
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.1.14
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/translate.js**: can translate any message by reaction "🌐" or custom by you to message
 - **scripts/cmds/rules.js**: fixes bugs
 ### Contributors
@@ -2024,7 +2158,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.13
-### What's Changed
+### ⬆️ What's Changed
 - **bot/handler/handlerEvents.js**: language update
 - **scripts/cmds/avatar.js**: language update
 - **scripts/cmds/help.js**: language update
@@ -2035,14 +2169,16 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.12
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/setrole.js**: language update
+### 🗑️ Files Deleted
+- **scripts/cmds/simsimi.js**: delete command
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.1.11
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/setalias.js**: fixes bugs
 - **bot/handler/handlerEvents.js**: language update
 ### Contributors
@@ -2050,7 +2186,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.10
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/rankup.js**: fixes `TypeError: Cannot read property of undefined (reading 'attachments')`
 - **scripts/cmds/shortcut.js**: fixes cannot delete/remove shortcut
 - **scripts/cmds/avatar.js**: language udpate
@@ -2059,14 +2195,14 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.9
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/shortcut.js**: fixes with attachment giving error
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.1.8
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/admin.js**: language update
 - **scripts/cmds/help.js**: language update
 - **scripts/cmds/setrole.js**: language update
@@ -2077,7 +2213,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.7
-### What's Changed
+### ⬆️ What's Changed
 - **bot/source/invalid_domain_for_site_key.jpg**: add image
 - **bot/source/invalid_grant1.jpg**: add image
 - **bot/source/invalid_grant2.jpg**: add image
@@ -2099,7 +2235,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.6
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/busy.js**: fixes bugs auto activated for all member
 - **scripts/cmds/notification.js**: fixes error `TypeError: checkAndTranslate is not a function`
 - **scripts/cmds/callad.js**: fixes error `TypeError: checkAndTranslate is not a function`
@@ -2112,7 +2248,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.5
-### What's Changed
+### ⬆️ What's Changed
 - **bot/handler/handlerEvents.js**: language update
 - **scripts/cmds/emojimix.js**: language update
 - **scripts/cmds/loadconfig.js**: language update
@@ -2125,14 +2261,14 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.4
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/busy.js**: language update
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.1.3
-### What's Changed
+### ⬆️ What's Changed
 - **bot/handler/handlerEvents.js**: fixes can't use bot when inbox 1-1
 - **scripts/events/logsbot.js**: fixes error `TypeError: checkAndTranslate is not a function`
 - **scripts/cmds/customrankcard.js**: language update
@@ -2150,7 +2286,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.2
-### What's Changed
+### ⬆️ What's Changed
 - **languages/cmds/en.js**: language update
 - **scripts/cmds/help.js**: language update
 - **scripts/events/leave.js**: language update
@@ -2160,7 +2296,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.1
-### What's Changed
+### ⬆️ What's Changed
 - **languages/en.lang**: 
 - **languages/vi.lang**: 
 - **scripts/cmds/help.js**: fixes error `TypeError: Cannot read property 'doNotHave' of undefined`
@@ -2175,7 +2311,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.1.0
-### What's Changed
+### ⬆️ What's Changed
 - **config.json**: 
 - **utils.js**: cancel automatic translation by api
 - **dashboard/app.js**: fixes `Error: Login sessions require session support. Did you forget to use 'express-session' middleware`
@@ -2250,7 +2386,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.0.30
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/ytb.js**: fixes `TypeError: Cannot read property 'length' of undefined`
 - **scripts/cmds/customrankcard.js**: 
 ### Contributors
@@ -2258,7 +2394,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.0.29
-### What's Changed
+### ⬆️ What's Changed
 - **bot/handler/handlerEvents.js**: fixes `Can't find text: "handlerEvents.."`
 - **package-lock.json**: update package `fb-chat-api` version 10.4.14
 - **package.json**: update package `fb-chat-api` version 10.4.14
@@ -2269,21 +2405,23 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.0.28
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/notification.js**: fixes `Error: parseAndCheckLogin got status code: 404. Bailing out of trying to parse response.`
+### 🗑️ Files Deleted
+- **scripts/cmds/instagram.js**: api is no longer working
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.0.27
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: fixes console freeze error
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.0.26
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/setalias.js**: add option -g (applies to the whole system)
 - **scripts/cmds/event.js**: add Argument and Parameter `globalModel`, `globalData`
 - **scripts/cmds/cmd.js**: add Argument and Parameter `globalModel`, `globalData`
@@ -2295,7 +2433,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.0.25
-### What's Changed
+### ⬆️ What's Changed
 - **bot/handler/handlerAction.js**: add globalModel and globalData
 - **utils.js**: add globalModel and globalData
 - **scripts/cmds/eval.js**: add globalModel and globalData
@@ -2323,7 +2461,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.0.24
-### What's Changed
+### ⬆️ What's Changed
 - **update.js**: update handle update
 - **languages/en.lang**: 
 ### Contributors
@@ -2331,7 +2469,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.0.23
-### What's Changed
+### ⬆️ What's Changed
 - **dashboard/views/404.eta**: cancel minify and fixes bugs
 - **dashboard/views/change-password.eta**: cancel minify and fixes bugs
 - **dashboard/views/dashboard-custom-cmd.eta**: cancel minify and fixes bugs
@@ -2378,7 +2516,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.0.22
-### What's Changed
+### ⬆️ What's Changed
 - **index.js**: confusion between variable "version" and "currentVersion" 🤧
 - **scripts/cmds/setleave.js**: fixes can't customize newline text
 - **scripts/cmds/setwelcome.js**: fixes can't customize newline text
@@ -2389,14 +2527,14 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.0.21
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/refresh.js**: edit role 0 (everyone) to 1 (admin only)
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.0.20
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/busy.js**: new command
 - **scripts/cmds/filteruser.js**: new command
 - **scripts/cmds/refresh.js**: new command
@@ -2405,21 +2543,21 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.0.19
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/tik.js**: fixes `Error: The first argument (url) must be a string`
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.0.18
-### What's Changed
+### ⬆️ What's Changed
 - **utils.js**: fixes error `CREDENTIALS: Please provide a valid apiKey in file config.json`
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.0.17
-### What's Changed
+### ⬆️ What's Changed
 - **database/connectDB/connectMongoDB.js**: fixes can't connect mongodb
 - **database/controller/dashBoardData.js**: fixes can't connect mongodb
 - **database/controller/index.js**: fixes can't connect mongodb
@@ -2432,7 +2570,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.0.16
-### What's Changed
+### ⬆️ What's Changed
 - **index.js**: 
 - **scripts/cmds/moon.js**: fixes error `TypeError: Cannot read property 'slice' of undefined`
 ### Contributors
@@ -2440,7 +2578,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.0.15
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: fixes bot not working after some time
 - **scripts/cmds/admin.js**: new command help you Add, remove, edit admin rights
 - **scripts/cmds/cmd.js**: fixes error `TypeError: Cannot read properties of undefined (reading 'toLowerCase')`
@@ -2450,7 +2588,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.0.14
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: automatically remove duplicate event listeners
 - **scripts/cmds/cmd.js**: fixes error: `TypeError: Cannot read property 'indexOf' of undefined`
 - **index.js**: added notification feature when new update is available
@@ -2459,7 +2597,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.0.13
-### What's Changed
+### ⬆️ What's Changed
 - **bot/handler/handlerEvents.js**: fixes adminOnly not working
 - **bot/login/loadScripts.js**: 
 - **scripts/cmds/cmd.js**: add function `install`: Download and install a script from a url, url is the path to the script (raw)
@@ -2469,7 +2607,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.0.12
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/anime.js**: fixes error Dissallowed props: `attachent`
 - **scripts/cmds/videofb.js**: 
 ### Contributors
@@ -2477,7 +2615,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.0.11
-### What's Changed
+### ⬆️ What's Changed
 - **utils.js**: 
 - **scripts/cmds/anime.js**: new command random anime image
 - **scripts/cmds/avatar.js**: new command create avatar anime
@@ -2487,7 +2625,7 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.0.10
-### What's Changed
+### ⬆️ What's Changed
 - **bot/handler/handlerEvents.js**: 
 - **scripts/cmds/simsimi.js**: new command
 ### Contributors
@@ -2495,14 +2633,14 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.0.9
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/tik.js**: add slide download feature (images)
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.0.8
-### What's Changed
+### ⬆️ What's Changed
 - **utils.js**: update system translate
 - **scripts/cmds/adduser.js**: update system translate
 ### Contributors
@@ -2510,28 +2648,28 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.0.7
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/videofb.js**: fixes error Cannot download video
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.0.6
-### What's Changed
+### ⬆️ What's Changed
 - **scripts/cmds/ytb.js**: fixes error `AxiosError: unable to verify the first certificate`
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.0.5
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: fixes duplicate login
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.0.4
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: fixes bugs
 - **scripts/cmds/badwords.js**: fixes error `Cannot read properties of undefined (reading 'settings')`
 - **scripts/cmds/loadconfig.js**: fixes error `Cannot read properties of undefined (reading 'dirConfig')`
@@ -2541,21 +2679,21 @@ Dependencies will be reinstalled for this version.
 
 ---
 ## 📦 Version 1.0.3
-### What's Changed
+### ⬆️ What's Changed
 - **bot/handler/handlerEvents.js**: fixes terminal freeze
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.0.2
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/loadData.js**: fixes terminal freeze
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
 
 ---
 ## 📦 Version 1.0.1
-### What's Changed
+### ⬆️ What's Changed
 - **bot/login/login.js**: fixes terminal freeze
 ### Contributors
 - <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
