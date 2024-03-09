@@ -1,196 +1,192 @@
 const axios = require('axios');
+const fs = require('fs-extra');
+const path = require('path');
+const ytdl = require("@neoxr/ytdl-core");
+const yts = require("yt-search");
 
-// config 
-const apiKey = "";
-const maxTokens = 500;
-const numberGenerateImage = 4;
-const maxStorageMessage = 4;
+async function lado(api, event, args, message) {
+  try {
+    const songName = args.join(" ");
+    const searchResults = await yts(songName);
 
-if (!global.temp.openAIUsing)
-	global.temp.openAIUsing = {};
-if (!global.temp.openAIHistory)
-	global.temp.openAIHistory = {};
+    if (!searchResults.videos.length) {
+      message.reply("No song found for the given query.");
+      return;
+    }
 
-const { openAIUsing, openAIHistory } = global.temp;
+    const video = searchResults.videos[0];
+    const videoUrl = video.url;
+    const stream = ytdl(videoUrl, { filter: "audioonly" });
+    const fileName = `music.mp3`; 
+    const filePath = path.join(__dirname, "tmp", fileName);
 
-module.exports = {
-	config: {
-		name: "gpt",
-		version: "1.3",
-		author: "NTKhang",
-		countDown: 5,
-		role: 0,
-		shortDescription: {
-			vi: "GPT chat",
-			en: "GPT chat"
-		},
-		longDescription: {
-			vi: "GPT chat",
-			en: "GPT chat"
-		},
-		category: "box chat",
-		guide: {
-			vi: "   {pn} <draw> <nội dung> - tạo hình ảnh từ nội dung"
-				+ "\n   {pn} <clear> - xóa lịch sử chat với gpt"
-				+ "\n   {pn} <nội dung> - chat với gpt",
-			en: "   {pn} <draw> <content> - create image from content"
-				+ "\n   {pn} <clear> - clear chat history with gpt"
-				+ "\n   {pn} <content> - chat with gpt"
-		}
-	},
+    stream.pipe(fs.createWriteStream(filePath));
 
-	langs: {
-		vi: {
-			apiKeyEmpty: "Vui lòng cung cấp api key cho openai tại file scripts/cmds/gpt.js",
-			invalidContentDraw: "Vui lòng nhập nội dung bạn muốn vẽ",
-			yourAreUsing: "Bạn đang sử dụng gpt chat, vui lòng chờ quay lại sau khi yêu cầu trước kết thúc",
-			processingRequest: "Đang xử lý yêu cầu của bạn, quá trình này có thể mất vài phút, vui lòng chờ",
-			invalidContent: "Vui lòng nhập nội dung bạn muốn chat",
-			error: "Đã có lỗi xảy ra\n%1",
-			clearHistory: "Đã xóa lịch sử chat của bạn với gpt"
-		},
-		en: {
-			apiKeyEmpty: "Please provide api key for openai at file scripts/cmds/gpt.js",
-			invalidContentDraw: "Please enter the content you want to draw",
-			yourAreUsing: "You are using gpt chat, please wait until the previous request ends",
-			processingRequest: "Processing your request, this process may take a few minutes, please wait",
-			invalidContent: "Please enter the content you want to chat",
-			error: "An error has occurred\n%1",
-			clearHistory: "Your chat history with gpt has been deleted"
-		}
-	},
+    stream.on('response', () => {
+      console.info('[DOWNLOADER]', 'Starting download now!');
+    });
 
-	onStart: async function ({ message, event, args, getLang, prefix, commandName }) {
-		if (!apiKey)
-			return message.reply(getLang('apiKeyEmpty', prefix));
+    stream.on('info', (info) => {
+      console.info('[DOWNLOADER]', `Downloading ${info.videoDetails.title} by ${info.videoDetails.author.name}`);
+    });
 
-		switch (args[0]) {
-			case 'img':
-			case 'image':
-			case 'draw': {
-				if (!args[1])
-					return message.reply(getLang('invalidContentDraw'));
-				if (openAIUsing[event.senderID])
-					return message.reply(getLang("yourAreUsing"));
+    stream.on('end', () => {
+      const audioStream = fs.createReadStream(filePath);
+      message.reply({ attachment: audioStream });
+      api.setMessageReaction("✅", event.messageID, () => {}, true);
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    message.reply("Sorry, an error occurred while processing your request.");
+  }
+}
 
-				openAIUsing[event.senderID] = true;
+async function kshitiz(api, event, args, message) {
+  try {
+    const query = args.join(" ");
+    const searchResults = await yts(query);
 
-				let sending;
-				try {
-					sending = message.reply(getLang('processingRequest'));
-					const responseImage = await axios({
-						url: "https://api.openai.com/v1/images/generations",
-						method: "POST",
-						headers: {
-							"Authorization": `Bearer ${apiKey}`,
-							"Content-Type": "application/json"
-						},
-						data: {
-							prompt: args.slice(1).join(' '),
-							n: numberGenerateImage,
-							size: '1024x1024'
-						}
-					});
-					const imageUrls = responseImage.data.data;
-					const images = await Promise.all(imageUrls.map(async (item) => {
-						const image = await axios.get(item.url, {
-							responseType: 'stream'
-						});
-						image.data.path = `${Date.now()}.png`;
-						return image.data;
-					}));
-					return message.reply({
-						attachment: images
-					});
-				}
-				catch (err) {
-					const errorMessage = err.response?.data.error.message || err.message;
-					return message.reply(getLang('error', errorMessage || ''));
-				}
-				finally {
-					delete openAIUsing[event.senderID];
-					message.unsend((await sending).messageID);
-				}
-			}
-			case 'clear': {
-				openAIHistory[event.senderID] = [];
-				return message.reply(getLang('clearHistory'));
-			}
-			default: {
-				if (!args[0])
-					return message.reply(getLang('invalidContent'));
+    if (!searchResults.videos.length) {
+      message.reply("No videos found for the given query.");
+      return;
+    }
 
-				handleGpt(event, message, args, getLang, commandName);
-			}
-		}
-	},
+    const video = searchResults.videos[0];
+    const videoUrl = video.url;
+    const stream = ytdl(videoUrl, { filter: "audioandvideo" }); 
+    const fileName = `music.mp4`;
+    const filePath = path.join(__dirname, "tmp", fileName);
 
-	onReply: async function ({ Reply, message, event, args, getLang, commandName }) {
-		const { author } = Reply;
-		if (author != event.senderID)
-			return;
+    stream.pipe(fs.createWriteStream(filePath));
 
-		handleGpt(event, message, args, getLang, commandName);
-	}
+    stream.on('response', () => {
+      console.info('[DOWNLOADER]', 'Starting download now!');
+    });
+
+    stream.on('info', (info) => {
+      console.info('[DOWNLOADER]', `Downloading ${info.videoDetails.title} by ${info.videoDetails.author.name}`);
+    });
+
+    stream.on('end', () => {
+      const videoStream = fs.createReadStream(filePath);
+      message.reply({ attachment: videoStream });
+      api.setMessageReaction("✅", event.messageID, () => {}, true);
+    });
+  } catch (error) {
+    console.error(error);
+    message.reply("Sorry, an error occurred while processing your request.");
+  }
+}
+
+
+const a = {
+  name: "gpt",
+  aliases: ["chatgpt"],
+  version: "3.0",
+  author: "kshitiz",
+  countDown: 5,
+  role: 0,
+  longDescription: "Chat with GPT-4",
+  category: "ai",
+  guide: {
+    en: "{p}gpt {prompt}"
+  }
 };
 
-async function askGpt(event) {
-	const response = await axios({
-		url: "https://api.openai.com/v1/chat/completions",
-		method: "POST",
-		headers: {
-			"Authorization": `Bearer ${apiKey}`,
-			"Content-Type": "application/json"
-		},
-		data: {
-			model: "gpt-3.5-turbo",
-			messages: openAIHistory[event.senderID],
-			max_tokens: maxTokens,
-			temperature: 0.7
-		}
-	});
-	return response;
+async function b(c, d, e, f) {
+  try {
+    const g = await axios.get(`https://ai-tools.replit.app/gpt?prompt=${encodeURIComponent(c)}&uid=${d}&apikey=kshitiz`);
+    return g.data.gpt4;
+  } catch (h) {
+    throw h;
+  }
 }
 
-async function handleGpt(event, message, args, getLang, commandName) {
-	try {
-		openAIUsing[event.senderID] = true;
-
-		if (
-			!openAIHistory[event.senderID] ||
-			!Array.isArray(openAIHistory[event.senderID])
-		)
-			openAIHistory[event.senderID] = [];
-
-		if (openAIHistory[event.senderID].length >= maxStorageMessage)
-			openAIHistory[event.senderID].shift();
-
-		openAIHistory[event.senderID].push({
-			role: 'user',
-			content: args.join(' ')
-		});
-
-		const response = await askGpt(event);
-		const text = response.data.choices[0].message.content;
-
-		openAIHistory[event.senderID].push({
-			role: 'assistant',
-			content: text
-		});
-
-		return message.reply(text, (err, info) => {
-			global.GoatBot.onReply.set(info.messageID, {
-				commandName,
-				author: event.senderID,
-				messageID: info.messageID
-			});
-		});
-	}
-	catch (err) {
-		const errorMessage = err.response?.data.error.message || err.message || "";
-		return message.reply(getLang('error', errorMessage));
-	}
-	finally {
-		delete openAIUsing[event.senderID];
-	}
+async function i(c) {
+  try {
+    const j = await axios.get(`https://ai-tools.replit.app/sdxl?prompt=${encodeURIComponent(c)}&styles=7`, { responseType: 'arraybuffer' });
+    return j.data;
+  } catch (k) {
+    throw k;
+  }
 }
+
+async function describeImage(prompt, photoUrl) {
+  try {
+    const url = `https://sandipbaruwal.onrender.com/gemini2?prompt=${encodeURIComponent(prompt)}&url=${encodeURIComponent(photoUrl)}`;
+    const response = await axios.get(url);
+    return response.data.answer;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function l({ api, message, event, args }) {
+  try {
+    const m = event.senderID;
+    const n = args.join(" ").trim();
+    const draw = args[0].toLowerCase() === "draw";
+    const prompt = args[0].toLowerCase() === "prompt";
+    const sendTikTok = args[0].toLowerCase() === "send";
+    const sing = args[0].toLowerCase() === "sing";
+
+    if (!n) {
+      return message.reply("Please provide a prompt.");
+    }
+
+    if (draw) {
+      await drawImage(message, n);
+    } else if (prompt) {
+      if (event.messageReply && event.messageReply.attachments && event.messageReply.attachments.length > 0) {
+        const photoUrl = event.messageReply.attachments[0].url;
+        const description = await describeImage(n, photoUrl);
+        message.reply(`Description: ${description}`);
+      } else {
+        return message.reply("Please reply to an image to describe it.");
+        }
+    } else if (sendTikTok) {
+      await kshitiz(api, event, args.slice(1), message); 
+    } else if (sing) {
+      await lado(api, event, args.slice(1), message); 
+    } else {
+      const q = await b(n, m);
+      message.reply(q, (r, s) => {
+        global.GoatBot.onReply.set(s.messageID, {
+          commandName: a.name,
+          uid: m 
+        });
+      });
+    }
+  } catch (t) {
+    console.error("Error:", t.message);
+    message.reply("An error occurred while processing the request.");
+  }
+}
+
+async function drawImage(message, prompt) {
+  try {
+    const u = await i(prompt);
+
+    const v = path.join(__dirname, 'cache', `image_${Date.now()}.png`);
+    fs.writeFileSync(v, u);
+
+    message.reply({
+      body: "Generated image:",
+      attachment: fs.createReadStream(v)
+    });
+  } catch (w) {
+    console.error("Error:", w.message);
+    message.reply("An error occurred while processing the request.");
+  }
+}
+
+module.exports = {
+  config: a,
+  handleCommand: l,
+  onStart: function ({ api, message, event, args }) {
+    return l({ api, message, event, args });
+  },
+  onReply: function ({ api, message, event, args }) {
+    return l({ api, message, event, args });
+  }
+};
