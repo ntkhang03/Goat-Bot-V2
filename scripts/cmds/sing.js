@@ -1,54 +1,83 @@
-const axios = require('axios');
-const supportedIds = ["rachel", "drew", "clyde", "paul", "domi", "dave", "fin", "sarah", "antoni", "thomas", "charlie", "george", "emily", "elli", "callum", "patrick", "harry", "liam", "dorothy", "josh", "arnold", "charlotte", "alice", "matilda", "matthew", "james", "joseph", "jeremy", "michael", "ethan", "chris", "gigi", "freya", "brian", "grace", "daniel", "lily", "serena", "adam", "nicole", "bill", "jessie", "sam", "glinda", "giovanni", "mimi"];
+const axios = require("axios");
+const fs = require('fs-extra');
+const { getStreamFromURL, shortenURL, randomString } = global.utils;
 
 module.exports = {
   config: {
-    name: "voice",
+    name: "sing",
     version: "1.0",
-    author: "Rishad",
-    countDown: 5,
+    author: "Kshitiz",
+    countDown: 10,
     role: 0,
-    category: "Fun",
-    ShortDescription: "Generate voice using AI",
-    LongDescription: "Generates voice using an AI.",
-    guide: {
-      en: "{pn} (voice id) | texts\nExample: {pn} rachel | hey there\n{pn} list | Get the list of supported voice IDs"
-    }
+    shortDescription: "play song from spotify",
+    longDescription: "play song from spotify",
+    category: "music",
+    guide: "{pn} sing songname"
   },
 
-  onStart: async function ({ api, args, message, event }) {
-    const { getPrefix, getStreamFromURL } = global.utils;
-    const p = getPrefix(event.threadID);
-
-    const command = args.join(" ").split("|");
-    if (command.length !== 2) {
-      if (args[0].toLowerCase() === 'list') {
-        return api.sendMessage(`Supported voice IDs are:\n ${supportedIds.join("\n")}`, event.threadID, event.messageID);
-      }
-      return message.reply(`❌Invalid command format. Use it like this:\n${p}voice rachel | Hey there`);
-    }
-
-    const voiceId = command[0].trim().toLowerCase();
-    const text = command[1].trim();
-
-    if (!supportedIds.includes(voiceId)) {
-      return message.reply(`❌Invalid voice ID. Supported IDs are:\n ${supportedIds.join("\n")}`);
-    }
-
-    const apiKey = 'fuck';
-    const apiUrl = `https://for-devs.onrender.com/api/voice?text=${encodeURIComponent(text)}&voiceid=${voiceId}&apikey=${apiKey}`;
+  onStart: async function ({ api, event, args, message }) {
+    const a = await message.reply("downloading your song🕐..");
 
     try {
-      const voiceStream = await getStreamFromURL(apiUrl);
+      let b = '';
 
-      if (voiceStream) {
-        return api.sendMessage({ attachment: voiceStream }, event.threadID, event.messageID);
+      const c = async () => {
+        const d = event.messageReply.attachments[0];
+        if (d.type === "audio" || d.type === "video") {
+          const e = await shortenURL(d.url);
+          const f = await axios.get(`https://youtube-music-sooty.vercel.app/kshitiz?url=${encodeURIComponent(e)}`);
+          return f.data.title;
+        } else {
+          throw new Error("Invalid attachment type.");
+        }
+      };
+
+      if (event.messageReply && event.messageReply.attachments && event.messageReply.attachments.length > 0) {
+        b = await c();
+      } else if (args.length === 0) {
+        throw new Error("Please provide a song name.");
       } else {
-        return api.sendMessage('Failed to generate voice.', event.threadID, event.messageID);
+        b = args.join(" ");
       }
-    } catch (error) {
-      console.error(error);
-      return api.sendMessage('Failed to generate voice.', event.threadID, event.messageID);
+
+      const g = await axios.get(`https://spotify-play-iota.vercel.app/spotify?query=${encodeURIComponent(b)}`);
+      const h = g.data.trackURLs;
+      if (!h || h.length === 0) {
+        throw new Error("No track found for the provided song name.");
+      }
+
+      const i = h[0];
+      const j = await axios.get(`https://sp-dl-bice.vercel.app/spotify?id=${encodeURIComponent(i)}`);
+      const k = j.data.download_link;
+
+      const l = await downloadTrack(k);
+
+      const m = await shortenURL(k);
+
+      await message.reply({
+        body: `🎧 Playing: ${b}\nDownload Link: ${m}`,
+        attachment: fs.createReadStream(l)
+      });
+
+      console.log("Audio sent successfully.");
+
+    } catch (n) {
+      console.error("Error occurred:", n);
+      message.reply(`An error occurred: ${n.message}`);
+    } finally {
+      message.unsend(a.messageID);
     }
   }
 };
+
+async function downloadTrack(url) {
+  const o = await getStreamFromURL(url);
+  const p = `${__dirname}/cache/${randomString()}.mp3`;
+  const q = fs.createWriteStream(p);
+  o.pipe(q);
+
+  return new Promise((resolve, reject) => {
+    q.on('finish', () => resolve(p));
+    q.on('error', reject);
+  });
+}
