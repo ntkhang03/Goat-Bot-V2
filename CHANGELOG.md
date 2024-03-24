@@ -1,3 +1,16 @@
+## 📦 Version 1.5.30
+### ⬆️ What's Changed
+- **bot/handler/handlerCheckData.js**: code optimization
+- **database/controller/dashBoardData.js**: Replace the `createQueue` function into the `TaskQueue` class, code optimization
+- **database/controller/globalData.js**: Replace the `createQueue` function into the `TaskQueue` class, code optimization
+- **database/controller/threadsData.js**: Replace the `createQueue` function into the `TaskQueue` class, code optimization
+- **database/controller/usersData.js**: Replace the `createQueue` function into the `TaskQueue` class, code optimization
+- **scripts/cmds/cmd.js**: Replace the `createQueue` function into the `TaskQueue` class, code optimization
+- **utils.js**: Replace the `createQueue` function into the `TaskQueue` class
+### Contributors
+- <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
+
+---
 ## 📦 Version 1.5.29
 ### ⬆️ What's Changed
 - **.vscode/GoatBot.code-snippets**: remove `shortDescription` and `longDescription`, replace with `description` in scripts
