@@ -2,19 +2,27 @@ const { existsSync, writeJsonSync, readJSONSync } = require("fs-extra");
 const moment = require("moment-timezone");
 const path = require("path");
 const _ = require("lodash");
-const { CustomError } = global.utils;
+const { CustomError, TaskQueue, getType } = global.utils;
+
 const optionsWriteJSON = {
 	spaces: 2,
 	EOL: "\n"
 };
 
-const messageQueue = global.utils.createQueue(async (task, callback) => {
-	try {
-		const result = await task();
-		callback(null, result);
+const taskQueue = new TaskQueue(function (task, callback) {
+	if (getType(task) === "AsyncFunction") {
+		task()
+			.then(result => callback(null, result))
+			.catch(err => callback(err));
 	}
-	catch (err) {
-		callback(err);
+	else {
+		try {
+			const result = task();
+			callback(null, result);
+		}
+		catch (err) {
+			callback(err);
+		}
 	}
 });
 
@@ -165,97 +173,92 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 	}
 
 	async function create_(threadID, threadInfo) {
-		return new Promise(async function (resolve, reject) {
-			const findInCreatingData = creatingThreadData.find(t => t.threadID == threadID);
-			if (findInCreatingData)
-				return resolve(findInCreatingData.promise);
+		const findInCreatingData = creatingThreadData.find(t => t.threadID == threadID);
+		if (findInCreatingData)
+			return findInCreatingData.promise;
 
-			const queue = new Promise(async function (resolve_, reject_) {
-				try {
-					if (global.db.allThreadData.some(t => t.threadID == threadID)) {
-						throw new CustomError({
-							name: "DATA_ALREADY_EXISTS",
-							message: `Thread with id "${threadID}" already exists in the data`
-						});
-					}
-					if (isNaN(threadID)) {
-						throw new CustomError({
-							name: "INVALID_THREAD_ID",
-							message: `The first argument (threadID) must be a number, not a ${typeof threadID}`
-						});
-					}
-					threadInfo = threadInfo || await api.getThreadInfo(threadID);
-					const { threadName, userInfo, adminIDs } = threadInfo;
-					const newAdminsIDs = adminIDs.reduce(function (_, b) {
-						_.push(b.id);
-						return _;
-					}, []);
-
-					const newMembers = userInfo.reduce(function (arr, user) {
-						const userID = user.id;
-						arr.push({
-							userID,
-							name: user.name,
-							gender: user.gender,
-							nickname: threadInfo.nicknames[userID] || null,
-							inGroup: true,
-							count: 0,
-							permissionConfigDashboard: false
-						});
-						return arr;
-					}, []);
-
-					let threadData = {
-						threadID,
-						threadName,
-						threadThemeID: threadInfo.threadTheme?.id || null,
-						emoji: threadInfo.emoji,
-						adminIDs: newAdminsIDs,
-						imageSrc: threadInfo.imageSrc,
-						approvalMode: threadInfo.approvalMode,
-						members: newMembers,
-						banned: {},
-						settings: {
-							sendWelcomeMessage: true,
-							sendLeaveMessage: true,
-							sendRankupMessage: false,
-							customCommand: true
-						},
-						data: {},
-						isGroup: threadInfo.threadType == 2
-					};
-					threadData = await save(threadID, threadData, "create");
-					resolve_(_.cloneDeep(threadData));
+		const queue = new Promise(async function (resolve_, reject_) {
+			try {
+				if (global.db.allThreadData.some(t => t.threadID == threadID)) {
+					throw new CustomError({
+						name: "DATA_ALREADY_EXISTS",
+						message: `Thread with id "${threadID}" already exists in the data`
+					});
 				}
-				catch (err) {
-					reject_(err);
+				if (isNaN(threadID)) {
+					throw new CustomError({
+						name: "INVALID_THREAD_ID",
+						message: `The first argument (threadID) must be a number, not a ${typeof threadID}`
+					});
 				}
-				creatingThreadData.splice(creatingThreadData.findIndex(t => t.threadID == threadID), 1);
-			});
-			creatingThreadData.push({
-				threadID,
-				promise: queue
-			});
-			return resolve(queue);
+				threadInfo = threadInfo || await api.getThreadInfo(threadID);
+				const { threadName, userInfo, adminIDs } = threadInfo;
+				const newAdminsIDs = adminIDs.reduce(function (_, b) {
+					_.push(b.id);
+					return _;
+				}, []);
+
+				const newMembers = userInfo.reduce(function (arr, user) {
+					const userID = user.id;
+					arr.push({
+						userID,
+						name: user.name,
+						gender: user.gender,
+						nickname: threadInfo.nicknames[userID] || null,
+						inGroup: true,
+						count: 0,
+						permissionConfigDashboard: false
+					});
+					return arr;
+				}, []);
+
+				let threadData = {
+					threadID,
+					threadName,
+					threadThemeID: threadInfo.threadTheme?.id || null,
+					emoji: threadInfo.emoji,
+					adminIDs: newAdminsIDs,
+					imageSrc: threadInfo.imageSrc,
+					approvalMode: threadInfo.approvalMode,
+					members: newMembers,
+					banned: {},
+					settings: {
+						sendWelcomeMessage: true,
+						sendLeaveMessage: true,
+						sendRankupMessage: false,
+						customCommand: true
+					},
+					data: {},
+					isGroup: threadInfo.threadType == 2
+				};
+				threadData = await save(threadID, threadData, "create");
+				resolve_(_.cloneDeep(threadData));
+			}
+			catch (err) {
+				reject_(err);
+			}
+			creatingThreadData.splice(creatingThreadData.findIndex(t => t.threadID == threadID), 1);
 		});
+		creatingThreadData.push({
+			threadID,
+			promise: queue
+		});
+		return queue;
 	}
 
 	async function create(threadID, threadInfo) {
-		return new Promise(async function (resolve, reject) {
-			messageQueue.push(async function () {
-				try {
-					return resolve(await create_(threadID, threadInfo));
-				}
-				catch (err) {
-					return reject(err);
-				}
+		return new Promise(function (resolve, reject) {
+			taskQueue.push(async function () {
+				create_(threadID, threadInfo)
+					.then(resolve)
+					.catch(reject);
 			});
 		});
 	}
 
 	async function refreshInfo(threadID, newThreadInfo) {
-		return new Promise(async function (resolve, reject) {
-			messageQueue.push(async function () {
+		return new Promise(function (resolve, reject) {
+			taskQueue.push(async function () {
 				try {
 					if (isNaN(threadID)) {
 						reject(new CustomError({
@@ -318,19 +321,25 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 
 	function getAll(path, defaultValue, query) {
 		return new Promise(async function (resolve, reject) {
-			messageQueue.push(async function () {
+			taskQueue.push(async function () {
 				try {
 					let dataReturn = _.cloneDeep(global.db.allThreadData);
 
 					if (query)
 						if (typeof query !== "string")
-							throw new Error(`The third argument (query) must be a string, not a ${typeof query}`);
+							throw new CustomError({
+								name: "INVALID_QUERY",
+								message: `The third argument (query) must be a string, not a ${typeof query}`
+							});
 						else
 							dataReturn = dataReturn.map(tData => fakeGraphql(query, tData));
 
 					if (path)
 						if (!["string", "object"].includes(typeof path))
-							throw new Error(`The first argument (path) must be a string or an object, not a ${typeof path}`);
+							throw new CustomError({
+								name: "INVALID_PATH",
+								message: `The first argument (path) must be a string or an object, not a ${typeof path}`
+							});
 						else
 							if (typeof path === "string")
 								return resolve(dataReturn.map(tData => _.get(tData, path, defaultValue)));
@@ -347,61 +356,57 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 	}
 
 	async function get_(threadID, path, defaultValue, query) {
-		return new Promise(async function (resolve, reject) {
-			try {
-				if (isNaN(threadID)) {
-					throw new CustomError({
-						name: "INVALID_THREAD_ID",
-						message: `The first argument (threadID) must be a number, not a ${typeof threadID}`
-					});
-				}
-				let threadData;
+		if (isNaN(threadID)) {
+			throw new CustomError({
+				name: "INVALID_THREAD_ID",
+				message: `The first argument (threadID) must be a number, not a ${typeof threadID}`
+			});
+		}
+		let threadData;
 
-				const index = global.db.allThreadData.findIndex(t => t.threadID == threadID);
-				if (index === -1)
-					threadData = await create_(threadID);
+		const index = global.db.allThreadData.findIndex(t => t.threadID == threadID);
+		if (index === -1)
+			threadData = await create_(threadID);
+		else
+			threadData = global.db.allThreadData[index];
+
+		if (query)
+			if (typeof query != "string")
+				throw new CustomError({
+					name: "INVALID_QUERY",
+					message: `The fourth argument (query) must be a string, not a ${typeof query}`
+				});
+			else
+				threadData = fakeGraphql(query, threadData);
+
+		if (path)
+			if (!["string", "object"].includes(typeof path))
+				throw new CustomError({
+					name: "INVALID_PATH",
+					message: `The second argument (path) must be a string or an object, not a ${typeof path}`
+				});
+			else
+				if (typeof path === "string")
+					return _.cloneDeep(_.get(threadData, path, defaultValue));
 				else
-					threadData = global.db.allThreadData[index];
+					return _.cloneDeep(_.times(path.length, i => _.get(threadData, path[i], defaultValue[i])));
 
-				if (query)
-					if (typeof query != "string")
-						throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
-					else
-						threadData = fakeGraphql(query, threadData);
-
-				if (path)
-					if (!["string", "object"].includes(typeof path))
-						throw new Error(`The second argument (path) must be a string or an object, not a ${typeof path}`);
-					else
-						if (typeof path === "string")
-							return resolve(_.cloneDeep(_.get(threadData, path, defaultValue)));
-						else
-							return resolve(_.cloneDeep(_.times(path.length, i => _.get(threadData, path[i], defaultValue[i]))));
-
-				return resolve(_.cloneDeep(threadData));
-			}
-			catch (err) {
-				reject(err);
-			}
-		});
+		return _.cloneDeep(threadData);
 	}
 
 	async function get(threadID, path, defaultValue, query) {
 		return new Promise(async function (resolve, reject) {
-			messageQueue.push(async function () {
-				try {
-					return resolve(await get_(threadID, path, defaultValue, query));
-				}
-				catch (err) {
-					reject(err);
-				}
+			taskQueue.push(function () {
+				get_(threadID, path, defaultValue, query)
+					.then(resolve)
+					.catch(reject);
 			});
 		});
 	}
 
 	async function set(threadID, updateData, path, query) {
 		return new Promise(async function (resolve, reject) {
-			messageQueue.push(async function () {
+			taskQueue.push(async function () {
 				try {
 					if (isNaN(threadID)) {
 						throw new CustomError({
@@ -410,11 +415,17 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 						});
 					}
 					if (!path && (typeof updateData != "object" || Array.isArray(updateData)))
-						throw new Error(`The second argument (updateData) must be an object, not a ${typeof updateData}`);
+						throw new CustomError({
+							name: "INVALID_UPDATE_DATA",
+							message: `The second argument (updateData) must be an object, not a ${typeof updateData}`
+						});
 					const threadData = await save(threadID, updateData, "update", path);
 					if (query)
 						if (typeof query !== "string")
-							throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
+							throw new CustomError({
+								name: "INVALID_QUERY",
+								message: `The fourth argument (query) must be a string, not a ${typeof query}`
+							});
 						else
 							return resolve(_.cloneDeep(fakeGraphql(query, threadData)));
 					return resolve(_.cloneDeep(threadData));
@@ -428,7 +439,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 
 	async function deleteKey(threadID, path, query) {
 		return new Promise(async function (resolve, reject) {
-			messageQueue.push(async function () {
+			taskQueue.push(async function () {
 				try {
 					if (isNaN(threadID)) {
 						throw new CustomError({
@@ -437,20 +448,32 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 						});
 					}
 					if (typeof path !== "string")
-						throw new Error(`The second argument (path) must be a string, not a ${typeof path}`);
+						throw new CustomError({
+							name: "INVALID_PATH",
+							message: `The second argument (path) must be a string, not a ${typeof path}`
+						});
 					const spitPath = path.split(".");
 					if (spitPath.length == 1)
-						throw new Error(`Can't delete key "${path}" because it's a root key`);
+						throw new CustomError({
+							name: "INVALID_PATH",
+							message: `Can't delete key "${path}" because it's a root key`
+						});
 					const parent = spitPath.slice(0, spitPath.length - 1).join(".");
 					const parentData = await get_(threadID, parent);
 					if (!parentData)
-						throw new Error(`Can't find key "${parent}" in thread with threadID: ${threadID}`);
+						throw new CustomError({
+							name: "KEY_NOT_FOUND",
+							message: `Can't find key "${parent}" in thread with threadID: ${threadID}`
+						});
 
 					_.unset(parentData, spitPath[spitPath.length - 1]);
 					const setData = await save(threadID, parentData, "update", parent);
 					if (query)
 						if (typeof query !== "string")
-							throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
+							throw new CustomError({
+								name: "INVALID_QUERY",
+								message: `The fourth argument (query) must be a string, not a ${typeof query}`
+							});
 						else
 							return resolve(_.cloneDeep(fakeGraphql(query, setData)));
 					return resolve(_.cloneDeep(setData));
@@ -464,7 +487,7 @@ module.exports = async function (databaseType, threadModel, api, fakeGraphql) {
 
 	async function remove(threadID) {
 		return new Promise(async function (resolve, reject) {
-			messageQueue.push(async function () {
+			taskQueue.push(async function () {
 				try {
 					if (isNaN(threadID)) {
 						throw new CustomError({

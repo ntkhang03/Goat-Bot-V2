@@ -2,19 +2,27 @@ const { existsSync, writeJsonSync, readJSONSync } = require("fs-extra");
 const moment = require("moment-timezone");
 const path = require("path");
 const _ = require("lodash");
-const { CustomError } = global.utils;
+const { CustomError, TaskQueue, getType } = global.utils;
+
 const optionsWriteJSON = {
 	spaces: 2,
 	EOL: "\n"
 };
 
-const messageQueue = global.utils.createQueue(async function (task, callback) {
-	try {
-		const result = await task();
-		callback(null, result);
+const messageQueue = new TaskQueue(function (task, callback) {
+	if (getType(task) === "AsyncFunction") {
+		task()
+			.then(result => callback(null, result))
+			.catch(err => callback(err));
 	}
-	catch (err) {
-		callback(err);
+	else {
+		try {
+			const result = task();
+			callback(null, result);
+		}
+		catch (err) {
+			callback(err);
+		}
 	}
 });
 
@@ -139,7 +147,6 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 		}
 	}
 
-
 	async function create_(key, data) {
 		return new Promise(async (resolve, reject) => {
 			if (typeof key != "string") {
@@ -202,15 +209,13 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 		});
 	}
 
+
 	async function create(key, data) {
-		return new Promise(async (resolve, reject) => {
-			messageQueue.push(async function () {
-				try {
-					return resolve(await create_(key, data));
-				}
-				catch (err) {
-					reject(err);
-				}
+		return new Promise((resolve, reject) => {
+			messageQueue.push(function () {
+				create_(key, data)
+					.then(resolve)
+					.catch(reject);
 			});
 		});
 	}
@@ -223,13 +228,19 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 
 					if (query)
 						if (typeof query !== "string")
-							throw new Error(`The third argument (query) must be a string, not a ${typeof query}`);
+							throw new CustomError({
+								name: "INVALID_QUERY",
+								message: `The third argument (query) must be a string, not a ${typeof query}`
+							});
 						else
 							dataReturn = dataReturn.map(uData => fakeGraphql(query, uData));
 
 					if (path)
 						if (!["string", "object"].includes(typeof path))
-							throw new Error(`The first argument (path) must be a string or an array, not a ${typeof path}`);
+							throw new CustomError({
+								name: "INVALID_PATH",
+								message: `The first argument (path) must be a string or an array, not a ${typeof path}`
+							});
 						else
 							if (typeof path === "string")
 								return resolve(_.cloneDeep(dataReturn.map(uData => _.get(uData, path, defaultValue))));
@@ -246,64 +257,63 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 	}
 
 	async function get_(key, path, defaultValue, query) {
-		return new Promise(async (resolve, reject) => {
-			try {
-				if (!key || typeof key != "string")
-					throw new Error(`The first argument (key) must be a string, not a ${typeof key}`);
+		if (!key || typeof key != "string")
+			throw new CustomError({
+				name: "INVALID_KEY",
+				message: `The first argument (key) must be a string, not a ${typeof key}`
+			});
 
-				let dataReturn = global.db.allGlobalData.find(u => u.key == key);
-				if (!dataReturn) {
-					const createData = {};
-					if (defaultValue) {
-						if (path)
-							if (!["string", "array"].includes(typeof path))
-								throw new Error(`The second argument (path) must be a string or an array, not a ${typeof path}`);
-							else
-								if (typeof path === "string")
-									_.set(createData, path, defaultValue);
-								else
-									_.times(path.length, i => _.set(createData, path[i], defaultValue[i]));
-						else
-							_.set(createData, "data", defaultValue);
-
-						dataReturn = await create_(key, createData);
-					}
-					else
-						return resolve(undefined);
-				}
-
-				if (query)
-					if (typeof query !== "string")
-						throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
-					else
-						dataReturn = fakeGraphql(query, dataReturn);
-
+		let dataReturn = global.db.allGlobalData.find(u => u.key == key);
+		if (!dataReturn) {
+			const createData = {};
+			if (defaultValue) {
 				if (path)
 					if (!["string", "array"].includes(typeof path))
 						throw new Error(`The second argument (path) must be a string or an array, not a ${typeof path}`);
 					else
 						if (typeof path === "string")
-							return resolve(_.cloneDeep(_.get(dataReturn, path, defaultValue)));
+							_.set(createData, path, defaultValue);
 						else
-							return resolve(_.cloneDeep(_.times(path.length, i => _.get(dataReturn, path[i], defaultValue[i]))));
+							_.times(path.length, i => _.set(createData, path[i], defaultValue[i]));
+				else
+					_.set(createData, "data", defaultValue);
 
-				return resolve(_.cloneDeep(dataReturn));
+				dataReturn = await create_(key, createData);
 			}
-			catch (err) {
-				reject(err);
-			}
-		});
+			else
+				return undefined;
+		}
+
+		if (query)
+			if (typeof query !== "string")
+				throw new CustomError({
+					name: "INVALID_QUERY",
+					message: `The fourth argument (query) must be a string, not a ${typeof query}`
+				});
+			else
+				dataReturn = fakeGraphql(query, dataReturn);
+
+		if (path)
+			if (!["string", "array"].includes(typeof path))
+				throw new CustomError({
+					name: "INVALID_PATH",
+					message: `The second argument (path) must be a string or an array, not a ${typeof path}`
+				});
+			else
+				if (typeof path === "string")
+					return _.cloneDeep(_.get(dataReturn, path, defaultValue));
+				else
+					return _.cloneDeep(_.times(path.length, i => _.get(dataReturn, path[i], defaultValue[i])));
+
+		return _.cloneDeep(dataReturn);
 	}
 
 	async function get(key, path, defaultValue, query) {
 		return new Promise((resolve, reject) => {
-			messageQueue.push(async function () {
-				try {
-					return resolve(await get_(key, path, defaultValue, query));
-				}
-				catch (err) {
-					reject(err);
-				}
+			messageQueue.push(function () {
+				get_(key, path, defaultValue, query)
+					.then(resolve)
+					.catch(reject);
 			});
 		});
 	}
@@ -313,7 +323,10 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 			messageQueue.push(async function () {
 				try {
 					if (!path && (typeof updateData != "object" || typeof updateData == "object" && Array.isArray(updateData)))
-						throw new Error(`The second argument (updateData) must be an object, not a ${typeof updateData}`);
+						throw new CustomError({
+							name: "INVALID_UPDATE_DATA",
+							message: `The second argument (updateData) must be an object, not a ${typeof updateData}`
+						});
 					if (!global.db.allGlobalData.some(u => u.key == key)) {
 						throw new CustomError({
 							name: "KEY_NOT_FOUND",
@@ -323,7 +336,10 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 					const setData = await save(key, updateData, "update", path);
 					if (query)
 						if (typeof query !== "string")
-							throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
+							throw new CustomError({
+								name: "INVALID_QUERY",
+								message: `The fourth argument (query) must be a string, not a ${typeof query}`
+							});
 						else
 							return resolve(_.cloneDeep(fakeGraphql(query, setData)));
 					return resolve(_.cloneDeep(setData));
@@ -341,7 +357,7 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 				try {
 					if (typeof key != "string") {
 						throw new CustomError({
-							name: "INVALID_TYPE",
+							name: "INVALID_KEY",
 							message: `The first argument (key) must be a string, not a ${typeof key}`
 						});
 					}
@@ -353,20 +369,32 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 					}
 
 					if (typeof path !== "string")
-						throw new Error(`The second argument (path) must be a string, not a ${typeof path}`);
+						throw new CustomError({
+							name: "INVALID_PATH",
+							message: `The second argument (path) must be a string, not a ${typeof path}`
+						});
 					const spitPath = path.split(".");
 					if (spitPath.length == 1)
-						throw new Error(`Can't delete key "${path}" because it's a root key`);
+						throw new CustomError({
+							name: "INVALID_PATH",
+							message: `Can't delete key "${path}" because it's a root key`
+						});
 					const parent = spitPath.slice(0, spitPath.length - 1).join(".");
 					const parentData = await get_(key, parent);
 					if (!parentData)
-						throw new Error(`Can't find key "${parent}" in user data`);
+						throw new CustomError({
+							name: "KEY_NOT_FOUND",
+							message: `Can't find key "${parent}" in user data`
+						});
 
 					_.unset(parentData, spitPath[spitPath.length - 1]);
 					const setData = await save(key, parentData, "update", parent);
 					if (query)
 						if (typeof query !== "string")
-							throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
+							throw new CustomError({
+								name: "INVALID_QUERY",
+								message: `The fourth argument (query) must be a string, not a ${typeof query}`
+							});
 						else
 							return resolve(_.cloneDeep(fakeGraphql(query, setData)));
 					return resolve(_.cloneDeep(setData));
@@ -384,7 +412,7 @@ module.exports = async function (databaseType, globalModel, fakeGraphql) {
 				try {
 					if (typeof key != "string") {
 						throw new CustomError({
-							name: "INVALID_TYPE",
+							name: "INVALID_KEY",
 							message: `The first argument (key) must be a string, not a ${typeof key}`
 						});
 					}

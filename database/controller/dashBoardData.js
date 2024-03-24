@@ -2,19 +2,27 @@ const { existsSync, writeJsonSync, readJSONSync } = require("fs-extra");
 const moment = require("moment-timezone");
 const path = require("path");
 const _ = require("lodash");
-const { CustomError } = global.utils;
+const { CustomError, TaskQueue, getType } = global.utils;
+
 const optionsWriteJSON = {
 	spaces: 2,
 	EOL: "\n"
 };
 
-const messageQueue = global.utils.createQueue(async function (task, callback) {
-	try {
-		const result = await task();
-		callback(null, result);
+const taskQueue = new TaskQueue(function (task, callback) {
+	if (getType(task) === "AsyncFunction") {
+		task()
+			.then(result => callback(null, result))
+			.catch(err => callback(err));
 	}
-	catch (err) {
-		callback(err);
+	else {
+		try {
+			const result = task();
+			callback(null, result);
+		}
+		catch (err) {
+			callback(err);
+		}
 	}
 });
 
@@ -44,9 +52,10 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 		try {
 			const index = _.findIndex(global.db.allDashBoardData, { email });
 			if (index === -1 && mode === "update") {
-				const e = new Error(`Can't find user with email: ${email} in database`);
-				e.name = "USER_NOT_FOUND";
-				throw e;
+				throw new CustomError({
+					name: "USER_NOT_FOUND",
+					message: `Can't find user with email: ${email} in database`
+				});
 			}
 
 			switch (mode) {
@@ -141,7 +150,10 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 
 	async function create(data) {
 		if (typeof data != "object" || Array.isArray(data))
-			throw new Error(`The first argument(data) must be an object, not a ${Array.isArray(data) ? "array" : typeof data}`);
+			throw new CustomError({
+				name: "INVALID_DATA",
+				message: `The first argument(data) must be an object, not a ${Array.isArray(data) ? "array" : typeof data}`
+			});
 		const email = data.email;
 		const findInCreatingData = creatingDashBoardData.find(u => u.email == email);
 		if (findInCreatingData)
@@ -150,9 +162,10 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 		const queue = new Promise(async function (resolve, reject) {
 			try {
 				if (global.db.allDashBoardData.some(u => u.email == email)) {
-					const messageError = new Error(`User with email "${email}" already exists in the data`);
-					messageError.name = "USER_ALREADY_EXISTS";
-					throw messageError;
+					throw new CustomError({
+						name: "USER_ALREADY_EXISTS",
+						message: `User with email "${email}" already exists in the data`
+					});
 				}
 
 				const userData = await save(email, data, "create");
@@ -173,19 +186,25 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 
 	function getAll(path, defaultValue, query) {
 		return new Promise((resolve, reject) => {
-			messageQueue.push(async function () {
+			taskQueue.push(async function () {
 				try {
 					let dataReturn = _.cloneDeep(global.db.allDashBoardData);
 
 					if (query)
 						if (typeof query !== "string")
-							throw new Error(`The third argument (query) must be a string, not a ${typeof query}`);
+							throw new CustomError({
+								name: "INVALID_QUERY",
+								message: `The third argument (query) must be a string, not a ${typeof query}`
+							});
 						else
 							dataReturn = dataReturn.map(uData => fakeGraphql(query, uData));
 
 					if (path)
 						if (!["string", "object"].includes(typeof path))
-							throw new Error(`The first argument (path) must be a string or an array, not a ${typeof path}`);
+							throw new CustomError({
+								name: "INVALID_PATH",
+								message: `The first argument (path) must be a string or an array, not a ${typeof path}`
+							});
 						else
 							if (typeof path === "string")
 								return resolve(_.cloneDeep(dataReturn.map(uData => _.get(uData, path, defaultValue))));
@@ -205,19 +224,28 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 		return new Promise((resolve, reject) => {
 			try {
 				if (!email || typeof email != "string")
-					throw new Error(`The first argument (email) must be a string, not a ${typeof email}`);
+					throw new CustomError({
+						name: "INVALID_EMAIL",
+						message: `The first argument (email) must be a string, not a ${typeof email}`
+					});
 				let userData = global.db.allDashBoardData.find(u => u.email == email);
 				if (!userData)
 					return resolve(undefined);
 
 				if (query)
 					if (typeof query !== "string")
-						throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
+						throw new CustomError({
+							name: "INVALID_QUERY",
+							message: `The fourth argument (query) must be a string, not a ${typeof query}`
+						});
 					else userData = fakeGraphql(query, userData);
 
 				if (path)
 					if (!["string", "array"].includes(typeof path))
-						throw new Error(`The second argument (path) must be a string or an array, not a ${typeof path}`);
+						throw new CustomError({
+							name: "INVALID_PATH",
+							message: `The second argument (path) must be a string or an array, not a ${typeof path}`
+						});
 					else
 						if (typeof path === "string")
 							return resolve(_.cloneDeep(_.get(userData, path, defaultValue)));
@@ -233,23 +261,23 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 
 	function get(email, path, defaultValue, query) {
 		return new Promise((resolve, reject) => {
-			messageQueue.push(async function () {
-				try {
-					resolve(await get_(email, path, defaultValue, query));
-				}
-				catch (err) {
-					reject(err);
-				}
+			taskQueue.push(function () {
+				get_(email, path, defaultValue, query)
+					.then(resolve)
+					.catch(reject);
 			});
 		});
 	}
 
 	async function set(email, updateData, path, query) {
 		return new Promise((resolve, reject) => {
-			messageQueue.push(async function () {
+			taskQueue.push(async function () {
 				try {
 					if (!path && (typeof updateData != "object" || typeof updateData == "object" && Array.isArray(updateData)))
-						throw new Error(`The second argument (updateData) must be an object or an array, not a ${typeof updateData}`);
+						throw new CustomError({
+							name: "INVALID_UPDATE_DATA",
+							message: `The second argument (updateData) must be an object or an array, not a ${typeof updateData}`
+						});
 					if (!global.db.allDashBoardData.some(u => u.email == email)) {
 						throw new CustomError({
 							name: "USER_NOT_FOUND",
@@ -259,7 +287,10 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 					const userData = await save(email, updateData, "update", path);
 					if (query)
 						if (typeof query !== "string")
-							throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
+							throw new CustomError({
+								name: "INVALID_QUERY",
+								message: `The fourth argument (query) must be a string, not a ${typeof query}`
+							});
 						else
 							return resolve(_.cloneDeep(fakeGraphql(query, userData)));
 					return resolve(_.cloneDeep(userData));
@@ -273,7 +304,7 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 
 	async function deleteKey(email, path, query) {
 		return new Promise((resolve, reject) => {
-			messageQueue.push(async function () {
+			taskQueue.push(async function () {
 				try {
 					if (typeof email != "string") {
 						throw new CustomError({
@@ -289,20 +320,32 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 					}
 
 					if (typeof path !== "string")
-						throw new Error(`The second argument (path) must be a string, not a ${typeof path}`);
+						throw new CustomError({
+							name: "INVALID_PATH",
+							message: `The second argument (path) must be a string, not a ${typeof path}`
+						});
 					const spitPath = path.split(".");
 					if (spitPath.length == 1)
-						throw new Error(`Can't delete key "${path}" because it's a root key`);
+						throw new CustomError({
+							name: "INVALID_PATH",
+							message: `Can't delete key "${path}" because it's a root key`
+						});
 					const parent = spitPath.slice(0, spitPath.length - 1).join(".");
 					const parentData = await get_(email, parent);
 					if (!parentData)
-						throw new Error(`Can't find key "${parent}" in user data`);
+						throw new CustomError({
+							name: "INVALID_PATH",
+							message: `Can't find key "${parent}" in user data`
+						});
 
 					_.unset(parentData, spitPath[spitPath.length - 1]);
 					const setData = await save(email, parentData, "update", parent);
 					if (query)
 						if (typeof query !== "string")
-							throw new Error(`The fourth argument (query) must be a string, not a ${typeof query}`);
+							throw new CustomError({
+								name: "INVALID_QUERY",
+								message: `The fourth argument (query) must be a string, not a ${typeof query}`
+							});
 						else
 							return resolve(_.cloneDeep(fakeGraphql(query, setData)));
 					return resolve(_.cloneDeep(setData));
@@ -316,12 +359,13 @@ module.exports = async function (databaseType, dashBoardModel, fakeGraphql) {
 
 	async function remove(email) {
 		return new Promise((resolve, reject) => {
-			messageQueue.push(async function () {
+			taskQueue.push(async function () {
 				try {
 					if (typeof threadID != "string") {
-						const error = new Error(`The first argument (email) must be a string, not a ${typeof email}`);
-						error.name = "INVALID_THREAD_ID";
-						throw error;
+						throw new CustomError({
+							name: "INVALID_EMAIL",
+							message: `The first argument (email) must be a string, not a ${typeof email}`
+						});
 					}
 					await save(email, { email }, "remove");
 					return resolve(true);
