@@ -1,83 +1,88 @@
 const axios = require("axios");
 const fs = require('fs-extra');
-const { getStreamFromURL, shortenURL, randomString } = global.utils;
+const path = require('path');
+const ytdl = require("ytdl-core");
+const yts = require("yt-search");
+
+async function sing(api, event, args, message) {
+    api.setMessageReaction("🕢", event.messageID, (err) => {}, true);
+    try {
+        let title = '';
+
+        const extractShortUrl = async () => {
+            const attachment = event.messageReply.attachments[0];
+            if (attachment.type === "video" || attachment.type === "audio") {
+                return attachment.url;
+            } else {
+                throw new Error("Invalid attachment type.");
+            }
+        };
+
+        if (event.messageReply && event.messageReply.attachments && event.messageReply.attachments.length > 0) {
+            const shortUrl = await extractShortUrl();
+            const musicRecognitionResponse = await axios.get(`https://youtube-music-sooty.vercel.app/kshitiz?url=${encodeURIComponent(shortUrl)}`);
+            title = musicRecognitionResponse.data.title;
+        } else if (args.length === 0) {
+            message.reply("Please provide a lyrics name");
+            return;
+        } else {
+            title = args.join(" ");
+        }
+
+        const searchResults = await yts(title);
+        if (!searchResults.videos.length) {
+            message.reply("No song and lyrics found for the given query.");
+            return;
+        }
+
+        const videoUrl = searchResults.videos[0].url;
+        const stream = ytdl(videoUrl, { filter: "audioonly" });
+
+        const fileName = `lado.mp3`;
+        const filePath = path.join(__dirname, "cache", fileName);
+        const writer = fs.createWriteStream(filePath);
+
+        stream.pipe(writer);
+
+        writer.on('finish', async () => {
+            const audioStream = fs.createReadStream(filePath);
+
+           
+            const lyricsResponse = await axios.get(`https://lyrist.vercel.app/api/${encodeURIComponent(title)}`);
+            const { lyrics } = lyricsResponse.data;
+
+          
+            const messageBody = `🎧 Playing: ${title}\n\n${lyrics}`;
+
+            
+            message.reply({ body: messageBody, attachment: audioStream });
+
+            api.setMessageReaction("✅", event.messageID, () => {}, true);
+        });
+
+        writer.on('error', (error) => {
+            console.error("Error:", error);
+            message.reply("Error occurred while processing the song.");
+        });
+    } catch (error) {
+        console.error("Error:", error);
+        message.reply("Error occurred while processing the song.");
+    }
+}
 
 module.exports = {
-  config: {
-    name: "sing",
-    version: "1.0",
-    author: "Kshitiz",
-    countDown: 10,
-    role: 0,
-    shortDescription: "play song from spotify",
-    longDescription: "play song from spotify",
-    category: "music",
-    guide: "{pn} sing songname"
-  },
-
-  onStart: async function ({ api, event, args, message }) {
-    const a = await message.reply("downloading your song🕐..");
-
-    try {
-      let b = '';
-
-      const c = async () => {
-        const d = event.messageReply.attachments[0];
-        if (d.type === "audio" || d.type === "video") {
-          const e = await shortenURL(d.url);
-          const f = await axios.get(`https://youtube-music-sooty.vercel.app/kshitiz?url=${encodeURIComponent(e)}`);
-          return f.data.title;
-        } else {
-          throw new Error("Invalid attachment type.");
-        }
-      };
-
-      if (event.messageReply && event.messageReply.attachments && event.messageReply.attachments.length > 0) {
-        b = await c();
-      } else if (args.length === 0) {
-        throw new Error("Please provide a song name.");
-      } else {
-        b = args.join(" ");
-      }
-
-      const g = await axios.get(`https://spotify-play-iota.vercel.app/spotify?query=${encodeURIComponent(b)}`);
-      const h = g.data.trackURLs;
-      if (!h || h.length === 0) {
-        throw new Error("No track found for the provided song name.");
-      }
-
-      const i = h[0];
-      const j = await axios.get(`https://sp-dl-bice.vercel.app/spotify?id=${encodeURIComponent(i)}`);
-      const k = j.data.download_link;
-
-      const l = await downloadTrack(k);
-
-      const m = await shortenURL(k);
-
-      await message.reply({
-        body: `🎧 Playing: ${b}\nDownload Link: ${m}`,
-        attachment: fs.createReadStream(l)
-      });
-
-      console.log("Audio sent successfully.");
-
-    } catch (n) {
-      console.error("Error occurred:", n);
-      message.reply(`An error occurred: ${n.message}`);
-    } finally {
-      message.unsend(a.messageID);
+    config: {
+        name: "sing",
+        version: "1.0",
+        author: "Vex_Kshitiz",
+        countDown: 10,
+        role: 0,
+        shortDescription: "play music withs its lyrics",
+        longDescription: "play music witg it lyrics.",
+        category: "music",
+        guide: "{p] play lyricsName"
+    },
+    onStart: function ({ api, event, args, message }) {
+        return sing(api, event, args, message);
     }
-  }
 };
-
-async function downloadTrack(url) {
-  const o = await getStreamFromURL(url);
-  const p = `${__dirname}/cache/${randomString()}.mp3`;
-  const q = fs.createWriteStream(p);
-  o.pipe(q);
-
-  return new Promise((resolve, reject) => {
-    q.on('finish', () => resolve(p));
-    q.on('error', reject);
-  });
-}
