@@ -4,7 +4,7 @@ module.exports = {
     aliases: ["up", "upt"],
     version: "1.0",
     author: "XyryllPanget",
-    role: 0,
+    role: 2,
     shortDescription: {
       en: "Displays the uptime of the bot."
     },
