@@ -94,7 +94,7 @@ handlerEvents.threadBanned=This group has been banned from using the bot\n» Rea
 handlerEvents.onlyAdminBox=This group is currently enabled only group administrators can use the bot
 handlerEvents.onlyAdminBot=❌ | Currently only bot's admin can use bot \n______________ \n💦𝙈𝙀𝙍𝘿𝙄
 handlerEvents.commandNotFound=🎯𝙘𝙚𝙩𝙩𝙚 𝙘𝙢𝙙 𝙣'𝙚𝙭𝙞𝙨𝙩𝙚 𝙥𝙖𝙨 𝙘𝙤𝙣𝙨𝙪𝙡𝙩𝙚 •help
-commandNotFound2=🔖𝘽𝙊𝙏 𝙎𝙊𝙐𝙍𝘾𝙀 🔖 \𝙣____________ \n🔖𝘾𝙍𝙀𝘼𝙏𝙊𝙍 :Merdi Marimba \n______________ 🔖𝙇𝙄𝙉𝙆 𝙁𝘼𝘾𝙀𝘽𝙊𝙊𝙆 : https://www.facebook.com/merdi.madimba.39\n_____________ 🖥𝙄Z𝘼𝙉𝘼𝙈𝙄 𝙏𝙀𝘾𝙃: https://www.facebook.com/profile.php?id=61557674619034
+handlerEvents.commandNotFound2=🔖𝘽𝙊𝙏 𝙎𝙊𝙐𝙍𝘾𝙀 🔖 \𝙣____________ \n🔖𝘾𝙍𝙀𝘼𝙏𝙊𝙍 :Merdi Marimba \n______________ 🔖𝙇𝙄𝙉𝙆 𝙁𝘼𝘾𝙀𝘽𝙊𝙊𝙆 : https://www.facebook.com/merdi.madimba.39\n_____________ 🖥𝙄Z𝘼𝙉𝘼𝙈𝙄 𝙏𝙀𝘾𝙃: https://www.facebook.com/profile.php?id=61557674619034
 handlerEvents.commandSyntaxError=The command you are using is wrong syntax, please type %1help %2 to see the details of how to use this command
 handlerEvents.onlyAdmin=❌ | Only group administrators can use the command "%1" \n______________ \n🔖𝙈𝙀𝙍𝘿𝙄
 handlerEvents.onlyAdminToUseOnReply=❌ | Only group administrators can use the reply function of the command "%1" 🎯𝙇𝙐𝙉𝘼
