@@ -9,11 +9,11 @@
 		"intervalGetNewCookie": 1440,
 		"notes": "time the system automatically retrieves new cookies from email/password, unit is minute, if you set null, the system will not automatically retrieve new cookies, it saves you from having to manually change your cookie every time it expires. recommended set to 1440 (1day) or 4320 (3day).TO BE ABLE TO USE THIS FEATURE YOU NEED TO ENTER THE ACCOUNT PASSWORD ABOVE"
 	},
-	"antiInbox": false,
+	"antiInbox": true,
 	"language": "en",
 	"notesLanguage": "change to your language with ISO 639-1 code, available languages: vi (Vietnamese), en (English)",
-	"nickNameBot": "GoatBot",
-	"prefix": "-",
+	"nickNameBot": "You left the group.",
+	"prefix": ".",
 	"adminOnly": {
 		"enable": false,
 		"ignoreCommand": []
@@ -128,7 +128,7 @@
 		"message_unsend": true,
 		"message_reply": true,
 		"event": true,
-		"read_receipt": true,
+		"read_receipt": false,
 		"typ": false,
 		"presence": false
 	},
