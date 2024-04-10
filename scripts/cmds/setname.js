@@ -12,7 +12,7 @@ async function checkShortCut(nickname, uid, usersData) {
 module.exports = {
 	config: {
 		name: "setname",
-		version: "1.4",
+		version: "1.5",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
@@ -71,7 +71,12 @@ module.exports = {
 		}
 		else if (mentions.length) {
 			uids = mentions;
-			const allName = new RegExp(Object.values(event.mentions).join("|"), "g");
+			const allName = new RegExp(
+				Object.values(event.mentions)
+					.map(name => name.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")) // fix error when name has special characters
+					.join("|")
+				, "g"
+			);
 			nickname = nickname.replace(allName, "").trim();
 		}
 		else {
