@@ -2452,5 +2452,11 @@
 			"scripts/cmds/cmd.js": "Replace the `createQueue` function into the `TaskQueue` class, code optimization",
 			"utils.js": "Replace the `createQueue` function into the `TaskQueue` class"
 		}
+	},
+	{
+		"version": "1.5.31",
+		"files": {
+			"scripts/cmds/setname.js": "fix error when name has special characters"
+		}
 	}
 ]

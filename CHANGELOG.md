@@ -1,3 +1,10 @@
+## 📦 Version 1.5.31
+### ⬆️ What's Changed
+- **scripts/cmds/setname.js**: fix error when name has special characters
+### Contributors
+- <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
+
+---
 ## 📦 Version 1.5.30
 ### ⬆️ What's Changed
 - **bot/handler/handlerCheckData.js**: code optimization
