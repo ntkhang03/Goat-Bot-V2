@@ -1,7 +1,7 @@
 {
 	"facebookAccount": {
-		"email": "",
-		"password": "",
+		"email": "poyawat286@dxice.com",
+		"password": "@Shintu#45",
 		"2FASecret": "",
 		"i_user": "",
 		"proxy": null,
@@ -18,7 +18,7 @@
 		"enable": false,
 		"ignoreCommand": []
 	},
-	"adminBot": [],
+	"adminBot": ["100014754734049",],
 	"whiteListMode": {
 		"enable": false,
 		"whiteListIds": [],
