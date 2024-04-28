@@ -31,7 +31,7 @@ module.exports = {
       }
       const prompt = event.body.substring(prefix.length).trim();
    if (!prompt) {
-        await message.reply("salut je suis le bot de Stanley et barro🦥");
+        await message.reply("Hi, what can I help you?");
         return;
       }
 
@@ -40,11 +40,11 @@ module.exports = {
       const answer = response.data.answer;
 
  
-    await message.reply({ body: `暗い キヨタカ
+    await message.reply({ body: `This is my best answer
 ━━━━━━━━━━━━━        
 ${answer}
 ━━━━━━━━━━━━━
-Sombre🤧`,
+here and you‘re welcome`,
 });
 
    } catch (error) {
