@@ -75,7 +75,7 @@ module.exports = {
 				"\n├── NOTES" +
 				"\n│ Nội dung bên trong <XXXXX> là có thể thay đổi" +
 				"\n│ Nội dung bên trong [a|b|c] là a hoặc b hoặc c" +
-				"\n├── CONTIBUTIONS" +
+				"\n├── CONTRIBUTIONS" +
 				"\n│ %10" +
 				"\n╰──────⭔",
 			onlyInfo:
@@ -139,7 +139,7 @@ module.exports = {
 				"\n├── NOTES" +
 				"\n│ The content inside <XXXXX> can be changed" +
 				"\n│ The content inside [a|b|c] is a or b or c" +
-				"\n├── CONTIBUTIONS" +
+				"\n├── CONTRIBUTIONS" +
 				"\n│ %10" +
 				"\n╰──────⭔",
 			onlyInfo:
