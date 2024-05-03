@@ -404,7 +404,7 @@ module.exports = {
 					author || "",
 					guideBody.split("\n").join("\n│"),
 					typeof configCommand.contributors === "object"
-						? configCommand.contributors
+						? Object.keys(configCommand.contributors)
 								.map((key) => `${key} - ${configCommand.contributors[key]}`)
 								.join("\n")
 						: "No contributors provided.",
