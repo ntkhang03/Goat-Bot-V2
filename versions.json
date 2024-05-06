@@ -2458,5 +2458,15 @@
 		"files": {
 			"scripts/cmds/setname.js": "fix error when name has special characters"
 		}
+	},
+	{
+		"version": "1.5.32",
+		"files": {
+			"fb-chat-api/index.js": "add new api: `handleFriendRequest`",
+			"fb-chat-api/src/editMessage.js": "Update editMessage.js",
+			"fb-chat-api/src/handleFriendRequest.js": "add new api: `handleFriendRequest`",
+			"scripts/cmds/ban.js": "Check if the member exists in the chat box before kicking it out of the chat box",
+			"scripts/cmds/rankup.js": "Fix custom message not working error"
+		}
 	}
 ]
