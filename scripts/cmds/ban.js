@@ -4,7 +4,7 @@ const moment = require("moment-timezone");
 module.exports = {
 	config: {
 		name: "ban",
-		version: "1.3",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 1,
@@ -161,9 +161,11 @@ module.exports = {
 		await threadsData.set(event.threadID, dataBanned, 'data.banned_ban');
 		message.reply(getLang('bannedSuccess', name), () => {
 			if (members.some(item => item.userID == target)) {
-				if (adminIDs.includes(api.getCurrentUserID()))
-					api.removeUserFromGroup(target, event.threadID);
-				else
+				if (adminIDs.includes(api.getCurrentUserID())) {
+					if (event.participantIDs.includes(target))
+						api.removeUserFromGroup(target, event.threadID);
+				}
+				else {
 					message.send(getLang('needAdmin'), (err, info) => {
 						global.GoatBot.onEvent.push({
 							messageID: info.messageID,
@@ -177,6 +179,7 @@ module.exports = {
 							}
 						});
 					});
+				}
 			}
 		});
 	},
