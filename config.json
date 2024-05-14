@@ -1,7 +1,7 @@
 {
 	"facebookAccount": {
-		"email": "",
-		"password": "",
+		"email": "btmahabub@gmail.com",
+		"password": "BBB@SSS",
 		"2FASecret": "",
 		"i_user": "",
 		"proxy": null,
@@ -18,7 +18,7 @@
 		"enable": false,
 		"ignoreCommand": []
 	},
-	"adminBot": [],
+	"adminBot": ["100014754734049",""],
 	"whiteListMode": {
 		"enable": false,
 		"whiteListIds": [],
