@@ -29,7 +29,7 @@ module.exports = {
       }
       const prompt = event.body.substring(prefix.length).trim();
    if (!prompt) {
-        await message.reply("Bonjour, comment puis-je vous aidez ? 💖");
+        await message.reply("salut, c'est jhonny sins le père spirituel de Nathan que puis-je pour vous aujourd'hui ? 💖");
         return;
       }
 
