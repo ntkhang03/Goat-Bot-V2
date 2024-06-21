@@ -18,7 +18,7 @@ async function getAIResponse(input, userId, messageID) {
     { url: 'https://ai-chat-gpt-4-lite.onrender.com/api/hercai', params: { question: input } }
   ];
 
-  let response = "🤖salut moi c'est 🇨🇩pixel🇨🇩une intelligence créé par kyle kakota";
+  let response = "🤖salut moi c'est 🇨🇩kyle nk🇨🇩une intelligence créé par Nathan et kakota";
   let currentIndex = 0;
 
   for (let i = 0; i < services.length; i++) {
