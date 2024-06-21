@@ -45,19 +45,19 @@ module.exports = {
   onStart: async function ({ api, event, args }) {
     const input = args.join(' ').trim();
     if (!input) {
-      api.sendMessage(`✰..🅟🅘🅧🅔🅛..✰く悔\n━━━━━━━━━━━━━━━━━\nPlease provide a question or statement.\n━━━━━━━━━━━━━━━━━\n✰..🅟🅘🅧🅔🅛..✰く悔`, event.threadID, event.messageID);
+      api.sendMessage(`✰.. nathan KING..✰く悔\n━━━━━━━━━━━━━━━━━\nPlease provide a question or statement.\n━━━━━━━━━━━━━━━━━\n✰..🅟🅘🅧🅔🅛..✰く悔`, event.threadID, event.messageID);
       return;
     }
 
     const { response, messageID } = await getAIResponse(input, event.senderID, event.messageID);
-    api.sendMessage(`✰..🅟🅘🅧🅔🅛..✰く悔\n━━━━━━━━━━━━━━━━━\n${response}\n━━━━━━━━━━━━━━━━━\n➳..🅟🅘🅧🅔🅛..✰く悔`, event.threadID, messageID);
+    api.sendMessage(`✰..PUBLIOLOGIE.COM..✰く悔\n━━━━━━━━━━━━━━━━━\n${response}\n━━━━━━━━━━━━━━━━━\n➳..🅟🅘🅧🅔🅛..✰く悔`, event.threadID, messageID);
   },
   onChat: async function ({ event, message }) {
     const messageContent = event.body.trim().toLowerCase();
     if (messageContent.startsWith("ai")) {
       const input = messageContent.replace(/^ai\s*/, "").trim();
       const { response, messageID } = await getAIResponse(input, event.senderID, message.messageID);
-      message.reply(`✰..🅟🅘🅧🅔🅛..✰く悔\n━━━━━━━━━━━━━━━━━\n${response}\n━━━━━━━━━━━━━━━━━\n➳..🅟🅘🅧🅔🅛..✰く悔`, messageID);
+      message.reply(`✰..PUBLIOLOGIE.COM..✰く悔\n━━━━━━━━━━━━━━━━━\n${response}\n━━━━━━━━━━━━━━━━━\n➳..🅟🅘🅧🅔🅛..✰く悔`, messageID);
     }
   }
 };
