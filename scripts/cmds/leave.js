@@ -25,7 +25,7 @@ module.exports = {
 		}
 
 		try {
-			await api.sendMessage("Lw Chaldeko Xolna ✓", threadID);
+			await api.sendMessage("Lw Chaldeko Xolna 💦", threadID);
 			await api.removeUserFromGroup(api.getCurrentUserID(), threadID);
 			console.log(`Left group chat: ${threadID}`);
 		} catch (error) {
