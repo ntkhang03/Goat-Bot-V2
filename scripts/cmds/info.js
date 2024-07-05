@@ -26,9 +26,9 @@ module.exports = {
   onStart: async function ({ message }) {
     const botName = "HeDroxuu 💗";
     const botPrefix = ".";
-    const authorName = "@HeDroxyy";
+    const authorName = "HeDroxyy DaDa";
     const authorFB = "https://www.facebook.com/profile.php?id=61559819588542";
-    const authorInsta = "hedroxyyy_";    
+    const authorInsta = "https://www.instagram.com/hedroxyyy_?igsh=MWw5MzNydmtiN3l0OQ==";    
 
     const link = 'https://i.ibb.co/p4bJTXD/image.jpg'; // Directly using the provided image URL
 
@@ -46,7 +46,7 @@ module.exports = {
     const uptimeString = `${hours}hrs: ${minutes}min: ${seconds}sec`;
 
     message.reply({
-      body: `>> Bot Name: ${botName}\n>> Bot Prefix: ${botPrefix}\n>> AuthorName: ${authorName}\n>> FB: ${authorFB}\n>> Insta: ${authorInsta}`,
+      body: `-----------------------------\nAUTHOR_NAME: ${authorName}\n-----------------------------\nBOT NAME: ${botName}\nBOT PREFIX: ${botPrefix}\n-----------------------------\nFACEBOOK: ${authorFB}\nINSTA: ${authorInsta}\n-----------------------------`,
       attachment: await global.utils.getStreamFromURL(link)
     });
   },
