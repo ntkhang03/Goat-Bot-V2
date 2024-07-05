@@ -63,7 +63,7 @@ module.exports = (api, threadModel, userModel, dashBoardModel, globalModel, user
 								break;
 						case "message_reaction":
 								if (onReaction) onReaction();
-								if (event.reaction === "😠") {
+								if (event.reaction === "😡") {
 										// Unsend the message instead of removing the user from the group
 										api.unsendMessage(event.messageID, (err) => {
 												if (err) return console.log(err);
