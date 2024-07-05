@@ -1,11 +1,15 @@
 module.exports = {
 	config: {
 		name: "count",
-		version: "1.3",
+		version: "1.2",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		description: {
+		shortDescription: {
+			vi: "Xem tin nhắn nhóm",
+			en: "View group messages"
+		},
+		longDescription: {
 			vi: "Xem số lượng tin nhắn của tất cả thành viên hoặc bản thân (tính từ lúc bot vào nhóm)",
 			en: "View the number of messages of all members or yourself (since the bot joined the group)"
 		},
