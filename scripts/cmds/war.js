@@ -2,7 +2,7 @@ module.exports = {
   config: {
     name: "war",
     version: "1.0",
-    author: "Xemon",
+    author: "hedroxyy",
     role: 2,
     category: "texts",
     guide: {
