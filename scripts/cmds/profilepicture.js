@@ -1,6 +1,7 @@
 module.exports = {
   config: {
-    name: "pfp",
+    name: "profilepicture",
+    aliases: ["pfp"],
     version: "1.0",
     author: "Shikaki",
     role: 0,
