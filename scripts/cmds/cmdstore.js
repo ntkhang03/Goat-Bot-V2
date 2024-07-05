@@ -1,9 +1,10 @@
-.cmd install cmdstore.js const axios = require("axios");
+const axios = require("axios");
 
 module.exports = {
   config: {
     name: 'cmdstore',
     version: '1.0',
+    aliases: ["cs"],
     author: 'Vex_Kshitiz',
     role: 0,
     shortDescription: 'store of cmds',
