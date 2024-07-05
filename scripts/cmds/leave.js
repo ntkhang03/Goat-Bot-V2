@@ -4,7 +4,7 @@ module.exports = {
 	config: {
 		name: "leave",
 		version: "1.0",
-		author: "hedroxyy",
+		author: "Sandy",
 		countDown: 5,
 		role: 2,
 		shortDescription: "Bot will leave a group chat",
@@ -25,7 +25,7 @@ module.exports = {
 		}
 
 		try {
-			await api.sendMessage("Lw Chaldeko Xolna 💦", threadID);
+			await api.sendMessage("EKLOT XOLERW AAUXUH HAITA ☠️💦", threadID);
 			await api.removeUserFromGroup(api.getCurrentUserID(), threadID);
 			console.log(`Left group chat: ${threadID}`);
 		} catch (error) {
