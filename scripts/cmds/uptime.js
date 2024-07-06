@@ -1,4 +1,4 @@
-const moment = require('moment');
+.cmd install uptime.js const moment = require('moment');
 
 module.exports = {
   config: {
@@ -15,7 +15,7 @@ module.exports = {
     const uptime = process.uptime();
     const formattedUptime = formatMilliseconds(uptime * 1000);
 
-    const response = `Running Smoothly Since: ${formattedUptime}.`;
+    const response = `╭╼╾『𝐎𝐩𝐞𝐫𝐚𝐭𝐢𝐧𝐠 𝐓𝐢𝐦𝐞』\n╰─> ${formattedUptime}`;
 
     message.reply(response);
   }
@@ -25,6 +25,7 @@ function formatMilliseconds(ms) {
   const seconds = Math.floor(ms / 1000);
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
 
-  return `${hours}h ${minutes % 60}m ${seconds % 60}s`;
+  return `${days}𝐃𝐚𝐲𝐬, ${hours % 24}𝐇𝐫𝐬, ${minutes % 60}𝐌𝐢𝐧𝐬, and ${seconds % 60}𝐒𝐞𝐜`;
 }
