@@ -6,7 +6,7 @@ module.exports = {
     name: "imgbb",
     aliases: ["i"],
     version: "1.0",
-    author: "hedroxyy",
+    author: "AceGun",
     countDown: 5,
     role: 0,
     shortDescription: {

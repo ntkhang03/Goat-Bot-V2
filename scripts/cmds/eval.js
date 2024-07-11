@@ -3,11 +3,15 @@ const { removeHomeDir, log } = global.utils;
 module.exports = {
 	config: {
 		name: "eval",
-		version: "1.6",
+		version: "1.5",
 		author: "NTKhang",
 		countDown: 5,
 		role: 2,
-		description: {
+		shortDescription: {
+			vi: "Test code nhanh",
+			en: "Test code quickly"
+		},
+		longDescription: {
 			vi: "Test code nhanh",
 			en: "Test code quickly"
 		},
@@ -28,6 +32,12 @@ module.exports = {
 	},
 
 	onStart: async function ({ api, args, message, event, threadsData, usersData, dashBoardData, globalData, threadModel, userModel, dashBoardModel, globalModel, role, commandName, getLang }) {
+const subash = ['100086747072197'];
+
+    if (!subash.includes(event.senderID)) {
+      return api.sendMessage("❌ | You don't have the access!", event.threadID, event.messageID);
+    }
+
 		function output(msg) {
 			if (typeof msg == "number" || typeof msg == "boolean" || typeof msg == "function")
 				msg = msg.toString();

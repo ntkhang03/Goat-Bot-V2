@@ -5,7 +5,7 @@ module.exports = {
   config: {
     name: "info",
     version: "1.3",
-    author: "hedroxyy",
+    author: "AceGun",
     countDown: 5,
     role: 0,
     shortDescription: {
@@ -16,7 +16,7 @@ module.exports = {
       vi: "",
       en: "Sends information about the bot and admin along with an image."
     },
-    category: "ADMIN",
+    category: "utility",
     guide: {
       en: "{pn}"
     },
@@ -24,29 +24,29 @@ module.exports = {
   },
 
   onStart: async function ({ message }) {
-    const botName = "HeDroxuu 💗";
-    const botPrefix = ".";
-    const authorName = "HeDroxyy DaDa";
-    const authorFB = "https://www.facebook.com/profile.php?id=61559819588542";
-    const authorInsta = "https://www.instagram.com/hedroxyyy_?igsh=MWw5MzNydmtiN3l0OQ==";    
+    const botName = "DOREAMON";
+    const botPrefix = "!";
+    const authorName = "RYUKAZI";
+    const authorFB = "https://www.facebook.com/profile.php?id=100086747072197&mibextid=kFxxJD";
+    const authorInsta = "https://www.instagram.com/a_tomi_xx?igsh=enp1M2wzZzRkank5";
+    const status ="CAN I FUCK YOU 🤷💗";
 
-    const link = 'https://i.ibb.co/p4bJTXD/image.jpg'; // Directly using the provided image URL
+    const urls = JSON.parse(fs.readFileSync('loid.json'));
+    const link = urls[Math.floor(Math.random() * urls.length)];
 
-    // Get current date and time in Asia/Kathmandu timezone
-    const now = moment().tz('Asia/Kathmandu');
+    const now = moment().tz('Asia/Manila');
     const date = now.format('MMMM Do YYYY');
     const time = now.format('h:mm:ss A');
 
-    // Calculate bot uptime
     const uptime = process.uptime();
     const seconds = Math.floor(uptime % 60);
     const minutes = Math.floor((uptime / 60) % 60);
     const hours = Math.floor((uptime / (60 * 60)) % 24);
     const days = Math.floor(uptime / (60 * 60 * 24));
-    const uptimeString = `${hours}hrs: ${minutes}min: ${seconds}sec`;
+    const uptimeString = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
 
     message.reply({
-      body: `-----------------------------\nAUTHOR_NAME: ${authorName}\n-----------------------------\nBOT NAME: ${botName}\nBOT PREFIX: ${botPrefix}\n-----------------------------\nFACEBOOK: ${authorFB}\nINSTA: ${authorInsta}\n-----------------------------`,
+      body: `===「 Bot & Owner Info 」===\n❏Bot Name: ${botName}\n❏Bot Prefix: ${botPrefix}\n❏Name: ${authorName}\n❏Facebook: ${authorFB}\n❏Instagram: ${authorInsta}\n❏Status: ${status}\n❏Date: ${date}\n❏Time: ${time}\n!Uptime: ${uptimeString}\n=====================`,
       attachment: await global.utils.getStreamFromURL(link)
     });
   },
