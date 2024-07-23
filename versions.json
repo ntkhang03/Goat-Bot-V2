@@ -2468,5 +2468,13 @@
 			"scripts/cmds/ban.js": "Check if the member exists in the chat box before kicking it out of the chat box",
 			"scripts/cmds/rankup.js": "Fix custom message not working error"
 		}
+	},
+	{
+		"version": "1.5.33",
+		"files": {
+			"bot/login/getFbstate1.js": "feat: new login method `loginMbasic`",
+			"bot/login/login.js": "feat: new login method `loginMbasic`",
+			"bot/login/loginMbasic.js": "feat: new login method `loginMbasic`"
+		}
 	}
 ]
