@@ -12,18 +12,26 @@
 	"antiInbox": false,
 	"language": "en",
 	"notesLanguage": "change to your language with ISO 639-1 code, available languages: vi (Vietnamese), en (English)",
+	"nickNameBot": "🥵M U N T A H A🥰",
+	"prefix": "/",
 	"adminOnly": {
 		"enable": false,
 		"ignoreCommand": []
 	},
-	"adminBot": [],
+	"adminBot": [
+    "100080195076753"
+  ],
 	"whiteListMode": {
 		"enable": false,
 		"whiteListIds": [],
-		"notes": "if you enable this feature, only the ids in the whiteListIds section can use the bot"
+		"notes": "if you enable this feature, only the ids in the whiteListIds list can use the bot"
 	},
-	"nickNameBot": "GoatBot",
-	"prefix": "-",
+	"whiteListModeThread": {
+		"enable": false,
+		"whiteListThreadIds": [],
+		"notes": "if you enable this feature, only the thread in the whiteListThreadIds list can use the bot",
+		"how_it_work": "if you enable both whiteListMode and whiteListModeThread, the system will check if the user is in whiteListIds, then check if the thread is in whiteListThreadIds, if one of the conditions is true, the user can use the bot"
+	},
 	"database": {
 		"type": "sqlite",
 		"uriMongodb": "",
@@ -31,18 +39,18 @@
 		"autoRefreshThreadInfoFirstTime": true,
 		"notes": "(1) type selects 'json' or 'sqlite' or 'mongodb'. If you choose mongodb, enter uri connect mongodb in the uriMongodb section, instructions to get uri connect mongodb at: https://youtu.be/z1f9urHW5xY. I recommend using 'mongodb' or 'sqlite', json is not recommended because it is not stable. (2) when you set autoSyncWhenStart to true, the bot will automatically synchronize the data in the database when starting the bot, this will make the bot start slower. (3) when you set autoRefreshThreadInfoFirstTime to true, the bot will automatically refresh the thread information when get first message from the thread since starting the bot"
 	},
-	"timeZone": "Asia/Ho_Chi_Minh",
+	"timeZone": "Asia/Dhaka",
 	"credentials": {
 		"gmailAccount": {
-			"email": "",
-			"clientId": "",
-			"clientSecret": "",
-			"refreshToken": "",
+			"email": "tawsinislam155@gmail.com",
+			"clientId": "91590230522-e1dmfhcafq18elgiol1ei804juc001te.apps.googleusercontent.com",
+			"clientSecret": "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",
+			"refreshToken": "1//04bcdN3JjJ2iyCgYIARAAGAQSNwF-L9IrnDnX6pDMzazChDzlcQoEBgS6qdHkG0MjjvIVu5nHTVK5e2ysIIIBTo5vBGU7dZF__9s",
 			"apiKey": ""
 		},
 		"gRecaptcha": {
-			"siteKey": "",
-			"secretKey": ""
+			"siteKey": "6LfBCS0pAAAAAKrRaCEHnfImGVND054pd2V-iH0E",
+			"secretKey": "6LfBCS0pAAAAAPUqNse_9WePxAuiKvRAz1ixhSkP"
 		}
 	},
 	"dashBoard": {
