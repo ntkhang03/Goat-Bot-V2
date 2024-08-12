@@ -115,7 +115,7 @@ module.exports = {
 
     if (urlYtb) {
       console.log(args[1])
-      const infoVideo = await ytdl.getBasicInfo(args[1]);
+      const infoVideo = await ytdl.getBasicInfo(args[1], { agent });
       const infoChoice = {
         id: infoVideo.videoDetails.videoId,
         title: infoVideo.videoDetails.title
