@@ -1,3 +1,24 @@
+## 📦 Version 1.5.34
+### ⬆️ What's Changed
+- **bot/handler/handlerEvents.js**: OPEN SOURCE 100%
+- **bot/login/getFbstate1.js**: OPEN SOURCE 100%
+- **bot/login/loadData.js**: OPEN SOURCE 100%
+- **bot/login/loadScripts.js**: OPEN SOURCE 100%
+- **bot/login/login.js**: OPEN SOURCE 100%
+- **scripts/cmds/cmd.js**: OPEN SOURCE 100%
+### Contributors
+- <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
+
+---
+## 📦 Version 1.5.33
+### ⬆️ What's Changed
+- **bot/login/getFbstate1.js**: feat: new login method `loginMbasic`
+- **bot/login/login.js**: feat: new login method `loginMbasic`
+- **bot/login/loginMbasic.js**: feat: new login method `loginMbasic`
+### Contributors
+- <div style="display: flex; align-items: center;"><a href="https://github.com/ntkhang03">ntkhang03&nbsp;&nbsp;</a> <img src="https://github.com/ntkhang03.png" width="20" height="20" style="border-radius:50%; margin-top: px;" alt="ntkhang03"></div>
+
+---
 ## 📦 Version 1.5.32
 ### ⬆️ What's Changed
 - **fb-chat-api/index.js**: add new api: `handleFriendRequest`
