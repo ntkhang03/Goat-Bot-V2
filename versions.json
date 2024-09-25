@@ -2487,5 +2487,12 @@
 			"bot/login/login.js": "OPEN SOURCE 100%",
 			"scripts/cmds/cmd.js": "OPEN SOURCE 100%"
 		}
+	},
+	{
+		"version": "1.5.35",
+		"files": {
+			"fb-chat-api/index.js": "fix: fca not working",
+			"fb-chat-api/src/listenMqtt.js": "fix: fca not working"
+		}
 	}
 ]
