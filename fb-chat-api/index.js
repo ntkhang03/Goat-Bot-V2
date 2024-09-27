@@ -221,6 +221,7 @@ function buildAPI(globalOptions, html, jar) {
 		'unfriend',
 		'uploadAttachment',
 		'editMessage',
+		'shareContact',
 
 		// HTTP
 		'httpGet',
